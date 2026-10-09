@@ -1,6 +1,6 @@
 # Halftone
 
-Comic-book-flavoured web components built with [Lit](https://lit.dev). Works in any framework or none. Human and agent friendly.
+Web components built with [Lit](https://lit.dev), styled between Sentinel and Taskscape: mauve-tinted neutrals, pink accent, sharp corners, display + mono type, one faint halftone dot screen on headers. Works in any framework or none. Human and agent friendly.
 
 Package: `@_mehrad/halftone` · Tag prefix: `ht-` · Docs: Storybook
 
@@ -11,10 +11,14 @@ Package: `@_mehrad/halftone` · Tag prefix: `ht-` · Docs: Storybook
 <script type="module">
   import '@_mehrad/halftone/components/button/button.js';
 </script>
-<ht-button variant="danger">Kapow!</ht-button>
+<ht-button variant="primary">Deploy It</ht-button>
 ```
 
-Theme by overriding `--ht-*` CSS variables. Restyle internals through `::part()`.
+Components: `ht-button`, `ht-input`, `ht-card`, `ht-dialog`, `ht-speech-bubble`. `tokens.css` is required.
+
+Fonts are not bundled. Load Chakra Petch (display), Geist (UI) and IBM Plex Mono (mono) yourself, or system fallbacks are used. The Storybook docs load them from Google Fonts (`.storybook/preview-head.html`).
+
+Theme by overriding `--ht-*` CSS variables (dark mode follows the OS, or set `data-theme`). Restyle internals through `::part()`. The full guide is in Storybook under Guide / Getting Started.
 
 ## Own it (copy mode, planned)
 

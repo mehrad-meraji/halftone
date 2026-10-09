@@ -1,10 +1,10 @@
 import { LitElement, css, html } from 'lit';
 
 /**
- * A comic-panel button: thick ink border, hard offset shadow, presses down on click.
+ * Action button. 1px border, sharp corners, accent fill for the primary action.
  *
  * @tag ht-button
- * @summary Primary action control. Participates in forms like a native button.
+ * @summary Primary action control. Submits or resets its form like a native button.
  *
  * @slot - Button label.
  * @slot prefix - Icon or element before the label.
@@ -12,93 +12,119 @@ import { LitElement, css, html } from 'lit';
  *
  * @csspart base - The inner native `<button>`.
  *
- * @cssprop [--ht-color-primary] - Background of the `primary` variant.
- * @cssprop [--ht-border-width] - Border thickness.
- * @cssprop [--ht-shadow-offset] - Hard shadow offset.
+ * @cssprop [--ht-flush-radius=0] - Border radius used when `flush` is set. `ht-dialog` sets this for its footer.
  */
 export class HtButton extends LitElement {
+  /** @internal */
   static formAssociated = true;
 
   static properties = {
     /** Visual style. */
     variant: { reflect: true },
+    /** Height: xs 24px, sm 28px, md 32px, lg 40px. */
+    size: { reflect: true },
     /** Disables interaction and form submission. */
     disabled: { type: Boolean, reflect: true },
-    /** Native button type, used for form participation. */
+    /** Native button behaviour inside a form. */
     type: { reflect: true },
-    /** Form field name when used as a submit button. */
-    name: {},
-    /** Form field value when used as a submit button. */
-    value: {},
+    /** Fills its container's height with no border or shadow. Used in dialog footers. */
+    flush: { type: Boolean, reflect: true },
   };
 
-  declare variant: 'primary' | 'secondary' | 'danger';
+  declare variant: 'primary' | 'secondary' | 'ghost' | 'danger';
+  declare size: 'xs' | 'sm' | 'md' | 'lg';
   declare disabled: boolean;
   declare type: 'button' | 'submit' | 'reset';
-  declare name: string;
-  declare value: string;
+  declare flush: boolean;
 
   #internals = this.attachInternals();
 
   constructor() {
     super();
     this.variant = 'primary';
+    this.size = 'md';
     this.disabled = false;
     this.type = 'button';
-    this.name = '';
-    this.value = '';
+    this.flush = false;
+    // On the host, so a programmatic `el.click()` also submits or resets the form.
+    this.addEventListener('click', this.#onClick);
   }
 
   static styles = css`
     :host {
       display: inline-block;
+      --_h: 32px;
     }
+    :host([size='xs']) { --_h: 24px; }
+    :host([size='sm']) { --_h: 28px; }
+    :host([size='lg']) { --_h: 40px; }
     :host([disabled]) {
       pointer-events: none;
       opacity: 0.5;
+    }
+    :host([variant='primary']) {
+      --_bg: var(--ht-accent);
+      --_bg-hover: var(--ht-accent-hover);
+      --_fg: var(--ht-accent-ink);
+      --_bd: var(--ht-accent-hover);
+    }
+    :host([variant='secondary']) {
+      --_bg: var(--ht-surface);
+      --_bg-hover: var(--ht-surface-muted);
+      --_fg: var(--ht-text);
+      --_bd: var(--ht-border-strong);
+    }
+    :host([variant='ghost']) {
+      --_bg: transparent;
+      --_bg-hover: var(--ht-surface-muted);
+      --_fg: var(--ht-text-muted);
+      --_bd: transparent;
+    }
+    :host([variant='danger']) {
+      --_bg: var(--ht-danger);
+      --_bg-hover: color-mix(in oklch, var(--ht-danger) 85%, black);
+      --_fg: var(--ht-danger-ink);
+      --_bd: var(--ht-danger);
     }
     button {
       all: unset;
       box-sizing: border-box;
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 0.5em;
-      padding: 0.6em 1.2em;
+      height: var(--_h);
+      padding-inline: calc(var(--_h) * 0.4);
+      font: 500 0.8125rem/1 var(--ht-font-ui);
+      white-space: nowrap;
       cursor: pointer;
-      font-family: var(--ht-font-display, system-ui);
-      font-size: 1.1rem;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      color: var(--_ink);
+      color: var(--_fg);
       background: var(--_bg);
-      border: var(--ht-border-width, 3px) solid var(--ht-color-ink, #14110f);
-      border-radius: var(--ht-radius, 4px);
-      box-shadow: var(--ht-shadow-offset, 4px) var(--ht-shadow-offset, 4px) 0 var(--ht-color-ink, #14110f);
-      transition: transform 80ms, box-shadow 80ms;
+      border: 1px solid var(--_bd);
+      border-radius: var(--ht-radius-sm);
+      transition: background var(--ht-duration) var(--ht-ease), color var(--ht-duration) var(--ht-ease);
     }
-    button:hover {
-      transform: translate(-1px, -1px);
-    }
-    button:active {
-      transform: translate(var(--ht-shadow-offset, 4px), var(--ht-shadow-offset, 4px));
-      box-shadow: 0 0 0 var(--ht-color-ink, #14110f);
-    }
+    button:hover { background: var(--_bg-hover); }
+    button:active { transform: translateY(1px); }
     button:focus-visible {
-      outline: 3px solid var(--ht-color-focus, #1d4ed8);
-      outline-offset: 3px;
+      outline: 2px solid var(--ht-focus);
+      outline-offset: 2px;
     }
-    :host([variant='primary']), :host(:not([variant])) {
-      --_bg: var(--ht-color-primary, #ffd400);
-      --_ink: var(--ht-color-primary-ink, #14110f);
+    :host([variant='ghost']) button:hover { color: var(--ht-text); }
+
+    :host([flush]) { display: flex; }
+    :host([flush]) button {
+      flex: 1;
+      height: auto;
+      min-height: 44px;
+      padding-inline: 1.5rem;
+      font-weight: 700;
+      border: 0;
+      border-radius: var(--ht-flush-radius, 0);
+      position: relative;
+      top: 1px;
     }
-    :host([variant='secondary']) {
-      --_bg: var(--ht-color-paper, #fffdf5);
-      --_ink: var(--ht-color-ink, #14110f);
-    }
-    :host([variant='danger']) {
-      --_bg: var(--ht-color-danger, #e63946);
-      --_ink: var(--ht-color-danger-ink, #fff);
-    }
+    :host([flush]) button:active { transform: none; top: 2px; }
   `;
 
   #onClick = () => {
@@ -110,12 +136,7 @@ export class HtButton extends LitElement {
   };
 
   render() {
-    return html`<button
-      part="base"
-      type="button"
-      ?disabled=${this.disabled}
-      @click=${this.#onClick}
-    >
+    return html`<button part="base" type="button" ?disabled=${this.disabled}>
       <slot name="prefix"></slot><slot></slot><slot name="suffix"></slot>
     </button>`;
   }

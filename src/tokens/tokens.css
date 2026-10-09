@@ -1,17 +1,103 @@
-/* Halftone design tokens. Override any of these on :root or a wrapper to theme. */
+/*
+ * Halftone design tokens.
+ *
+ * Taskscape's vocabulary and restraint (1px borders, three text tiers, small shadows),
+ * Sentinel's mood (mauve-tinted neutrals, pink accent, sharp corners, display + mono type).
+ * Override any token on :root or a wrapper element to theme. Fonts are NOT loaded by the
+ * library; load them yourself (see README) or the system fallbacks are used.
+ */
 :root {
-  --ht-color-ink: #14110f;
-  --ht-color-paper: #fffdf5;
-  --ht-color-primary: #ffd400;
-  --ht-color-primary-ink: #14110f;
-  --ht-color-danger: #e63946;
-  --ht-color-danger-ink: #ffffff;
-  --ht-color-focus: #1d4ed8;
+  color-scheme: light;
 
-  --ht-font-display: 'Bangers', 'Impact', system-ui, sans-serif;
-  --ht-font-body: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --ht-bg: oklch(0.96 0.007 305);
+  --ht-surface: oklch(0.995 0.003 305);
+  --ht-surface-muted: oklch(0.97 0.006 305);
+  --ht-surface-sunken: oklch(0.945 0.009 305);
+  --ht-border: oklch(0.9 0.01 305);
+  --ht-border-strong: oklch(0.8 0.016 305);
 
-  --ht-border-width: 3px;
-  --ht-radius: 4px;
-  --ht-shadow-offset: 4px;
+  --ht-text: oklch(0.2 0.02 300);
+  --ht-text-muted: oklch(0.45 0.02 300);
+  --ht-text-subtle: oklch(0.54 0.02 300);
+
+  --ht-accent: oklch(0.68 0.25 328);
+  --ht-accent-hover: oklch(0.62 0.26 328);
+  --ht-accent-ink: oklch(0.18 0.03 320); /* text on --ht-accent */
+  --ht-accent-soft: oklch(0.94 0.04 325);
+  --ht-accent-text: oklch(0.42 0.17 320); /* text on --ht-accent-soft */
+  --ht-focus: oklch(0.5 0.12 295);
+
+  --ht-success: oklch(0.55 0.13 150);
+  --ht-warning: oklch(0.7 0.13 65);
+  --ht-danger: oklch(0.56 0.18 30);
+  --ht-danger-ink: oklch(0.99 0 0); /* text on --ht-danger */
+  --ht-danger-soft: oklch(0.95 0.03 25);
+  --ht-danger-text: oklch(0.45 0.17 28);
+  --ht-info: oklch(0.55 0.1 220);
+
+  --ht-font-display: 'Chakra Petch', 'Arial Narrow', system-ui, sans-serif;
+  --ht-font-ui: 'Geist', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --ht-font-mono: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
+
+  --ht-radius-sm: 2px;
+  --ht-radius-md: 6px;
+  --ht-radius-lg: 10px;
+
+  --ht-shadow-xs: 0 1px 2px oklch(0.2 0.02 300 / 0.08);
+  --ht-shadow-sm: 0 2px 6px oklch(0.2 0.02 300 / 0.1);
+  --ht-shadow-md: 0 8px 24px oklch(0.2 0.02 300 / 0.16);
+
+  --ht-duration: 120ms;
+  --ht-ease: cubic-bezier(0.2, 0, 0, 1);
+
+  /* The one comic nod: a faint dot screen on header strips. Set to `none` to remove. */
+  --ht-halftone: radial-gradient(circle, color-mix(in oklch, var(--ht-accent) 26%, transparent) 0.8px, transparent 1.5px) 0 0 / 6px 6px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --ht-bg: oklch(0.14 0.02 295);
+    --ht-surface: oklch(0.18 0.02 295);
+    --ht-surface-muted: oklch(0.21 0.022 295);
+    --ht-surface-sunken: oklch(0.12 0.018 295);
+    --ht-border: oklch(0.28 0.025 295);
+    --ht-border-strong: oklch(0.38 0.03 295);
+    --ht-text: oklch(0.94 0.008 300);
+    --ht-text-muted: oklch(0.74 0.015 300);
+    --ht-text-subtle: oklch(0.64 0.02 300);
+    --ht-accent-hover: oklch(0.74 0.23 328);
+    --ht-accent-soft: oklch(0.28 0.08 325);
+    --ht-accent-text: oklch(0.82 0.13 328);
+    --ht-focus: oklch(0.75 0.14 295);
+    --ht-danger: oklch(0.65 0.19 25);
+    --ht-danger-soft: oklch(0.27 0.07 25);
+    --ht-danger-text: oklch(0.78 0.14 25);
+    --ht-shadow-xs: 0 1px 2px oklch(0 0 0 / 0.4);
+    --ht-shadow-sm: 0 2px 6px oklch(0 0 0 / 0.45);
+    --ht-shadow-md: 0 8px 24px oklch(0 0 0 / 0.6);
+  }
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --ht-bg: oklch(0.14 0.02 295);
+  --ht-surface: oklch(0.18 0.02 295);
+  --ht-surface-muted: oklch(0.21 0.022 295);
+  --ht-surface-sunken: oklch(0.12 0.018 295);
+  --ht-border: oklch(0.28 0.025 295);
+  --ht-border-strong: oklch(0.38 0.03 295);
+  --ht-text: oklch(0.94 0.008 300);
+  --ht-text-muted: oklch(0.74 0.015 300);
+  --ht-text-subtle: oklch(0.64 0.02 300);
+  --ht-accent-hover: oklch(0.74 0.23 328);
+  --ht-accent-soft: oklch(0.28 0.08 325);
+  --ht-accent-text: oklch(0.82 0.13 328);
+  --ht-focus: oklch(0.75 0.14 295);
+  --ht-danger: oklch(0.65 0.19 25);
+  --ht-danger-soft: oklch(0.27 0.07 25);
+  --ht-danger-text: oklch(0.78 0.14 25);
+  --ht-shadow-xs: 0 1px 2px oklch(0 0 0 / 0.4);
+  --ht-shadow-sm: 0 2px 6px oklch(0 0 0 / 0.45);
+  --ht-shadow-md: 0 8px 24px oklch(0 0 0 / 0.6);
 }

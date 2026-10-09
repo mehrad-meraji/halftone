@@ -1,4 +1,5 @@
 import '../src/tokens/tokens.css';
+import './preview.css';
 import { setCustomElementsManifest } from '@storybook/web-components-vite';
 import type { Preview } from '@storybook/web-components-vite';
 
@@ -7,7 +8,27 @@ const manifest = await fetch('/custom-elements.json').then((r) => r.json()).catc
 if (manifest) setCustomElementsManifest(manifest);
 
 const preview: Preview = {
-  parameters: { backgrounds: { options: { paper: { name: 'paper', value: '#fffdf5' } } } },
-  initialGlobals: { backgrounds: { value: 'paper' } },
+  parameters: { backgrounds: { disabled: true }, layout: 'centered' },
+  globalTypes: {
+    theme: {
+      description: 'Halftone theme',
+      toolbar: {
+        title: 'Theme',
+        icon: 'circlehollow',
+        items: [
+          { value: 'light', title: 'Light' },
+          { value: 'dark', title: 'Dark' },
+        ],
+        dynamicTitle: true,
+      },
+    },
+  },
+  initialGlobals: { theme: 'light' },
+  decorators: [
+    (story, ctx) => {
+      document.documentElement.dataset.theme = ctx.globals.theme ?? 'light';
+      return story();
+    },
+  ],
 };
 export default preview;
