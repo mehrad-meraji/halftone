@@ -1,0 +1,51 @@
+{
+  "name": "@_mehrad/halftone",
+  "version": "0.0.1",
+  "description": "Comic-book-flavoured web components, built with Lit. Human and agent friendly.",
+  "type": "module",
+  "license": "MIT",
+  "sideEffects": [
+    "**/*.css",
+    "./dist/components/**"
+  ],
+  "files": [
+    "dist",
+    "custom-elements.json",
+    "llms.txt"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "customElements": "custom-elements.json",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./components/*": {
+      "types": "./dist/components/*.d.ts",
+      "import": "./dist/components/*.js"
+    },
+    "./tokens.css": "./dist/tokens.css",
+    "./custom-elements.json": "./custom-elements.json"
+  },
+  "scripts": {
+    "dev": "storybook dev -p 6006",
+    "build": "vite build && tsc -p tsconfig.build.json && cp src/tokens/tokens.css dist/tokens.css && npm run manifest",
+    "manifest": "cem analyze --config custom-elements-manifest.config.mjs",
+    "typecheck": "tsc --noEmit",
+    "storybook:build": "npm run manifest && storybook build -o storybook-static"
+  },
+  "dependencies": {
+    "lit": "^3.3.3"
+  },
+  "devDependencies": {
+    "@custom-elements-manifest/analyzer": "^0.11.0",
+    "@storybook/addon-a11y": "^10.6.1",
+    "@storybook/addon-docs": "^10.6.1",
+    "@storybook/web-components-vite": "^10.6.1",
+    "storybook": "^10.6.1",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.4"
+  }
+}

@@ -1,0 +1,202 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/components/button/button.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A comic-panel button: thick ink border, hard offset shadow, presses down on click.",
+          "name": "HtButton",
+          "cssProperties": [
+            {
+              "description": "Background of the `primary` variant.",
+              "name": "--ht-color-primary"
+            },
+            {
+              "description": "Border thickness.",
+              "name": "--ht-border-width"
+            },
+            {
+              "description": "Hard shadow offset.",
+              "name": "--ht-shadow-offset"
+            }
+          ],
+          "cssParts": [
+            {
+              "description": "The inner native `<button>`.",
+              "name": "base"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Button label.",
+              "name": ""
+            },
+            {
+              "description": "Icon or element before the label.",
+              "name": "prefix"
+            },
+            {
+              "description": "Icon or element after the label.",
+              "name": "suffix"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "formAssociated",
+              "type": {
+                "text": "boolean"
+              },
+              "static": true,
+              "default": "true"
+            },
+            {
+              "kind": "field",
+              "name": "variant",
+              "privacy": "public",
+              "description": "Visual style.",
+              "type": {
+                "text": "'primary' | 'secondary' | 'danger'"
+              },
+              "default": "'primary'",
+              "attribute": "variant",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Disables interaction and form submission.",
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "type",
+              "privacy": "public",
+              "description": "Native button type, used for form participation.",
+              "type": {
+                "text": "'button' | 'submit' | 'reset'"
+              },
+              "default": "'button'",
+              "attribute": "type",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "privacy": "public",
+              "description": "Form field name when used as a submit button.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "name"
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "privacy": "public",
+              "description": "Form field value when used as a submit button.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "#internals",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "#onClick",
+              "privacy": "private"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "variant",
+              "description": "Visual style.",
+              "type": {
+                "text": "'primary' | 'secondary' | 'danger'"
+              },
+              "default": "'primary'",
+              "fieldName": "variant"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Disables interaction and form submission.",
+              "default": "false",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "type",
+              "description": "Native button type, used for form participation.",
+              "type": {
+                "text": "'button' | 'submit' | 'reset'"
+              },
+              "default": "'button'",
+              "fieldName": "type"
+            },
+            {
+              "name": "name",
+              "description": "Form field name when used as a submit button.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "name"
+            },
+            {
+              "name": "value",
+              "description": "Form field value when used as a submit button.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "value"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-button",
+          "customElement": true,
+          "summary": "Primary action control. Participates in forms like a native button."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtButton",
+          "declaration": {
+            "name": "HtButton",
+            "module": "src/components/button/button.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-button",
+          "declaration": {
+            "name": "HtButton",
+            "module": "src/components/button/button.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+/* Halftone design tokens. Override any of these on :root or a wrapper to theme. */
+:root {
+  --ht-color-ink: #14110f;
+  --ht-color-paper: #fffdf5;
+  --ht-color-primary: #ffd400;
+  --ht-color-primary-ink: #14110f;
+  --ht-color-danger: #e63946;
+  --ht-color-danger-ink: #ffffff;
+  --ht-color-focus: #1d4ed8;
+
+  --ht-font-display: 'Bangers', 'Impact', system-ui, sans-serif;
+  --ht-font-body: system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --ht-border-width: 3px;
+  --ht-radius: 4px;
+  --ht-shadow-offset: 4px;
+}
