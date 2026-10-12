@@ -82,3 +82,14 @@ First full axe run over 85 stories in both themes found 10 distinct problems; al
 Deliberate deviation from Sentry: fields use `--ht-border-input` (3.3:1 against the surface) instead of the paler `--ht-border-strong`, because Sentry's own field outline is about 1.3:1 and fails WCAG 1.4.11. The inset top line and the focus ring are kept.
 
 Also: `--ht-text-subtle` was lowered in light and raised in dark so it clears 4.5:1 on tinted fills; tone colours in tags and banners now mix toward `--ht-text`; `--ht-danger-ink` is dark in the dark theme.
+
+## 2026-10-12 — Radio group and checkbox
+`ht-radio-group` + `ht-radio`, `ht-checkbox` + `ht-checkbox-group`. Style after Sentry's radio (read from the signed-in settings page): 24px, 1px border, circle, accent fill with an inner dot when checked, 2px focus ring, 120ms `cubic-bezier(0.72, 0, 0.16, 1)`. The checkbox is my extension of that (5px radius like the switch knob, tick and dash icons); Sentry's checked and disabled states were taken from its CSS, not observed.
+
+Decisions:
+- The group owns the value. Native radios in different shadow roots are not grouped by `name`, so the group sets `checked`, keeps one roving tab stop, and handles Arrow keys (move and select, wrap). Space selects through the native input. The group is the form-associated element (submits `value`, `required` gives `valueMissing`, reset restores the initial value).
+- `ht-radio` is only meaningful inside a group, by design: one owner for selection, validity and keyboard.
+- `ht-checkbox` is form-associated on its own (submits `value` when checked). `ht-checkbox-group` only adds legend, helper, error, shared disabled and layout; its `value` getter lists the checked values. Checkboxes sharing a `name` already submit independently, so the group does not own form state.
+- The tick and dot use `--ht-accent-ink`, not white, because white on the pink fill fails contrast.
+- Field borders use `--ht-border-input` (3:1), the same token as inputs.
+- Sizes: one (24px). A denser size was not in the source UI.
