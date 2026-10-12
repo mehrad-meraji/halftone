@@ -2,7 +2,7 @@
 
 All notable changes to `@_mehrad/halftone`. Versions follow semver; while the major is 0, minor bumps may break.
 
-## Unreleased
+## 0.1.0 (2026-10-12)
 
 First public release. Contents:
 

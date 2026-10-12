@@ -7,3 +7,4 @@ registry
 .registry-js
 .tmp-test
 llms.txt
+.claude/

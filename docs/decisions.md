@@ -114,5 +114,5 @@ Checked from a packed tarball installed in a clean project: the root and per-com
 - `exports` has both `./components/*.js` and `./components/*`, because the first draft only resolved the extensionless form that the README did not use.
 - `llms.txt` is generated from the manifest at build (`scripts/build-llms.mjs`) and shipped; `prepack` runs the full build so a publish can never carry a stale `dist`, registry or llms.txt.
 - Package contents: `dist`, `bin`, `registry`, `custom-elements.json`, `llms.txt`, plus LICENSE and README. 61 files, 105 kB packed; source maps are included.
-- `publishConfig` sets `access: public` and `provenance: true`. Provenance only works from a supported CI (the publish workflow); a local `npm publish` needs `--no-provenance`.
+- `publishConfig` sets `access: public`. Provenance is requested by the publish workflow (`--provenance`), not by `publishConfig`, so a local `npm publish` works without flags.
 - MIT licence, author from git config, repository URL `github.com/mehrad-meraji/halftone` (not yet created).
