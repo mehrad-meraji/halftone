@@ -14,5 +14,6 @@ export { HtSpeechBubble } from './components/speech-bubble/speech-bubble.js';
 export { HtSwitch } from './components/switch/switch.js';
 export { HtTab, HtTabPanel, HtTabs } from './components/tabs/tabs.js';
 export { HtToast, HtToaster, toast, type ToastOptions } from './components/toast/toast.js';
+export { HtTree, HtTreeItem } from './components/tree/tree.js';
 export { HtTooltip } from './components/tooltip/tooltip.js';
 export { HtTag } from './components/tag/tag.js';

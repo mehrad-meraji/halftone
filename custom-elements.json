@@ -131,401 +131,6 @@
     },
     {
       "kind": "javascript-module",
-      "path": "src/components/button/button.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "Keycap button, modelled on the buttons in Sentry's app (sentry.io/auth/login). The face\nsits raised over a plate: it lifts 1px on hover and presses flush on click. Renders a\nlink when `href` is set.",
-          "name": "HtButton",
-          "cssProperties": [
-            {
-              "description": "Border radius used when `flush` is set. `ht-dialog` sets this for its footer.",
-              "name": "--ht-flush-radius",
-              "default": "0"
-            }
-          ],
-          "cssParts": [
-            {
-              "description": "The inner native `<button>` or `<a>`.",
-              "name": "base"
-            },
-            {
-              "description": "The wrapper around the label and affixes. It rides with the face.",
-              "name": "label"
-            }
-          ],
-          "slots": [
-            {
-              "description": "Button label.",
-              "name": ""
-            },
-            {
-              "description": "Icon or element before the label.",
-              "name": "prefix"
-            },
-            {
-              "description": "Icon or element after the label.",
-              "name": "suffix"
-            }
-          ],
-          "members": [
-            {
-              "kind": "field",
-              "name": "variant",
-              "privacy": "public",
-              "description": "`primary` accent keycap, `default` neutral keycap, `danger` red keycap, `quiet` flat with a hover tint.",
-              "type": {
-                "text": "'primary' | 'default' | 'danger' | 'quiet'"
-              },
-              "default": "'primary'",
-              "attribute": "variant",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "size",
-              "privacy": "public",
-              "description": "Height: xs 24px, sm 28px, md 32px, lg 36px.",
-              "type": {
-                "text": "'xs' | 'sm' | 'md' | 'lg'"
-              },
-              "default": "'md'",
-              "attribute": "size",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "disabled",
-              "privacy": "public",
-              "type": {
-                "text": "boolean"
-              },
-              "description": "Disables interaction and form submission.",
-              "default": "false",
-              "attribute": "disabled",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "type",
-              "privacy": "public",
-              "description": "Native button behaviour inside a form. Ignored when `href` is set.",
-              "type": {
-                "text": "'button' | 'submit' | 'reset'"
-              },
-              "default": "'button'",
-              "attribute": "type",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "href",
-              "privacy": "public",
-              "description": "Renders an `<a>` and navigates instead of acting as a button.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "attribute": "href"
-            },
-            {
-              "kind": "field",
-              "name": "target",
-              "privacy": "public",
-              "description": "Link target. `_blank` also sets `rel=\"noopener noreferrer\"`.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "attribute": "target"
-            },
-            {
-              "kind": "field",
-              "name": "block",
-              "privacy": "public",
-              "type": {
-                "text": "boolean"
-              },
-              "description": "Fills the width of its container.",
-              "default": "false",
-              "attribute": "block",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "flush",
-              "privacy": "public",
-              "type": {
-                "text": "boolean"
-              },
-              "description": "Fills its container's height with no lift. Set automatically by `ht-dialog` footers.",
-              "default": "false",
-              "attribute": "flush",
-              "reflects": true
-            }
-          ],
-          "attributes": [
-            {
-              "name": "variant",
-              "description": "`primary` accent keycap, `default` neutral keycap, `danger` red keycap, `quiet` flat with a hover tint.",
-              "type": {
-                "text": "'primary' | 'default' | 'danger' | 'quiet'"
-              },
-              "default": "'primary'",
-              "fieldName": "variant"
-            },
-            {
-              "name": "size",
-              "description": "Height: xs 24px, sm 28px, md 32px, lg 36px.",
-              "type": {
-                "text": "'xs' | 'sm' | 'md' | 'lg'"
-              },
-              "default": "'md'",
-              "fieldName": "size"
-            },
-            {
-              "name": "disabled",
-              "type": {
-                "text": "boolean"
-              },
-              "description": "Disables interaction and form submission.",
-              "default": "false",
-              "fieldName": "disabled"
-            },
-            {
-              "name": "type",
-              "description": "Native button behaviour inside a form. Ignored when `href` is set.",
-              "type": {
-                "text": "'button' | 'submit' | 'reset'"
-              },
-              "default": "'button'",
-              "fieldName": "type"
-            },
-            {
-              "name": "href",
-              "description": "Renders an `<a>` and navigates instead of acting as a button.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "fieldName": "href"
-            },
-            {
-              "name": "target",
-              "description": "Link target. `_blank` also sets `rel=\"noopener noreferrer\"`.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "fieldName": "target"
-            },
-            {
-              "name": "block",
-              "type": {
-                "text": "boolean"
-              },
-              "description": "Fills the width of its container.",
-              "default": "false",
-              "fieldName": "block"
-            },
-            {
-              "name": "flush",
-              "type": {
-                "text": "boolean"
-              },
-              "description": "Fills its container's height with no lift. Set automatically by `ht-dialog` footers.",
-              "default": "false",
-              "fieldName": "flush"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "ht-button",
-          "customElement": true,
-          "summary": "Action control. Submits or resets its form like a native button, or navigates when `href` is set."
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "HtButton",
-          "declaration": {
-            "name": "HtButton",
-            "module": "src/components/button/button.ts"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "ht-button",
-          "declaration": {
-            "name": "HtButton",
-            "module": "src/components/button/button.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/components/card/card.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "Surface for grouping related content. Optional header strip (with the halftone dot\nscreen) and footer.",
-          "name": "HtCard",
-          "cssParts": [
-            {
-              "description": "The card box.",
-              "name": "base"
-            },
-            {
-              "description": "The header strip.",
-              "name": "header"
-            },
-            {
-              "description": "The body wrapper.",
-              "name": "body"
-            },
-            {
-              "description": "The footer strip.",
-              "name": "footer"
-            }
-          ],
-          "slots": [
-            {
-              "description": "Card body.",
-              "name": ""
-            },
-            {
-              "description": "Replaces the `eyebrow` / `heading` header.",
-              "name": "header"
-            },
-            {
-              "description": "Right side of the header, e.g. a menu button.",
-              "name": "actions"
-            },
-            {
-              "description": "Footer strip. Hidden when empty.",
-              "name": "footer"
-            }
-          ],
-          "members": [
-            {
-              "kind": "field",
-              "name": "eyebrow",
-              "privacy": "public",
-              "description": "Small uppercase mono label above the heading.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "attribute": "eyebrow"
-            },
-            {
-              "kind": "field",
-              "name": "heading",
-              "privacy": "public",
-              "description": "Heading text. Use the `header` slot for anything richer.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "attribute": "heading"
-            },
-            {
-              "kind": "field",
-              "name": "variant",
-              "privacy": "public",
-              "description": "`muted` drops the shadow and tints the surface.",
-              "type": {
-                "text": "'default' | 'muted'"
-              },
-              "default": "'default'",
-              "attribute": "variant",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "interactive",
-              "privacy": "public",
-              "type": {
-                "text": "boolean"
-              },
-              "description": "Adds hover feedback. Use when the whole card is a click target.",
-              "default": "false",
-              "attribute": "interactive",
-              "reflects": true
-            }
-          ],
-          "attributes": [
-            {
-              "name": "eyebrow",
-              "description": "Small uppercase mono label above the heading.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "fieldName": "eyebrow"
-            },
-            {
-              "name": "heading",
-              "description": "Heading text. Use the `header` slot for anything richer.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "fieldName": "heading"
-            },
-            {
-              "name": "variant",
-              "description": "`muted` drops the shadow and tints the surface.",
-              "type": {
-                "text": "'default' | 'muted'"
-              },
-              "default": "'default'",
-              "fieldName": "variant"
-            },
-            {
-              "name": "interactive",
-              "type": {
-                "text": "boolean"
-              },
-              "description": "Adds hover feedback. Use when the whole card is a click target.",
-              "default": "false",
-              "fieldName": "interactive"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "ht-card",
-          "customElement": true,
-          "summary": "Content container."
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "HtCard",
-          "declaration": {
-            "name": "HtCard",
-            "module": "src/components/card/card.ts"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "ht-card",
-          "declaration": {
-            "name": "HtCard",
-            "module": "src/components/card/card.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
       "path": "src/components/checkbox/checkbox.ts",
       "declarations": [
         {
@@ -890,6 +495,401 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/components/card/card.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Surface for grouping related content. Optional header strip (with the halftone dot\nscreen) and footer.",
+          "name": "HtCard",
+          "cssParts": [
+            {
+              "description": "The card box.",
+              "name": "base"
+            },
+            {
+              "description": "The header strip.",
+              "name": "header"
+            },
+            {
+              "description": "The body wrapper.",
+              "name": "body"
+            },
+            {
+              "description": "The footer strip.",
+              "name": "footer"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Card body.",
+              "name": ""
+            },
+            {
+              "description": "Replaces the `eyebrow` / `heading` header.",
+              "name": "header"
+            },
+            {
+              "description": "Right side of the header, e.g. a menu button.",
+              "name": "actions"
+            },
+            {
+              "description": "Footer strip. Hidden when empty.",
+              "name": "footer"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "eyebrow",
+              "privacy": "public",
+              "description": "Small uppercase mono label above the heading.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "eyebrow"
+            },
+            {
+              "kind": "field",
+              "name": "heading",
+              "privacy": "public",
+              "description": "Heading text. Use the `header` slot for anything richer.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "heading"
+            },
+            {
+              "kind": "field",
+              "name": "variant",
+              "privacy": "public",
+              "description": "`muted` drops the shadow and tints the surface.",
+              "type": {
+                "text": "'default' | 'muted'"
+              },
+              "default": "'default'",
+              "attribute": "variant",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "interactive",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Adds hover feedback. Use when the whole card is a click target.",
+              "default": "false",
+              "attribute": "interactive",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "eyebrow",
+              "description": "Small uppercase mono label above the heading.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "eyebrow"
+            },
+            {
+              "name": "heading",
+              "description": "Heading text. Use the `header` slot for anything richer.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "heading"
+            },
+            {
+              "name": "variant",
+              "description": "`muted` drops the shadow and tints the surface.",
+              "type": {
+                "text": "'default' | 'muted'"
+              },
+              "default": "'default'",
+              "fieldName": "variant"
+            },
+            {
+              "name": "interactive",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Adds hover feedback. Use when the whole card is a click target.",
+              "default": "false",
+              "fieldName": "interactive"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-card",
+          "customElement": true,
+          "summary": "Content container."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtCard",
+          "declaration": {
+            "name": "HtCard",
+            "module": "src/components/card/card.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-card",
+          "declaration": {
+            "name": "HtCard",
+            "module": "src/components/card/card.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/button/button.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Keycap button, modelled on the buttons in Sentry's app (sentry.io/auth/login). The face\nsits raised over a plate: it lifts 1px on hover and presses flush on click. Renders a\nlink when `href` is set.",
+          "name": "HtButton",
+          "cssProperties": [
+            {
+              "description": "Border radius used when `flush` is set. `ht-dialog` sets this for its footer.",
+              "name": "--ht-flush-radius",
+              "default": "0"
+            }
+          ],
+          "cssParts": [
+            {
+              "description": "The inner native `<button>` or `<a>`.",
+              "name": "base"
+            },
+            {
+              "description": "The wrapper around the label and affixes. It rides with the face.",
+              "name": "label"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Button label.",
+              "name": ""
+            },
+            {
+              "description": "Icon or element before the label.",
+              "name": "prefix"
+            },
+            {
+              "description": "Icon or element after the label.",
+              "name": "suffix"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "variant",
+              "privacy": "public",
+              "description": "`primary` accent keycap, `default` neutral keycap, `danger` red keycap, `quiet` flat with a hover tint.",
+              "type": {
+                "text": "'primary' | 'default' | 'danger' | 'quiet'"
+              },
+              "default": "'primary'",
+              "attribute": "variant",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "privacy": "public",
+              "description": "Height: xs 24px, sm 28px, md 32px, lg 36px.",
+              "type": {
+                "text": "'xs' | 'sm' | 'md' | 'lg'"
+              },
+              "default": "'md'",
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Disables interaction and form submission.",
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "type",
+              "privacy": "public",
+              "description": "Native button behaviour inside a form. Ignored when `href` is set.",
+              "type": {
+                "text": "'button' | 'submit' | 'reset'"
+              },
+              "default": "'button'",
+              "attribute": "type",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "href",
+              "privacy": "public",
+              "description": "Renders an `<a>` and navigates instead of acting as a button.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "href"
+            },
+            {
+              "kind": "field",
+              "name": "target",
+              "privacy": "public",
+              "description": "Link target. `_blank` also sets `rel=\"noopener noreferrer\"`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "target"
+            },
+            {
+              "kind": "field",
+              "name": "block",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Fills the width of its container.",
+              "default": "false",
+              "attribute": "block",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "flush",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Fills its container's height with no lift. Set automatically by `ht-dialog` footers.",
+              "default": "false",
+              "attribute": "flush",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "variant",
+              "description": "`primary` accent keycap, `default` neutral keycap, `danger` red keycap, `quiet` flat with a hover tint.",
+              "type": {
+                "text": "'primary' | 'default' | 'danger' | 'quiet'"
+              },
+              "default": "'primary'",
+              "fieldName": "variant"
+            },
+            {
+              "name": "size",
+              "description": "Height: xs 24px, sm 28px, md 32px, lg 36px.",
+              "type": {
+                "text": "'xs' | 'sm' | 'md' | 'lg'"
+              },
+              "default": "'md'",
+              "fieldName": "size"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Disables interaction and form submission.",
+              "default": "false",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "type",
+              "description": "Native button behaviour inside a form. Ignored when `href` is set.",
+              "type": {
+                "text": "'button' | 'submit' | 'reset'"
+              },
+              "default": "'button'",
+              "fieldName": "type"
+            },
+            {
+              "name": "href",
+              "description": "Renders an `<a>` and navigates instead of acting as a button.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "href"
+            },
+            {
+              "name": "target",
+              "description": "Link target. `_blank` also sets `rel=\"noopener noreferrer\"`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "target"
+            },
+            {
+              "name": "block",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Fills the width of its container.",
+              "default": "false",
+              "fieldName": "block"
+            },
+            {
+              "name": "flush",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Fills its container's height with no lift. Set automatically by `ht-dialog` footers.",
+              "default": "false",
+              "fieldName": "flush"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-button",
+          "customElement": true,
+          "summary": "Action control. Submits or resets its form like a native button, or navigates when `href` is set."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtButton",
+          "declaration": {
+            "name": "HtButton",
+            "module": "src/components/button/button.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-button",
+          "declaration": {
+            "name": "HtButton",
+            "module": "src/components/button/button.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/components/dialog/dialog.ts",
       "declarations": [
         {
@@ -1061,175 +1061,6 @@
           "declaration": {
             "name": "HtDialog",
             "module": "src/components/dialog/dialog.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/components/icon/icon.ts",
-      "declarations": [
-        {
-          "kind": "function",
-          "name": "registerIcons",
-          "parameters": [
-            {
-              "name": "icons",
-              "type": {
-                "text": "IconSet"
-              }
-            }
-          ],
-          "description": "Registers more icons, or replaces built-in ones. Pass Phosphor SVG files as strings.\n\n```ts\nimport fire from '@phosphor-icons/core/assets/regular/fire.svg?raw';\nimport fireBold from '@phosphor-icons/core/assets/bold/fire-bold.svg?raw';\nregisterIcons({ fire: { regular: fire, bold: fireBold } });\n```"
-        },
-        {
-          "kind": "class",
-          "description": "A Phosphor icon. Sized in `em`, so it follows the surrounding text. Decorative unless\ngiven a `label`.",
-          "name": "HtIcon",
-          "cssParts": [
-            {
-              "description": "The `<svg>` element.",
-              "name": "svg"
-            }
-          ],
-          "members": [
-            {
-              "kind": "field",
-              "name": "name",
-              "privacy": "public",
-              "description": "Phosphor icon name in kebab-case, e.g. `arrow-right`. See `HtIcon.names`.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "attribute": "name",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "weight",
-              "privacy": "public",
-              "description": "`regular`, `bold` and `fill` are built in. The others need `registerIcons`. Falls back to `regular`.",
-              "type": {
-                "text": "IconWeight"
-              },
-              "default": "'regular'",
-              "attribute": "weight",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "size",
-              "privacy": "public",
-              "description": "A number (px) or any CSS length. Default `1em`.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "attribute": "size"
-            },
-            {
-              "kind": "field",
-              "name": "label",
-              "privacy": "public",
-              "description": "Accessible name. Without it the icon is hidden from assistive technology.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "attribute": "label"
-            },
-            {
-              "kind": "field",
-              "name": "license",
-              "type": {
-                "text": "string"
-              },
-              "static": true,
-              "default": "'Icons: Phosphor (https://phosphoricons.com), MIT licence, Copyright (c) 2023 Phosphor Icons'",
-              "description": "Licence notice for the built-in icons. Kept as a value so it survives minification."
-            },
-            {
-              "kind": "field",
-              "name": "names",
-              "type": {
-                "text": "string[]"
-              },
-              "static": true,
-              "description": "Names of every icon currently available, built in or registered.",
-              "readonly": true
-            }
-          ],
-          "attributes": [
-            {
-              "name": "name",
-              "description": "Phosphor icon name in kebab-case, e.g. `arrow-right`. See `HtIcon.names`.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "fieldName": "name"
-            },
-            {
-              "name": "weight",
-              "description": "`regular`, `bold` and `fill` are built in. The others need `registerIcons`. Falls back to `regular`.",
-              "type": {
-                "text": "IconWeight"
-              },
-              "default": "'regular'",
-              "fieldName": "weight"
-            },
-            {
-              "name": "size",
-              "description": "A number (px) or any CSS length. Default `1em`.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "fieldName": "size"
-            },
-            {
-              "name": "label",
-              "description": "Accessible name. Without it the icon is hidden from assistive technology.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "fieldName": "label"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "ht-icon",
-          "customElement": true,
-          "summary": "Icon."
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "registerIcons",
-          "declaration": {
-            "name": "registerIcons",
-            "module": "src/components/icon/icon.ts"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "HtIcon",
-          "declaration": {
-            "name": "HtIcon",
-            "module": "src/components/icon/icon.ts"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "ht-icon",
-          "declaration": {
-            "name": "HtIcon",
-            "module": "src/components/icon/icon.ts"
           }
         }
       ]
@@ -1584,6 +1415,175 @@
           "declaration": {
             "name": "HtInput",
             "module": "src/components/input/input.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/icon/icon.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "registerIcons",
+          "parameters": [
+            {
+              "name": "icons",
+              "type": {
+                "text": "IconSet"
+              }
+            }
+          ],
+          "description": "Registers more icons, or replaces built-in ones. Pass Phosphor SVG files as strings.\n\n```ts\nimport fire from '@phosphor-icons/core/assets/regular/fire.svg?raw';\nimport fireBold from '@phosphor-icons/core/assets/bold/fire-bold.svg?raw';\nregisterIcons({ fire: { regular: fire, bold: fireBold } });\n```"
+        },
+        {
+          "kind": "class",
+          "description": "A Phosphor icon. Sized in `em`, so it follows the surrounding text. Decorative unless\ngiven a `label`.",
+          "name": "HtIcon",
+          "cssParts": [
+            {
+              "description": "The `<svg>` element.",
+              "name": "svg"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "name",
+              "privacy": "public",
+              "description": "Phosphor icon name in kebab-case, e.g. `arrow-right`. See `HtIcon.names`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "name",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "weight",
+              "privacy": "public",
+              "description": "`regular`, `bold` and `fill` are built in. The others need `registerIcons`. Falls back to `regular`.",
+              "type": {
+                "text": "IconWeight"
+              },
+              "default": "'regular'",
+              "attribute": "weight",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "privacy": "public",
+              "description": "A number (px) or any CSS length. Default `1em`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "size"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "privacy": "public",
+              "description": "Accessible name. Without it the icon is hidden from assistive technology.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "license",
+              "type": {
+                "text": "string"
+              },
+              "static": true,
+              "default": "'Icons: Phosphor (https://phosphoricons.com), MIT licence, Copyright (c) 2023 Phosphor Icons'",
+              "description": "Licence notice for the built-in icons. Kept as a value so it survives minification."
+            },
+            {
+              "kind": "field",
+              "name": "names",
+              "type": {
+                "text": "string[]"
+              },
+              "static": true,
+              "description": "Names of every icon currently available, built in or registered.",
+              "readonly": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "name",
+              "description": "Phosphor icon name in kebab-case, e.g. `arrow-right`. See `HtIcon.names`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "name"
+            },
+            {
+              "name": "weight",
+              "description": "`regular`, `bold` and `fill` are built in. The others need `registerIcons`. Falls back to `regular`.",
+              "type": {
+                "text": "IconWeight"
+              },
+              "default": "'regular'",
+              "fieldName": "weight"
+            },
+            {
+              "name": "size",
+              "description": "A number (px) or any CSS length. Default `1em`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "size"
+            },
+            {
+              "name": "label",
+              "description": "Accessible name. Without it the icon is hidden from assistive technology.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "label"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-icon",
+          "customElement": true,
+          "summary": "Icon."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "registerIcons",
+          "declaration": {
+            "name": "registerIcons",
+            "module": "src/components/icon/icon.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "HtIcon",
+          "declaration": {
+            "name": "HtIcon",
+            "module": "src/components/icon/icon.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-icon",
+          "declaration": {
+            "name": "HtIcon",
+            "module": "src/components/icon/icon.ts"
           }
         }
       ]
@@ -2635,6 +2635,145 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/components/speech-bubble/speech-bubble.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Comic-style message bubble with a tail. Good for chat, annotations and agent output.",
+          "name": "HtSpeechBubble",
+          "cssParts": [
+            {
+              "description": "The bubble.",
+              "name": "base"
+            },
+            {
+              "description": "The author label.",
+              "name": "author"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Bubble content.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "tail",
+              "privacy": "public",
+              "description": "Where the tail sits.",
+              "type": {
+                "text": "'bottom-left' | 'bottom-right' | 'top-left' | 'top-right' | 'left' | 'right' | 'none'"
+              },
+              "default": "'bottom-left'",
+              "attribute": "tail",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "variant",
+              "privacy": "public",
+              "description": "`speech` is a solid bubble, `thought` has a dotted tail, `whisper` is dashed.",
+              "type": {
+                "text": "'speech' | 'thought' | 'whisper'"
+              },
+              "default": "'speech'",
+              "attribute": "variant",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "tone",
+              "privacy": "public",
+              "description": "Colour treatment.",
+              "type": {
+                "text": "'neutral' | 'accent' | 'danger'"
+              },
+              "default": "'neutral'",
+              "attribute": "tone",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "author",
+              "privacy": "public",
+              "description": "Optional speaker label in small uppercase mono.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "author"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "tail",
+              "description": "Where the tail sits.",
+              "type": {
+                "text": "'bottom-left' | 'bottom-right' | 'top-left' | 'top-right' | 'left' | 'right' | 'none'"
+              },
+              "default": "'bottom-left'",
+              "fieldName": "tail"
+            },
+            {
+              "name": "variant",
+              "description": "`speech` is a solid bubble, `thought` has a dotted tail, `whisper` is dashed.",
+              "type": {
+                "text": "'speech' | 'thought' | 'whisper'"
+              },
+              "default": "'speech'",
+              "fieldName": "variant"
+            },
+            {
+              "name": "tone",
+              "description": "Colour treatment.",
+              "type": {
+                "text": "'neutral' | 'accent' | 'danger'"
+              },
+              "default": "'neutral'",
+              "fieldName": "tone"
+            },
+            {
+              "name": "author",
+              "description": "Optional speaker label in small uppercase mono.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "author"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-speech-bubble",
+          "customElement": true,
+          "summary": "Message bubble."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtSpeechBubble",
+          "declaration": {
+            "name": "HtSpeechBubble",
+            "module": "src/components/speech-bubble/speech-bubble.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-speech-bubble",
+          "declaration": {
+            "name": "HtSpeechBubble",
+            "module": "src/components/speech-bubble/speech-bubble.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/components/tabs/tabs.ts",
       "declarations": [
         {
@@ -3071,145 +3210,6 @@
           "declaration": {
             "name": "HtSwitch",
             "module": "src/components/switch/switch.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/components/speech-bubble/speech-bubble.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "Comic-style message bubble with a tail. Good for chat, annotations and agent output.",
-          "name": "HtSpeechBubble",
-          "cssParts": [
-            {
-              "description": "The bubble.",
-              "name": "base"
-            },
-            {
-              "description": "The author label.",
-              "name": "author"
-            }
-          ],
-          "slots": [
-            {
-              "description": "Bubble content.",
-              "name": ""
-            }
-          ],
-          "members": [
-            {
-              "kind": "field",
-              "name": "tail",
-              "privacy": "public",
-              "description": "Where the tail sits.",
-              "type": {
-                "text": "'bottom-left' | 'bottom-right' | 'top-left' | 'top-right' | 'left' | 'right' | 'none'"
-              },
-              "default": "'bottom-left'",
-              "attribute": "tail",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "variant",
-              "privacy": "public",
-              "description": "`speech` is a solid bubble, `thought` has a dotted tail, `whisper` is dashed.",
-              "type": {
-                "text": "'speech' | 'thought' | 'whisper'"
-              },
-              "default": "'speech'",
-              "attribute": "variant",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "tone",
-              "privacy": "public",
-              "description": "Colour treatment.",
-              "type": {
-                "text": "'neutral' | 'accent' | 'danger'"
-              },
-              "default": "'neutral'",
-              "attribute": "tone",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "author",
-              "privacy": "public",
-              "description": "Optional speaker label in small uppercase mono.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "attribute": "author"
-            }
-          ],
-          "attributes": [
-            {
-              "name": "tail",
-              "description": "Where the tail sits.",
-              "type": {
-                "text": "'bottom-left' | 'bottom-right' | 'top-left' | 'top-right' | 'left' | 'right' | 'none'"
-              },
-              "default": "'bottom-left'",
-              "fieldName": "tail"
-            },
-            {
-              "name": "variant",
-              "description": "`speech` is a solid bubble, `thought` has a dotted tail, `whisper` is dashed.",
-              "type": {
-                "text": "'speech' | 'thought' | 'whisper'"
-              },
-              "default": "'speech'",
-              "fieldName": "variant"
-            },
-            {
-              "name": "tone",
-              "description": "Colour treatment.",
-              "type": {
-                "text": "'neutral' | 'accent' | 'danger'"
-              },
-              "default": "'neutral'",
-              "fieldName": "tone"
-            },
-            {
-              "name": "author",
-              "description": "Optional speaker label in small uppercase mono.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "fieldName": "author"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "ht-speech-bubble",
-          "customElement": true,
-          "summary": "Message bubble."
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "HtSpeechBubble",
-          "declaration": {
-            "name": "HtSpeechBubble",
-            "module": "src/components/speech-bubble/speech-bubble.ts"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "ht-speech-bubble",
-          "declaration": {
-            "name": "HtSpeechBubble",
-            "module": "src/components/speech-bubble/speech-bubble.ts"
           }
         }
       ]
@@ -3686,6 +3686,349 @@
           "declaration": {
             "name": "HtTooltip",
             "module": "src/components/tooltip/tooltip.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/tree/tree.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "File-tree style navigation. Nest `ht-tree-item` elements to any depth; the tree gives\nthem the ARIA tree pattern: one tab stop, arrow keys, type-ahead, expand and collapse.\n\nKeys: Up and Down move; Right expands or enters a folder; Left collapses or goes to the\nparent; Home and End jump; Enter or Space selects; `*` expands the siblings; typing a\nletter jumps to the next item starting with it.",
+          "name": "HtTree",
+          "slots": [
+            {
+              "description": "`ht-tree-item` elements.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "value",
+              "privacy": "public",
+              "description": "`value` of the selected item.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "value",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "privacy": "public",
+              "description": "Accessible name for the tree.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "guides",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Draws vertical guide lines at each level.",
+              "default": "false",
+              "attribute": "guides",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "items",
+              "type": {
+                "text": "HtTreeItem[]"
+              },
+              "description": "Every item, in document order.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "expandAll",
+              "description": "Expands every item that has children."
+            },
+            {
+              "kind": "method",
+              "name": "collapseAll",
+              "description": "Collapses every item."
+            }
+          ],
+          "events": [
+            {
+              "name": "change",
+              "type": {
+                "text": "Event"
+              },
+              "description": "The selected item changed by user action. Read `value` from the host."
+            },
+            {
+              "description": "An item expanded or collapsed (bubbles from the item).",
+              "name": "ht-toggle"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "value",
+              "description": "`value` of the selected item.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "value"
+            },
+            {
+              "name": "label",
+              "description": "Accessible name for the tree.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "label"
+            },
+            {
+              "name": "guides",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Draws vertical guide lines at each level.",
+              "default": "false",
+              "fieldName": "guides"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-tree",
+          "customElement": true,
+          "summary": "Tree view."
+        },
+        {
+          "kind": "class",
+          "description": "One row in an `ht-tree`. Nest more `ht-tree-item` elements inside to make it a folder.\nFolders get a caret and a folder icon, leaves get a file icon; override with the `icon` slot.",
+          "name": "HtTreeItem",
+          "cssProperties": [
+            {
+              "description": "Indent per level.",
+              "name": "--ht-tree-indent",
+              "default": "16px"
+            },
+            {
+              "description": "Row height.",
+              "name": "--ht-tree-row-height",
+              "default": "28px"
+            }
+          ],
+          "cssParts": [
+            {
+              "description": "The row.",
+              "name": "row"
+            },
+            {
+              "description": "The label.",
+              "name": "label"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Label text.",
+              "name": ""
+            },
+            {
+              "description": "Replaces the folder / file icon.",
+              "name": "icon"
+            },
+            {
+              "description": "Trailing content such as a count or `ht-tag`.",
+              "name": "suffix"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "value",
+              "privacy": "public",
+              "description": "Identifier reported by the tree's `value`. Defaults to the label text.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "expanded",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Folders only: shows the children.",
+              "default": "false",
+              "attribute": "expanded",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "selected",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Set by the tree.",
+              "default": "false",
+              "attribute": "selected",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "href",
+              "privacy": "public",
+              "description": "Makes the row a link, for navigation trees. The selected item gets `aria-current=\"page\"`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "href"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "description": "The item's own label text, without children.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "ancestors",
+              "return": {
+                "type": {
+                  "text": "HtTreeItem[]"
+                }
+              },
+              "description": "Parent items, outermost first."
+            },
+            {
+              "kind": "method",
+              "name": "isVisible",
+              "description": "True when every ancestor is expanded."
+            },
+            {
+              "kind": "method",
+              "name": "toggle",
+              "description": "Expands or collapses a folder."
+            },
+            {
+              "kind": "method",
+              "name": "activate",
+              "description": "Follows `href` if there is one."
+            }
+          ],
+          "events": [
+            {
+              "name": "ht-toggle",
+              "type": {
+                "text": "CustomEvent"
+              }
+            }
+          ],
+          "attributes": [
+            {
+              "name": "value",
+              "description": "Identifier reported by the tree's `value`. Defaults to the label text.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "value"
+            },
+            {
+              "name": "expanded",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Folders only: shows the children.",
+              "default": "false",
+              "fieldName": "expanded"
+            },
+            {
+              "name": "selected",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Set by the tree.",
+              "default": "false",
+              "fieldName": "selected"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "href",
+              "description": "Makes the row a link, for navigation trees. The selected item gets `aria-current=\"page\"`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "href"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-tree-item",
+          "customElement": true,
+          "summary": "Tree row."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtTree",
+          "declaration": {
+            "name": "HtTree",
+            "module": "src/components/tree/tree.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "HtTreeItem",
+          "declaration": {
+            "name": "HtTreeItem",
+            "module": "src/components/tree/tree.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tag",
+          "declaration": {
+            "name": "ctor",
+            "module": "src/components/tree/tree.ts"
           }
         }
       ]

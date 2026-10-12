@@ -147,3 +147,14 @@ What changed:
 - `npm run dev:fresh` clears `node_modules/.cache/storybook` and `.vite`, then starts on 6006.
 
 If docs fail again: check the port in the terminal output (it may not be 6006), stop every Storybook process, then `npm run dev:fresh`.
+
+## 2026-10-12 — Tree view (`ht-tree`, `ht-tree-item`), file-tree style
+Design: a file explorer's rows, not a disclosure menu. Row look reuses `ht-nav-item` (28px rows at 13px, 6px radius, hover at 7.5% of the text colour, selected at 5% and weight 500) so a tree beside a nav list matches. Indent is 16px per level (`--ht-tree-indent`), rows run full width so hover and selection reach the left edge, optional `guides` draw one hairline per ancestor level, and the caret is Phosphor's bold caret-right rotating 90 degrees. Folders get a folder or open-folder glyph, leaves a file glyph; the `icon` slot replaces them per file type and `suffix` takes counts or tags.
+
+Authoring: nest `ht-tree-item` inside `ht-tree-item`, no data array. The tree moves nested items into the parent's `children` slot itself (same trick as tabs), computes level, set size and position, and marks folders by whether they have item children. `HtTree.items`, `expandAll()` and `collapseAll()` are the programmatic surface; `change` reports selection, `ht-toggle` reports expand and collapse.
+
+Behaviour (WAI-ARIA tree pattern): one tab stop that follows the selected item; Up and Down walk the visible rows (collapsed children are skipped); Right expands, then enters the first child; Left collapses, then goes to the parent; Home and End; Enter or Space selects; `*` expands siblings; typing jumps to the next item starting with those letters (500ms buffer). Click selects, and toggles a folder; clicking the caret only toggles. A treeitem's accessible name is its own label, set explicitly, because name-from-content would read every descendant.
+
+Navigation use: an item with `href` renders its row as a link; the selected one gets `aria-current="page"`. I chose `role=tree` for both, which is right for a file explorer and acceptable for a docs sidebar, but a plain nested list with disclosure buttons is simpler for assistive technology on content sites. Pick the tree when users expect arrow-key file-explorer behaviour.
+
+Not built: multi-select, drag and drop, rename, context menus, lazy loading of children, virtualisation for very large trees. Checked in the browser: roles and levels, selection, caret versus row click, all the keys above, type-ahead, and axe on all six stories in both themes (0 violations). Not checked with a screen reader.
