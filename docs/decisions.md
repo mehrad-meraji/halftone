@@ -116,3 +116,10 @@ Checked from a packed tarball installed in a clean project: the root and per-com
 - Package contents: `dist`, `bin`, `registry`, `custom-elements.json`, `llms.txt`, plus LICENSE and README. 61 files, 105 kB packed; source maps are included.
 - `publishConfig` sets `access: public`. Provenance is requested by the publish workflow (`--provenance`), not by `publishConfig`, so a local `npm publish` works without flags.
 - MIT licence, author from git config, repository URL `github.com/mehrad-meraji/halftone` (not yet created).
+
+## 2026-10-12 — Storybook on GitHub Pages
+`.github/workflows/docs.yml` builds Storybook on every push to `main` and deploys it with `actions/deploy-pages` to `https://mehrad-meraji.github.io/halftone/`. Pages uses the "GitHub Actions" source, so no `gh-pages` branch exists.
+
+The site is served from a sub-path, so the manifest fetch in `.storybook/preview.ts` is relative (`custom-elements.json`, not `/custom-elements.json`); an absolute path worked in dev and would have silently dropped every props table in production. Checked by serving the static build under `/halftone/` and confirming the manifest request and the args table.
+
+Docs rebuild on every push to `main`, independent of npm releases, so the site can run ahead of the published version. `package.json` `homepage` points at it.

@@ -2,7 +2,7 @@
 
 Web components built with [Lit](https://lit.dev), styled between Sentinel and Taskscape: mauve-tinted neutrals, pink accent, sharp corners, display + mono type, one faint halftone dot screen on headers. Works in any framework or none. Human and agent friendly.
 
-Package: `@_mehrad/halftone` · Tag prefix: `ht-` · Docs: Storybook (`npm run dev`) · API for tools: `custom-elements.json`, `llms.txt` · Licence: MIT
+Package: `@_mehrad/halftone` · Tag prefix: `ht-` · Docs: [mehrad-meraji.github.io/halftone](https://mehrad-meraji.github.io/halftone/) (Storybook; `npm run dev` locally) · API for tools: `custom-elements.json`, `llms.txt` · Licence: MIT
 
 ## Use it (package mode)
 
