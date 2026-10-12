@@ -9,4 +9,5 @@ export { HtPrompt } from './components/prompt/prompt.js';
 export { HtSelect } from './components/select/select.js';
 export { HtSpeechBubble } from './components/speech-bubble/speech-bubble.js';
 export { HtSwitch } from './components/switch/switch.js';
+export { HtTab, HtTabPanel, HtTabs } from './components/tabs/tabs.js';
 export { HtTag } from './components/tag/tag.js';
