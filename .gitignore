@@ -8,3 +8,4 @@ registry
 .tmp-test
 llms.txt
 .claude/
+pnpm-lock.yaml
