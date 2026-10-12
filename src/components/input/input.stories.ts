@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 import '../button/button.js';
 import '../icon/icon.js';
+import '../kbd/kbd.js';
 import './input.js';
 
 const meta: Meta = {
@@ -31,7 +32,7 @@ export const WithAffixes: StoryObj = {
   render: () => html`
     <ht-input style="width:320px" label="Search" placeholder="Find an issue">
       <ht-icon slot="prefix" name="magnifying-glass"></ht-icon>
-      <span slot="suffix" style="font:400 11px var(--ht-font-mono)">⌘K</span>
+      <ht-kbd slot="suffix" keys="⌘ K"></ht-kbd>
     </ht-input>`,
 };
 
