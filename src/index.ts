@@ -3,6 +3,7 @@ export { HtButton } from './components/button/button.js';
 export { HtCard } from './components/card/card.js';
 export { HtCheckbox, HtCheckboxGroup } from './components/checkbox/checkbox.js';
 export { HtDialog } from './components/dialog/dialog.js';
+export { HtIcon, registerIcons, type IconSet, type IconWeight } from './components/icon/icon.js';
 export { HtInput } from './components/input/input.js';
 export { HtKbd } from './components/kbd/kbd.js';
 export { HtNavItem } from './components/nav-item/nav-item.js';

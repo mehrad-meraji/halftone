@@ -224,7 +224,7 @@ export class HtSelect extends LitElement {
           @change=${this.#onChange}
           @blur=${() => (this._touched = true)}
         ></select>
-        <svg class="chevron" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg class="chevron" width="12" height="12" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M216.49,104.49l-80,80a12,12,0,0,1-17,0l-80-80a12,12,0,0,1,17-17L128,159l71.51-71.52a12,12,0,0,1,17,17Z"/></svg>
       </div>
       <slot hidden @slotchange=${this.#syncOptions}></slot>
       ${message

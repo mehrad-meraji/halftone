@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
+import '../icon/icon.js';
 import './tabs.js';
 
 const meta: Meta = {
@@ -11,9 +12,9 @@ const meta: Meta = {
   args: { fit: false, value: '' },
   render: (a) => html`
     <ht-tabs style="width:${a.fit ? 'auto' : '280px'}" label="Sidebar" value=${a.value} ?fit=${a.fit}>
-      <ht-tab value="apps"><span slot="prefix">▦</span>Apps</ht-tab>
-      <ht-tab value="files"><span slot="prefix">▤</span>Files</ht-tab>
-      <ht-tab value="chat"><span slot="prefix">◌</span>Chat</ht-tab>
+      <ht-tab value="apps"><ht-icon slot="prefix" name="list"></ht-icon>Apps</ht-tab>
+      <ht-tab value="files"><ht-icon slot="prefix" name="copy"></ht-icon>Files</ht-tab>
+      <ht-tab value="chat"><ht-icon slot="prefix" name="chat-circle"></ht-icon>Chat</ht-tab>
     </ht-tabs>`,
 };
 export default meta;

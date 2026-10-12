@@ -25,6 +25,23 @@ Fonts are not bundled. Load Chakra Petch (display), Geist (UI) and IBM Plex Mono
 
 Theme by overriding `--ht-*` CSS variables (dark mode follows the OS, or set `data-theme`). Restyle internals through `::part()`. The full guide is in Storybook under Guide / Getting Started.
 
+## Icons
+
+Icons are [Phosphor](https://phosphoricons.com) (MIT). `ht-icon` ships 50 common ones in regular, bold and fill:
+
+```html
+<ht-icon name="arrow-right" weight="bold"></ht-icon>
+<ht-button><ht-icon slot="prefix" name="plus" weight="bold"></ht-icon>New Issue</ht-button>
+```
+
+It sizes itself in `em`, so it follows the text around it (`size="24"` or any CSS length overrides). It is decorative unless you give it a `label`. For any of the other ~1,500 icons or the thin, light and duotone weights, register them from `@phosphor-icons/core`:
+
+```ts
+import { registerIcons } from '@_mehrad/halftone';
+import fire from '@phosphor-icons/core/assets/regular/fire.svg?raw';
+registerIcons({ fire: { regular: fire } });
+```
+
 ## Own it (copy mode)
 
 Every component is one file that imports only `lit`. Copy the ones you want into your project and edit them freely:

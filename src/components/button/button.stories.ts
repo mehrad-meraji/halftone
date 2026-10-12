@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
+import '../icon/icon.js';
 import './button.js';
 
 const variants = ['primary', 'default', 'danger', 'quiet'];
@@ -49,9 +50,9 @@ export const Sizes: StoryObj = {
 export const WithIcons: StoryObj = {
   render: () => html`
     <div style="display:flex;gap:12px;align-items:center">
-      <ht-button variant="default"><span slot="prefix">G</span>Google</ht-button>
-      <ht-button><span slot="prefix">＋</span>New Issue</ht-button>
-      <ht-button variant="default">Menu<span slot="suffix">›</span></ht-button>
+      <ht-button variant="default"><ht-icon slot="prefix" name="google-logo" weight="bold"></ht-icon>Google</ht-button>
+      <ht-button><ht-icon slot="prefix" name="plus" weight="bold"></ht-icon>New Issue</ht-button>
+      <ht-button variant="default">Menu<ht-icon slot="suffix" name="caret-right" weight="bold"></ht-icon></ht-button>
     </div>
   `,
 };
@@ -66,9 +67,9 @@ export const SignInStack: StoryObj = {
   render: () => html`
     <div style="display:grid;gap:12px;width:360px">
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
-        <ht-button variant="default" block><span slot="prefix">G</span>Google</ht-button>
-        <ht-button variant="default" block><span slot="prefix">⌥</span>GitHub</ht-button>
-        <ht-button variant="default" block><span slot="prefix">△</span>Azure</ht-button>
+        <ht-button variant="default" block><ht-icon slot="prefix" name="google-logo" weight="bold"></ht-icon>Google</ht-button>
+        <ht-button variant="default" block><ht-icon slot="prefix" name="github-logo" weight="bold"></ht-icon>GitHub</ht-button>
+        <ht-button variant="default" block><ht-icon slot="prefix" name="cloud" weight="bold"></ht-icon>Azure</ht-button>
       </div>
       <ht-button variant="default" size="lg" block>Organization SSO</ht-button>
       <ht-button style="justify-self:start">Log In</ht-button>
