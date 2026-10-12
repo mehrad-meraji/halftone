@@ -66,6 +66,9 @@ export class HtIcon extends LitElement {
   declare size: string;
   declare label: string;
 
+  /** Licence notice for the built-in icons. Kept as a value so it survives minification. */
+  static license = 'Icons: Phosphor (https://phosphoricons.com), MIT licence, Copyright (c) 2023 Phosphor Icons';
+
   /** Names of every icon currently available, built in or registered. */
   static get names(): string[] {
     return [...new Set([...Object.keys(BUILT_IN), ...Object.keys(custom)])].sort();

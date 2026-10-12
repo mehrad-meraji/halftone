@@ -4,158 +4,127 @@
   "modules": [
     {
       "kind": "javascript-module",
-      "path": "src/components/card/card.ts",
+      "path": "src/components/banner/banner.ts",
       "declarations": [
         {
           "kind": "class",
-          "description": "Surface for grouping related content. Optional header strip (with the halftone dot\nscreen) and footer.",
-          "name": "HtCard",
+          "description": "Inline message bar: an icon, text and an optional action or dismiss button (after\nPostHog's `LemonBanner`).",
+          "name": "HtBanner",
           "cssParts": [
             {
-              "description": "The card box.",
+              "description": "The bar.",
               "name": "base"
-            },
-            {
-              "description": "The header strip.",
-              "name": "header"
-            },
-            {
-              "description": "The body wrapper.",
-              "name": "body"
-            },
-            {
-              "description": "The footer strip.",
-              "name": "footer"
             }
           ],
           "slots": [
             {
-              "description": "Card body.",
+              "description": "Message text.",
               "name": ""
             },
             {
-              "description": "Replaces the `eyebrow` / `heading` header.",
-              "name": "header"
+              "description": "Action button at the end of the bar.",
+              "name": "action"
             },
             {
-              "description": "Right side of the header, e.g. a menu button.",
-              "name": "actions"
-            },
-            {
-              "description": "Footer strip. Hidden when empty.",
-              "name": "footer"
+              "description": "Replaces the default tone icon.",
+              "name": "icon"
             }
           ],
           "members": [
             {
               "kind": "field",
-              "name": "eyebrow",
+              "name": "tone",
               "privacy": "public",
-              "description": "Small uppercase mono label above the heading.",
+              "description": "`info` is neutral. The others tint the bar. `danger` is announced assertively.",
               "type": {
-                "text": "string"
+                "text": "'info' | 'success' | 'warning' | 'danger'"
               },
-              "default": "''",
-              "attribute": "eyebrow"
-            },
-            {
-              "kind": "field",
-              "name": "heading",
-              "privacy": "public",
-              "description": "Heading text. Use the `header` slot for anything richer.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "attribute": "heading"
-            },
-            {
-              "kind": "field",
-              "name": "variant",
-              "privacy": "public",
-              "description": "`muted` drops the shadow and tints the surface.",
-              "type": {
-                "text": "'default' | 'muted'"
-              },
-              "default": "'default'",
-              "attribute": "variant",
+              "default": "'info'",
+              "attribute": "tone",
               "reflects": true
             },
             {
               "kind": "field",
-              "name": "interactive",
+              "name": "dismissible",
               "privacy": "public",
               "type": {
                 "text": "boolean"
               },
-              "description": "Adds hover feedback. Use when the whole card is a click target.",
+              "description": "Shows a close button.",
               "default": "false",
-              "attribute": "interactive",
+              "attribute": "dismissible",
               "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "hidden",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "hidden",
+              "reflects": true
+            }
+          ],
+          "events": [
+            {
+              "description": "The dismiss button was pressed. The banner hides itself unless this is cancelled.",
+              "name": "ht-dismiss"
             }
           ],
           "attributes": [
             {
-              "name": "eyebrow",
-              "description": "Small uppercase mono label above the heading.",
+              "name": "tone",
+              "description": "`info` is neutral. The others tint the bar. `danger` is announced assertively.",
               "type": {
-                "text": "string"
+                "text": "'info' | 'success' | 'warning' | 'danger'"
               },
-              "default": "''",
-              "fieldName": "eyebrow"
+              "default": "'info'",
+              "fieldName": "tone"
             },
             {
-              "name": "heading",
-              "description": "Heading text. Use the `header` slot for anything richer.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "fieldName": "heading"
-            },
-            {
-              "name": "variant",
-              "description": "`muted` drops the shadow and tints the surface.",
-              "type": {
-                "text": "'default' | 'muted'"
-              },
-              "default": "'default'",
-              "fieldName": "variant"
-            },
-            {
-              "name": "interactive",
+              "name": "dismissible",
               "type": {
                 "text": "boolean"
               },
-              "description": "Adds hover feedback. Use when the whole card is a click target.",
+              "description": "Shows a close button.",
               "default": "false",
-              "fieldName": "interactive"
+              "fieldName": "dismissible"
+            },
+            {
+              "name": "hidden",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "hidden"
             }
           ],
           "superclass": {
             "name": "LitElement",
             "package": "lit"
           },
-          "tagName": "ht-card",
+          "tagName": "ht-banner",
           "customElement": true,
-          "summary": "Content container."
+          "summary": "Inline alert."
         }
       ],
       "exports": [
         {
           "kind": "js",
-          "name": "HtCard",
+          "name": "HtBanner",
           "declaration": {
-            "name": "HtCard",
-            "module": "src/components/card/card.ts"
+            "name": "HtBanner",
+            "module": "src/components/banner/banner.ts"
           }
         },
         {
           "kind": "custom-element-definition",
-          "name": "ht-card",
+          "name": "ht-banner",
           "declaration": {
-            "name": "HtCard",
-            "module": "src/components/card/card.ts"
+            "name": "HtBanner",
+            "module": "src/components/banner/banner.ts"
           }
         }
       ]
@@ -393,6 +362,164 @@
           "declaration": {
             "name": "HtButton",
             "module": "src/components/button/button.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/card/card.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Surface for grouping related content. Optional header strip (with the halftone dot\nscreen) and footer.",
+          "name": "HtCard",
+          "cssParts": [
+            {
+              "description": "The card box.",
+              "name": "base"
+            },
+            {
+              "description": "The header strip.",
+              "name": "header"
+            },
+            {
+              "description": "The body wrapper.",
+              "name": "body"
+            },
+            {
+              "description": "The footer strip.",
+              "name": "footer"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Card body.",
+              "name": ""
+            },
+            {
+              "description": "Replaces the `eyebrow` / `heading` header.",
+              "name": "header"
+            },
+            {
+              "description": "Right side of the header, e.g. a menu button.",
+              "name": "actions"
+            },
+            {
+              "description": "Footer strip. Hidden when empty.",
+              "name": "footer"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "eyebrow",
+              "privacy": "public",
+              "description": "Small uppercase mono label above the heading.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "eyebrow"
+            },
+            {
+              "kind": "field",
+              "name": "heading",
+              "privacy": "public",
+              "description": "Heading text. Use the `header` slot for anything richer.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "heading"
+            },
+            {
+              "kind": "field",
+              "name": "variant",
+              "privacy": "public",
+              "description": "`muted` drops the shadow and tints the surface.",
+              "type": {
+                "text": "'default' | 'muted'"
+              },
+              "default": "'default'",
+              "attribute": "variant",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "interactive",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Adds hover feedback. Use when the whole card is a click target.",
+              "default": "false",
+              "attribute": "interactive",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "eyebrow",
+              "description": "Small uppercase mono label above the heading.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "eyebrow"
+            },
+            {
+              "name": "heading",
+              "description": "Heading text. Use the `header` slot for anything richer.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "heading"
+            },
+            {
+              "name": "variant",
+              "description": "`muted` drops the shadow and tints the surface.",
+              "type": {
+                "text": "'default' | 'muted'"
+              },
+              "default": "'default'",
+              "fieldName": "variant"
+            },
+            {
+              "name": "interactive",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Adds hover feedback. Use when the whole card is a click target.",
+              "default": "false",
+              "fieldName": "interactive"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-card",
+          "customElement": true,
+          "summary": "Content container."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtCard",
+          "declaration": {
+            "name": "HtCard",
+            "module": "src/components/card/card.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-card",
+          "declaration": {
+            "name": "HtCard",
+            "module": "src/components/card/card.ts"
           }
         }
       ]
@@ -763,133 +890,6 @@
     },
     {
       "kind": "javascript-module",
-      "path": "src/components/banner/banner.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "Inline message bar: an icon, text and an optional action or dismiss button (after\nPostHog's `LemonBanner`).",
-          "name": "HtBanner",
-          "cssParts": [
-            {
-              "description": "The bar.",
-              "name": "base"
-            }
-          ],
-          "slots": [
-            {
-              "description": "Message text.",
-              "name": ""
-            },
-            {
-              "description": "Action button at the end of the bar.",
-              "name": "action"
-            },
-            {
-              "description": "Replaces the default tone icon.",
-              "name": "icon"
-            }
-          ],
-          "members": [
-            {
-              "kind": "field",
-              "name": "tone",
-              "privacy": "public",
-              "description": "`info` is neutral. The others tint the bar. `danger` is announced assertively.",
-              "type": {
-                "text": "'info' | 'success' | 'warning' | 'danger'"
-              },
-              "default": "'info'",
-              "attribute": "tone",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "dismissible",
-              "privacy": "public",
-              "type": {
-                "text": "boolean"
-              },
-              "description": "Shows a close button.",
-              "default": "false",
-              "attribute": "dismissible",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "hidden",
-              "privacy": "public",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "hidden",
-              "reflects": true
-            }
-          ],
-          "events": [
-            {
-              "description": "The dismiss button was pressed. The banner hides itself unless this is cancelled.",
-              "name": "ht-dismiss"
-            }
-          ],
-          "attributes": [
-            {
-              "name": "tone",
-              "description": "`info` is neutral. The others tint the bar. `danger` is announced assertively.",
-              "type": {
-                "text": "'info' | 'success' | 'warning' | 'danger'"
-              },
-              "default": "'info'",
-              "fieldName": "tone"
-            },
-            {
-              "name": "dismissible",
-              "type": {
-                "text": "boolean"
-              },
-              "description": "Shows a close button.",
-              "default": "false",
-              "fieldName": "dismissible"
-            },
-            {
-              "name": "hidden",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "hidden"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "ht-banner",
-          "customElement": true,
-          "summary": "Inline alert."
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "HtBanner",
-          "declaration": {
-            "name": "HtBanner",
-            "module": "src/components/banner/banner.ts"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "ht-banner",
-          "declaration": {
-            "name": "HtBanner",
-            "module": "src/components/banner/banner.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
       "path": "src/components/dialog/dialog.ts",
       "declarations": [
         {
@@ -1138,6 +1138,16 @@
               },
               "default": "''",
               "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "license",
+              "type": {
+                "text": "string"
+              },
+              "static": true,
+              "default": "'Icons: Phosphor (https://phosphoricons.com), MIT licence, Copyright (c) 2023 Phosphor Icons'",
+              "description": "Licence notice for the built-in icons. Kept as a value so it survives minification."
             },
             {
               "kind": "field",
@@ -1772,6 +1782,245 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/components/prompt/prompt.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Prompt box: an auto-growing text area in a rounded container with room for trailing\nactions, after the command box on PostHog's home page. Enter submits, Shift+Enter adds a\nline. Participates in forms.",
+          "name": "HtPrompt",
+          "cssProperties": [
+            {
+              "description": "Height at which the text area stops growing and scrolls.",
+              "name": "--ht-prompt-max-height",
+              "default": "300px"
+            }
+          ],
+          "cssParts": [
+            {
+              "description": "The rounded container.",
+              "name": "base"
+            },
+            {
+              "description": "The native `<textarea>`.",
+              "name": "textarea"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Content before the text, e.g. an icon.",
+              "name": "prefix"
+            },
+            {
+              "description": "Trailing controls, aligned to the bottom edge. Put an `ht-button` or `ht-kbd` here.",
+              "name": "actions"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "value",
+              "privacy": "public",
+              "description": "Current text.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "placeholder",
+              "privacy": "public",
+              "description": "Main placeholder text. Also the accessible name unless `label` is set.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "placeholder"
+            },
+            {
+              "kind": "field",
+              "name": "hint",
+              "privacy": "public",
+              "description": "Muted text that follows the placeholder, e.g. `/ for commands`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "hint"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "privacy": "public",
+              "description": "Accessible name. Falls back to `placeholder`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "name"
+            },
+            {
+              "kind": "field",
+              "name": "required",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "required",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "form",
+              "description": "The owning form, if any.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "checkValidity"
+            },
+            {
+              "kind": "method",
+              "name": "reportValidity"
+            },
+            {
+              "kind": "method",
+              "name": "clear",
+              "description": "Empties the field and refocuses it."
+            }
+          ],
+          "events": [
+            {
+              "name": "change",
+              "type": {
+                "text": "Event"
+              },
+              "description": "Value committed on blur. Re-dispatched from the host."
+            },
+            {
+              "description": "Enter was pressed with a non-empty value. `detail.value` holds the text. Cancel it to stop form submission.",
+              "name": "ht-submit"
+            },
+            {
+              "description": "Value changed. Native event, crosses the shadow boundary.",
+              "name": "input"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "value",
+              "description": "Current text.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "value"
+            },
+            {
+              "name": "placeholder",
+              "description": "Main placeholder text. Also the accessible name unless `label` is set.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "placeholder"
+            },
+            {
+              "name": "hint",
+              "description": "Muted text that follows the placeholder, e.g. `/ for commands`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "hint"
+            },
+            {
+              "name": "label",
+              "description": "Accessible name. Falls back to `placeholder`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "label"
+            },
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "name"
+            },
+            {
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "required"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-prompt",
+          "customElement": true,
+          "summary": "Multi-line prompt / command input."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtPrompt",
+          "declaration": {
+            "name": "HtPrompt",
+            "module": "src/components/prompt/prompt.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-prompt",
+          "declaration": {
+            "name": "HtPrompt",
+            "module": "src/components/prompt/prompt.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/components/radio/radio.ts",
       "declarations": [
         {
@@ -2126,384 +2375,6 @@
     },
     {
       "kind": "javascript-module",
-      "path": "src/components/prompt/prompt.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "Prompt box: an auto-growing text area in a rounded container with room for trailing\nactions, after the command box on PostHog's home page. Enter submits, Shift+Enter adds a\nline. Participates in forms.",
-          "name": "HtPrompt",
-          "cssProperties": [
-            {
-              "description": "Height at which the text area stops growing and scrolls.",
-              "name": "--ht-prompt-max-height",
-              "default": "300px"
-            }
-          ],
-          "cssParts": [
-            {
-              "description": "The rounded container.",
-              "name": "base"
-            },
-            {
-              "description": "The native `<textarea>`.",
-              "name": "textarea"
-            }
-          ],
-          "slots": [
-            {
-              "description": "Content before the text, e.g. an icon.",
-              "name": "prefix"
-            },
-            {
-              "description": "Trailing controls, aligned to the bottom edge. Put an `ht-button` or `ht-kbd` here.",
-              "name": "actions"
-            }
-          ],
-          "members": [
-            {
-              "kind": "field",
-              "name": "value",
-              "privacy": "public",
-              "description": "Current text.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "attribute": "value"
-            },
-            {
-              "kind": "field",
-              "name": "placeholder",
-              "privacy": "public",
-              "description": "Main placeholder text. Also the accessible name unless `label` is set.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "attribute": "placeholder"
-            },
-            {
-              "kind": "field",
-              "name": "hint",
-              "privacy": "public",
-              "description": "Muted text that follows the placeholder, e.g. `/ for commands`.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "attribute": "hint"
-            },
-            {
-              "kind": "field",
-              "name": "label",
-              "privacy": "public",
-              "description": "Accessible name. Falls back to `placeholder`.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "attribute": "label"
-            },
-            {
-              "kind": "field",
-              "name": "name",
-              "privacy": "public",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "attribute": "name"
-            },
-            {
-              "kind": "field",
-              "name": "required",
-              "privacy": "public",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "required",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "disabled",
-              "privacy": "public",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "disabled",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "form",
-              "description": "The owning form, if any.",
-              "readonly": true
-            },
-            {
-              "kind": "method",
-              "name": "checkValidity"
-            },
-            {
-              "kind": "method",
-              "name": "reportValidity"
-            },
-            {
-              "kind": "method",
-              "name": "clear",
-              "description": "Empties the field and refocuses it."
-            }
-          ],
-          "events": [
-            {
-              "name": "change",
-              "type": {
-                "text": "Event"
-              },
-              "description": "Value committed on blur. Re-dispatched from the host."
-            },
-            {
-              "description": "Enter was pressed with a non-empty value. `detail.value` holds the text. Cancel it to stop form submission.",
-              "name": "ht-submit"
-            },
-            {
-              "description": "Value changed. Native event, crosses the shadow boundary.",
-              "name": "input"
-            }
-          ],
-          "attributes": [
-            {
-              "name": "value",
-              "description": "Current text.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "fieldName": "value"
-            },
-            {
-              "name": "placeholder",
-              "description": "Main placeholder text. Also the accessible name unless `label` is set.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "fieldName": "placeholder"
-            },
-            {
-              "name": "hint",
-              "description": "Muted text that follows the placeholder, e.g. `/ for commands`.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "fieldName": "hint"
-            },
-            {
-              "name": "label",
-              "description": "Accessible name. Falls back to `placeholder`.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "fieldName": "label"
-            },
-            {
-              "name": "name",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "fieldName": "name"
-            },
-            {
-              "name": "required",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "required"
-            },
-            {
-              "name": "disabled",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "disabled"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "ht-prompt",
-          "customElement": true,
-          "summary": "Multi-line prompt / command input."
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "HtPrompt",
-          "declaration": {
-            "name": "HtPrompt",
-            "module": "src/components/prompt/prompt.ts"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "ht-prompt",
-          "declaration": {
-            "name": "HtPrompt",
-            "module": "src/components/prompt/prompt.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/components/speech-bubble/speech-bubble.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "Comic-style message bubble with a tail. Good for chat, annotations and agent output.",
-          "name": "HtSpeechBubble",
-          "cssParts": [
-            {
-              "description": "The bubble.",
-              "name": "base"
-            },
-            {
-              "description": "The author label.",
-              "name": "author"
-            }
-          ],
-          "slots": [
-            {
-              "description": "Bubble content.",
-              "name": ""
-            }
-          ],
-          "members": [
-            {
-              "kind": "field",
-              "name": "tail",
-              "privacy": "public",
-              "description": "Where the tail sits.",
-              "type": {
-                "text": "'bottom-left' | 'bottom-right' | 'top-left' | 'top-right' | 'left' | 'right' | 'none'"
-              },
-              "default": "'bottom-left'",
-              "attribute": "tail",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "variant",
-              "privacy": "public",
-              "description": "`speech` is a solid bubble, `thought` has a dotted tail, `whisper` is dashed.",
-              "type": {
-                "text": "'speech' | 'thought' | 'whisper'"
-              },
-              "default": "'speech'",
-              "attribute": "variant",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "tone",
-              "privacy": "public",
-              "description": "Colour treatment.",
-              "type": {
-                "text": "'neutral' | 'accent' | 'danger'"
-              },
-              "default": "'neutral'",
-              "attribute": "tone",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "author",
-              "privacy": "public",
-              "description": "Optional speaker label in small uppercase mono.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "attribute": "author"
-            }
-          ],
-          "attributes": [
-            {
-              "name": "tail",
-              "description": "Where the tail sits.",
-              "type": {
-                "text": "'bottom-left' | 'bottom-right' | 'top-left' | 'top-right' | 'left' | 'right' | 'none'"
-              },
-              "default": "'bottom-left'",
-              "fieldName": "tail"
-            },
-            {
-              "name": "variant",
-              "description": "`speech` is a solid bubble, `thought` has a dotted tail, `whisper` is dashed.",
-              "type": {
-                "text": "'speech' | 'thought' | 'whisper'"
-              },
-              "default": "'speech'",
-              "fieldName": "variant"
-            },
-            {
-              "name": "tone",
-              "description": "Colour treatment.",
-              "type": {
-                "text": "'neutral' | 'accent' | 'danger'"
-              },
-              "default": "'neutral'",
-              "fieldName": "tone"
-            },
-            {
-              "name": "author",
-              "description": "Optional speaker label in small uppercase mono.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "fieldName": "author"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "ht-speech-bubble",
-          "customElement": true,
-          "summary": "Message bubble."
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "HtSpeechBubble",
-          "declaration": {
-            "name": "HtSpeechBubble",
-            "module": "src/components/speech-bubble/speech-bubble.ts"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "ht-speech-bubble",
-          "declaration": {
-            "name": "HtSpeechBubble",
-            "module": "src/components/speech-bubble/speech-bubble.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
       "path": "src/components/select/select.ts",
       "declarations": [
         {
@@ -2758,273 +2629,6 @@
           "declaration": {
             "name": "HtSelect",
             "module": "src/components/select/select.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/components/tag/tag.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "Small outlined label for status, counts and metadata. 1px border and text share one\ncolour, with a transparent fill (after PostHog's `LemonTag`).",
-          "name": "HtTag",
-          "cssParts": [
-            {
-              "description": "The tag box.",
-              "name": "base"
-            }
-          ],
-          "slots": [
-            {
-              "description": "Tag text.",
-              "name": ""
-            },
-            {
-              "description": "Icon or dot before the text.",
-              "name": "prefix"
-            }
-          ],
-          "members": [
-            {
-              "kind": "field",
-              "name": "tone",
-              "privacy": "public",
-              "description": "Colour. `neutral` is the default.",
-              "type": {
-                "text": "'neutral' | 'accent' | 'success' | 'warning' | 'danger' | 'info'"
-              },
-              "default": "'neutral'",
-              "attribute": "tone",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "size",
-              "privacy": "public",
-              "description": "Height: sm 16px with 10px text, md 20px with 12px text.",
-              "type": {
-                "text": "'sm' | 'md'"
-              },
-              "default": "'sm'",
-              "attribute": "size",
-              "reflects": true
-            }
-          ],
-          "attributes": [
-            {
-              "name": "tone",
-              "description": "Colour. `neutral` is the default.",
-              "type": {
-                "text": "'neutral' | 'accent' | 'success' | 'warning' | 'danger' | 'info'"
-              },
-              "default": "'neutral'",
-              "fieldName": "tone"
-            },
-            {
-              "name": "size",
-              "description": "Height: sm 16px with 10px text, md 20px with 12px text.",
-              "type": {
-                "text": "'sm' | 'md'"
-              },
-              "default": "'sm'",
-              "fieldName": "size"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "ht-tag",
-          "customElement": true,
-          "summary": "Status or metadata tag."
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "HtTag",
-          "declaration": {
-            "name": "HtTag",
-            "module": "src/components/tag/tag.ts"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "ht-tag",
-          "declaration": {
-            "name": "HtTag",
-            "module": "src/components/tag/tag.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/components/switch/switch.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "On/off switch: a 40x24 track with a raised square knob that carries a cross or a tick,\nstyled after the settings toggles in Sentry's app. Form-associated.",
-          "name": "HtSwitch",
-          "cssParts": [
-            {
-              "description": "The track.",
-              "name": "track"
-            },
-            {
-              "description": "The sliding knob.",
-              "name": "knob"
-            },
-            {
-              "description": "The label text.",
-              "name": "label"
-            }
-          ],
-          "slots": [
-            {
-              "description": "Label text shown beside the switch.",
-              "name": ""
-            }
-          ],
-          "members": [
-            {
-              "kind": "field",
-              "name": "checked",
-              "privacy": "public",
-              "type": {
-                "text": "boolean"
-              },
-              "description": "On or off.",
-              "default": "false",
-              "attribute": "checked",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "disabled",
-              "privacy": "public",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "disabled",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "label",
-              "privacy": "public",
-              "description": "Accessible name when there is no slotted label text. `aria-label` on the element is forwarded here.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "attribute": "label"
-            },
-            {
-              "kind": "field",
-              "name": "name",
-              "privacy": "public",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "attribute": "name"
-            },
-            {
-              "kind": "field",
-              "name": "value",
-              "privacy": "public",
-              "description": "Value submitted with the form when on.",
-              "type": {
-                "text": "string"
-              },
-              "default": "'on'",
-              "attribute": "value"
-            },
-            {
-              "kind": "field",
-              "name": "form",
-              "readonly": true
-            }
-          ],
-          "events": [
-            {
-              "description": "Toggled by the user. Re-dispatched from the host.",
-              "name": "change"
-            }
-          ],
-          "attributes": [
-            {
-              "name": "checked",
-              "type": {
-                "text": "boolean"
-              },
-              "description": "On or off.",
-              "default": "false",
-              "fieldName": "checked"
-            },
-            {
-              "name": "disabled",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "disabled"
-            },
-            {
-              "name": "label",
-              "description": "Accessible name when there is no slotted label text. `aria-label` on the element is forwarded here.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "fieldName": "label"
-            },
-            {
-              "name": "name",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "fieldName": "name"
-            },
-            {
-              "name": "value",
-              "description": "Value submitted with the form when on.",
-              "type": {
-                "text": "string"
-              },
-              "default": "'on'",
-              "fieldName": "value"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "ht-switch",
-          "customElement": true,
-          "summary": "Boolean switch."
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "HtSwitch",
-          "declaration": {
-            "name": "HtSwitch",
-            "module": "src/components/switch/switch.ts"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "ht-switch",
-          "declaration": {
-            "name": "HtSwitch",
-            "module": "src/components/switch/switch.ts"
           }
         }
       ]
@@ -3298,6 +2902,412 @@
           "declaration": {
             "name": "ctor",
             "module": "src/components/tabs/tabs.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/switch/switch.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "On/off switch: a 40x24 track with a raised square knob that carries a cross or a tick,\nstyled after the settings toggles in Sentry's app. Form-associated.",
+          "name": "HtSwitch",
+          "cssParts": [
+            {
+              "description": "The track.",
+              "name": "track"
+            },
+            {
+              "description": "The sliding knob.",
+              "name": "knob"
+            },
+            {
+              "description": "The label text.",
+              "name": "label"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Label text shown beside the switch.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "checked",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "On or off.",
+              "default": "false",
+              "attribute": "checked",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "privacy": "public",
+              "description": "Accessible name when there is no slotted label text. `aria-label` on the element is forwarded here.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "name"
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "privacy": "public",
+              "description": "Value submitted with the form when on.",
+              "type": {
+                "text": "string"
+              },
+              "default": "'on'",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "form",
+              "readonly": true
+            }
+          ],
+          "events": [
+            {
+              "description": "Toggled by the user. Re-dispatched from the host.",
+              "name": "change"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "checked",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "On or off.",
+              "default": "false",
+              "fieldName": "checked"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "label",
+              "description": "Accessible name when there is no slotted label text. `aria-label` on the element is forwarded here.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "label"
+            },
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "name"
+            },
+            {
+              "name": "value",
+              "description": "Value submitted with the form when on.",
+              "type": {
+                "text": "string"
+              },
+              "default": "'on'",
+              "fieldName": "value"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-switch",
+          "customElement": true,
+          "summary": "Boolean switch."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtSwitch",
+          "declaration": {
+            "name": "HtSwitch",
+            "module": "src/components/switch/switch.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-switch",
+          "declaration": {
+            "name": "HtSwitch",
+            "module": "src/components/switch/switch.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/speech-bubble/speech-bubble.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Comic-style message bubble with a tail. Good for chat, annotations and agent output.",
+          "name": "HtSpeechBubble",
+          "cssParts": [
+            {
+              "description": "The bubble.",
+              "name": "base"
+            },
+            {
+              "description": "The author label.",
+              "name": "author"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Bubble content.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "tail",
+              "privacy": "public",
+              "description": "Where the tail sits.",
+              "type": {
+                "text": "'bottom-left' | 'bottom-right' | 'top-left' | 'top-right' | 'left' | 'right' | 'none'"
+              },
+              "default": "'bottom-left'",
+              "attribute": "tail",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "variant",
+              "privacy": "public",
+              "description": "`speech` is a solid bubble, `thought` has a dotted tail, `whisper` is dashed.",
+              "type": {
+                "text": "'speech' | 'thought' | 'whisper'"
+              },
+              "default": "'speech'",
+              "attribute": "variant",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "tone",
+              "privacy": "public",
+              "description": "Colour treatment.",
+              "type": {
+                "text": "'neutral' | 'accent' | 'danger'"
+              },
+              "default": "'neutral'",
+              "attribute": "tone",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "author",
+              "privacy": "public",
+              "description": "Optional speaker label in small uppercase mono.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "author"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "tail",
+              "description": "Where the tail sits.",
+              "type": {
+                "text": "'bottom-left' | 'bottom-right' | 'top-left' | 'top-right' | 'left' | 'right' | 'none'"
+              },
+              "default": "'bottom-left'",
+              "fieldName": "tail"
+            },
+            {
+              "name": "variant",
+              "description": "`speech` is a solid bubble, `thought` has a dotted tail, `whisper` is dashed.",
+              "type": {
+                "text": "'speech' | 'thought' | 'whisper'"
+              },
+              "default": "'speech'",
+              "fieldName": "variant"
+            },
+            {
+              "name": "tone",
+              "description": "Colour treatment.",
+              "type": {
+                "text": "'neutral' | 'accent' | 'danger'"
+              },
+              "default": "'neutral'",
+              "fieldName": "tone"
+            },
+            {
+              "name": "author",
+              "description": "Optional speaker label in small uppercase mono.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "author"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-speech-bubble",
+          "customElement": true,
+          "summary": "Message bubble."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtSpeechBubble",
+          "declaration": {
+            "name": "HtSpeechBubble",
+            "module": "src/components/speech-bubble/speech-bubble.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-speech-bubble",
+          "declaration": {
+            "name": "HtSpeechBubble",
+            "module": "src/components/speech-bubble/speech-bubble.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/tag/tag.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Small outlined label for status, counts and metadata. 1px border and text share one\ncolour, with a transparent fill (after PostHog's `LemonTag`).",
+          "name": "HtTag",
+          "cssParts": [
+            {
+              "description": "The tag box.",
+              "name": "base"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Tag text.",
+              "name": ""
+            },
+            {
+              "description": "Icon or dot before the text.",
+              "name": "prefix"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "tone",
+              "privacy": "public",
+              "description": "Colour. `neutral` is the default.",
+              "type": {
+                "text": "'neutral' | 'accent' | 'success' | 'warning' | 'danger' | 'info'"
+              },
+              "default": "'neutral'",
+              "attribute": "tone",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "privacy": "public",
+              "description": "Height: sm 16px with 10px text, md 20px with 12px text.",
+              "type": {
+                "text": "'sm' | 'md'"
+              },
+              "default": "'sm'",
+              "attribute": "size",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "tone",
+              "description": "Colour. `neutral` is the default.",
+              "type": {
+                "text": "'neutral' | 'accent' | 'success' | 'warning' | 'danger' | 'info'"
+              },
+              "default": "'neutral'",
+              "fieldName": "tone"
+            },
+            {
+              "name": "size",
+              "description": "Height: sm 16px with 10px text, md 20px with 12px text.",
+              "type": {
+                "text": "'sm' | 'md'"
+              },
+              "default": "'sm'",
+              "fieldName": "size"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-tag",
+          "customElement": true,
+          "summary": "Status or metadata tag."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtTag",
+          "declaration": {
+            "name": "HtTag",
+            "module": "src/components/tag/tag.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-tag",
+          "declaration": {
+            "name": "HtTag",
+            "module": "src/components/tag/tag.ts"
           }
         }
       ]
