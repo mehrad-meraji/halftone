@@ -88,15 +88,15 @@ export class HtPrompt extends LitElement {
       padding: 4px;
       color: var(--ht-text);
       background: var(--ht-surface);
-      border: 1px solid var(--ht-border);
+      border: 1px solid var(--ht-border-input);
       border-radius: var(--ht-radius-lg);
       box-shadow: 0 0 0 0 transparent;
       cursor: text;
       transition: box-shadow 0.1s ease-in-out, border-color 0.1s ease-in-out;
     }
-    .box:hover { border-color: var(--ht-border-strong); }
+    .box:hover { border-color: var(--ht-text-muted); }
     .box:focus-within {
-      border-color: var(--ht-border-strong);
+      border-color: var(--ht-text-muted);
       box-shadow: 0 0 0 3px color-mix(in oklab, var(--ht-text) 7.5%, transparent);
     }
     :host([disabled]) .box { cursor: not-allowed; }
@@ -122,13 +122,13 @@ export class HtPrompt extends LitElement {
       inset: 0;
       padding: 4px;
       font: 400 0.875rem/1.25rem var(--ht-font-ui);
-      color: var(--ht-text-subtle);
+      color: var(--ht-text-muted);
       pointer-events: none;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
-    .ph .hint { opacity: 0.7; }
+    .ph .hint { color: var(--ht-text-subtle); }
     .actions { display: flex; align-items: center; gap: 4px; flex: none; }
     ::slotted([slot='prefix']) { align-self: center; flex: none; margin-inline: 4px 0; }
   `;
@@ -201,7 +201,7 @@ export class HtPrompt extends LitElement {
         <slot name="prefix"></slot>
         <div class="field">
           ${this._empty && (this.placeholder || this.hint)
-            ? html`<span class="ph" aria-hidden="true">${this.placeholder}${this.hint
+            ? html`<span class="ph" aria-hidden="true" aria-disabled=${this.disabled || this._formDisabled ? 'true' : 'false'}>${this.placeholder}${this.hint
                 ? html` <span class="hint">${this.hint}</span>`
                 : nothing}</span>`
             : nothing}

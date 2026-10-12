@@ -26,6 +26,8 @@ export class HtSwitch extends LitElement {
     /** On or off. */
     checked: { type: Boolean, reflect: true },
     disabled: { type: Boolean, reflect: true },
+    /** Accessible name when there is no slotted label text. `aria-label` on the element is forwarded here. */
+    label: {},
     name: {},
     /** Value submitted with the form when on. */
     value: {},
@@ -34,6 +36,7 @@ export class HtSwitch extends LitElement {
 
   declare checked: boolean;
   declare disabled: boolean;
+  declare label: string;
   declare name: string;
   declare value: string;
   declare _formDisabled: boolean;
@@ -45,6 +48,7 @@ export class HtSwitch extends LitElement {
     super();
     this.checked = false;
     this.disabled = false;
+    this.label = '';
     this.name = '';
     this.value = 'on';
     this._formDisabled = false;
@@ -53,6 +57,12 @@ export class HtSwitch extends LitElement {
   connectedCallback() {
     super.connectedCallback();
     this.#defaultChecked = this.hasAttribute('checked');
+    // `aria-label` is not allowed on a generic host; move it to the native input.
+    const al = this.getAttribute('aria-label');
+    if (al) {
+      this.label = al;
+      this.removeAttribute('aria-label');
+    }
   }
 
   static styles = css`
@@ -145,6 +155,7 @@ export class HtSwitch extends LitElement {
           .checked=${this.checked}
           ?disabled=${this.disabled || this._formDisabled}
           name=${ifDefined(this.name || undefined)}
+          aria-label=${ifDefined(this.label || undefined)}
           @change=${this.#onChange}
         />
         <span part="knob" class="knob" aria-hidden="true">

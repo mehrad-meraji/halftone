@@ -11,3 +11,4 @@
 - Form controls use `ElementInternals` (`static formAssociated = true`).
 - Add every new component to `src/index.ts`, with a story covering each variant and the disabled state.
 - Verify with `npm run typecheck && npm run build`, then check the story in Storybook.
+- Accessibility: a control without a visible label forwards a host `aria-label` to its native element (never leave `aria-label` on a generic host). Field outlines use `--ht-border-input` (3:1). Mix tone colours toward `--ht-text`, not `black`, so dark mode works, and mix in `oklab` when the other colour has a different hue. After token or style changes run `scripts/a11y-runner.js` and `node scripts/contrast.mjs`; see `docs/a11y.md`.

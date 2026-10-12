@@ -27,7 +27,7 @@ export class HtInput extends LitElement {
   static shadowRootOptions = { ...LitElement.shadowRootOptions, delegatesFocus: true };
 
   static properties = {
-    /** Visible label. Always set one, or give the element an `aria-label`. */
+    /** Visible label. With no visible label, set `aria-label` on the element instead; it is forwarded to the native input. */
     label: {},
     /** Helper text shown under the field. Replaced by `error` or a validation message. */
     helper: {},
@@ -89,9 +89,17 @@ export class HtInput extends LitElement {
     this.addEventListener('invalid', () => (this._touched = true));
   }
 
+  #ariaLabel: string | undefined;
+
   connectedCallback() {
     super.connectedCallback();
     this.#defaultValue = this.getAttribute('value') ?? '';
+    // `aria-label` is not allowed on a generic host; move it to the native input.
+    const al = this.getAttribute('aria-label');
+    if (al) {
+      this.#ariaLabel = al;
+      this.removeAttribute('aria-label');
+    }
   }
 
   static styles = css`
@@ -119,13 +127,13 @@ export class HtInput extends LitElement {
       padding-inline: 1rem;
       color: var(--ht-text-subtle);
       background: color-mix(in oklch, var(--ht-text) 3%, transparent);
-      border: 1px solid var(--ht-border-strong);
+      border: 1px solid var(--ht-border-input);
       border-radius: var(--ht-radius-md);
-      box-shadow: inset 0 1px 0 0 var(--ht-border-strong);
+      box-shadow: inset 0 1px 0 0 var(--ht-border-input);
       transition: border 120ms cubic-bezier(0.72, 0, 0.16, 1), box-shadow 120ms cubic-bezier(0.72, 0, 0.16, 1);
     }
     .control:focus-within {
-      box-shadow: inset 0 1px 0 0 var(--ht-border-strong), 0 0 0 2px var(--ht-focus);
+      box-shadow: inset 0 1px 0 0 var(--ht-border-input), 0 0 0 2px var(--ht-focus);
     }
     .control.invalid { border-color: var(--ht-danger); box-shadow: inset 0 1px 0 0 var(--ht-danger); }
     .control.invalid:focus-within { box-shadow: inset 0 1px 0 0 var(--ht-danger), 0 0 0 2px var(--ht-danger); }
@@ -218,6 +226,7 @@ export class HtInput extends LitElement {
           ?required=${this.required}
           ?disabled=${this.disabled || this._formDisabled}
           ?readonly=${this.readonly}
+          aria-label=${ifDefined(this.label ? undefined : this.#ariaLabel)}
           aria-invalid=${isInvalid ? 'true' : 'false'}
           aria-describedby=${ifDefined(message ? 'message' : undefined)}
           @input=${this.#onInput}

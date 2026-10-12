@@ -41,10 +41,10 @@ export class HtTag extends LitElement {
     }
     :host([size='md']) { --_h: 1.25rem; --_fs: 0.75rem; --_lh: 1rem; --_px: 5px; }
     :host([tone='accent']) { --_c: var(--ht-accent-text); }
-    :host([tone='success']) { --_c: color-mix(in oklch, var(--ht-success) 80%, black); }
-    :host([tone='warning']) { --_c: color-mix(in oklch, var(--ht-warning) 55%, black); }
+    :host([tone='success']) { --_c: color-mix(in oklab, var(--ht-success) 80%, var(--ht-text)); }
+    :host([tone='warning']) { --_c: color-mix(in oklab, var(--ht-warning) 55%, var(--ht-text)); }
     :host([tone='danger']) { --_c: var(--ht-danger-text); }
-    :host([tone='info']) { --_c: color-mix(in oklch, var(--ht-info) 85%, black); }
+    :host([tone='info']) { --_c: color-mix(in oklab, var(--ht-info) 85%, var(--ht-text)); }
     .tag {
       box-sizing: border-box;
       display: inline-flex;

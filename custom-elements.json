@@ -131,243 +131,6 @@
     },
     {
       "kind": "javascript-module",
-      "path": "src/components/button/button.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "Keycap button, modelled on the buttons in Sentry's app (sentry.io/auth/login). The face\nsits raised over a plate: it lifts 1px on hover and presses flush on click. Renders a\nlink when `href` is set.",
-          "name": "HtButton",
-          "cssProperties": [
-            {
-              "description": "Border radius used when `flush` is set. `ht-dialog` sets this for its footer.",
-              "name": "--ht-flush-radius",
-              "default": "0"
-            }
-          ],
-          "cssParts": [
-            {
-              "description": "The inner native `<button>` or `<a>`.",
-              "name": "base"
-            },
-            {
-              "description": "The wrapper around the label and affixes. It rides with the face.",
-              "name": "label"
-            }
-          ],
-          "slots": [
-            {
-              "description": "Button label.",
-              "name": ""
-            },
-            {
-              "description": "Icon or element before the label.",
-              "name": "prefix"
-            },
-            {
-              "description": "Icon or element after the label.",
-              "name": "suffix"
-            }
-          ],
-          "members": [
-            {
-              "kind": "field",
-              "name": "variant",
-              "privacy": "public",
-              "description": "`primary` accent keycap, `default` neutral keycap, `danger` red keycap, `quiet` flat with a hover tint.",
-              "type": {
-                "text": "'primary' | 'default' | 'danger' | 'quiet'"
-              },
-              "default": "'primary'",
-              "attribute": "variant",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "size",
-              "privacy": "public",
-              "description": "Height: xs 24px, sm 28px, md 32px, lg 36px.",
-              "type": {
-                "text": "'xs' | 'sm' | 'md' | 'lg'"
-              },
-              "default": "'md'",
-              "attribute": "size",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "disabled",
-              "privacy": "public",
-              "type": {
-                "text": "boolean"
-              },
-              "description": "Disables interaction and form submission.",
-              "default": "false",
-              "attribute": "disabled",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "type",
-              "privacy": "public",
-              "description": "Native button behaviour inside a form. Ignored when `href` is set.",
-              "type": {
-                "text": "'button' | 'submit' | 'reset'"
-              },
-              "default": "'button'",
-              "attribute": "type",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "href",
-              "privacy": "public",
-              "description": "Renders an `<a>` and navigates instead of acting as a button.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "attribute": "href"
-            },
-            {
-              "kind": "field",
-              "name": "target",
-              "privacy": "public",
-              "description": "Link target. `_blank` also sets `rel=\"noopener noreferrer\"`.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "attribute": "target"
-            },
-            {
-              "kind": "field",
-              "name": "block",
-              "privacy": "public",
-              "type": {
-                "text": "boolean"
-              },
-              "description": "Fills the width of its container.",
-              "default": "false",
-              "attribute": "block",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "flush",
-              "privacy": "public",
-              "type": {
-                "text": "boolean"
-              },
-              "description": "Fills its container's height with no lift. Set automatically by `ht-dialog` footers.",
-              "default": "false",
-              "attribute": "flush",
-              "reflects": true
-            }
-          ],
-          "attributes": [
-            {
-              "name": "variant",
-              "description": "`primary` accent keycap, `default` neutral keycap, `danger` red keycap, `quiet` flat with a hover tint.",
-              "type": {
-                "text": "'primary' | 'default' | 'danger' | 'quiet'"
-              },
-              "default": "'primary'",
-              "fieldName": "variant"
-            },
-            {
-              "name": "size",
-              "description": "Height: xs 24px, sm 28px, md 32px, lg 36px.",
-              "type": {
-                "text": "'xs' | 'sm' | 'md' | 'lg'"
-              },
-              "default": "'md'",
-              "fieldName": "size"
-            },
-            {
-              "name": "disabled",
-              "type": {
-                "text": "boolean"
-              },
-              "description": "Disables interaction and form submission.",
-              "default": "false",
-              "fieldName": "disabled"
-            },
-            {
-              "name": "type",
-              "description": "Native button behaviour inside a form. Ignored when `href` is set.",
-              "type": {
-                "text": "'button' | 'submit' | 'reset'"
-              },
-              "default": "'button'",
-              "fieldName": "type"
-            },
-            {
-              "name": "href",
-              "description": "Renders an `<a>` and navigates instead of acting as a button.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "fieldName": "href"
-            },
-            {
-              "name": "target",
-              "description": "Link target. `_blank` also sets `rel=\"noopener noreferrer\"`.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "fieldName": "target"
-            },
-            {
-              "name": "block",
-              "type": {
-                "text": "boolean"
-              },
-              "description": "Fills the width of its container.",
-              "default": "false",
-              "fieldName": "block"
-            },
-            {
-              "name": "flush",
-              "type": {
-                "text": "boolean"
-              },
-              "description": "Fills its container's height with no lift. Set automatically by `ht-dialog` footers.",
-              "default": "false",
-              "fieldName": "flush"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "ht-button",
-          "customElement": true,
-          "summary": "Action control. Submits or resets its form like a native button, or navigates when `href` is set."
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "HtButton",
-          "declaration": {
-            "name": "HtButton",
-            "module": "src/components/button/button.ts"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "ht-button",
-          "declaration": {
-            "name": "HtButton",
-            "module": "src/components/button/button.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
       "path": "src/components/dialog/dialog.ts",
       "declarations": [
         {
@@ -703,6 +466,243 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/components/button/button.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Keycap button, modelled on the buttons in Sentry's app (sentry.io/auth/login). The face\nsits raised over a plate: it lifts 1px on hover and presses flush on click. Renders a\nlink when `href` is set.",
+          "name": "HtButton",
+          "cssProperties": [
+            {
+              "description": "Border radius used when `flush` is set. `ht-dialog` sets this for its footer.",
+              "name": "--ht-flush-radius",
+              "default": "0"
+            }
+          ],
+          "cssParts": [
+            {
+              "description": "The inner native `<button>` or `<a>`.",
+              "name": "base"
+            },
+            {
+              "description": "The wrapper around the label and affixes. It rides with the face.",
+              "name": "label"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Button label.",
+              "name": ""
+            },
+            {
+              "description": "Icon or element before the label.",
+              "name": "prefix"
+            },
+            {
+              "description": "Icon or element after the label.",
+              "name": "suffix"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "variant",
+              "privacy": "public",
+              "description": "`primary` accent keycap, `default` neutral keycap, `danger` red keycap, `quiet` flat with a hover tint.",
+              "type": {
+                "text": "'primary' | 'default' | 'danger' | 'quiet'"
+              },
+              "default": "'primary'",
+              "attribute": "variant",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "privacy": "public",
+              "description": "Height: xs 24px, sm 28px, md 32px, lg 36px.",
+              "type": {
+                "text": "'xs' | 'sm' | 'md' | 'lg'"
+              },
+              "default": "'md'",
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Disables interaction and form submission.",
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "type",
+              "privacy": "public",
+              "description": "Native button behaviour inside a form. Ignored when `href` is set.",
+              "type": {
+                "text": "'button' | 'submit' | 'reset'"
+              },
+              "default": "'button'",
+              "attribute": "type",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "href",
+              "privacy": "public",
+              "description": "Renders an `<a>` and navigates instead of acting as a button.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "href"
+            },
+            {
+              "kind": "field",
+              "name": "target",
+              "privacy": "public",
+              "description": "Link target. `_blank` also sets `rel=\"noopener noreferrer\"`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "target"
+            },
+            {
+              "kind": "field",
+              "name": "block",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Fills the width of its container.",
+              "default": "false",
+              "attribute": "block",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "flush",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Fills its container's height with no lift. Set automatically by `ht-dialog` footers.",
+              "default": "false",
+              "attribute": "flush",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "variant",
+              "description": "`primary` accent keycap, `default` neutral keycap, `danger` red keycap, `quiet` flat with a hover tint.",
+              "type": {
+                "text": "'primary' | 'default' | 'danger' | 'quiet'"
+              },
+              "default": "'primary'",
+              "fieldName": "variant"
+            },
+            {
+              "name": "size",
+              "description": "Height: xs 24px, sm 28px, md 32px, lg 36px.",
+              "type": {
+                "text": "'xs' | 'sm' | 'md' | 'lg'"
+              },
+              "default": "'md'",
+              "fieldName": "size"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Disables interaction and form submission.",
+              "default": "false",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "type",
+              "description": "Native button behaviour inside a form. Ignored when `href` is set.",
+              "type": {
+                "text": "'button' | 'submit' | 'reset'"
+              },
+              "default": "'button'",
+              "fieldName": "type"
+            },
+            {
+              "name": "href",
+              "description": "Renders an `<a>` and navigates instead of acting as a button.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "href"
+            },
+            {
+              "name": "target",
+              "description": "Link target. `_blank` also sets `rel=\"noopener noreferrer\"`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "target"
+            },
+            {
+              "name": "block",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Fills the width of its container.",
+              "default": "false",
+              "fieldName": "block"
+            },
+            {
+              "name": "flush",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Fills its container's height with no lift. Set automatically by `ht-dialog` footers.",
+              "default": "false",
+              "fieldName": "flush"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-button",
+          "customElement": true,
+          "summary": "Action control. Submits or resets its form like a native button, or navigates when `href` is set."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtButton",
+          "declaration": {
+            "name": "HtButton",
+            "module": "src/components/button/button.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-button",
+          "declaration": {
+            "name": "HtButton",
+            "module": "src/components/button/button.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/components/input/input.ts",
       "declarations": [
         {
@@ -742,7 +742,7 @@
               "kind": "field",
               "name": "label",
               "privacy": "public",
-              "description": "Visible label. Always set one, or give the element an `aria-label`.",
+              "description": "Visible label. With no visible label, set `aria-label` on the element instead; it is forwarded to the native input.",
               "type": {
                 "text": "string"
               },
@@ -918,7 +918,7 @@
           "attributes": [
             {
               "name": "label",
-              "description": "Visible label. Always set one, or give the element an `aria-label`.",
+              "description": "Visible label. With no visible label, set `aria-label` on the element instead; it is forwarded to the native input.",
               "type": {
                 "text": "string"
               },
@@ -1051,6 +1051,78 @@
           "declaration": {
             "name": "HtInput",
             "module": "src/components/input/input.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/kbd/kbd.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Keyboard shortcut hint. Each key gets its own small keycap (after PostHog's\n`KeyboardShortcut`).",
+          "name": "HtKbd",
+          "cssParts": [
+            {
+              "description": "One keycap.",
+              "name": "key"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Fallback content when `keys` is not set.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "keys",
+              "privacy": "public",
+              "description": "Space-separated keys, e.g. `⌘ K` or `Ctrl Shift P`. Each becomes its own keycap.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "keys"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "keys",
+              "description": "Space-separated keys, e.g. `⌘ K` or `Ctrl Shift P`. Each becomes its own keycap.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "keys"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-kbd",
+          "customElement": true,
+          "summary": "Keyboard shortcut."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtKbd",
+          "declaration": {
+            "name": "HtKbd",
+            "module": "src/components/kbd/kbd.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-kbd",
+          "declaration": {
+            "name": "HtKbd",
+            "module": "src/components/kbd/kbd.ts"
           }
         }
       ]
@@ -1451,7 +1523,7 @@
               "kind": "field",
               "name": "label",
               "privacy": "public",
-              "description": "Visible label.",
+              "description": "Visible label. With no visible label, set `aria-label` on the element instead; it is forwarded to the native select.",
               "type": {
                 "text": "string"
               },
@@ -1569,7 +1641,7 @@
           "attributes": [
             {
               "name": "label",
-              "description": "Visible label.",
+              "description": "Visible label. With no visible label, set `aria-label` on the element instead; it is forwarded to the native select.",
               "type": {
                 "text": "string"
               },
@@ -1670,78 +1742,6 @@
           "declaration": {
             "name": "HtSelect",
             "module": "src/components/select/select.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/components/kbd/kbd.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "Keyboard shortcut hint. Each key gets its own small keycap (after PostHog's\n`KeyboardShortcut`).",
-          "name": "HtKbd",
-          "cssParts": [
-            {
-              "description": "One keycap.",
-              "name": "key"
-            }
-          ],
-          "slots": [
-            {
-              "description": "Fallback content when `keys` is not set.",
-              "name": ""
-            }
-          ],
-          "members": [
-            {
-              "kind": "field",
-              "name": "keys",
-              "privacy": "public",
-              "description": "Space-separated keys, e.g. `⌘ K` or `Ctrl Shift P`. Each becomes its own keycap.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "attribute": "keys"
-            }
-          ],
-          "attributes": [
-            {
-              "name": "keys",
-              "description": "Space-separated keys, e.g. `⌘ K` or `Ctrl Shift P`. Each becomes its own keycap.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "fieldName": "keys"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "ht-kbd",
-          "customElement": true,
-          "summary": "Keyboard shortcut."
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "HtKbd",
-          "declaration": {
-            "name": "HtKbd",
-            "module": "src/components/kbd/kbd.ts"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "ht-kbd",
-          "declaration": {
-            "name": "HtKbd",
-            "module": "src/components/kbd/kbd.ts"
           }
         }
       ]
@@ -1939,6 +1939,17 @@
             },
             {
               "kind": "field",
+              "name": "label",
+              "privacy": "public",
+              "description": "Accessible name when there is no slotted label text. `aria-label` on the element is forwarded here.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
               "name": "name",
               "privacy": "public",
               "type": {
@@ -1987,6 +1998,15 @@
               },
               "default": "false",
               "fieldName": "disabled"
+            },
+            {
+              "name": "label",
+              "description": "Accessible name when there is no slotted label text. `aria-label` on the element is forwarded here.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "label"
             },
             {
               "name": "name",
@@ -2407,6 +2427,159 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/components/tooltip/tooltip.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Hover and focus hint for the element it wraps. The bubble is an inverse surface (dark on\nlight themes) rendered in the top layer, so it is never clipped.\n\nThe wrapped element receives `aria-description` with the `text`, and the bubble has\n`role=\"tooltip\"`. Use it for supplementary hints, not for essential information.",
+          "name": "HtTooltip",
+          "cssProperties": [
+            {
+              "description": "Maximum bubble width.",
+              "name": "--ht-tooltip-max-width",
+              "default": "20rem"
+            }
+          ],
+          "cssParts": [
+            {
+              "description": "The tooltip bubble.",
+              "name": "bubble"
+            }
+          ],
+          "slots": [
+            {
+              "description": "The element that triggers the tooltip.",
+              "name": ""
+            },
+            {
+              "description": "Rich content, instead of `text`.",
+              "name": "content"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "text",
+              "privacy": "public",
+              "description": "Plain-text content.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "text"
+            },
+            {
+              "kind": "field",
+              "name": "placement",
+              "privacy": "public",
+              "description": "Preferred side. Flips if there is no room.",
+              "type": {
+                "text": "'top' | 'bottom' | 'left' | 'right'"
+              },
+              "default": "'top'",
+              "attribute": "placement",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "delay",
+              "privacy": "public",
+              "type": {
+                "text": "number"
+              },
+              "description": "Milliseconds before showing on hover. Focus shows immediately.",
+              "default": "300",
+              "attribute": "delay"
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "method",
+              "name": "show",
+              "description": "Shows the tooltip now."
+            },
+            {
+              "kind": "method",
+              "name": "hide",
+              "description": "Hides the tooltip."
+            }
+          ],
+          "attributes": [
+            {
+              "name": "text",
+              "description": "Plain-text content.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "text"
+            },
+            {
+              "name": "placement",
+              "description": "Preferred side. Flips if there is no room.",
+              "type": {
+                "text": "'top' | 'bottom' | 'left' | 'right'"
+              },
+              "default": "'top'",
+              "fieldName": "placement"
+            },
+            {
+              "name": "delay",
+              "type": {
+                "text": "number"
+              },
+              "description": "Milliseconds before showing on hover. Focus shows immediately.",
+              "default": "300",
+              "fieldName": "delay"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-tooltip",
+          "customElement": true,
+          "summary": "Tooltip."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtTooltip",
+          "declaration": {
+            "name": "HtTooltip",
+            "module": "src/components/tooltip/tooltip.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-tooltip",
+          "declaration": {
+            "name": "HtTooltip",
+            "module": "src/components/tooltip/tooltip.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/components/toast/toast.ts",
       "declarations": [
         {
@@ -2626,159 +2799,6 @@
           "declaration": {
             "name": "ctor",
             "module": "src/components/toast/toast.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/components/tooltip/tooltip.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "Hover and focus hint for the element it wraps. The bubble is an inverse surface (dark on\nlight themes) rendered in the top layer, so it is never clipped.\n\nThe wrapped element receives `aria-description` with the `text`, and the bubble has\n`role=\"tooltip\"`. Use it for supplementary hints, not for essential information.",
-          "name": "HtTooltip",
-          "cssProperties": [
-            {
-              "description": "Maximum bubble width.",
-              "name": "--ht-tooltip-max-width",
-              "default": "20rem"
-            }
-          ],
-          "cssParts": [
-            {
-              "description": "The tooltip bubble.",
-              "name": "bubble"
-            }
-          ],
-          "slots": [
-            {
-              "description": "The element that triggers the tooltip.",
-              "name": ""
-            },
-            {
-              "description": "Rich content, instead of `text`.",
-              "name": "content"
-            }
-          ],
-          "members": [
-            {
-              "kind": "field",
-              "name": "text",
-              "privacy": "public",
-              "description": "Plain-text content.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "attribute": "text"
-            },
-            {
-              "kind": "field",
-              "name": "placement",
-              "privacy": "public",
-              "description": "Preferred side. Flips if there is no room.",
-              "type": {
-                "text": "'top' | 'bottom' | 'left' | 'right'"
-              },
-              "default": "'top'",
-              "attribute": "placement",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "delay",
-              "privacy": "public",
-              "type": {
-                "text": "number"
-              },
-              "description": "Milliseconds before showing on hover. Focus shows immediately.",
-              "default": "300",
-              "attribute": "delay"
-            },
-            {
-              "kind": "field",
-              "name": "disabled",
-              "privacy": "public",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "disabled",
-              "reflects": true
-            },
-            {
-              "kind": "method",
-              "name": "show",
-              "description": "Shows the tooltip now."
-            },
-            {
-              "kind": "method",
-              "name": "hide",
-              "description": "Hides the tooltip."
-            }
-          ],
-          "attributes": [
-            {
-              "name": "text",
-              "description": "Plain-text content.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "fieldName": "text"
-            },
-            {
-              "name": "placement",
-              "description": "Preferred side. Flips if there is no room.",
-              "type": {
-                "text": "'top' | 'bottom' | 'left' | 'right'"
-              },
-              "default": "'top'",
-              "fieldName": "placement"
-            },
-            {
-              "name": "delay",
-              "type": {
-                "text": "number"
-              },
-              "description": "Milliseconds before showing on hover. Focus shows immediately.",
-              "default": "300",
-              "fieldName": "delay"
-            },
-            {
-              "name": "disabled",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "disabled"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "ht-tooltip",
-          "customElement": true,
-          "summary": "Tooltip."
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "HtTooltip",
-          "declaration": {
-            "name": "HtTooltip",
-            "module": "src/components/tooltip/tooltip.ts"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "ht-tooltip",
-          "declaration": {
-            "name": "HtTooltip",
-            "module": "src/components/tooltip/tooltip.ts"
           }
         }
       ]

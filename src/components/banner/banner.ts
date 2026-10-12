@@ -62,12 +62,12 @@ export class HtBanner extends LitElement {
     :host([tone='success']) {
       --_bg: color-mix(in oklab, var(--ht-success) 10%, var(--ht-surface));
       --_bd: color-mix(in oklab, var(--ht-success) 40%, var(--ht-surface));
-      --_ic: color-mix(in oklch, var(--ht-success) 80%, black);
+      --_ic: color-mix(in oklab, var(--ht-success) 80%, var(--ht-text));
     }
     :host([tone='warning']) {
       --_bg: color-mix(in oklab, var(--ht-warning) 14%, var(--ht-surface));
       --_bd: color-mix(in oklab, var(--ht-warning) 50%, var(--ht-surface));
-      --_ic: color-mix(in oklch, var(--ht-warning) 55%, black);
+      --_ic: color-mix(in oklab, var(--ht-warning) 55%, var(--ht-text));
     }
     :host([tone='danger']) {
       --_bg: var(--ht-danger-soft);
