@@ -63,3 +63,15 @@ Choices:
 - Keyboard follows the WAI-ARIA tabs pattern with automatic activation: arrows wrap, Home and End jump, roving `tabindex`. `change` fires only on user action.
 - `fit` shrinks the track to its content (PostHog always fills its container).
 - Not included: an underline variant, vertical orientation, and closable tabs. None appeared in the source UI.
+
+## 2026-10-12 — Toast and tooltip (`ht-toast`, `ht-toaster`, `toast()`, `ht-tooltip`) from PostHog
+Read from the signed-in PostHog app. Only the toast could be measured; PostHog's tooltip would not render under automated hover (three attempts), so the tooltip's measurements are limited to its colours and popover shape.
+
+Measured (toast, react-toastify config): width 26rem, min-height 3.5rem, radius 6px, 8px padding, `0 4px 12px` at 10% black shadow, viewport offset 16px, solid tone fills (info `#3280ff`, success `#388600`, warning `#f7a501`, error `#db3707`, dark `#21242b`) with white text. Tooltip: surface `#232429`, popover radius 10px and a `0 3px 0` lip shadow on popovers, 50ms opacity transition.
+
+Decisions:
+- Tone fills use Halftone tokens, not PostHog's hexes. Success and info are darkened (mixed 82 to 88% toward black) so white text holds contrast. Warning keeps dark text, because white on amber fails. Neutral is the inverse surface, `--ht-inverse` (new token, flips in dark mode), shared with tooltips.
+- `toast()` is an imperative helper that creates one `ht-toaster` on first use. The toaster is a manual popover (top layer), so toasts stay above an open modal `ht-dialog`. Default position is bottom-right (PostHog's position was not observed).
+- Timer pauses on hover and focus. Danger toasts use `role="alert"`, others `role="status"`. Reduced-motion shortens the animation.
+- Tooltip is a wrapper (`ht-tooltip` around the trigger), not a `title` replacement. The bubble is a manual popover positioned in JS (no anchor-positioning dependency); it flips on the main axis and clamps on the cross axis. It shows after 300ms on hover, immediately on keyboard focus, and hides on Escape, press and leave. The trigger gets `aria-description`, which is a supplement, not a replacement for a label.
+- Inferred, not measured: tooltip padding (4px 8px), 12px/16px text, 20rem max width, 8px gap, and the toast close button size.

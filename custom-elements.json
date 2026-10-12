@@ -131,164 +131,6 @@
     },
     {
       "kind": "javascript-module",
-      "path": "src/components/card/card.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "Surface for grouping related content. Optional header strip (with the halftone dot\nscreen) and footer.",
-          "name": "HtCard",
-          "cssParts": [
-            {
-              "description": "The card box.",
-              "name": "base"
-            },
-            {
-              "description": "The header strip.",
-              "name": "header"
-            },
-            {
-              "description": "The body wrapper.",
-              "name": "body"
-            },
-            {
-              "description": "The footer strip.",
-              "name": "footer"
-            }
-          ],
-          "slots": [
-            {
-              "description": "Card body.",
-              "name": ""
-            },
-            {
-              "description": "Replaces the `eyebrow` / `heading` header.",
-              "name": "header"
-            },
-            {
-              "description": "Right side of the header, e.g. a menu button.",
-              "name": "actions"
-            },
-            {
-              "description": "Footer strip. Hidden when empty.",
-              "name": "footer"
-            }
-          ],
-          "members": [
-            {
-              "kind": "field",
-              "name": "eyebrow",
-              "privacy": "public",
-              "description": "Small uppercase mono label above the heading.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "attribute": "eyebrow"
-            },
-            {
-              "kind": "field",
-              "name": "heading",
-              "privacy": "public",
-              "description": "Heading text. Use the `header` slot for anything richer.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "attribute": "heading"
-            },
-            {
-              "kind": "field",
-              "name": "variant",
-              "privacy": "public",
-              "description": "`muted` drops the shadow and tints the surface.",
-              "type": {
-                "text": "'default' | 'muted'"
-              },
-              "default": "'default'",
-              "attribute": "variant",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "interactive",
-              "privacy": "public",
-              "type": {
-                "text": "boolean"
-              },
-              "description": "Adds hover feedback. Use when the whole card is a click target.",
-              "default": "false",
-              "attribute": "interactive",
-              "reflects": true
-            }
-          ],
-          "attributes": [
-            {
-              "name": "eyebrow",
-              "description": "Small uppercase mono label above the heading.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "fieldName": "eyebrow"
-            },
-            {
-              "name": "heading",
-              "description": "Heading text. Use the `header` slot for anything richer.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "fieldName": "heading"
-            },
-            {
-              "name": "variant",
-              "description": "`muted` drops the shadow and tints the surface.",
-              "type": {
-                "text": "'default' | 'muted'"
-              },
-              "default": "'default'",
-              "fieldName": "variant"
-            },
-            {
-              "name": "interactive",
-              "type": {
-                "text": "boolean"
-              },
-              "description": "Adds hover feedback. Use when the whole card is a click target.",
-              "default": "false",
-              "fieldName": "interactive"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "ht-card",
-          "customElement": true,
-          "summary": "Content container."
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "HtCard",
-          "declaration": {
-            "name": "HtCard",
-            "module": "src/components/card/card.ts"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "ht-card",
-          "declaration": {
-            "name": "HtCard",
-            "module": "src/components/card/card.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
       "path": "src/components/button/button.ts",
       "declarations": [
         {
@@ -703,6 +545,164 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/components/card/card.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Surface for grouping related content. Optional header strip (with the halftone dot\nscreen) and footer.",
+          "name": "HtCard",
+          "cssParts": [
+            {
+              "description": "The card box.",
+              "name": "base"
+            },
+            {
+              "description": "The header strip.",
+              "name": "header"
+            },
+            {
+              "description": "The body wrapper.",
+              "name": "body"
+            },
+            {
+              "description": "The footer strip.",
+              "name": "footer"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Card body.",
+              "name": ""
+            },
+            {
+              "description": "Replaces the `eyebrow` / `heading` header.",
+              "name": "header"
+            },
+            {
+              "description": "Right side of the header, e.g. a menu button.",
+              "name": "actions"
+            },
+            {
+              "description": "Footer strip. Hidden when empty.",
+              "name": "footer"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "eyebrow",
+              "privacy": "public",
+              "description": "Small uppercase mono label above the heading.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "eyebrow"
+            },
+            {
+              "kind": "field",
+              "name": "heading",
+              "privacy": "public",
+              "description": "Heading text. Use the `header` slot for anything richer.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "heading"
+            },
+            {
+              "kind": "field",
+              "name": "variant",
+              "privacy": "public",
+              "description": "`muted` drops the shadow and tints the surface.",
+              "type": {
+                "text": "'default' | 'muted'"
+              },
+              "default": "'default'",
+              "attribute": "variant",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "interactive",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Adds hover feedback. Use when the whole card is a click target.",
+              "default": "false",
+              "attribute": "interactive",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "eyebrow",
+              "description": "Small uppercase mono label above the heading.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "eyebrow"
+            },
+            {
+              "name": "heading",
+              "description": "Heading text. Use the `header` slot for anything richer.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "heading"
+            },
+            {
+              "name": "variant",
+              "description": "`muted` drops the shadow and tints the surface.",
+              "type": {
+                "text": "'default' | 'muted'"
+              },
+              "default": "'default'",
+              "fieldName": "variant"
+            },
+            {
+              "name": "interactive",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Adds hover feedback. Use when the whole card is a click target.",
+              "default": "false",
+              "fieldName": "interactive"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-card",
+          "customElement": true,
+          "summary": "Content container."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtCard",
+          "declaration": {
+            "name": "HtCard",
+            "module": "src/components/card/card.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-card",
+          "declaration": {
+            "name": "HtCard",
+            "module": "src/components/card/card.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/components/input/input.ts",
       "declarations": [
         {
@@ -1057,6 +1057,126 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/components/nav-item/nav-item.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Sidebar row: a 30px ghost button with an icon, label and optional trailing content.\nThe current page gets a faint fill (after PostHog's sidebar items). Renders a link\nwhen `href` is set.",
+          "name": "HtNavItem",
+          "cssParts": [
+            {
+              "description": "The inner `<a>` or `<button>`.",
+              "name": "base"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Label.",
+              "name": ""
+            },
+            {
+              "description": "Icon before the label.",
+              "name": "prefix"
+            },
+            {
+              "description": "Trailing content such as a count or `ht-tag`.",
+              "name": "suffix"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "href",
+              "privacy": "public",
+              "description": "Makes the row a link.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "href"
+            },
+            {
+              "kind": "field",
+              "name": "active",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Marks the current page. Sets `aria-current=\"page\"`.",
+              "default": "false",
+              "attribute": "active",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "href",
+              "description": "Makes the row a link.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "href"
+            },
+            {
+              "name": "active",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Marks the current page. Sets `aria-current=\"page\"`.",
+              "default": "false",
+              "fieldName": "active"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-nav-item",
+          "customElement": true,
+          "summary": "Navigation row."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtNavItem",
+          "declaration": {
+            "name": "HtNavItem",
+            "module": "src/components/nav-item/nav-item.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-nav-item",
+          "declaration": {
+            "name": "HtNavItem",
+            "module": "src/components/nav-item/nav-item.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/components/prompt/prompt.ts",
       "declarations": [
         {
@@ -1290,337 +1410,6 @@
           "declaration": {
             "name": "HtPrompt",
             "module": "src/components/prompt/prompt.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/components/kbd/kbd.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "Keyboard shortcut hint. Each key gets its own small keycap (after PostHog's\n`KeyboardShortcut`).",
-          "name": "HtKbd",
-          "cssParts": [
-            {
-              "description": "One keycap.",
-              "name": "key"
-            }
-          ],
-          "slots": [
-            {
-              "description": "Fallback content when `keys` is not set.",
-              "name": ""
-            }
-          ],
-          "members": [
-            {
-              "kind": "field",
-              "name": "keys",
-              "privacy": "public",
-              "description": "Space-separated keys, e.g. `⌘ K` or `Ctrl Shift P`. Each becomes its own keycap.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "attribute": "keys"
-            }
-          ],
-          "attributes": [
-            {
-              "name": "keys",
-              "description": "Space-separated keys, e.g. `⌘ K` or `Ctrl Shift P`. Each becomes its own keycap.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "fieldName": "keys"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "ht-kbd",
-          "customElement": true,
-          "summary": "Keyboard shortcut."
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "HtKbd",
-          "declaration": {
-            "name": "HtKbd",
-            "module": "src/components/kbd/kbd.ts"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "ht-kbd",
-          "declaration": {
-            "name": "HtKbd",
-            "module": "src/components/kbd/kbd.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/components/nav-item/nav-item.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "Sidebar row: a 30px ghost button with an icon, label and optional trailing content.\nThe current page gets a faint fill (after PostHog's sidebar items). Renders a link\nwhen `href` is set.",
-          "name": "HtNavItem",
-          "cssParts": [
-            {
-              "description": "The inner `<a>` or `<button>`.",
-              "name": "base"
-            }
-          ],
-          "slots": [
-            {
-              "description": "Label.",
-              "name": ""
-            },
-            {
-              "description": "Icon before the label.",
-              "name": "prefix"
-            },
-            {
-              "description": "Trailing content such as a count or `ht-tag`.",
-              "name": "suffix"
-            }
-          ],
-          "members": [
-            {
-              "kind": "field",
-              "name": "href",
-              "privacy": "public",
-              "description": "Makes the row a link.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "attribute": "href"
-            },
-            {
-              "kind": "field",
-              "name": "active",
-              "privacy": "public",
-              "type": {
-                "text": "boolean"
-              },
-              "description": "Marks the current page. Sets `aria-current=\"page\"`.",
-              "default": "false",
-              "attribute": "active",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "disabled",
-              "privacy": "public",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "disabled",
-              "reflects": true
-            }
-          ],
-          "attributes": [
-            {
-              "name": "href",
-              "description": "Makes the row a link.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "fieldName": "href"
-            },
-            {
-              "name": "active",
-              "type": {
-                "text": "boolean"
-              },
-              "description": "Marks the current page. Sets `aria-current=\"page\"`.",
-              "default": "false",
-              "fieldName": "active"
-            },
-            {
-              "name": "disabled",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "disabled"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "ht-nav-item",
-          "customElement": true,
-          "summary": "Navigation row."
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "HtNavItem",
-          "declaration": {
-            "name": "HtNavItem",
-            "module": "src/components/nav-item/nav-item.ts"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "ht-nav-item",
-          "declaration": {
-            "name": "HtNavItem",
-            "module": "src/components/nav-item/nav-item.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/components/speech-bubble/speech-bubble.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "Comic-style message bubble with a tail. Good for chat, annotations and agent output.",
-          "name": "HtSpeechBubble",
-          "cssParts": [
-            {
-              "description": "The bubble.",
-              "name": "base"
-            },
-            {
-              "description": "The author label.",
-              "name": "author"
-            }
-          ],
-          "slots": [
-            {
-              "description": "Bubble content.",
-              "name": ""
-            }
-          ],
-          "members": [
-            {
-              "kind": "field",
-              "name": "tail",
-              "privacy": "public",
-              "description": "Where the tail sits.",
-              "type": {
-                "text": "'bottom-left' | 'bottom-right' | 'top-left' | 'top-right' | 'left' | 'right' | 'none'"
-              },
-              "default": "'bottom-left'",
-              "attribute": "tail",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "variant",
-              "privacy": "public",
-              "description": "`speech` is a solid bubble, `thought` has a dotted tail, `whisper` is dashed.",
-              "type": {
-                "text": "'speech' | 'thought' | 'whisper'"
-              },
-              "default": "'speech'",
-              "attribute": "variant",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "tone",
-              "privacy": "public",
-              "description": "Colour treatment.",
-              "type": {
-                "text": "'neutral' | 'accent' | 'danger'"
-              },
-              "default": "'neutral'",
-              "attribute": "tone",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "author",
-              "privacy": "public",
-              "description": "Optional speaker label in small uppercase mono.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "attribute": "author"
-            }
-          ],
-          "attributes": [
-            {
-              "name": "tail",
-              "description": "Where the tail sits.",
-              "type": {
-                "text": "'bottom-left' | 'bottom-right' | 'top-left' | 'top-right' | 'left' | 'right' | 'none'"
-              },
-              "default": "'bottom-left'",
-              "fieldName": "tail"
-            },
-            {
-              "name": "variant",
-              "description": "`speech` is a solid bubble, `thought` has a dotted tail, `whisper` is dashed.",
-              "type": {
-                "text": "'speech' | 'thought' | 'whisper'"
-              },
-              "default": "'speech'",
-              "fieldName": "variant"
-            },
-            {
-              "name": "tone",
-              "description": "Colour treatment.",
-              "type": {
-                "text": "'neutral' | 'accent' | 'danger'"
-              },
-              "default": "'neutral'",
-              "fieldName": "tone"
-            },
-            {
-              "name": "author",
-              "description": "Optional speaker label in small uppercase mono.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "fieldName": "author"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "ht-speech-bubble",
-          "customElement": true,
-          "summary": "Message bubble."
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "HtSpeechBubble",
-          "declaration": {
-            "name": "HtSpeechBubble",
-            "module": "src/components/speech-bubble/speech-bubble.ts"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "ht-speech-bubble",
-          "declaration": {
-            "name": "HtSpeechBubble",
-            "module": "src/components/speech-bubble/speech-bubble.ts"
           }
         }
       ]
@@ -1881,6 +1670,217 @@
           "declaration": {
             "name": "HtSelect",
             "module": "src/components/select/select.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/kbd/kbd.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Keyboard shortcut hint. Each key gets its own small keycap (after PostHog's\n`KeyboardShortcut`).",
+          "name": "HtKbd",
+          "cssParts": [
+            {
+              "description": "One keycap.",
+              "name": "key"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Fallback content when `keys` is not set.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "keys",
+              "privacy": "public",
+              "description": "Space-separated keys, e.g. `⌘ K` or `Ctrl Shift P`. Each becomes its own keycap.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "keys"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "keys",
+              "description": "Space-separated keys, e.g. `⌘ K` or `Ctrl Shift P`. Each becomes its own keycap.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "keys"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-kbd",
+          "customElement": true,
+          "summary": "Keyboard shortcut."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtKbd",
+          "declaration": {
+            "name": "HtKbd",
+            "module": "src/components/kbd/kbd.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-kbd",
+          "declaration": {
+            "name": "HtKbd",
+            "module": "src/components/kbd/kbd.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/speech-bubble/speech-bubble.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Comic-style message bubble with a tail. Good for chat, annotations and agent output.",
+          "name": "HtSpeechBubble",
+          "cssParts": [
+            {
+              "description": "The bubble.",
+              "name": "base"
+            },
+            {
+              "description": "The author label.",
+              "name": "author"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Bubble content.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "tail",
+              "privacy": "public",
+              "description": "Where the tail sits.",
+              "type": {
+                "text": "'bottom-left' | 'bottom-right' | 'top-left' | 'top-right' | 'left' | 'right' | 'none'"
+              },
+              "default": "'bottom-left'",
+              "attribute": "tail",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "variant",
+              "privacy": "public",
+              "description": "`speech` is a solid bubble, `thought` has a dotted tail, `whisper` is dashed.",
+              "type": {
+                "text": "'speech' | 'thought' | 'whisper'"
+              },
+              "default": "'speech'",
+              "attribute": "variant",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "tone",
+              "privacy": "public",
+              "description": "Colour treatment.",
+              "type": {
+                "text": "'neutral' | 'accent' | 'danger'"
+              },
+              "default": "'neutral'",
+              "attribute": "tone",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "author",
+              "privacy": "public",
+              "description": "Optional speaker label in small uppercase mono.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "author"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "tail",
+              "description": "Where the tail sits.",
+              "type": {
+                "text": "'bottom-left' | 'bottom-right' | 'top-left' | 'top-right' | 'left' | 'right' | 'none'"
+              },
+              "default": "'bottom-left'",
+              "fieldName": "tail"
+            },
+            {
+              "name": "variant",
+              "description": "`speech` is a solid bubble, `thought` has a dotted tail, `whisper` is dashed.",
+              "type": {
+                "text": "'speech' | 'thought' | 'whisper'"
+              },
+              "default": "'speech'",
+              "fieldName": "variant"
+            },
+            {
+              "name": "tone",
+              "description": "Colour treatment.",
+              "type": {
+                "text": "'neutral' | 'accent' | 'danger'"
+              },
+              "default": "'neutral'",
+              "fieldName": "tone"
+            },
+            {
+              "name": "author",
+              "description": "Optional speaker label in small uppercase mono.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "author"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-speech-bubble",
+          "customElement": true,
+          "summary": "Message bubble."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtSpeechBubble",
+          "declaration": {
+            "name": "HtSpeechBubble",
+            "module": "src/components/speech-bubble/speech-bubble.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-speech-bubble",
+          "declaration": {
+            "name": "HtSpeechBubble",
+            "module": "src/components/speech-bubble/speech-bubble.ts"
           }
         }
       ]
@@ -2401,6 +2401,384 @@
           "declaration": {
             "name": "HtTag",
             "module": "src/components/tag/tag.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/toast/toast.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A single notification: solid tone fill, icon, message, optional action and close button\n(after PostHog's toasts: 26rem wide, 6px radius, 8px padding, soft shadow). Normally\ncreated through `toast()`, but usable on its own.",
+          "name": "HtToast",
+          "cssProperties": [
+            {
+              "description": "Maximum width.",
+              "name": "--ht-toast-width",
+              "default": "26rem"
+            }
+          ],
+          "cssParts": [
+            {
+              "description": "The toast box.",
+              "name": "base"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Message text.",
+              "name": ""
+            },
+            {
+              "description": "A button or link at the end, e.g. \"Undo\".",
+              "name": "action"
+            },
+            {
+              "description": "Replaces the default tone icon.",
+              "name": "icon"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "tone",
+              "privacy": "public",
+              "description": "Fill colour. `neutral` is the inverse surface (dark on light themes).",
+              "type": {
+                "text": "'neutral' | 'info' | 'success' | 'warning' | 'danger'"
+              },
+              "default": "'neutral'",
+              "attribute": "tone",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "duration",
+              "privacy": "public",
+              "type": {
+                "text": "number"
+              },
+              "description": "Milliseconds before it dismisses itself. `0` keeps it until closed. Pauses while hovered or focused.",
+              "default": "5000",
+              "attribute": "duration"
+            },
+            {
+              "kind": "field",
+              "name": "noClose",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Hides the close button.",
+              "default": "false",
+              "attribute": "no-close",
+              "reflects": true
+            },
+            {
+              "kind": "method",
+              "name": "dismiss",
+              "description": "Animates out and removes the toast."
+            }
+          ],
+          "events": [
+            {
+              "name": "ht-dismiss",
+              "type": {
+                "text": "Event"
+              },
+              "description": "The toast was removed, by timeout or the close button."
+            }
+          ],
+          "attributes": [
+            {
+              "name": "tone",
+              "description": "Fill colour. `neutral` is the inverse surface (dark on light themes).",
+              "type": {
+                "text": "'neutral' | 'info' | 'success' | 'warning' | 'danger'"
+              },
+              "default": "'neutral'",
+              "fieldName": "tone"
+            },
+            {
+              "name": "duration",
+              "type": {
+                "text": "number"
+              },
+              "description": "Milliseconds before it dismisses itself. `0` keeps it until closed. Pauses while hovered or focused.",
+              "default": "5000",
+              "fieldName": "duration"
+            },
+            {
+              "name": "no-close",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Hides the close button.",
+              "default": "false",
+              "fieldName": "noClose"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-toast",
+          "customElement": true,
+          "summary": "Notification message."
+        },
+        {
+          "kind": "class",
+          "description": "Fixed stack that holds toasts. Rendered in the top layer, so it sits above open dialogs.\n`toast()` creates one on demand; you rarely need to place it by hand.",
+          "name": "HtToaster",
+          "slots": [
+            {
+              "description": "`ht-toast` elements.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "position",
+              "privacy": "public",
+              "description": "Where the stack sits.",
+              "type": {
+                "text": "'top-left' | 'top-center' | 'top-right' | 'bottom-left' | 'bottom-center' | 'bottom-right'"
+              },
+              "default": "'bottom-right'",
+              "attribute": "position",
+              "reflects": true
+            },
+            {
+              "kind": "method",
+              "name": "add",
+              "return": {
+                "type": {
+                  "text": "HtToast"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "options",
+                  "type": {
+                    "text": "ToastOptions | string"
+                  }
+                }
+              ],
+              "description": "Adds a toast and returns it."
+            }
+          ],
+          "attributes": [
+            {
+              "name": "position",
+              "description": "Where the stack sits.",
+              "type": {
+                "text": "'top-left' | 'top-center' | 'top-right' | 'bottom-left' | 'bottom-center' | 'bottom-right'"
+              },
+              "default": "'bottom-right'",
+              "fieldName": "position"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-toaster",
+          "customElement": true,
+          "summary": "Toast container."
+        },
+        {
+          "kind": "variable",
+          "name": "toast",
+          "description": "Shows a toast. Creates the `ht-toaster` container on first use.\n\n```ts\ntoast('Saved.');\ntoast({ message: 'Deleted.', tone: 'success', action: { label: 'Undo', onClick: restore } });\ntoast.error('That did not work.');\n```"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtToast",
+          "declaration": {
+            "name": "HtToast",
+            "module": "src/components/toast/toast.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "HtToaster",
+          "declaration": {
+            "name": "HtToaster",
+            "module": "src/components/toast/toast.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "toast",
+          "declaration": {
+            "name": "toast",
+            "module": "src/components/toast/toast.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tag",
+          "declaration": {
+            "name": "ctor",
+            "module": "src/components/toast/toast.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/tooltip/tooltip.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Hover and focus hint for the element it wraps. The bubble is an inverse surface (dark on\nlight themes) rendered in the top layer, so it is never clipped.\n\nThe wrapped element receives `aria-description` with the `text`, and the bubble has\n`role=\"tooltip\"`. Use it for supplementary hints, not for essential information.",
+          "name": "HtTooltip",
+          "cssProperties": [
+            {
+              "description": "Maximum bubble width.",
+              "name": "--ht-tooltip-max-width",
+              "default": "20rem"
+            }
+          ],
+          "cssParts": [
+            {
+              "description": "The tooltip bubble.",
+              "name": "bubble"
+            }
+          ],
+          "slots": [
+            {
+              "description": "The element that triggers the tooltip.",
+              "name": ""
+            },
+            {
+              "description": "Rich content, instead of `text`.",
+              "name": "content"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "text",
+              "privacy": "public",
+              "description": "Plain-text content.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "text"
+            },
+            {
+              "kind": "field",
+              "name": "placement",
+              "privacy": "public",
+              "description": "Preferred side. Flips if there is no room.",
+              "type": {
+                "text": "'top' | 'bottom' | 'left' | 'right'"
+              },
+              "default": "'top'",
+              "attribute": "placement",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "delay",
+              "privacy": "public",
+              "type": {
+                "text": "number"
+              },
+              "description": "Milliseconds before showing on hover. Focus shows immediately.",
+              "default": "300",
+              "attribute": "delay"
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "method",
+              "name": "show",
+              "description": "Shows the tooltip now."
+            },
+            {
+              "kind": "method",
+              "name": "hide",
+              "description": "Hides the tooltip."
+            }
+          ],
+          "attributes": [
+            {
+              "name": "text",
+              "description": "Plain-text content.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "text"
+            },
+            {
+              "name": "placement",
+              "description": "Preferred side. Flips if there is no room.",
+              "type": {
+                "text": "'top' | 'bottom' | 'left' | 'right'"
+              },
+              "default": "'top'",
+              "fieldName": "placement"
+            },
+            {
+              "name": "delay",
+              "type": {
+                "text": "number"
+              },
+              "description": "Milliseconds before showing on hover. Focus shows immediately.",
+              "default": "300",
+              "fieldName": "delay"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-tooltip",
+          "customElement": true,
+          "summary": "Tooltip."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtTooltip",
+          "declaration": {
+            "name": "HtTooltip",
+            "module": "src/components/tooltip/tooltip.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-tooltip",
+          "declaration": {
+            "name": "HtTooltip",
+            "module": "src/components/tooltip/tooltip.ts"
           }
         }
       ]
