@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "declaration": false,
+    "removeComments": false,
+    "outDir": ".registry-js",
+    "rootDir": "src",
+    "verbatimModuleSyntax": true
+  },
+  "include": ["src/components/**/*.ts"],
+  "exclude": ["src/**/*.stories.ts"]
+}

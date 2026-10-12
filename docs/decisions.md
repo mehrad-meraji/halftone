@@ -93,3 +93,16 @@ Decisions:
 - The tick and dot use `--ht-accent-ink`, not white, because white on the pink fill fails contrast.
 - Field borders use `--ht-border-input` (3:1), the same token as inputs.
 - Sizes: one (24px). A denser size was not in the source UI.
+
+## 2026-10-12 — `halftone add` (the copy half of the hybrid)
+A zero-dependency Node CLI, `bin/halftone.mjs`, shipped in the package. Commands: `add`, `list`, `init`, `diff`.
+
+How it works:
+- `npm run registry` (part of `build` and `test`) writes `registry/registry.json`: each component's TypeScript source, a readable JavaScript build, the elements it defines, its dependencies, and `tokens.css`. The CLI reads that file from the installed package, so it works offline and has nothing to fetch. The build step fails if a component imports anything but `lit`, which turns the copy-mode rule from a convention into a check.
+- JS output is the TypeScript compiler's own emit (ES2022, comments kept) so a copied file reads like source rather than a bundle. TS 7 has no `transpileModule`, so the registry shells out to `tsc` with `tsconfig.registry.json`.
+- Files land flat as `<dir>/<name>.<ext>` with a two-line header recording the package and version. `halftone.json` stores the folder, language and installed versions. Language defaults to `ts` when `tsconfig.json` exists.
+- Safety: an existing file is skipped if it differs, unless `--overwrite`; identical files report `unchanged`; `--dry-run` writes nothing, not even `halftone.json`.
+- `diff` compares copies with the packaged source and exits 2 on drift. It cannot tell an upstream change from a local edit, so it reports and leaves merging to the owner. A real three-way merge would need the original stored; not worth it for v1.
+- Not done: installing `lit` by default (it prints the command, `--install` runs it), per-component dependency graphs (there are none by design), a remote registry (everything ships in the package), and copying stories.
+
+Verified: 10 CLI tests (`npm test`); the copied TypeScript for all 17 units type-checks under a standalone strict tsconfig; the copied JavaScript, served by Vite in a fresh project, defines all 22 elements and tabs and radio groups behave.

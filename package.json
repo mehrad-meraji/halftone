@@ -1,7 +1,7 @@
 {
   "name": "@_mehrad/halftone",
   "version": "0.0.1",
-  "description": "Comic-book-flavoured web components, built with Lit. Human and agent friendly.",
+  "description": "Web components built with Lit, styled after Sentry, PostHog, Sentinel and Taskscape. Human and agent friendly. Use as a package or copy components into your project with `halftone add`.",
   "type": "module",
   "license": "MIT",
   "sideEffects": [
@@ -10,6 +10,8 @@
   ],
   "files": [
     "dist",
+    "bin",
+    "registry",
     "custom-elements.json",
     "llms.txt"
   ],
@@ -31,10 +33,12 @@
   },
   "scripts": {
     "dev": "storybook dev -p 6006",
-    "build": "vite build && tsc -p tsconfig.build.json && cp src/tokens/tokens.css dist/tokens.css && npm run manifest",
+    "build": "vite build && tsc -p tsconfig.build.json && cp src/tokens/tokens.css dist/tokens.css && npm run manifest && npm run registry",
     "manifest": "cem analyze --config custom-elements-manifest.config.mjs",
     "typecheck": "tsc --noEmit",
-    "storybook:build": "npm run manifest && storybook build -o storybook-static"
+    "storybook:build": "npm run manifest && storybook build -o storybook-static",
+    "registry": "node scripts/build-registry.mjs",
+    "test": "npm run registry && node --test scripts/"
   },
   "dependencies": {
     "lit": "^3.3.3"
@@ -47,5 +51,8 @@
     "storybook": "^10.6.1",
     "typescript": "^7.0.2",
     "vite": "^8.3.4"
+  },
+  "bin": {
+    "halftone": "./bin/halftone.mjs"
   }
 }

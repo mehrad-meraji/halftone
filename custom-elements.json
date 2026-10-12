@@ -4,6 +4,133 @@
   "modules": [
     {
       "kind": "javascript-module",
+      "path": "src/components/banner/banner.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Inline message bar: an icon, text and an optional action or dismiss button (after\nPostHog's `LemonBanner`).",
+          "name": "HtBanner",
+          "cssParts": [
+            {
+              "description": "The bar.",
+              "name": "base"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Message text.",
+              "name": ""
+            },
+            {
+              "description": "Action button at the end of the bar.",
+              "name": "action"
+            },
+            {
+              "description": "Replaces the default tone icon.",
+              "name": "icon"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "tone",
+              "privacy": "public",
+              "description": "`info` is neutral. The others tint the bar. `danger` is announced assertively.",
+              "type": {
+                "text": "'info' | 'success' | 'warning' | 'danger'"
+              },
+              "default": "'info'",
+              "attribute": "tone",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "dismissible",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Shows a close button.",
+              "default": "false",
+              "attribute": "dismissible",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "hidden",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "hidden",
+              "reflects": true
+            }
+          ],
+          "events": [
+            {
+              "description": "The dismiss button was pressed. The banner hides itself unless this is cancelled.",
+              "name": "ht-dismiss"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "tone",
+              "description": "`info` is neutral. The others tint the bar. `danger` is announced assertively.",
+              "type": {
+                "text": "'info' | 'success' | 'warning' | 'danger'"
+              },
+              "default": "'info'",
+              "fieldName": "tone"
+            },
+            {
+              "name": "dismissible",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Shows a close button.",
+              "default": "false",
+              "fieldName": "dismissible"
+            },
+            {
+              "name": "hidden",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "hidden"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-banner",
+          "customElement": true,
+          "summary": "Inline alert."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtBanner",
+          "declaration": {
+            "name": "HtBanner",
+            "module": "src/components/banner/banner.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-banner",
+          "declaration": {
+            "name": "HtBanner",
+            "module": "src/components/banner/banner.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/components/button/button.ts",
       "declarations": [
         {
@@ -241,133 +368,6 @@
     },
     {
       "kind": "javascript-module",
-      "path": "src/components/banner/banner.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "Inline message bar: an icon, text and an optional action or dismiss button (after\nPostHog's `LemonBanner`).",
-          "name": "HtBanner",
-          "cssParts": [
-            {
-              "description": "The bar.",
-              "name": "base"
-            }
-          ],
-          "slots": [
-            {
-              "description": "Message text.",
-              "name": ""
-            },
-            {
-              "description": "Action button at the end of the bar.",
-              "name": "action"
-            },
-            {
-              "description": "Replaces the default tone icon.",
-              "name": "icon"
-            }
-          ],
-          "members": [
-            {
-              "kind": "field",
-              "name": "tone",
-              "privacy": "public",
-              "description": "`info` is neutral. The others tint the bar. `danger` is announced assertively.",
-              "type": {
-                "text": "'info' | 'success' | 'warning' | 'danger'"
-              },
-              "default": "'info'",
-              "attribute": "tone",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "dismissible",
-              "privacy": "public",
-              "type": {
-                "text": "boolean"
-              },
-              "description": "Shows a close button.",
-              "default": "false",
-              "attribute": "dismissible",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "hidden",
-              "privacy": "public",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "hidden",
-              "reflects": true
-            }
-          ],
-          "events": [
-            {
-              "description": "The dismiss button was pressed. The banner hides itself unless this is cancelled.",
-              "name": "ht-dismiss"
-            }
-          ],
-          "attributes": [
-            {
-              "name": "tone",
-              "description": "`info` is neutral. The others tint the bar. `danger` is announced assertively.",
-              "type": {
-                "text": "'info' | 'success' | 'warning' | 'danger'"
-              },
-              "default": "'info'",
-              "fieldName": "tone"
-            },
-            {
-              "name": "dismissible",
-              "type": {
-                "text": "boolean"
-              },
-              "description": "Shows a close button.",
-              "default": "false",
-              "fieldName": "dismissible"
-            },
-            {
-              "name": "hidden",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "hidden"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "ht-banner",
-          "customElement": true,
-          "summary": "Inline alert."
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "HtBanner",
-          "declaration": {
-            "name": "HtBanner",
-            "module": "src/components/banner/banner.ts"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "ht-banner",
-          "declaration": {
-            "name": "HtBanner",
-            "module": "src/components/banner/banner.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
       "path": "src/components/card/card.ts",
       "declarations": [
         {
@@ -520,6 +520,370 @@
           "declaration": {
             "name": "HtCard",
             "module": "src/components/card/card.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/checkbox/checkbox.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Checkbox: a 24px box with a tick, a dash for the indeterminate state, and a label slot.\nForm-associated: submits `value` when checked.",
+          "name": "HtCheckbox",
+          "cssParts": [
+            {
+              "description": "The checkbox square.",
+              "name": "box"
+            },
+            {
+              "description": "The label text.",
+              "name": "label"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Label text.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "checked",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "checked",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "indeterminate",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "A partly-selected state, e.g. a \"select all\" over a mixed list. Cleared when the user toggles.",
+              "default": "false",
+              "attribute": "indeterminate",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "required",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "required",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "name"
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "privacy": "public",
+              "description": "Value submitted with the form when checked.",
+              "type": {
+                "text": "string"
+              },
+              "default": "'on'",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "privacy": "public",
+              "description": "Accessible name when there is no slotted text. `aria-label` on the element is forwarded here.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "form",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "checkValidity"
+            },
+            {
+              "kind": "method",
+              "name": "reportValidity"
+            }
+          ],
+          "events": [
+            {
+              "description": "Toggled by the user. Re-dispatched from the host.",
+              "name": "change"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "checked",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "checked"
+            },
+            {
+              "name": "indeterminate",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "A partly-selected state, e.g. a \"select all\" over a mixed list. Cleared when the user toggles.",
+              "default": "false",
+              "fieldName": "indeterminate"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "required"
+            },
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "name"
+            },
+            {
+              "name": "value",
+              "description": "Value submitted with the form when checked.",
+              "type": {
+                "text": "string"
+              },
+              "default": "'on'",
+              "fieldName": "value"
+            },
+            {
+              "name": "label",
+              "description": "Accessible name when there is no slotted text. `aria-label` on the element is forwarded here.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "label"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-checkbox",
+          "customElement": true,
+          "summary": "Checkbox."
+        },
+        {
+          "kind": "class",
+          "description": "Labelled wrapper for related checkboxes: legend, helper text, error text, and a shared\ndisabled state. Each checkbox still submits on its own, so give them the same `name`.",
+          "name": "HtCheckboxGroup",
+          "cssParts": [
+            {
+              "description": "The legend text.",
+              "name": "legend"
+            },
+            {
+              "description": "The row or column of checkboxes.",
+              "name": "items"
+            }
+          ],
+          "slots": [
+            {
+              "description": "`ht-checkbox` elements.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "label",
+              "privacy": "public",
+              "description": "Group label, announced with each checkbox.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "helper",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "helper"
+            },
+            {
+              "kind": "field",
+              "name": "error",
+              "privacy": "public",
+              "description": "Error text. Announced as an alert.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "error"
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "orientation",
+              "privacy": "public",
+              "description": "Layout of the items.",
+              "type": {
+                "text": "'vertical' | 'horizontal'"
+              },
+              "default": "'vertical'",
+              "attribute": "orientation",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string[]"
+              },
+              "description": "The `value` of every checked checkbox.",
+              "readonly": true
+            }
+          ],
+          "events": [
+            {
+              "description": "A checkbox inside changed (bubbles from the checkbox).",
+              "name": "change"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "label",
+              "description": "Group label, announced with each checkbox.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "label"
+            },
+            {
+              "name": "helper",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "helper"
+            },
+            {
+              "name": "error",
+              "description": "Error text. Announced as an alert.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "error"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "orientation",
+              "description": "Layout of the items.",
+              "type": {
+                "text": "'vertical' | 'horizontal'"
+              },
+              "default": "'vertical'",
+              "fieldName": "orientation"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-checkbox-group",
+          "customElement": true,
+          "summary": "Checkbox group."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtCheckbox",
+          "declaration": {
+            "name": "HtCheckbox",
+            "module": "src/components/checkbox/checkbox.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "HtCheckboxGroup",
+          "declaration": {
+            "name": "HtCheckboxGroup",
+            "module": "src/components/checkbox/checkbox.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tag",
+          "declaration": {
+            "name": "ctor",
+            "module": "src/components/checkbox/checkbox.ts"
           }
         }
       ]
@@ -1129,370 +1493,6 @@
     },
     {
       "kind": "javascript-module",
-      "path": "src/components/checkbox/checkbox.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "Checkbox: a 24px box with a tick, a dash for the indeterminate state, and a label slot.\nForm-associated: submits `value` when checked.",
-          "name": "HtCheckbox",
-          "cssParts": [
-            {
-              "description": "The checkbox square.",
-              "name": "box"
-            },
-            {
-              "description": "The label text.",
-              "name": "label"
-            }
-          ],
-          "slots": [
-            {
-              "description": "Label text.",
-              "name": ""
-            }
-          ],
-          "members": [
-            {
-              "kind": "field",
-              "name": "checked",
-              "privacy": "public",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "checked",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "indeterminate",
-              "privacy": "public",
-              "type": {
-                "text": "boolean"
-              },
-              "description": "A partly-selected state, e.g. a \"select all\" over a mixed list. Cleared when the user toggles.",
-              "default": "false",
-              "attribute": "indeterminate",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "disabled",
-              "privacy": "public",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "disabled",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "required",
-              "privacy": "public",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "required",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "name",
-              "privacy": "public",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "attribute": "name"
-            },
-            {
-              "kind": "field",
-              "name": "value",
-              "privacy": "public",
-              "description": "Value submitted with the form when checked.",
-              "type": {
-                "text": "string"
-              },
-              "default": "'on'",
-              "attribute": "value"
-            },
-            {
-              "kind": "field",
-              "name": "label",
-              "privacy": "public",
-              "description": "Accessible name when there is no slotted text. `aria-label` on the element is forwarded here.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "attribute": "label"
-            },
-            {
-              "kind": "field",
-              "name": "form",
-              "readonly": true
-            },
-            {
-              "kind": "method",
-              "name": "checkValidity"
-            },
-            {
-              "kind": "method",
-              "name": "reportValidity"
-            }
-          ],
-          "events": [
-            {
-              "description": "Toggled by the user. Re-dispatched from the host.",
-              "name": "change"
-            }
-          ],
-          "attributes": [
-            {
-              "name": "checked",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "checked"
-            },
-            {
-              "name": "indeterminate",
-              "type": {
-                "text": "boolean"
-              },
-              "description": "A partly-selected state, e.g. a \"select all\" over a mixed list. Cleared when the user toggles.",
-              "default": "false",
-              "fieldName": "indeterminate"
-            },
-            {
-              "name": "disabled",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "disabled"
-            },
-            {
-              "name": "required",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "required"
-            },
-            {
-              "name": "name",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "fieldName": "name"
-            },
-            {
-              "name": "value",
-              "description": "Value submitted with the form when checked.",
-              "type": {
-                "text": "string"
-              },
-              "default": "'on'",
-              "fieldName": "value"
-            },
-            {
-              "name": "label",
-              "description": "Accessible name when there is no slotted text. `aria-label` on the element is forwarded here.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "fieldName": "label"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "ht-checkbox",
-          "customElement": true,
-          "summary": "Checkbox."
-        },
-        {
-          "kind": "class",
-          "description": "Labelled wrapper for related checkboxes: legend, helper text, error text, and a shared\ndisabled state. Each checkbox still submits on its own, so give them the same `name`.",
-          "name": "HtCheckboxGroup",
-          "cssParts": [
-            {
-              "description": "The legend text.",
-              "name": "legend"
-            },
-            {
-              "description": "The row or column of checkboxes.",
-              "name": "items"
-            }
-          ],
-          "slots": [
-            {
-              "description": "`ht-checkbox` elements.",
-              "name": ""
-            }
-          ],
-          "members": [
-            {
-              "kind": "field",
-              "name": "label",
-              "privacy": "public",
-              "description": "Group label, announced with each checkbox.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "attribute": "label"
-            },
-            {
-              "kind": "field",
-              "name": "helper",
-              "privacy": "public",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "attribute": "helper"
-            },
-            {
-              "kind": "field",
-              "name": "error",
-              "privacy": "public",
-              "description": "Error text. Announced as an alert.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "attribute": "error"
-            },
-            {
-              "kind": "field",
-              "name": "disabled",
-              "privacy": "public",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "disabled",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "orientation",
-              "privacy": "public",
-              "description": "Layout of the items.",
-              "type": {
-                "text": "'vertical' | 'horizontal'"
-              },
-              "default": "'vertical'",
-              "attribute": "orientation",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "value",
-              "type": {
-                "text": "string[]"
-              },
-              "description": "The `value` of every checked checkbox.",
-              "readonly": true
-            }
-          ],
-          "events": [
-            {
-              "description": "A checkbox inside changed (bubbles from the checkbox).",
-              "name": "change"
-            }
-          ],
-          "attributes": [
-            {
-              "name": "label",
-              "description": "Group label, announced with each checkbox.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "fieldName": "label"
-            },
-            {
-              "name": "helper",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "fieldName": "helper"
-            },
-            {
-              "name": "error",
-              "description": "Error text. Announced as an alert.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "fieldName": "error"
-            },
-            {
-              "name": "disabled",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "disabled"
-            },
-            {
-              "name": "orientation",
-              "description": "Layout of the items.",
-              "type": {
-                "text": "'vertical' | 'horizontal'"
-              },
-              "default": "'vertical'",
-              "fieldName": "orientation"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "ht-checkbox-group",
-          "customElement": true,
-          "summary": "Checkbox group."
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "HtCheckbox",
-          "declaration": {
-            "name": "HtCheckbox",
-            "module": "src/components/checkbox/checkbox.ts"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "HtCheckboxGroup",
-          "declaration": {
-            "name": "HtCheckboxGroup",
-            "module": "src/components/checkbox/checkbox.ts"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "tag",
-          "declaration": {
-            "name": "ctor",
-            "module": "src/components/checkbox/checkbox.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
       "path": "src/components/nav-item/nav-item.ts",
       "declarations": [
         {
@@ -1846,6 +1846,266 @@
           "declaration": {
             "name": "HtPrompt",
             "module": "src/components/prompt/prompt.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/select/select.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Dropdown built on the native `<select>`: keyboard, mobile pickers and accessibility come\nfrom the browser. Give it `<option>` / `<optgroup>` children. Participates in forms.",
+          "name": "HtSelect",
+          "cssParts": [
+            {
+              "description": "The label element.",
+              "name": "label"
+            },
+            {
+              "description": "The bordered box.",
+              "name": "control"
+            },
+            {
+              "description": "The native `<select>`.",
+              "name": "select"
+            },
+            {
+              "description": "The helper or error text.",
+              "name": "message"
+            }
+          ],
+          "slots": [
+            {
+              "description": "`<option>` and `<optgroup>` elements.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "label",
+              "privacy": "public",
+              "description": "Visible label. With no visible label, set `aria-label` on the element instead; it is forwarded to the native select.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "helper",
+              "privacy": "public",
+              "description": "Helper text under the field.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "helper"
+            },
+            {
+              "kind": "field",
+              "name": "error",
+              "privacy": "public",
+              "description": "Error text. Setting it marks the field invalid.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "error"
+            },
+            {
+              "kind": "field",
+              "name": "placeholder",
+              "privacy": "public",
+              "description": "Disabled first option shown until the user chooses.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "placeholder"
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "privacy": "public",
+              "description": "Selected option value.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "name"
+            },
+            {
+              "kind": "field",
+              "name": "required",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "required",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "privacy": "public",
+              "description": "Height: sm 32px, md 36px, lg 40px.",
+              "type": {
+                "text": "'sm' | 'md' | 'lg'"
+              },
+              "default": "'md'",
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "form",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "checkValidity"
+            },
+            {
+              "kind": "method",
+              "name": "reportValidity"
+            }
+          ],
+          "events": [
+            {
+              "description": "A new option was chosen. Re-dispatched from the host.",
+              "name": "change"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "label",
+              "description": "Visible label. With no visible label, set `aria-label` on the element instead; it is forwarded to the native select.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "label"
+            },
+            {
+              "name": "helper",
+              "description": "Helper text under the field.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "helper"
+            },
+            {
+              "name": "error",
+              "description": "Error text. Setting it marks the field invalid.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "error"
+            },
+            {
+              "name": "placeholder",
+              "description": "Disabled first option shown until the user chooses.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "placeholder"
+            },
+            {
+              "name": "value",
+              "description": "Selected option value.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "value"
+            },
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "name"
+            },
+            {
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "required"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "size",
+              "description": "Height: sm 32px, md 36px, lg 40px.",
+              "type": {
+                "text": "'sm' | 'md' | 'lg'"
+              },
+              "default": "'md'",
+              "fieldName": "size"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-select",
+          "customElement": true,
+          "summary": "Select field."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtSelect",
+          "declaration": {
+            "name": "HtSelect",
+            "module": "src/components/select/select.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-select",
+          "declaration": {
+            "name": "HtSelect",
+            "module": "src/components/select/select.ts"
           }
         }
       ]
@@ -2206,266 +2466,6 @@
     },
     {
       "kind": "javascript-module",
-      "path": "src/components/select/select.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "Dropdown built on the native `<select>`: keyboard, mobile pickers and accessibility come\nfrom the browser. Give it `<option>` / `<optgroup>` children. Participates in forms.",
-          "name": "HtSelect",
-          "cssParts": [
-            {
-              "description": "The label element.",
-              "name": "label"
-            },
-            {
-              "description": "The bordered box.",
-              "name": "control"
-            },
-            {
-              "description": "The native `<select>`.",
-              "name": "select"
-            },
-            {
-              "description": "The helper or error text.",
-              "name": "message"
-            }
-          ],
-          "slots": [
-            {
-              "description": "`<option>` and `<optgroup>` elements.",
-              "name": ""
-            }
-          ],
-          "members": [
-            {
-              "kind": "field",
-              "name": "label",
-              "privacy": "public",
-              "description": "Visible label. With no visible label, set `aria-label` on the element instead; it is forwarded to the native select.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "attribute": "label"
-            },
-            {
-              "kind": "field",
-              "name": "helper",
-              "privacy": "public",
-              "description": "Helper text under the field.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "attribute": "helper"
-            },
-            {
-              "kind": "field",
-              "name": "error",
-              "privacy": "public",
-              "description": "Error text. Setting it marks the field invalid.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "attribute": "error"
-            },
-            {
-              "kind": "field",
-              "name": "placeholder",
-              "privacy": "public",
-              "description": "Disabled first option shown until the user chooses.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "attribute": "placeholder"
-            },
-            {
-              "kind": "field",
-              "name": "value",
-              "privacy": "public",
-              "description": "Selected option value.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "attribute": "value"
-            },
-            {
-              "kind": "field",
-              "name": "name",
-              "privacy": "public",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "attribute": "name"
-            },
-            {
-              "kind": "field",
-              "name": "required",
-              "privacy": "public",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "required",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "disabled",
-              "privacy": "public",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "disabled",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "size",
-              "privacy": "public",
-              "description": "Height: sm 32px, md 36px, lg 40px.",
-              "type": {
-                "text": "'sm' | 'md' | 'lg'"
-              },
-              "default": "'md'",
-              "attribute": "size",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "form",
-              "readonly": true
-            },
-            {
-              "kind": "method",
-              "name": "checkValidity"
-            },
-            {
-              "kind": "method",
-              "name": "reportValidity"
-            }
-          ],
-          "events": [
-            {
-              "description": "A new option was chosen. Re-dispatched from the host.",
-              "name": "change"
-            }
-          ],
-          "attributes": [
-            {
-              "name": "label",
-              "description": "Visible label. With no visible label, set `aria-label` on the element instead; it is forwarded to the native select.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "fieldName": "label"
-            },
-            {
-              "name": "helper",
-              "description": "Helper text under the field.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "fieldName": "helper"
-            },
-            {
-              "name": "error",
-              "description": "Error text. Setting it marks the field invalid.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "fieldName": "error"
-            },
-            {
-              "name": "placeholder",
-              "description": "Disabled first option shown until the user chooses.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "fieldName": "placeholder"
-            },
-            {
-              "name": "value",
-              "description": "Selected option value.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "fieldName": "value"
-            },
-            {
-              "name": "name",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "fieldName": "name"
-            },
-            {
-              "name": "required",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "required"
-            },
-            {
-              "name": "disabled",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "disabled"
-            },
-            {
-              "name": "size",
-              "description": "Height: sm 32px, md 36px, lg 40px.",
-              "type": {
-                "text": "'sm' | 'md' | 'lg'"
-              },
-              "default": "'md'",
-              "fieldName": "size"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "ht-select",
-          "customElement": true,
-          "summary": "Select field."
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "HtSelect",
-          "declaration": {
-            "name": "HtSelect",
-            "module": "src/components/select/select.ts"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "ht-select",
-          "declaration": {
-            "name": "HtSelect",
-            "module": "src/components/select/select.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
       "path": "src/components/speech-bubble/speech-bubble.ts",
       "declarations": [
         {
@@ -2774,104 +2774,6 @@
     },
     {
       "kind": "javascript-module",
-      "path": "src/components/tag/tag.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "Small outlined label for status, counts and metadata. 1px border and text share one\ncolour, with a transparent fill (after PostHog's `LemonTag`).",
-          "name": "HtTag",
-          "cssParts": [
-            {
-              "description": "The tag box.",
-              "name": "base"
-            }
-          ],
-          "slots": [
-            {
-              "description": "Tag text.",
-              "name": ""
-            },
-            {
-              "description": "Icon or dot before the text.",
-              "name": "prefix"
-            }
-          ],
-          "members": [
-            {
-              "kind": "field",
-              "name": "tone",
-              "privacy": "public",
-              "description": "Colour. `neutral` is the default.",
-              "type": {
-                "text": "'neutral' | 'accent' | 'success' | 'warning' | 'danger' | 'info'"
-              },
-              "default": "'neutral'",
-              "attribute": "tone",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "size",
-              "privacy": "public",
-              "description": "Height: sm 16px with 10px text, md 20px with 12px text.",
-              "type": {
-                "text": "'sm' | 'md'"
-              },
-              "default": "'sm'",
-              "attribute": "size",
-              "reflects": true
-            }
-          ],
-          "attributes": [
-            {
-              "name": "tone",
-              "description": "Colour. `neutral` is the default.",
-              "type": {
-                "text": "'neutral' | 'accent' | 'success' | 'warning' | 'danger' | 'info'"
-              },
-              "default": "'neutral'",
-              "fieldName": "tone"
-            },
-            {
-              "name": "size",
-              "description": "Height: sm 16px with 10px text, md 20px with 12px text.",
-              "type": {
-                "text": "'sm' | 'md'"
-              },
-              "default": "'sm'",
-              "fieldName": "size"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "ht-tag",
-          "customElement": true,
-          "summary": "Status or metadata tag."
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "HtTag",
-          "declaration": {
-            "name": "HtTag",
-            "module": "src/components/tag/tag.ts"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "ht-tag",
-          "declaration": {
-            "name": "HtTag",
-            "module": "src/components/tag/tag.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
       "path": "src/components/tabs/tabs.ts",
       "declarations": [
         {
@@ -3139,6 +3041,104 @@
           "declaration": {
             "name": "ctor",
             "module": "src/components/tabs/tabs.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/tag/tag.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Small outlined label for status, counts and metadata. 1px border and text share one\ncolour, with a transparent fill (after PostHog's `LemonTag`).",
+          "name": "HtTag",
+          "cssParts": [
+            {
+              "description": "The tag box.",
+              "name": "base"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Tag text.",
+              "name": ""
+            },
+            {
+              "description": "Icon or dot before the text.",
+              "name": "prefix"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "tone",
+              "privacy": "public",
+              "description": "Colour. `neutral` is the default.",
+              "type": {
+                "text": "'neutral' | 'accent' | 'success' | 'warning' | 'danger' | 'info'"
+              },
+              "default": "'neutral'",
+              "attribute": "tone",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "privacy": "public",
+              "description": "Height: sm 16px with 10px text, md 20px with 12px text.",
+              "type": {
+                "text": "'sm' | 'md'"
+              },
+              "default": "'sm'",
+              "attribute": "size",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "tone",
+              "description": "Colour. `neutral` is the default.",
+              "type": {
+                "text": "'neutral' | 'accent' | 'success' | 'warning' | 'danger' | 'info'"
+              },
+              "default": "'neutral'",
+              "fieldName": "tone"
+            },
+            {
+              "name": "size",
+              "description": "Height: sm 16px with 10px text, md 20px with 12px text.",
+              "type": {
+                "text": "'sm' | 'md'"
+              },
+              "default": "'sm'",
+              "fieldName": "size"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-tag",
+          "customElement": true,
+          "summary": "Status or metadata tag."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtTag",
+          "declaration": {
+            "name": "HtTag",
+            "module": "src/components/tag/tag.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-tag",
+          "declaration": {
+            "name": "HtTag",
+            "module": "src/components/tag/tag.ts"
           }
         }
       ]

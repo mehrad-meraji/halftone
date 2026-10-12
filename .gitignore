@@ -3,3 +3,6 @@ dist
 storybook-static
 *.tsbuildinfo
 .DS_Store
+registry
+.registry-js
+.tmp-test

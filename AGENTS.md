@@ -2,7 +2,8 @@
 
 - Components are Lit, TypeScript, **no decorators** (static `properties` + `declare` fields).
 - One folder per component: `src/components/<name>/<name>.ts` and `<name>.stories.ts`. Tag is `ht-<name>`.
-- A component file imports only `lit`. No cross-component imports, so the file stays copyable (copy mode).
+- A component file imports only `lit`. No cross-component imports, so the file stays copyable (copy mode). `npm run registry` fails the build if one does, and `halftone add` ships exactly these files.
+- One folder is one `halftone add` unit. Elements that only make sense together (tabs, radio group, toast + toaster) live in one file. Never put runtime code in `*.stories.ts`: stories are not copied.
 - Document every public attribute, slot, part and CSS variable with JSDoc (`@slot`, `@csspart`, `@cssprop`, `@fires`). The manifest and Storybook docs are generated from it.
 - Style only through `--ht-*` tokens (`src/tokens/tokens.css`). It is a required stylesheet, so no per-use fallbacks. No hard-coded colors, radii or fonts.
 - Visual language: radii 2/6/10px, Chakra Petch for headings, IBM Plex Mono uppercase for eyebrows, Geist for UI. Labels in Title Case, sentences in sentence case, dry tone.

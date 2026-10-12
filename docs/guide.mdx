@@ -65,13 +65,30 @@ ht-input::part(control) { border-radius: 999px; }
 
 ## Copy mode
 
-Each component is a single file that imports only `lit`. If you want to own it, copy `src/components/<name>/<name>.ts` plus `tokens.css` into your project and edit freely. A `halftone add` command is planned.
+Prefer to own the code? Each component is a single file that imports only `lit`:
+
+```bash
+npx @_mehrad/halftone add button input tabs
+```
+
+This copies the components and `tokens.css` into `src/components/halftone/` (TypeScript if you have a `tsconfig.json`, readable JavaScript otherwise) and writes `halftone.json`. Edit the files freely; nothing links back to the package.
+
+| Command | What it does |
+|---|---|
+| `add <name...>` / `add --all` | Copy components. Never overwrites a file you edited unless `--overwrite`. |
+| `list` | Show every component and the elements it defines. |
+| `diff` | Compare your copies with the packaged source (`same`, `modified`, `missing`). |
+| `init` | Write `halftone.json` and `tokens.css` only. |
+| `--dry-run`, `--dir`, `--ts`, `--js`, `--no-tokens`, `--install` | Preview, choose the folder, force a language, skip tokens, install `lit`. |
+
+Components that define more than one element come as one file: `tabs` gives `ht-tabs`, `ht-tab` and `ht-tab-panel`; `radio` gives `ht-radio-group` and `ht-radio`; `checkbox` and `toast` do the same.
 
 ## For agents
 
 Read `custom-elements.json` (shipped in the package) instead of guessing. It lists every tag with its attributes, slots, CSS parts, CSS variables and events.
 
 - Prefer the documented attributes. Don't reach into shadow DOM; use `::part()`.
+- To use a component in a project, run `npx @_mehrad/halftone add <name>` rather than hand-copying files; it also copies `tokens.css` and reports the import lines.
 - Labels use Title Case, sentences use sentence case (`Delete Project`, not `delete project`).
 - Always give `ht-input` a `label`.
 - Dialogs: open with `dialog.show()` or the `open` attribute; listen for `ht-close`. Put the primary action first in the footer.
