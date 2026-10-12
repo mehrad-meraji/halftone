@@ -16,6 +16,8 @@ Components use `var(--ht-*)` with no inline fallbacks. Copy mode therefore means
 `ht-button` listens for `click` on the host, not the inner `<button>`, so `el.click()` still submits or resets the form.
 
 ## 2026-10-12 — Component styles come from sentry.io, starting with buttons
-Took the mechanics of Sentry's `btn-new` system, not its colours: uppercase 700 label with 0.2px tracking, 2px border (transparent on most variants), 2px underline shadow on solid variants, 0.2s transitions, 2px focus outline with 2px offset, and the gradient "glow" variants (background-size 250%, position 98% to 2% on hover; outlined version draws the border with a masked pseudo-element). Colours stay on Halftone tokens; the glow palette is `--ht-glow-*` and flips between light and dark. Sizes follow Sentry (30px small, 40px default) plus xs 24 and lg 48. Radius uses `--ht-radius-md` (6px) rather than Sentry's 8px to stay inside the radius scale.
-Variants renamed: `secondary` is now the outlined one, the old neutral `secondary` is `default`, `ghost` is `quiet`; added `glow` and `glow-outline`. `href` renders a real `<a>`.
-Follow-up: `ht-input` is still 32px, buttons are now 40px. Align inputs when they get the Sentry treatment.
+Source is the app's sign-in page (sentry.io/auth/login), not the marketing site. I first read the marketing page's buttons by mistake (uppercase, gradient "glow" variants); those were removed.
+
+Taken from the app's button: the keycap construction. A plate (`::before`, darker, with a 2px shadow) sits under a face (`::after`, 1px plate-coloured border) that is raised 2px (`--_lift`); hover raises it to 3px, active presses it to 0, disabled sits at 0. The label rides with the face. 120ms `cubic-bezier(0.8, -0.4, 0.5, 1)`. Focus is a 2px ring around face and plate; solid variants get a 2px dotted inner border instead. Sizes 24/28/32/36px, weight 500, sentence/Title Case, no uppercase. A `quiet` variant is flat with a 6%/10% hover/active tint and no plate.
+
+Colours stay on Halftone tokens: plate = the face mixed 62% toward black for primary/danger, `--ht-border-strong` for default. Variants are `primary`, `default`, `danger`, `quiet`. Added `href` (renders `<a>`) and `block` (full width). Removed `secondary` and `glow*` and the `--ht-glow-*` tokens. Button `md` is 32px, so it lines up with `ht-input`.
