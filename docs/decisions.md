@@ -136,3 +136,14 @@ Decisions:
 - Not done: duotone and thin built in (weight and size), a searchable gallery with all 1,500 names, an `ht-icon` slot-aware button (`<ht-button icon="plus">`).
 
 Re-verified after the change: typecheck, build, 10 CLI tests, and axe over all 109 stories in light and dark with zero violations.
+
+## 2026-10-12 — "Docs don't work in dev": stale dev server, then pre-bundle
+Symptom: every docs page (Guide and each component's Docs tab) showed "Failed to fetch dynamically imported module .../docs/guide.mdx" on `localhost:6006`.
+
+Cause: an 18-minute-old Storybook process still held port 6006 and had gone stale. Its Vite dependency cache no longer matched the files (console: `504 Outdated Optimize Dep`), and a newly started server quietly took 6007, so the browser kept talking to the stale one. The repo itself was fine: on a clean server all 19 docs pages rendered with their props tables.
+
+What changed:
+- `.storybook/main.ts` pre-bundles `lit` and the three `lit/directives` the components import (`if-defined`, `live`, `unsafe-svg`). Vite used to discover them one at a time, re-optimise mid-session and invalidate open tabs; `unsafe-svg` arrived with the icon component. A fresh start now logs no re-optimisation.
+- `npm run dev:fresh` clears `node_modules/.cache/storybook` and `.vite`, then starts on 6006.
+
+If docs fail again: check the port in the terminal output (it may not be 6006), stop every Storybook process, then `npm run dev:fresh`.

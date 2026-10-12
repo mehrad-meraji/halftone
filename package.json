@@ -50,7 +50,8 @@
     "llms": "node scripts/build-llms.mjs",
     "prepack": "npm run build",
     "pack:check": "npm pack --dry-run",
-    "icons": "node scripts/build-icons.mjs"
+    "icons": "node scripts/build-icons.mjs",
+    "dev:fresh": "rm -rf node_modules/.cache/storybook node_modules/.vite && storybook dev -p 6006"
   },
   "devDependencies": {
     "@custom-elements-manifest/analyzer": "^0.11.0",
