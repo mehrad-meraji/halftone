@@ -23,7 +23,7 @@ export const Confirm: StoryObj = {
     <ht-dialog eyebrow="Danger Zone" heading="Delete sentinel?">
       This removes 4,212 issues and every monitor. There is no undo, and no one is coming to help.
       <ht-button slot="footer" variant="danger" @click=${(e: Event) => (e.target as any).closest('ht-dialog').close()}>Delete It</ht-button>
-      <ht-button slot="footer" variant="secondary" @click=${(e: Event) => (e.target as any).closest('ht-dialog').close()}>Cancel</ht-button>
+      <ht-button slot="footer" variant="default" @click=${(e: Event) => (e.target as any).closest('ht-dialog').close()}>Cancel</ht-button>
     </ht-dialog>`,
 };
 
@@ -33,7 +33,7 @@ export const Form: StoryObj = {
     <ht-dialog eyebrow="Create" heading="New project">
       <ht-input label="Name" placeholder="halftone" helper="You can rename it later."></ht-input>
       <ht-button slot="footer" @click=${(e: Event) => (e.target as any).closest('ht-dialog').close()}>Create</ht-button>
-      <ht-button slot="footer" variant="secondary" @click=${(e: Event) => (e.target as any).closest('ht-dialog').close()}>Cancel</ht-button>
+      <ht-button slot="footer" variant="default" @click=${(e: Event) => (e.target as any).closest('ht-dialog').close()}>Cancel</ht-button>
     </ht-dialog>`,
 };
 

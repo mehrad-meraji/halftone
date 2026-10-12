@@ -24,10 +24,10 @@ export const BodyOnly: StoryObj = { args: { eyebrow: '', heading: '' } };
 export const WithActionsAndFooter: StoryObj = {
   render: () => html`
     <ht-card style="width:360px" eyebrow="Deploy" heading="v0.4.2 to production">
-      <ht-button slot="actions" variant="ghost" size="xs">Logs</ht-button>
+      <ht-button slot="actions" variant="quiet" size="xs">Logs</ht-button>
       Rolled out in 38s. No errors. Suspicious.
       <div slot="footer" style="display:flex;justify-content:flex-end;gap:8px">
-        <ht-button variant="secondary" size="sm">Roll Back</ht-button>
+        <ht-button variant="default" size="sm">Roll Back</ht-button>
         <ht-button size="sm">Promote</ht-button>
       </div>
     </ht-card>`,

@@ -14,3 +14,8 @@ Components use `var(--ht-*)` with no inline fallbacks. Copy mode therefore means
 
 ## 2026-10-09 — Button click handled on the host
 `ht-button` listens for `click` on the host, not the inner `<button>`, so `el.click()` still submits or resets the form.
+
+## 2026-10-12 — Component styles come from sentry.io, starting with buttons
+Took the mechanics of Sentry's `btn-new` system, not its colours: uppercase 700 label with 0.2px tracking, 2px border (transparent on most variants), 2px underline shadow on solid variants, 0.2s transitions, 2px focus outline with 2px offset, and the gradient "glow" variants (background-size 250%, position 98% to 2% on hover; outlined version draws the border with a masked pseudo-element). Colours stay on Halftone tokens; the glow palette is `--ht-glow-*` and flips between light and dark. Sizes follow Sentry (30px small, 40px default) plus xs 24 and lg 48. Radius uses `--ht-radius-md` (6px) rather than Sentry's 8px to stay inside the radius scale.
+Variants renamed: `secondary` is now the outlined one, the old neutral `secondary` is `default`, `ghost` is `quiet`; added `glow` and `glow-outline`. `href` renders a real `<a>`.
+Follow-up: `ht-input` is still 32px, buttons are now 40px. Align inputs when they get the Sentry treatment.

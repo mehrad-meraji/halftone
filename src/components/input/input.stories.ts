@@ -49,7 +49,7 @@ export const InForm: StoryObj = {
       <ht-input name="nickname" label="Nickname" value="Sentinel Prime"></ht-input>
       <div style="display:flex;gap:8px">
         <ht-button type="submit">Save</ht-button>
-        <ht-button type="reset" variant="secondary">Reset</ht-button>
+        <ht-button type="reset" variant="default">Reset</ht-button>
       </div>
       <pre style="margin:0;font:400 12px var(--ht-font-mono);color:var(--ht-text-muted)">submit to see FormData</pre>
     </form>`,

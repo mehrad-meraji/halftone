@@ -8,7 +8,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "Action button. 1px border, sharp corners, accent fill for the primary action.",
+          "description": "Action button, modelled on Sentry's button system: uppercase bold label, 2px border,\na 2px underline shadow on the solid variant, and gradient \"glow\" variants that sweep\nin on hover. Renders a link when `href` is set.",
           "name": "HtButton",
           "cssProperties": [
             {
@@ -19,7 +19,7 @@
           ],
           "cssParts": [
             {
-              "description": "The inner native `<button>`.",
+              "description": "The inner native `<button>` or `<a>`.",
               "name": "base"
             }
           ],
@@ -42,9 +42,9 @@
               "kind": "field",
               "name": "variant",
               "privacy": "public",
-              "description": "Visual style.",
+              "description": "`primary` solid accent, `default` neutral, `secondary` outlined, `quiet` text only,\n`danger` solid red, `glow` gradient sweep fill, `glow-outline` gradient border.",
               "type": {
-                "text": "'primary' | 'secondary' | 'ghost' | 'danger'"
+                "text": "'primary' | 'default' | 'secondary' | 'quiet' | 'danger' | 'glow' | 'glow-outline'"
               },
               "default": "'primary'",
               "attribute": "variant",
@@ -54,7 +54,7 @@
               "kind": "field",
               "name": "size",
               "privacy": "public",
-              "description": "Height: xs 24px, sm 28px, md 32px, lg 40px.",
+              "description": "Height: xs 24px, sm 30px, md 40px, lg 48px.",
               "type": {
                 "text": "'xs' | 'sm' | 'md' | 'lg'"
               },
@@ -78,7 +78,7 @@
               "kind": "field",
               "name": "type",
               "privacy": "public",
-              "description": "Native button behaviour inside a form.",
+              "description": "Native button behaviour inside a form. Ignored when `href` is set.",
               "type": {
                 "text": "'button' | 'submit' | 'reset'"
               },
@@ -88,12 +88,34 @@
             },
             {
               "kind": "field",
+              "name": "href",
+              "privacy": "public",
+              "description": "Renders an `<a>` and navigates instead of acting as a button.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "href"
+            },
+            {
+              "kind": "field",
+              "name": "target",
+              "privacy": "public",
+              "description": "Link target. `_blank` also sets `rel=\"noopener noreferrer\"`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "target"
+            },
+            {
+              "kind": "field",
               "name": "flush",
               "privacy": "public",
               "type": {
                 "text": "boolean"
               },
-              "description": "Fills its container's height with no border or shadow. Used in dialog footers.",
+              "description": "Fills its container's height with no border or shadow. Set automatically by `ht-dialog` footers.",
               "default": "false",
               "attribute": "flush",
               "reflects": true
@@ -102,16 +124,16 @@
           "attributes": [
             {
               "name": "variant",
-              "description": "Visual style.",
+              "description": "`primary` solid accent, `default` neutral, `secondary` outlined, `quiet` text only,\n`danger` solid red, `glow` gradient sweep fill, `glow-outline` gradient border.",
               "type": {
-                "text": "'primary' | 'secondary' | 'ghost' | 'danger'"
+                "text": "'primary' | 'default' | 'secondary' | 'quiet' | 'danger' | 'glow' | 'glow-outline'"
               },
               "default": "'primary'",
               "fieldName": "variant"
             },
             {
               "name": "size",
-              "description": "Height: xs 24px, sm 28px, md 32px, lg 40px.",
+              "description": "Height: xs 24px, sm 30px, md 40px, lg 48px.",
               "type": {
                 "text": "'xs' | 'sm' | 'md' | 'lg'"
               },
@@ -129,7 +151,7 @@
             },
             {
               "name": "type",
-              "description": "Native button behaviour inside a form.",
+              "description": "Native button behaviour inside a form. Ignored when `href` is set.",
               "type": {
                 "text": "'button' | 'submit' | 'reset'"
               },
@@ -137,11 +159,29 @@
               "fieldName": "type"
             },
             {
+              "name": "href",
+              "description": "Renders an `<a>` and navigates instead of acting as a button.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "href"
+            },
+            {
+              "name": "target",
+              "description": "Link target. `_blank` also sets `rel=\"noopener noreferrer\"`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "target"
+            },
+            {
               "name": "flush",
               "type": {
                 "text": "boolean"
               },
-              "description": "Fills its container's height with no border or shadow. Used in dialog footers.",
+              "description": "Fills its container's height with no border or shadow. Set automatically by `ht-dialog` footers.",
               "default": "false",
               "fieldName": "flush"
             }
@@ -152,7 +192,7 @@
           },
           "tagName": "ht-button",
           "customElement": true,
-          "summary": "Primary action control. Submits or resets its form like a native button."
+          "summary": "Action control. Submits or resets its form like a native button, or navigates when `href` is set."
         }
       ],
       "exports": [
@@ -170,6 +210,341 @@
           "declaration": {
             "name": "HtButton",
             "module": "src/components/button/button.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/card/card.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Surface for grouping related content. Optional header strip (with the halftone dot\nscreen) and footer.",
+          "name": "HtCard",
+          "cssParts": [
+            {
+              "description": "The card box.",
+              "name": "base"
+            },
+            {
+              "description": "The header strip.",
+              "name": "header"
+            },
+            {
+              "description": "The body wrapper.",
+              "name": "body"
+            },
+            {
+              "description": "The footer strip.",
+              "name": "footer"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Card body.",
+              "name": ""
+            },
+            {
+              "description": "Replaces the `eyebrow` / `heading` header.",
+              "name": "header"
+            },
+            {
+              "description": "Right side of the header, e.g. a menu button.",
+              "name": "actions"
+            },
+            {
+              "description": "Footer strip. Hidden when empty.",
+              "name": "footer"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "eyebrow",
+              "privacy": "public",
+              "description": "Small uppercase mono label above the heading.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "eyebrow"
+            },
+            {
+              "kind": "field",
+              "name": "heading",
+              "privacy": "public",
+              "description": "Heading text. Use the `header` slot for anything richer.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "heading"
+            },
+            {
+              "kind": "field",
+              "name": "variant",
+              "privacy": "public",
+              "description": "`muted` drops the shadow and tints the surface.",
+              "type": {
+                "text": "'default' | 'muted'"
+              },
+              "default": "'default'",
+              "attribute": "variant",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "interactive",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Adds hover feedback. Use when the whole card is a click target.",
+              "default": "false",
+              "attribute": "interactive",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "eyebrow",
+              "description": "Small uppercase mono label above the heading.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "eyebrow"
+            },
+            {
+              "name": "heading",
+              "description": "Heading text. Use the `header` slot for anything richer.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "heading"
+            },
+            {
+              "name": "variant",
+              "description": "`muted` drops the shadow and tints the surface.",
+              "type": {
+                "text": "'default' | 'muted'"
+              },
+              "default": "'default'",
+              "fieldName": "variant"
+            },
+            {
+              "name": "interactive",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Adds hover feedback. Use when the whole card is a click target.",
+              "default": "false",
+              "fieldName": "interactive"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-card",
+          "customElement": true,
+          "summary": "Content container."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtCard",
+          "declaration": {
+            "name": "HtCard",
+            "module": "src/components/card/card.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-card",
+          "declaration": {
+            "name": "HtCard",
+            "module": "src/components/card/card.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/dialog/dialog.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Modal dialog on the native `<dialog>` element: focus trap, Escape to close and\ntop-layer stacking come from the browser.\n\nFooter buttons flush to the bottom edge with mixed corner radii (Taskscape's signature).\nPut the primary action first; `ht-button`s in the footer get `flush` set automatically.",
+          "name": "HtDialog",
+          "cssProperties": [
+            {
+              "description": "Maximum dialog width.",
+              "name": "--ht-dialog-width",
+              "default": "32rem"
+            }
+          ],
+          "cssParts": [
+            {
+              "description": "The native `<dialog>`.",
+              "name": "dialog"
+            },
+            {
+              "description": "The header row.",
+              "name": "header"
+            },
+            {
+              "description": "The scrolling body.",
+              "name": "body"
+            },
+            {
+              "description": "The footer row.",
+              "name": "footer"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Dialog body.",
+              "name": ""
+            },
+            {
+              "description": "Replaces the `heading` text.",
+              "name": "title"
+            },
+            {
+              "description": "Footer buttons. Hidden when empty.",
+              "name": "footer"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "open",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Shows the dialog. Reflects: closing from inside updates it.",
+              "default": "false",
+              "attribute": "open",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "heading",
+              "privacy": "public",
+              "description": "Title text. Use the `title` slot for anything richer.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "heading"
+            },
+            {
+              "kind": "field",
+              "name": "eyebrow",
+              "privacy": "public",
+              "description": "Small uppercase mono label above the title.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "eyebrow"
+            },
+            {
+              "kind": "field",
+              "name": "persistent",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Blocks Escape and backdrop-click dismissal and hides the close button.",
+              "default": "false",
+              "attribute": "persistent",
+              "reflects": true
+            },
+            {
+              "kind": "method",
+              "name": "show",
+              "description": "Opens the dialog."
+            },
+            {
+              "kind": "method",
+              "name": "close",
+              "description": "Closes the dialog."
+            }
+          ],
+          "events": [
+            {
+              "description": "The dialog closed, by any route (Escape, backdrop, close button, `open = false`).",
+              "name": "ht-close"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Shows the dialog. Reflects: closing from inside updates it.",
+              "default": "false",
+              "fieldName": "open"
+            },
+            {
+              "name": "heading",
+              "description": "Title text. Use the `title` slot for anything richer.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "heading"
+            },
+            {
+              "name": "eyebrow",
+              "description": "Small uppercase mono label above the title.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "eyebrow"
+            },
+            {
+              "name": "persistent",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Blocks Escape and backdrop-click dismissal and hides the close button.",
+              "default": "false",
+              "fieldName": "persistent"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-dialog",
+          "customElement": true,
+          "summary": "Modal dialog."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtDialog",
+          "declaration": {
+            "name": "HtDialog",
+            "module": "src/components/dialog/dialog.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-dialog",
+          "declaration": {
+            "name": "HtDialog",
+            "module": "src/components/dialog/dialog.ts"
           }
         }
       ]
@@ -530,183 +905,6 @@
     },
     {
       "kind": "javascript-module",
-      "path": "src/components/dialog/dialog.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "Modal dialog on the native `<dialog>` element: focus trap, Escape to close and\ntop-layer stacking come from the browser.\n\nFooter buttons flush to the bottom edge with mixed corner radii (Taskscape's signature).\nPut the primary action first; `ht-button`s in the footer get `flush` set automatically.",
-          "name": "HtDialog",
-          "cssProperties": [
-            {
-              "description": "Maximum dialog width.",
-              "name": "--ht-dialog-width",
-              "default": "32rem"
-            }
-          ],
-          "cssParts": [
-            {
-              "description": "The native `<dialog>`.",
-              "name": "dialog"
-            },
-            {
-              "description": "The header row.",
-              "name": "header"
-            },
-            {
-              "description": "The scrolling body.",
-              "name": "body"
-            },
-            {
-              "description": "The footer row.",
-              "name": "footer"
-            }
-          ],
-          "slots": [
-            {
-              "description": "Dialog body.",
-              "name": ""
-            },
-            {
-              "description": "Replaces the `heading` text.",
-              "name": "title"
-            },
-            {
-              "description": "Footer buttons. Hidden when empty.",
-              "name": "footer"
-            }
-          ],
-          "members": [
-            {
-              "kind": "field",
-              "name": "open",
-              "privacy": "public",
-              "type": {
-                "text": "boolean"
-              },
-              "description": "Shows the dialog. Reflects: closing from inside updates it.",
-              "default": "false",
-              "attribute": "open",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "heading",
-              "privacy": "public",
-              "description": "Title text. Use the `title` slot for anything richer.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "attribute": "heading"
-            },
-            {
-              "kind": "field",
-              "name": "eyebrow",
-              "privacy": "public",
-              "description": "Small uppercase mono label above the title.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "attribute": "eyebrow"
-            },
-            {
-              "kind": "field",
-              "name": "persistent",
-              "privacy": "public",
-              "type": {
-                "text": "boolean"
-              },
-              "description": "Blocks Escape and backdrop-click dismissal and hides the close button.",
-              "default": "false",
-              "attribute": "persistent",
-              "reflects": true
-            },
-            {
-              "kind": "method",
-              "name": "show",
-              "description": "Opens the dialog."
-            },
-            {
-              "kind": "method",
-              "name": "close",
-              "description": "Closes the dialog."
-            }
-          ],
-          "events": [
-            {
-              "description": "The dialog closed, by any route (Escape, backdrop, close button, `open = false`).",
-              "name": "ht-close"
-            }
-          ],
-          "attributes": [
-            {
-              "name": "open",
-              "type": {
-                "text": "boolean"
-              },
-              "description": "Shows the dialog. Reflects: closing from inside updates it.",
-              "default": "false",
-              "fieldName": "open"
-            },
-            {
-              "name": "heading",
-              "description": "Title text. Use the `title` slot for anything richer.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "fieldName": "heading"
-            },
-            {
-              "name": "eyebrow",
-              "description": "Small uppercase mono label above the title.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "fieldName": "eyebrow"
-            },
-            {
-              "name": "persistent",
-              "type": {
-                "text": "boolean"
-              },
-              "description": "Blocks Escape and backdrop-click dismissal and hides the close button.",
-              "default": "false",
-              "fieldName": "persistent"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "ht-dialog",
-          "customElement": true,
-          "summary": "Modal dialog."
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "HtDialog",
-          "declaration": {
-            "name": "HtDialog",
-            "module": "src/components/dialog/dialog.ts"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "ht-dialog",
-          "declaration": {
-            "name": "HtDialog",
-            "module": "src/components/dialog/dialog.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
       "path": "src/components/speech-bubble/speech-bubble.ts",
       "declarations": [
         {
@@ -840,164 +1038,6 @@
           "declaration": {
             "name": "HtSpeechBubble",
             "module": "src/components/speech-bubble/speech-bubble.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/components/card/card.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "Surface for grouping related content. Optional header strip (with the halftone dot\nscreen) and footer.",
-          "name": "HtCard",
-          "cssParts": [
-            {
-              "description": "The card box.",
-              "name": "base"
-            },
-            {
-              "description": "The header strip.",
-              "name": "header"
-            },
-            {
-              "description": "The body wrapper.",
-              "name": "body"
-            },
-            {
-              "description": "The footer strip.",
-              "name": "footer"
-            }
-          ],
-          "slots": [
-            {
-              "description": "Card body.",
-              "name": ""
-            },
-            {
-              "description": "Replaces the `eyebrow` / `heading` header.",
-              "name": "header"
-            },
-            {
-              "description": "Right side of the header, e.g. a menu button.",
-              "name": "actions"
-            },
-            {
-              "description": "Footer strip. Hidden when empty.",
-              "name": "footer"
-            }
-          ],
-          "members": [
-            {
-              "kind": "field",
-              "name": "eyebrow",
-              "privacy": "public",
-              "description": "Small uppercase mono label above the heading.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "attribute": "eyebrow"
-            },
-            {
-              "kind": "field",
-              "name": "heading",
-              "privacy": "public",
-              "description": "Heading text. Use the `header` slot for anything richer.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "attribute": "heading"
-            },
-            {
-              "kind": "field",
-              "name": "variant",
-              "privacy": "public",
-              "description": "`muted` drops the shadow and tints the surface.",
-              "type": {
-                "text": "'default' | 'muted'"
-              },
-              "default": "'default'",
-              "attribute": "variant",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "interactive",
-              "privacy": "public",
-              "type": {
-                "text": "boolean"
-              },
-              "description": "Adds hover feedback. Use when the whole card is a click target.",
-              "default": "false",
-              "attribute": "interactive",
-              "reflects": true
-            }
-          ],
-          "attributes": [
-            {
-              "name": "eyebrow",
-              "description": "Small uppercase mono label above the heading.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "fieldName": "eyebrow"
-            },
-            {
-              "name": "heading",
-              "description": "Heading text. Use the `header` slot for anything richer.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "fieldName": "heading"
-            },
-            {
-              "name": "variant",
-              "description": "`muted` drops the shadow and tints the surface.",
-              "type": {
-                "text": "'default' | 'muted'"
-              },
-              "default": "'default'",
-              "fieldName": "variant"
-            },
-            {
-              "name": "interactive",
-              "type": {
-                "text": "boolean"
-              },
-              "description": "Adds hover feedback. Use when the whole card is a click target.",
-              "default": "false",
-              "fieldName": "interactive"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "ht-card",
-          "customElement": true,
-          "summary": "Content container."
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "HtCard",
-          "declaration": {
-            "name": "HtCard",
-            "module": "src/components/card/card.ts"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "ht-card",
-          "declaration": {
-            "name": "HtCard",
-            "module": "src/components/card/card.ts"
           }
         }
       ]
