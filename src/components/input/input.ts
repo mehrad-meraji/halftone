@@ -3,7 +3,7 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 import { live } from 'lit/directives/live.js';
 
 /**
- * Single-line text field with label, helper and error text. Participates in forms,
+ * Single-line text field with label, helper and error text, styled like Sentry's app fields. Participates in forms,
  * constraint validation and form reset like a native input.
  *
  * @tag ht-input
@@ -44,7 +44,7 @@ export class HtInput extends LitElement {
     required: { type: Boolean, reflect: true },
     disabled: { type: Boolean, reflect: true },
     readonly: { type: Boolean, reflect: true },
-    /** Height: sm 28px, md 32px, lg 40px. */
+    /** Height: sm 32px, md 36px, lg 40px. */
     size: { reflect: true },
     _touched: { state: true },
     _formDisabled: { state: true },
@@ -97,47 +97,48 @@ export class HtInput extends LitElement {
   static styles = css`
     :host {
       display: block;
-      --_h: 32px;
+      --_h: 2.25rem;
     }
-    :host([size='sm']) { --_h: 28px; }
-    :host([size='lg']) { --_h: 40px; }
+    :host([size='sm']) { --_h: 2rem; }
+    :host([size='lg']) { --_h: 2.5rem; }
     label {
       display: block;
       margin-bottom: 6px;
-      font: 500 0.8125rem/1.2 var(--ht-font-ui);
+      font: 500 0.875rem/1.2 var(--ht-font-ui);
       color: var(--ht-text);
     }
     .req { color: var(--ht-accent-text); margin-left: 2px; }
+    /* Sentry's field: faint tint, 1px border, a 1px inset line along the top edge. */
     .control {
       box-sizing: border-box;
       display: flex;
       align-items: center;
       gap: 8px;
       height: var(--_h);
-      padding-inline: 10px;
+      min-height: var(--_h);
+      padding-inline: 1rem;
       color: var(--ht-text-subtle);
-      background: var(--ht-surface-sunken);
-      border: 1px solid var(--ht-border);
-      border-radius: var(--ht-radius-sm);
-      transition: border-color var(--ht-duration) var(--ht-ease), box-shadow var(--ht-duration) var(--ht-ease);
+      background: color-mix(in oklch, var(--ht-text) 3%, transparent);
+      border: 1px solid var(--ht-border-strong);
+      border-radius: var(--ht-radius-md);
+      box-shadow: inset 0 1px 0 0 var(--ht-border-strong);
+      transition: border 120ms cubic-bezier(0.72, 0, 0.16, 1), box-shadow 120ms cubic-bezier(0.72, 0, 0.16, 1);
     }
-    .control:hover { border-color: var(--ht-border-strong); }
     .control:focus-within {
-      border-color: var(--ht-focus);
-      box-shadow: 0 0 0 3px var(--ht-accent-soft);
-      background: var(--ht-surface);
+      box-shadow: inset 0 1px 0 0 var(--ht-border-strong), 0 0 0 2px var(--ht-focus);
     }
-    .control.invalid { border-color: var(--ht-danger); }
-    .control.invalid:focus-within { box-shadow: 0 0 0 3px var(--ht-danger-soft); }
-    :host([disabled]) .control { opacity: 0.5; }
+    .control.invalid { border-color: var(--ht-danger); box-shadow: inset 0 1px 0 0 var(--ht-danger); }
+    .control.invalid:focus-within { box-shadow: inset 0 1px 0 0 var(--ht-danger), 0 0 0 2px var(--ht-danger); }
+    :host([disabled]) .control { cursor: not-allowed; }
     input {
       all: unset;
       flex: 1;
       min-width: 0;
       height: 100%;
-      font: 400 0.8125rem/1 var(--ht-font-ui);
+      font: 400 0.875rem/1rem var(--ht-font-ui);
       color: var(--ht-text);
     }
+    input:disabled { color: var(--ht-text-subtle); cursor: not-allowed; }
     input::placeholder { color: var(--ht-text-subtle); }
     .message {
       margin-top: 6px;
