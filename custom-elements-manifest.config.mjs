@@ -4,6 +4,8 @@ const HIDDEN_STATICS = ['formAssociated', 'shadowRootOptions', 'styles', 'proper
 const publicApiOnly = {
   name: 'public-api-only',
   packageLinkPhase({ customElementsManifest }) {
+    // Deterministic order, so the committed manifest does not churn between machines.
+    customElementsManifest.modules.sort((a, b) => a.path.localeCompare(b.path));
     for (const mod of customElementsManifest.modules) {
       for (const decl of mod.declarations ?? []) {
         if (decl.attributes) decl.attributes = decl.attributes.filter((a) => !a.name.startsWith('_'));
