@@ -106,3 +106,13 @@ How it works:
 - Not done: installing `lit` by default (it prints the command, `--install` runs it), per-component dependency graphs (there are none by design), a remote registry (everything ships in the package), and copying stories.
 
 Verified: 10 CLI tests (`npm test`); the copied TypeScript for all 17 units type-checks under a standalone strict tsconfig; the copied JavaScript, served by Vite in a fresh project, defines all 22 elements and tabs and radio groups behave.
+
+## 2026-10-12 — Packaging for publish
+Checked from a packed tarball installed in a clean project: the root and per-component subpaths resolve (with and without `.js`), types resolve and reject a bad `variant`, `tokens.css`, `custom-elements.json` and `llms.txt` are importable, the `halftone` bin runs, and Vite serves a page that defines all 22 elements.
+
+- `lit` moved from `dependencies` to `peerDependencies` (`^3`), with a dev copy. Two copies of lit in one page split shared state, so the consumer supplies it. The copy CLI already tells you to install it.
+- `exports` has both `./components/*.js` and `./components/*`, because the first draft only resolved the extensionless form that the README did not use.
+- `llms.txt` is generated from the manifest at build (`scripts/build-llms.mjs`) and shipped; `prepack` runs the full build so a publish can never carry a stale `dist`, registry or llms.txt.
+- Package contents: `dist`, `bin`, `registry`, `custom-elements.json`, `llms.txt`, plus LICENSE and README. 61 files, 105 kB packed; source maps are included.
+- `publishConfig` sets `access: public` and `provenance: true`. Provenance only works from a supported CI (the publish workflow); a local `npm publish` needs `--no-provenance`.
+- MIT licence, author from git config, repository URL `github.com/mehrad-meraji/halftone` (not yet created).

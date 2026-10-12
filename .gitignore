@@ -6,3 +6,4 @@ storybook-static
 registry
 .registry-js
 .tmp-test
+llms.txt

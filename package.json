@@ -6,7 +6,8 @@
   "license": "MIT",
   "sideEffects": [
     "**/*.css",
-    "./dist/components/**"
+    "./dist/components/**",
+    "./dist/index.js"
   ],
   "files": [
     "dist",
@@ -24,35 +25,72 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
+    "./components/*.js": {
+      "types": "./dist/components/*.d.ts",
+      "import": "./dist/components/*.js"
+    },
     "./components/*": {
       "types": "./dist/components/*.d.ts",
       "import": "./dist/components/*.js"
     },
     "./tokens.css": "./dist/tokens.css",
-    "./custom-elements.json": "./custom-elements.json"
+    "./custom-elements.json": "./custom-elements.json",
+    "./llms.txt": "./llms.txt",
+    "./package.json": "./package.json"
   },
   "scripts": {
     "dev": "storybook dev -p 6006",
-    "build": "vite build && tsc -p tsconfig.build.json && cp src/tokens/tokens.css dist/tokens.css && npm run manifest && npm run registry",
+    "build": "vite build && tsc -p tsconfig.build.json && cp src/tokens/tokens.css dist/tokens.css && npm run manifest && npm run llms && npm run registry",
     "manifest": "cem analyze --config custom-elements-manifest.config.mjs",
     "typecheck": "tsc --noEmit",
     "storybook:build": "npm run manifest && storybook build -o storybook-static",
     "registry": "node scripts/build-registry.mjs",
-    "test": "npm run registry && node --test scripts/"
-  },
-  "dependencies": {
-    "lit": "^3.3.3"
+    "test": "npm run registry && node --test scripts/",
+    "llms": "node scripts/build-llms.mjs",
+    "prepack": "npm run build",
+    "pack:check": "npm pack --dry-run"
   },
   "devDependencies": {
     "@custom-elements-manifest/analyzer": "^0.11.0",
     "@storybook/addon-a11y": "^10.6.1",
     "@storybook/addon-docs": "^10.6.1",
     "@storybook/web-components-vite": "^10.6.1",
+    "lit": "^3.3.3",
     "storybook": "^10.6.1",
     "typescript": "^7.0.2",
     "vite": "^8.3.4"
   },
   "bin": {
     "halftone": "./bin/halftone.mjs"
+  },
+  "author": "Mehrad Meraji <mehrad.meraji@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mehrad-meraji/halftone.git"
+  },
+  "homepage": "https://github.com/mehrad-meraji/halftone#readme",
+  "bugs": {
+    "url": "https://github.com/mehrad-meraji/halftone/issues"
+  },
+  "keywords": [
+    "web-components",
+    "lit",
+    "design-system",
+    "custom-elements",
+    "ui",
+    "components",
+    "accessible",
+    "copy-paste",
+    "shadcn-like"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "peerDependencies": {
+    "lit": "^3.0.0"
   }
 }
