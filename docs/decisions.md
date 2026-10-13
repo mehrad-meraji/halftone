@@ -158,3 +158,14 @@ Behaviour (WAI-ARIA tree pattern): one tab stop that follows the selected item; 
 Navigation use: an item with `href` renders its row as a link; the selected one gets `aria-current="page"`. I chose `role=tree` for both, which is right for a file explorer and acceptable for a docs sidebar, but a plain nested list with disclosure buttons is simpler for assistive technology on content sites. Pick the tree when users expect arrow-key file-explorer behaviour.
 
 Not built: multi-select, drag and drop, rename, context menus, lazy loading of children, virtualisation for very large trees. Checked in the browser: roles and levels, selection, caret versus row click, all the keys above, type-ahead, and axe on all six stories in both themes (0 violations). Not checked with a screen reader.
+
+## 2026-10-13 — `prepare` builds on a git install
+Why: npm was unavailable (account suspended for 72 hours), and a git install of this repo got source only, because `dist/`, `registry/` and `llms.txt` are build output and ignored by git.
+
+`scripts/prepare.mjs` runs as the `prepare` hook and builds only when this package is being installed as a dependency of another project (`INIT_CWD` differs from the repo root) and is not built yet. Inside the repo it does nothing, so `npm install`, `npm ci` and CI stay fast, and `npm publish` still uses `prepack`. npm installs a git dependency's devDependencies when it has a `prepare` script, which is what makes the build possible; `files` then decides what the install keeps.
+
+Verified from the committed state: `npm i git+file:///...#<sha> lit` into an empty project took 18 s, produced `dist`, `registry`, `llms.txt` and the manifest, ran the `halftone` bin, copied components, and resolved every export subpath.
+
+Side fix: the CLI crashed with an unhandled `EPIPE` when its output was piped into `head`; it now exits quietly (test added).
+
+Caveats: a git install needs the build toolchain, so it is slower and heavier than an npm install; it tracks whatever the ref points at. The local `v0.1.0` tag is stale, so pin a commit until the real release tag exists.

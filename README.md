@@ -25,6 +25,16 @@ Fonts are not bundled. Load Chakra Petch (display), Geist (UI) and IBM Plex Mono
 
 Theme by overriding `--ht-*` CSS variables (dark mode follows the OS, or set `data-theme`). Restyle internals through `::part()`. The full guide is in Storybook under Guide / Getting Started.
 
+### Install from GitHub
+
+Until (or instead of) the npm release, install straight from the repository. It builds itself on install, which takes about 20 seconds:
+
+```bash
+npm i github:mehrad-meraji/halftone lit
+```
+
+Pin a commit or tag for repeatable installs (`github:mehrad-meraji/halftone#<commit>`). The copy CLI works the same way: `npx github:mehrad-meraji/halftone add button`.
+
 ## Icons
 
 Icons are [Phosphor](https://phosphoricons.com) (MIT). `ht-icon` ships 50 common ones in regular, bold and fill:
