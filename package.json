@@ -42,6 +42,7 @@
   "scripts": {
     "dev": "storybook dev -p 6006",
     "build": "vite build && tsc -p tsconfig.build.json && cp src/tokens/tokens.css dist/tokens.css && npm run manifest && npm run llms && npm run registry",
+    "prepare": "node scripts/prepare.mjs",
     "manifest": "cem analyze --config custom-elements-manifest.config.mjs",
     "typecheck": "tsc --noEmit",
     "storybook:build": "npm run manifest && storybook build -o storybook-static",
