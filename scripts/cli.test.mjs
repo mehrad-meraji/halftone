@@ -106,6 +106,13 @@ test('warns when lit is missing', () => {
   assert.match(r.stdout, /need the "lit" package/);
 });
 
+test('piping into a program that closes early does not crash', () => {
+  const dir = project({ 'package.json': '{}' });
+  const r = spawnSync('sh', ['-c', `node "${bin}" list --cwd "${dir}" | head -1; echo "exit=$?"`], { encoding: 'utf8' });
+  assert.doesNotMatch(r.stderr, /EPIPE|Unhandled|at /);
+  assert.match(r.stdout, /halftone@/);
+});
+
 test('every packaged component imports only lit', () => {
   const reg = JSON.parse(readFileSync(new URL('../registry/registry.json', import.meta.url), 'utf8'));
   for (const [name, c] of Object.entries(reg.components)) {

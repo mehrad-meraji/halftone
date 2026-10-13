@@ -43,6 +43,12 @@ function parse(argv) {
   return flags;
 }
 
+// `halftone list | head` closes the pipe early; that is not an error.
+process.stdout.on('error', (e) => {
+  if (e.code === 'EPIPE') process.exit(0);
+  throw e;
+});
+
 const out = (s = '') => process.stdout.write(s + '\n');
 const fail = (s) => {
   process.stderr.write(`halftone: ${s}\n`);
