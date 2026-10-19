@@ -78,9 +78,9 @@ test('--dry-run writes nothing', () => {
 
 test('unknown component fails with a hint', () => {
   const dir = project({ 'package.json': '{}' });
-  const r = run(dir, 'add', 'carousel');
+  const r = run(dir, 'add', 'not-a-component');
   assert.equal(r.status, 1);
-  assert.match(r.stderr, /unknown component: carousel/);
+  assert.match(r.stderr, /unknown component: not-a-component/);
 });
 
 test('--dir and --no-tokens are honoured', () => {
