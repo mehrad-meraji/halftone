@@ -37,3 +37,4 @@ export { HtToggle } from './components/toggle/toggle.js';
 export { HtToggleGroup, HtToggleItem } from './components/toggle-group/toggle-group.js';
 export { HtCarousel, HtCarouselItem } from './components/carousel/carousel.js';
 export { HtNumber } from './components/number/number.js';
+export { HtShimmer } from './components/shimmer/shimmer.js';
