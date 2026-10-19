@@ -18,6 +18,8 @@ import { LitElement, css, html, nothing } from 'lit';
  *
  * @slot - Extra body content, after `description`.
  * @slot title - Replaces the `heading` text.
+ * @slot confirm - Replaces the `confirm-label` text inside the confirm action, e.g. a spinner and a label while a request runs.
+ * @slot cancel - Replaces the `cancel-label` text inside the cancel action.
  *
  * @csspart dialog - The native `<dialog>`.
  * @csspart header - The header row.
@@ -49,6 +51,10 @@ export class HtAlertDialog extends LitElement {
     confirmLabel: { attribute: 'confirm-label' },
     /** Text of the cancel action. */
     cancelLabel: { attribute: 'cancel-label' },
+    /** Disables the confirm action, e.g. until a required choice is made or while a request runs. */
+    confirmDisabled: { type: Boolean, attribute: 'confirm-disabled', reflect: true },
+    /** Disables the cancel action. Escape still cancels. */
+    cancelDisabled: { type: Boolean, attribute: 'cancel-disabled', reflect: true },
   };
 
   declare open: boolean;
@@ -58,6 +64,8 @@ export class HtAlertDialog extends LitElement {
   declare tone: 'default' | 'danger';
   declare confirmLabel: string;
   declare cancelLabel: string;
+  declare confirmDisabled: boolean;
+  declare cancelDisabled: boolean;
 
   #settled = false;
 
@@ -73,6 +81,8 @@ export class HtAlertDialog extends LitElement {
     this.tone = 'default';
     this.confirmLabel = 'Confirm';
     this.cancelLabel = 'Cancel';
+    this.confirmDisabled = false;
+    this.cancelDisabled = false;
   }
 
   static styles = css`
@@ -152,8 +162,9 @@ export class HtAlertDialog extends LitElement {
       user-select: none;
       transition: filter var(--ht-duration);
     }
-    .act:hover { filter: brightness(0.96); }
-    .act:active { filter: brightness(0.92); }
+    .act:not(:disabled):hover { filter: brightness(0.96); }
+    .act:not(:disabled):active { filter: brightness(0.92); }
+    .act:disabled { opacity: 0.5; cursor: not-allowed; }
     .confirm {
       color: var(--ht-accent-ink);
       background: var(--ht-accent);
@@ -297,8 +308,12 @@ export class HtAlertDialog extends LitElement {
           <slot></slot>
         </div>
         <footer part="footer">
-          <button part="confirm" class="act confirm" type="button" @click=${() => this.#choose('confirm')}>${this.confirmLabel}</button>
-          <button part="cancel" class="act cancel" type="button" @click=${() => this.#choose('cancel')}>${this.cancelLabel}</button>
+          <button part="confirm" class="act confirm" type="button" ?disabled=${this.confirmDisabled} @click=${() => this.#choose('confirm')}>
+            <slot name="confirm">${this.confirmLabel}</slot>
+          </button>
+          <button part="cancel" class="act cancel" type="button" ?disabled=${this.cancelDisabled} @click=${() => this.#choose('cancel')}>
+            <slot name="cancel">${this.cancelLabel}</slot>
+          </button>
         </footer>
       </dialog>
     `;
