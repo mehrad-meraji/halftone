@@ -4,6 +4,539 @@
   "modules": [
     {
       "kind": "javascript-module",
+      "path": "src/components/alert-dialog/alert-dialog.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Modal confirmation on the native `<dialog>`, with `role=\"alertdialog\"`. It interrupts to ask\none question, so it has no close button and no light dismiss: only the two actions, or\nEscape (which counts as cancel), close it. Initial focus lands on the cancel action, so a\nreflexive Enter never confirms. Focus returns to the element that opened it.\n\nThe footer repeats `ht-dialog`'s signature: two flat actions flush to the bottom edge, the\nconfirm action first with a mixed-radius corner. The buttons are drawn locally, so this file\ndoes not depend on `ht-button`.\n\n`confirm` and `cancel` are cancelable. Call `preventDefault()` on `confirm` to keep the dialog\nopen while an async action runs, then set `open = false` yourself.",
+          "name": "HtAlertDialog",
+          "cssProperties": [
+            {
+              "description": "Maximum dialog width.",
+              "name": "--ht-alert-dialog-width",
+              "default": "28rem"
+            }
+          ],
+          "cssParts": [
+            {
+              "description": "The native `<dialog>`.",
+              "name": "dialog"
+            },
+            {
+              "description": "The header row.",
+              "name": "header"
+            },
+            {
+              "description": "The body.",
+              "name": "body"
+            },
+            {
+              "description": "The footer row.",
+              "name": "footer"
+            },
+            {
+              "description": "The confirm button.",
+              "name": "confirm"
+            },
+            {
+              "description": "The cancel button.",
+              "name": "cancel"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Extra body content, after `description`.",
+              "name": ""
+            },
+            {
+              "description": "Replaces the `heading` text.",
+              "name": "title"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "open",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Shows the dialog. Reflects: closing from inside updates it.",
+              "default": "false",
+              "attribute": "open",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "heading",
+              "privacy": "public",
+              "description": "Title text. Use the `title` slot for anything richer.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "heading"
+            },
+            {
+              "kind": "field",
+              "name": "eyebrow",
+              "privacy": "public",
+              "description": "Small uppercase mono label above the title.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "eyebrow"
+            },
+            {
+              "kind": "field",
+              "name": "description",
+              "privacy": "public",
+              "description": "Body text under the title. Use the default slot for anything richer.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "description"
+            },
+            {
+              "kind": "field",
+              "name": "tone",
+              "privacy": "public",
+              "description": "`danger` colours the header and the confirm action for destructive questions.",
+              "type": {
+                "text": "'default' | 'danger'"
+              },
+              "default": "'default'",
+              "attribute": "tone",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "confirmLabel",
+              "privacy": "public",
+              "description": "Text of the confirm action.",
+              "type": {
+                "text": "string"
+              },
+              "default": "'Confirm'",
+              "attribute": "confirm-label"
+            },
+            {
+              "kind": "field",
+              "name": "cancelLabel",
+              "privacy": "public",
+              "description": "Text of the cancel action.",
+              "type": {
+                "text": "string"
+              },
+              "default": "'Cancel'",
+              "attribute": "cancel-label"
+            },
+            {
+              "kind": "method",
+              "name": "show",
+              "description": "Opens the dialog."
+            },
+            {
+              "kind": "method",
+              "name": "close",
+              "description": "Closes the dialog without firing `confirm` or `cancel`."
+            }
+          ],
+          "events": [
+            {
+              "name": "kind",
+              "type": {
+                "text": "Event"
+              }
+            },
+            {
+              "description": "The confirm action was chosen. Cancelable; does not bubble.",
+              "name": "confirm"
+            },
+            {
+              "description": "The cancel action or Escape was chosen. Cancelable when it comes from the button or a first Escape; does not bubble.",
+              "name": "cancel"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Shows the dialog. Reflects: closing from inside updates it.",
+              "default": "false",
+              "fieldName": "open"
+            },
+            {
+              "name": "heading",
+              "description": "Title text. Use the `title` slot for anything richer.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "heading"
+            },
+            {
+              "name": "eyebrow",
+              "description": "Small uppercase mono label above the title.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "eyebrow"
+            },
+            {
+              "name": "description",
+              "description": "Body text under the title. Use the default slot for anything richer.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "description"
+            },
+            {
+              "name": "tone",
+              "description": "`danger` colours the header and the confirm action for destructive questions.",
+              "type": {
+                "text": "'default' | 'danger'"
+              },
+              "default": "'default'",
+              "fieldName": "tone"
+            },
+            {
+              "name": "confirm-label",
+              "description": "Text of the confirm action.",
+              "type": {
+                "text": "string"
+              },
+              "default": "'Confirm'",
+              "fieldName": "confirmLabel"
+            },
+            {
+              "name": "cancel-label",
+              "description": "Text of the cancel action.",
+              "type": {
+                "text": "string"
+              },
+              "default": "'Cancel'",
+              "fieldName": "cancelLabel"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-alert-dialog",
+          "customElement": true,
+          "summary": "Confirmation dialog."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtAlertDialog",
+          "declaration": {
+            "name": "HtAlertDialog",
+            "module": "src/components/alert-dialog/alert-dialog.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-alert-dialog",
+          "declaration": {
+            "name": "HtAlertDialog",
+            "module": "src/components/alert-dialog/alert-dialog.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/avatar/avatar.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Round or square picture of a person or team. Shows the image when it loads and falls back to\ninitials (first and last name) on a tint picked from the name, so the same person always gets\nthe same colour. With no name either it shows a generic person glyph.\n\nThe avatar is an image with the name as its text alternative. With no `name` it is hidden from\nassistive technology, so give it one unless a visible name sits right beside it.",
+          "name": "HtAvatar",
+          "cssProperties": [
+            {
+              "description": "Outline in the surface colour around the avatar. `ht-avatar-group` sets it so stacked avatars read as separate.",
+              "name": "--ht-avatar-ring-width",
+              "default": "0px"
+            }
+          ],
+          "cssParts": [
+            {
+              "description": "The avatar circle or square.",
+              "name": "base"
+            },
+            {
+              "description": "The `<img>`, once it has loaded.",
+              "name": "image"
+            },
+            {
+              "description": "The initials fallback.",
+              "name": "initials"
+            },
+            {
+              "description": "The status slot wrapper.",
+              "name": "status"
+            }
+          ],
+          "slots": [
+            {
+              "description": "A small dot or icon pinned to the bottom-right corner, e.g. an online marker. Say what it means with `status-label`, since a dot alone is only colour.",
+              "name": "status"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "src",
+              "privacy": "public",
+              "description": "Image URL. If it fails to load, the initials show instead.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "src"
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "privacy": "public",
+              "description": "Full name. Gives the accessible name and the initials (first and last word).",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "name"
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "privacy": "public",
+              "description": "Diameter: xs 20px, sm 24px, md 32px, lg 40px.",
+              "type": {
+                "text": "'xs' | 'sm' | 'md' | 'lg'"
+              },
+              "default": "'md'",
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "shape",
+              "privacy": "public",
+              "description": "`square` uses the md radius.",
+              "type": {
+                "text": "'circle' | 'square'"
+              },
+              "default": "'circle'",
+              "attribute": "shape",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "statusLabel",
+              "privacy": "public",
+              "description": "What the `status` slot means, e.g. `Online`. Appended to the accessible name.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "status-label"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "src",
+              "description": "Image URL. If it fails to load, the initials show instead.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "src"
+            },
+            {
+              "name": "name",
+              "description": "Full name. Gives the accessible name and the initials (first and last word).",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "name"
+            },
+            {
+              "name": "size",
+              "description": "Diameter: xs 20px, sm 24px, md 32px, lg 40px.",
+              "type": {
+                "text": "'xs' | 'sm' | 'md' | 'lg'"
+              },
+              "default": "'md'",
+              "fieldName": "size"
+            },
+            {
+              "name": "shape",
+              "description": "`square` uses the md radius.",
+              "type": {
+                "text": "'circle' | 'square'"
+              },
+              "default": "'circle'",
+              "fieldName": "shape"
+            },
+            {
+              "name": "status-label",
+              "description": "What the `status` slot means, e.g. `Online`. Appended to the accessible name.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "statusLabel"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-avatar",
+          "customElement": true,
+          "summary": "User picture with initials fallback."
+        },
+        {
+          "kind": "class",
+          "description": "A row of overlapping avatars with a \"+N\" counter for the rest. Put `ht-avatar` children in it.\nAvatars past `max` are hidden and counted, and the group's `size` applies to every avatar in it.",
+          "name": "HtAvatarGroup",
+          "cssParts": [
+            {
+              "description": "The row.",
+              "name": "base"
+            },
+            {
+              "description": "The \"+N\" counter.",
+              "name": "more"
+            }
+          ],
+          "slots": [
+            {
+              "description": "`ht-avatar` elements.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "max",
+              "privacy": "public",
+              "type": {
+                "text": "number"
+              },
+              "description": "How many avatars to show before collapsing the rest into \"+N\". 0 shows all.",
+              "default": "0",
+              "attribute": "max"
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "privacy": "public",
+              "description": "Size of every avatar in the group. Same scale as `ht-avatar`.",
+              "type": {
+                "text": "'xs' | 'sm' | 'md' | 'lg'"
+              },
+              "default": "'md'",
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "privacy": "public",
+              "description": "Accessible name for the group, e.g. `Reviewers`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "label"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "max",
+              "type": {
+                "text": "number"
+              },
+              "description": "How many avatars to show before collapsing the rest into \"+N\". 0 shows all.",
+              "default": "0",
+              "fieldName": "max"
+            },
+            {
+              "name": "size",
+              "description": "Size of every avatar in the group. Same scale as `ht-avatar`.",
+              "type": {
+                "text": "'xs' | 'sm' | 'md' | 'lg'"
+              },
+              "default": "'md'",
+              "fieldName": "size"
+            },
+            {
+              "name": "label",
+              "description": "Accessible name for the group, e.g. `Reviewers`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "label"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-avatar-group",
+          "customElement": true,
+          "summary": "Overlapping stack of avatars."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtAvatar",
+          "declaration": {
+            "name": "HtAvatar",
+            "module": "src/components/avatar/avatar.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "HtAvatarGroup",
+          "declaration": {
+            "name": "HtAvatarGroup",
+            "module": "src/components/avatar/avatar.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-avatar",
+          "declaration": {
+            "name": "HtAvatar",
+            "module": "src/components/avatar/avatar.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-avatar-group",
+          "declaration": {
+            "name": "HtAvatarGroup",
+            "module": "src/components/avatar/avatar.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/components/banner/banner.ts",
       "declarations": [
         {
@@ -125,6 +658,211 @@
           "declaration": {
             "name": "HtBanner",
             "module": "src/components/banner/banner.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/breadcrumb/breadcrumb.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Trail of links showing where the current page sits. Put `ht-breadcrumb-item` children in it, in\norder. The last item is the current page and gets `aria-current=\"page\"`. Set `max-items` to\ncollapse the middle of a long trail into an ellipsis button that reveals it.\n\nRenders a `<nav>` landmark containing an ordered list.",
+          "name": "HtBreadcrumb",
+          "cssParts": [
+            {
+              "description": "The `<nav>` landmark.",
+              "name": "nav"
+            },
+            {
+              "description": "The `<ol>`.",
+              "name": "list"
+            },
+            {
+              "description": "The button that expands a collapsed trail.",
+              "name": "ellipsis"
+            }
+          ],
+          "slots": [
+            {
+              "description": "`ht-breadcrumb-item` elements. They are placed into the list automatically.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "label",
+              "privacy": "public",
+              "description": "Accessible name of the nav landmark.",
+              "type": {
+                "text": "string"
+              },
+              "default": "'Breadcrumb'",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "separator",
+              "privacy": "public",
+              "description": "Glyph between items: `slash` or `caret`.",
+              "type": {
+                "text": "'slash' | 'caret'"
+              },
+              "default": "'slash'",
+              "attribute": "separator",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "maxItems",
+              "privacy": "public",
+              "type": {
+                "text": "number"
+              },
+              "description": "Most items to show at once, not counting the ellipsis. The first item and the last `max-items - 1`\nstay; the middle collapses. 0 shows everything. Values under 2 count as 2.",
+              "default": "0",
+              "attribute": "max-items"
+            }
+          ],
+          "events": [
+            {
+              "description": "The ellipsis button was used to reveal the collapsed items.",
+              "name": "ht-expand"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "label",
+              "description": "Accessible name of the nav landmark.",
+              "type": {
+                "text": "string"
+              },
+              "default": "'Breadcrumb'",
+              "fieldName": "label"
+            },
+            {
+              "name": "separator",
+              "description": "Glyph between items: `slash` or `caret`.",
+              "type": {
+                "text": "'slash' | 'caret'"
+              },
+              "default": "'slash'",
+              "fieldName": "separator"
+            },
+            {
+              "name": "max-items",
+              "type": {
+                "text": "number"
+              },
+              "description": "Most items to show at once, not counting the ellipsis. The first item and the last `max-items - 1`\nstay; the middle collapses. 0 shows everything. Values under 2 count as 2.",
+              "default": "0",
+              "fieldName": "maxItems"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-breadcrumb",
+          "customElement": true,
+          "summary": "Breadcrumb trail."
+        },
+        {
+          "kind": "class",
+          "description": "One step in an `ht-breadcrumb`. With `href` it is a link; without, plain text. The last item in\nthe trail is the current page, and gets `aria-current=\"page\"` whether or not it has an `href`.",
+          "name": "HtBreadcrumbItem",
+          "cssParts": [
+            {
+              "description": "The `<a>` (or `<span>` without `href`).",
+              "name": "link"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Item text.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "href",
+              "privacy": "public",
+              "description": "Link target. Leave empty for a step that is not a link.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "href"
+            },
+            {
+              "kind": "method",
+              "name": "focus",
+              "parameters": [
+                {
+                  "name": "options",
+                  "optional": true,
+                  "type": {
+                    "text": "FocusOptions"
+                  }
+                }
+              ],
+              "description": "Moves focus to the link, or to the item itself when it is not a link."
+            }
+          ],
+          "attributes": [
+            {
+              "name": "href",
+              "description": "Link target. Leave empty for a step that is not a link.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "href"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-breadcrumb-item",
+          "customElement": true,
+          "summary": "Breadcrumb step."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtBreadcrumb",
+          "declaration": {
+            "name": "HtBreadcrumb",
+            "module": "src/components/breadcrumb/breadcrumb.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "HtBreadcrumbItem",
+          "declaration": {
+            "name": "HtBreadcrumbItem",
+            "module": "src/components/breadcrumb/breadcrumb.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-breadcrumb-item",
+          "declaration": {
+            "name": "HtBreadcrumbItem",
+            "module": "src/components/breadcrumb/breadcrumb.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-breadcrumb",
+          "declaration": {
+            "name": "HtBreadcrumb",
+            "module": "src/components/breadcrumb/breadcrumb.ts"
           }
         }
       ]
@@ -362,6 +1100,250 @@
           "declaration": {
             "name": "HtButton",
             "module": "src/components/button/button.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/calendar/calendar.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "y"
+        },
+        {
+          "kind": "variable",
+          "name": "m"
+        },
+        {
+          "kind": "class",
+          "description": "Month grid for picking one date. Follows the WAI-ARIA date grid pattern: one tab stop in\nthe grid, arrows move by day and week, Home and End jump to the ends of the week, Page Up\nand Page Down change month, Shift with them changes year, Enter or Space selects.\n\nDates are ISO strings (`YYYY-MM-DD`). Month, weekday and day names come from `Intl` using\nthe element's `lang` (or the page's), and the week starts on that locale's first day unless\n`week-start` is set. No date library. A single date only; ranges are not supported.\n\nForm-associated: the value is submitted under `name`, and form reset restores the initial value.\n\nDisable individual days with the `isDateDisabled` property:\n\n```js\ncalendar.isDateDisabled = (date) => date.getDay() === 0 || date.getDay() === 6;\n```",
+          "name": "HtCalendar",
+          "cssProperties": [
+            {
+              "description": "Width and height of a day cell.",
+              "name": "--ht-calendar-cell-size",
+              "default": "2.25rem"
+            }
+          ],
+          "cssParts": [
+            {
+              "description": "The calendar box.",
+              "name": "base"
+            },
+            {
+              "description": "The row with the month label and navigation buttons.",
+              "name": "header"
+            },
+            {
+              "description": "A navigation button.",
+              "name": "nav"
+            },
+            {
+              "description": "The month and year label.",
+              "name": "title"
+            },
+            {
+              "description": "The `role=\"grid\"` table.",
+              "name": "grid"
+            },
+            {
+              "description": "A weekday column header.",
+              "name": "weekday"
+            },
+            {
+              "description": "A day cell.",
+              "name": "day"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "value",
+              "privacy": "public",
+              "description": "Selected date, `YYYY-MM-DD`. Empty for none. Setting it also shows that month.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "value",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "min",
+              "privacy": "public",
+              "description": "Earliest selectable date, `YYYY-MM-DD`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "min"
+            },
+            {
+              "kind": "field",
+              "name": "max",
+              "privacy": "public",
+              "description": "Latest selectable date, `YYYY-MM-DD`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "max"
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "privacy": "public",
+              "description": "Form field name.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "name"
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "weekStart",
+              "privacy": "public",
+              "type": {
+                "text": "number | null"
+              },
+              "description": "First day of the week: 0 is Sunday, 1 is Monday, and so on. Defaults to the locale's.",
+              "default": "null",
+              "attribute": "week-start"
+            },
+            {
+              "kind": "field",
+              "name": "isDateDisabled",
+              "privacy": "public",
+              "description": "Returns `true` for dates that cannot be picked. Receives a `Date` at local midnight. Set it as a property.",
+              "type": {
+                "text": "((date: Date) => boolean) | null"
+              },
+              "default": "null"
+            },
+            {
+              "kind": "field",
+              "name": "form",
+              "description": "The owning form, if any.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "focus",
+              "parameters": [
+                {
+                  "name": "options",
+                  "optional": true,
+                  "type": {
+                    "text": "FocusOptions"
+                  }
+                }
+              ],
+              "description": "Focuses the day that holds the grid's tab stop."
+            }
+          ],
+          "events": [
+            {
+              "name": "change",
+              "type": {
+                "text": "Event"
+              },
+              "description": "A date was picked by the user. Read `value` from the host."
+            }
+          ],
+          "attributes": [
+            {
+              "name": "value",
+              "description": "Selected date, `YYYY-MM-DD`. Empty for none. Setting it also shows that month.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "value"
+            },
+            {
+              "name": "min",
+              "description": "Earliest selectable date, `YYYY-MM-DD`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "min"
+            },
+            {
+              "name": "max",
+              "description": "Latest selectable date, `YYYY-MM-DD`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "max"
+            },
+            {
+              "name": "name",
+              "description": "Form field name.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "name"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "week-start",
+              "type": {
+                "text": "number | null"
+              },
+              "description": "First day of the week: 0 is Sunday, 1 is Monday, and so on. Defaults to the locale's.",
+              "default": "null",
+              "fieldName": "weekStart"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-calendar",
+          "customElement": true,
+          "summary": "Month calendar for choosing a date."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtCalendar",
+          "declaration": {
+            "name": "HtCalendar",
+            "module": "src/components/calendar/calendar.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-calendar",
+          "declaration": {
+            "name": "HtCalendar",
+            "module": "src/components/calendar/calendar.ts"
           }
         }
       ]
@@ -890,6 +1872,507 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/components/command/command.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Search box over a filtered list of commands: a combobox with a listbox, in the style of a\ncommand palette. Items are `ht-command-item` children, optionally inside `ht-command-group`.\nTyping filters them; Arrow keys move the highlight while focus stays in the search box\n(`aria-activedescendant`); Enter picks.\n\nInline by default. With `palette`, the same content opens in a native `<dialog>` near the\ntop of the page: set `open`, call `show()`, or give it a `hotkey` such as `mod+k` (`mod` is\nCommand on Apple platforms and Control elsewhere). Escape closes it, and focus returns to\nwhere it was.\n\nFiltering matches each word of the query against the item text and its `keywords`, as a\nsubstring, or (for words of 3+ letters) as the item text's letters in order. Items keep\ntheir authored order. Groups with no match hide.\n\nScreen readers: results are announced through a polite status region (\"3 results\"). Where\nthe browser cannot link the search box to a slotted option by reference\n(`ariaActiveDescendantElement`), the highlighted option is announced there instead.\n\nHome and End jump to the first and last result, so they do not move the text caret.",
+          "name": "HtCommand",
+          "cssProperties": [
+            {
+              "description": "Palette width.",
+              "name": "--ht-command-width",
+              "default": "32rem"
+            },
+            {
+              "description": "Maximum height of the list before it scrolls.",
+              "name": "--ht-command-list-height",
+              "default": "18.75rem"
+            }
+          ],
+          "cssParts": [
+            {
+              "description": "The bordered box (inline mode) or the box inside the dialog.",
+              "name": "base"
+            },
+            {
+              "description": "The native `<dialog>` (palette mode).",
+              "name": "dialog"
+            },
+            {
+              "description": "The row holding the search icon and input.",
+              "name": "search"
+            },
+            {
+              "description": "The native `<input>`.",
+              "name": "input"
+            },
+            {
+              "description": "The scrolling list.",
+              "name": "list"
+            },
+            {
+              "description": "The empty-state area.",
+              "name": "empty"
+            }
+          ],
+          "slots": [
+            {
+              "description": "`ht-command-item` and `ht-command-group` elements.",
+              "name": ""
+            },
+            {
+              "description": "Shown when nothing matches. Defaults to \"No results.\"",
+              "name": "empty"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "value",
+              "privacy": "public",
+              "description": "The search text.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "placeholder",
+              "privacy": "public",
+              "description": "Placeholder in the search box.",
+              "type": {
+                "text": "string"
+              },
+              "default": "'Type A Command Or Search'",
+              "attribute": "placeholder"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "privacy": "public",
+              "description": "Accessible name for the search box and the palette dialog.",
+              "type": {
+                "text": "string"
+              },
+              "default": "'Search'",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "palette",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Opens the command in a modal dialog.",
+              "default": "false",
+              "attribute": "palette",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "open",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Shows the palette. Only meaningful with `palette`. Reflects.",
+              "default": "false",
+              "attribute": "open",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "hotkey",
+              "privacy": "public",
+              "description": "Key combination that toggles the palette (or focuses the search box when inline), e.g. `mod+k`, `ctrl+shift+p`, `/`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "hotkey"
+            },
+            {
+              "kind": "field",
+              "name": "items",
+              "type": {
+                "text": "HtCommandItem[]"
+              },
+              "description": "Every item, in document order.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "show",
+              "description": "Opens the palette."
+            },
+            {
+              "kind": "method",
+              "name": "close",
+              "description": "Closes the palette."
+            },
+            {
+              "kind": "method",
+              "name": "focus",
+              "parameters": [
+                {
+                  "name": "options",
+                  "optional": true,
+                  "type": {
+                    "text": "FocusOptions"
+                  }
+                }
+              ],
+              "description": "Moves focus to the search box."
+            }
+          ],
+          "events": [
+            {
+              "name": "ht-open",
+              "type": {
+                "text": "Event"
+              },
+              "description": "The palette opened."
+            },
+            {
+              "name": "ht-select",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "An item was picked by Enter or click. `detail`: `{ value, item }`. Bubbles, composed, cancelable: in palette mode, `preventDefault()` keeps the palette open."
+            },
+            {
+              "description": "The search text changed. Native event, crosses the shadow boundary.",
+              "name": "input"
+            },
+            {
+              "description": "The palette closed, by any route.",
+              "name": "ht-close"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "value",
+              "description": "The search text.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "value"
+            },
+            {
+              "name": "placeholder",
+              "description": "Placeholder in the search box.",
+              "type": {
+                "text": "string"
+              },
+              "default": "'Type A Command Or Search'",
+              "fieldName": "placeholder"
+            },
+            {
+              "name": "label",
+              "description": "Accessible name for the search box and the palette dialog.",
+              "type": {
+                "text": "string"
+              },
+              "default": "'Search'",
+              "fieldName": "label"
+            },
+            {
+              "name": "palette",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Opens the command in a modal dialog.",
+              "default": "false",
+              "fieldName": "palette"
+            },
+            {
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Shows the palette. Only meaningful with `palette`. Reflects.",
+              "default": "false",
+              "fieldName": "open"
+            },
+            {
+              "name": "hotkey",
+              "description": "Key combination that toggles the palette (or focuses the search box when inline), e.g. `mod+k`, `ctrl+shift+p`, `/`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "hotkey"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-command",
+          "customElement": true,
+          "summary": "Searchable command list and palette."
+        },
+        {
+          "kind": "class",
+          "description": "One row in an `ht-command`. Searchable by its text and `keywords`. Picked by Enter (while\nhighlighted) or click; the command fires `ht-select`.",
+          "name": "HtCommandItem",
+          "cssProperties": [
+            {
+              "description": "Row height.",
+              "name": "--ht-command-item-height",
+              "default": "2rem"
+            }
+          ],
+          "cssParts": [
+            {
+              "description": "The row.",
+              "name": "base"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Label.",
+              "name": ""
+            },
+            {
+              "description": "Icon before the label.",
+              "name": "prefix"
+            },
+            {
+              "description": "Replaces the `shortcut` keycaps.",
+              "name": "shortcut"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "value",
+              "privacy": "public",
+              "description": "Value reported in `ht-select`. Defaults to the label text.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "keywords",
+              "privacy": "public",
+              "description": "Extra search terms, space-separated, that match without being shown.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "keywords"
+            },
+            {
+              "kind": "field",
+              "name": "shortcut",
+              "privacy": "public",
+              "description": "Keys, space-separated, e.g. `⌘ K`. Each becomes a keycap. A hint only: nothing binds it.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "shortcut"
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Dimmed, skipped by the arrow keys, and not pickable.",
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "active",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Highlighted. Managed by the command.",
+              "default": "false",
+              "attribute": "active",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "description": "The row's text, without the prefix and shortcut slots.",
+              "readonly": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "value",
+              "description": "Value reported in `ht-select`. Defaults to the label text.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "value"
+            },
+            {
+              "name": "keywords",
+              "description": "Extra search terms, space-separated, that match without being shown.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "keywords"
+            },
+            {
+              "name": "shortcut",
+              "description": "Keys, space-separated, e.g. `⌘ K`. Each becomes a keycap. A hint only: nothing binds it.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "shortcut"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Dimmed, skipped by the arrow keys, and not pickable.",
+              "default": "false",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "active",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Highlighted. Managed by the command.",
+              "default": "false",
+              "fieldName": "active"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-command-item",
+          "customElement": true,
+          "summary": "Command list row."
+        },
+        {
+          "kind": "class",
+          "description": "A titled group of `ht-command-item`s. It hides itself when the filter leaves it empty.",
+          "name": "HtCommandGroup",
+          "cssParts": [
+            {
+              "description": "The group heading.",
+              "name": "heading"
+            }
+          ],
+          "slots": [
+            {
+              "description": "`ht-command-item` elements.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "heading",
+              "privacy": "public",
+              "description": "Group heading. Also the group's accessible name.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "heading"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "heading",
+              "description": "Group heading. Also the group's accessible name.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "heading"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-command-group",
+          "customElement": true,
+          "summary": "Command list group."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtCommand",
+          "declaration": {
+            "name": "HtCommand",
+            "module": "src/components/command/command.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "HtCommandItem",
+          "declaration": {
+            "name": "HtCommandItem",
+            "module": "src/components/command/command.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "HtCommandGroup",
+          "declaration": {
+            "name": "HtCommandGroup",
+            "module": "src/components/command/command.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-command",
+          "declaration": {
+            "name": "HtCommand",
+            "module": "src/components/command/command.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-command-item",
+          "declaration": {
+            "name": "HtCommandItem",
+            "module": "src/components/command/command.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-command-group",
+          "declaration": {
+            "name": "HtCommandGroup",
+            "module": "src/components/command/command.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/components/dialog/dialog.ts",
       "declarations": [
         {
@@ -1061,6 +2544,170 @@
           "declaration": {
             "name": "HtDialog",
             "module": "src/components/dialog/dialog.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/emoji-picker/emoji-picker.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Emoji picker: search box, category buttons and a scrolling grid of about 330 common emoji, built in so there is\nnothing to fetch. It is a panel, not a popup: put it inside `ht-popover` (or any container) to float it.\n\nThe grid follows the WAI-ARIA grid pattern with one tab stop: arrows move by cell and row, Home and End go to the\nrow ends, Ctrl+Home and Ctrl+End to the first and last emoji, Page Up and Page Down to the previous and next\ncategory. Arrow Down in the search box enters the grid, and Enter there picks the first match.\nSkin tones are not supported.",
+          "name": "HtEmojiPicker",
+          "cssProperties": [
+            {
+              "description": "Picker width.",
+              "name": "--ht-emoji-picker-width",
+              "default": "19rem"
+            },
+            {
+              "description": "Picker height.",
+              "name": "--ht-emoji-picker-height",
+              "default": "22rem"
+            }
+          ],
+          "cssParts": [
+            {
+              "description": "The outer panel.",
+              "name": "picker"
+            },
+            {
+              "description": "The search field.",
+              "name": "search"
+            },
+            {
+              "description": "The category button row.",
+              "name": "categories"
+            },
+            {
+              "description": "The scrolling emoji grid.",
+              "name": "grid"
+            },
+            {
+              "description": "One emoji button.",
+              "name": "emoji"
+            },
+            {
+              "description": "The name strip under the grid.",
+              "name": "preview"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Shown instead of the grid when a search matches nothing.",
+              "name": "empty"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "label",
+              "privacy": "public",
+              "description": "Accessible name of the picker.",
+              "type": {
+                "text": "string"
+              },
+              "default": "'Emoji Picker'",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "placeholder",
+              "privacy": "public",
+              "description": "Placeholder, and accessible name, of the search box.",
+              "type": {
+                "text": "string"
+              },
+              "default": "'Search Emoji'",
+              "attribute": "placeholder"
+            },
+            {
+              "kind": "field",
+              "name": "recent",
+              "privacy": "public",
+              "description": "Emoji to list first under \"Recent\", for example `['👍', '🎉']`. The picker does not store them: keep the list and update it on `ht-select`. Shows the first two rows.",
+              "type": {
+                "text": "string[]"
+              },
+              "default": "[]"
+            },
+            {
+              "kind": "field",
+              "name": "columns",
+              "privacy": "public",
+              "type": {
+                "text": "number"
+              },
+              "description": "Emoji per row.",
+              "default": "8",
+              "attribute": "columns",
+              "reflects": true
+            }
+          ],
+          "events": [
+            {
+              "name": "ht-select",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "An emoji was picked by click, Enter or Space. `detail` is `{ emoji, name }`."
+            }
+          ],
+          "attributes": [
+            {
+              "name": "label",
+              "description": "Accessible name of the picker.",
+              "type": {
+                "text": "string"
+              },
+              "default": "'Emoji Picker'",
+              "fieldName": "label"
+            },
+            {
+              "name": "placeholder",
+              "description": "Placeholder, and accessible name, of the search box.",
+              "type": {
+                "text": "string"
+              },
+              "default": "'Search Emoji'",
+              "fieldName": "placeholder"
+            },
+            {
+              "name": "columns",
+              "type": {
+                "text": "number"
+              },
+              "description": "Emoji per row.",
+              "default": "8",
+              "fieldName": "columns"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-emoji-picker",
+          "customElement": true,
+          "summary": "Searchable emoji grid."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtEmojiPicker",
+          "declaration": {
+            "name": "HtEmojiPicker",
+            "module": "src/components/emoji-picker/emoji-picker.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-emoji-picker",
+          "declaration": {
+            "name": "HtEmojiPicker",
+            "module": "src/components/emoji-picker/emoji-picker.ts"
           }
         }
       ]
@@ -1662,6 +3309,559 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/components/menu/menu.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Dropdown or context menu. The panel is a manual popover in the top layer, positioned in\nJavaScript (flips and clamps like `ht-tooltip`). Put `ht-menu-item`, `ht-menu-separator` and\n`ht-menu-label` children in it, and the trigger in the `trigger` slot.\n\nKeyboard (WAI-ARIA menu button pattern): Enter, Space or Arrow Down on the trigger opens with the first\nitem focused, Arrow Up with the last. Inside, Arrow Up/Down move (wrapping), Home and End jump,\ntyping jumps to the next item starting with those letters, Enter or Space activates, Escape\ncloses and returns focus to the trigger, Tab closes. Disabled items stay focusable but cannot\nbe activated, as the pattern says. Submenus are not supported.\n\nWith `contextmenu`, the `trigger` slot becomes a right-click target and the menu opens at the\npointer. Keyboard users get it from the ContextMenu key or Shift+F10 on a focused target,\nso make the target focusable if the menu is the only route to an action.\n\n`ht-select` is cancelable: call `preventDefault()` to keep the menu open after a pick.",
+          "name": "HtMenu",
+          "cssProperties": [
+            {
+              "description": "Minimum panel width.",
+              "name": "--ht-menu-min-width",
+              "default": "10rem"
+            }
+          ],
+          "cssParts": [
+            {
+              "description": "The floating menu.",
+              "name": "panel"
+            }
+          ],
+          "slots": [
+            {
+              "description": "`ht-menu-item`, `ht-menu-separator` and `ht-menu-label` elements.",
+              "name": ""
+            },
+            {
+              "description": "The element that opens the menu (or, with `contextmenu`, the right-click target).",
+              "name": "trigger"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "open",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Shows the menu. Reflects.",
+              "default": "false",
+              "attribute": "open",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "placement",
+              "privacy": "public",
+              "description": "Preferred side and alignment: `top`, `bottom`, `left`, `right`, optionally with `-start`\nor `-end`. Flips if there is no room. Ignored by `contextmenu` menus, which open at the pointer.",
+              "type": {
+                "text": "string"
+              },
+              "default": "'bottom-start'",
+              "attribute": "placement",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "privacy": "public",
+              "description": "Accessible name for the menu. Defaults to the trigger's name.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "contextmenu",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Opens on right-click (and the ContextMenu key) of the `trigger` slot instead of on click.",
+              "default": "false",
+              "attribute": "contextmenu",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Stops the menu from opening.",
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "items",
+              "type": {
+                "text": "HtMenuItem[]"
+              },
+              "description": "The menu's items, in document order.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "show",
+              "description": "Opens the menu below its trigger."
+            },
+            {
+              "kind": "method",
+              "name": "showAt",
+              "parameters": [
+                {
+                  "name": "x",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "y",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ],
+              "description": "Opens the menu with its top-left corner at a viewport point."
+            },
+            {
+              "kind": "method",
+              "name": "hide",
+              "description": "Closes the menu. Focus returns to where it was before the menu opened."
+            },
+            {
+              "kind": "method",
+              "name": "toggle",
+              "description": "Toggles the menu."
+            }
+          ],
+          "events": [
+            {
+              "type": {
+                "text": "Event"
+              }
+            },
+            {
+              "name": "ht-select",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "An item was activated. `detail`: `{ value, item, checked }` (`checked` only for checkbox and radio items). Bubbles, composed, cancelable."
+            },
+            {
+              "description": "The menu opened. Does not bubble.",
+              "name": "open"
+            },
+            {
+              "description": "The menu closed. Does not bubble.",
+              "name": "close"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Shows the menu. Reflects.",
+              "default": "false",
+              "fieldName": "open"
+            },
+            {
+              "name": "placement",
+              "description": "Preferred side and alignment: `top`, `bottom`, `left`, `right`, optionally with `-start`\nor `-end`. Flips if there is no room. Ignored by `contextmenu` menus, which open at the pointer.",
+              "type": {
+                "text": "string"
+              },
+              "default": "'bottom-start'",
+              "fieldName": "placement"
+            },
+            {
+              "name": "label",
+              "description": "Accessible name for the menu. Defaults to the trigger's name.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "label"
+            },
+            {
+              "name": "contextmenu",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Opens on right-click (and the ContextMenu key) of the `trigger` slot instead of on click.",
+              "default": "false",
+              "fieldName": "contextmenu"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Stops the menu from opening.",
+              "default": "false",
+              "fieldName": "disabled"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-menu",
+          "customElement": true,
+          "summary": "Dropdown and context menu."
+        },
+        {
+          "kind": "class",
+          "description": "One row in an `ht-menu`. Set `type` to `checkbox` or `radio` for a toggleable row; radio\nitems with the same `name` act as one group. A `shortcut` renders as keycaps on the right\n(the same look as `ht-kbd`, drawn locally).\n\nThe menu owns activation: it flips `checked`, fires `ht-select`, and closes.",
+          "name": "HtMenuItem",
+          "cssProperties": [
+            {
+              "description": "Row height.",
+              "name": "--ht-menu-item-height",
+              "default": "1.75rem"
+            }
+          ],
+          "cssParts": [
+            {
+              "description": "The row.",
+              "name": "base"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Label.",
+              "name": ""
+            },
+            {
+              "description": "Icon before the label.",
+              "name": "prefix"
+            },
+            {
+              "description": "Replaces the `shortcut` keycaps.",
+              "name": "shortcut"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "value",
+              "privacy": "public",
+              "description": "Value reported in `ht-select`. Defaults to the label text.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "type",
+              "privacy": "public",
+              "description": "`normal`, `checkbox` (`menuitemcheckbox`) or `radio` (`menuitemradio`).",
+              "type": {
+                "text": "'normal' | 'checkbox' | 'radio'"
+              },
+              "default": "'normal'",
+              "attribute": "type",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "checked",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Checked state for `checkbox` and `radio` items.",
+              "default": "false",
+              "attribute": "checked",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "privacy": "public",
+              "description": "Radio group name. Radio items sharing a name are mutually exclusive.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "name"
+            },
+            {
+              "kind": "field",
+              "name": "shortcut",
+              "privacy": "public",
+              "description": "Keys, space-separated, e.g. `⌘ K` or `Ctrl Shift P`. Each becomes a keycap.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "shortcut"
+            },
+            {
+              "kind": "field",
+              "name": "danger",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Destructive action: danger text colour.",
+              "default": "false",
+              "attribute": "danger",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Focusable but not activatable.",
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "inset",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Reserves the check column so rows line up with checkable siblings. The menu sets this itself.",
+              "default": "false",
+              "attribute": "inset",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "description": "The row's text, without the prefix and shortcut slots.",
+              "readonly": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "value",
+              "description": "Value reported in `ht-select`. Defaults to the label text.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "value"
+            },
+            {
+              "name": "type",
+              "description": "`normal`, `checkbox` (`menuitemcheckbox`) or `radio` (`menuitemradio`).",
+              "type": {
+                "text": "'normal' | 'checkbox' | 'radio'"
+              },
+              "default": "'normal'",
+              "fieldName": "type"
+            },
+            {
+              "name": "checked",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Checked state for `checkbox` and `radio` items.",
+              "default": "false",
+              "fieldName": "checked"
+            },
+            {
+              "name": "name",
+              "description": "Radio group name. Radio items sharing a name are mutually exclusive.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "name"
+            },
+            {
+              "name": "shortcut",
+              "description": "Keys, space-separated, e.g. `⌘ K` or `Ctrl Shift P`. Each becomes a keycap.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "shortcut"
+            },
+            {
+              "name": "danger",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Destructive action: danger text colour.",
+              "default": "false",
+              "fieldName": "danger"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Focusable but not activatable.",
+              "default": "false",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "inset",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Reserves the check column so rows line up with checkable siblings. The menu sets this itself.",
+              "default": "false",
+              "fieldName": "inset"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-menu-item",
+          "customElement": true,
+          "summary": "Menu row."
+        },
+        {
+          "kind": "class",
+          "description": "Thin rule between groups of items in an `ht-menu`.",
+          "name": "HtMenuSeparator",
+          "members": [],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-menu-separator",
+          "customElement": true,
+          "summary": "Menu divider."
+        },
+        {
+          "kind": "class",
+          "description": "Small uppercase heading above a group of items in an `ht-menu`. Purely visual: it is\npresentational to assistive technology, so do not put information there that the items need.",
+          "name": "HtMenuLabel",
+          "slots": [
+            {
+              "description": "Heading text.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "inset",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Reserves the check column so the text lines up with checkable rows. The menu sets this itself.",
+              "default": "false",
+              "attribute": "inset",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "inset",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Reserves the check column so the text lines up with checkable rows. The menu sets this itself.",
+              "default": "false",
+              "fieldName": "inset"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-menu-label",
+          "customElement": true,
+          "summary": "Menu group heading."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtMenu",
+          "declaration": {
+            "name": "HtMenu",
+            "module": "src/components/menu/menu.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "HtMenuItem",
+          "declaration": {
+            "name": "HtMenuItem",
+            "module": "src/components/menu/menu.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "HtMenuSeparator",
+          "declaration": {
+            "name": "HtMenuSeparator",
+            "module": "src/components/menu/menu.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "HtMenuLabel",
+          "declaration": {
+            "name": "HtMenuLabel",
+            "module": "src/components/menu/menu.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-menu",
+          "declaration": {
+            "name": "HtMenu",
+            "module": "src/components/menu/menu.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-menu-item",
+          "declaration": {
+            "name": "HtMenuItem",
+            "module": "src/components/menu/menu.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-menu-separator",
+          "declaration": {
+            "name": "HtMenuSeparator",
+            "module": "src/components/menu/menu.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-menu-label",
+          "declaration": {
+            "name": "HtMenuLabel",
+            "module": "src/components/menu/menu.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/components/nav-item/nav-item.ts",
       "declarations": [
         {
@@ -1776,6 +3976,393 @@
           "declaration": {
             "name": "HtNavItem",
             "module": "src/components/nav-item/nav-item.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/popover/popover.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Non-modal panel anchored to a trigger. The panel is a manual popover in the top layer, so\nit is never clipped, and it is positioned in JavaScript: it flips to the opposite side when\nthere is no room and is clamped to the viewport.\n\nThe first element in the default slot is the trigger. It gets `aria-haspopup=\"dialog\"`,\n`aria-expanded`, and `aria-controls` pointing at the first element in the `content` slot\n(the panel itself lives in the shadow root, which an id reference cannot cross). Focus moves\ninto the panel on open and returns to the trigger on Escape or when `hide()` runs while focus\nis inside. Focus is not trapped. Escape, a press outside, or tabbing out closes it.\n\nThe trigger must be focusable and activate on click (a button or `ht-button`).",
+          "name": "HtPopover",
+          "cssProperties": [
+            {
+              "description": "Panel width (never wider than the viewport).",
+              "name": "--ht-popover-width",
+              "default": "18rem"
+            },
+            {
+              "description": "Panel padding.",
+              "name": "--ht-popover-padding",
+              "default": "1rem"
+            }
+          ],
+          "cssParts": [
+            {
+              "description": "The floating panel.",
+              "name": "panel"
+            }
+          ],
+          "slots": [
+            {
+              "description": "The trigger element.",
+              "name": ""
+            },
+            {
+              "description": "Panel content.",
+              "name": "content"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "open",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Shows the panel. Reflects, so closing from inside updates it.",
+              "default": "false",
+              "attribute": "open",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "placement",
+              "privacy": "public",
+              "description": "Preferred side and alignment: `top`, `bottom`, `left` or `right`, optionally followed by\n`-start` or `-end`. Flips to the opposite side if there is no room.",
+              "type": {
+                "text": "string"
+              },
+              "default": "'bottom'",
+              "attribute": "placement",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "privacy": "public",
+              "description": "Accessible name for the panel. Defaults to the trigger's name.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Stops the trigger from opening the panel.",
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "method",
+              "name": "show",
+              "description": "Opens the panel."
+            },
+            {
+              "kind": "method",
+              "name": "hide",
+              "description": "Closes the panel. Focus returns to the trigger if it was inside the panel."
+            },
+            {
+              "kind": "method",
+              "name": "toggle",
+              "description": "Toggles the panel."
+            }
+          ],
+          "events": [
+            {
+              "type": {
+                "text": "Event"
+              }
+            },
+            {
+              "description": "The panel opened, by any route. Does not bubble.",
+              "name": "open"
+            },
+            {
+              "description": "The panel closed, by any route. Does not bubble.",
+              "name": "close"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Shows the panel. Reflects, so closing from inside updates it.",
+              "default": "false",
+              "fieldName": "open"
+            },
+            {
+              "name": "placement",
+              "description": "Preferred side and alignment: `top`, `bottom`, `left` or `right`, optionally followed by\n`-start` or `-end`. Flips to the opposite side if there is no room.",
+              "type": {
+                "text": "string"
+              },
+              "default": "'bottom'",
+              "fieldName": "placement"
+            },
+            {
+              "name": "label",
+              "description": "Accessible name for the panel. Defaults to the trigger's name.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "label"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Stops the trigger from opening the panel.",
+              "default": "false",
+              "fieldName": "disabled"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-popover",
+          "customElement": true,
+          "summary": "Anchored, non-modal panel."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtPopover",
+          "declaration": {
+            "name": "HtPopover",
+            "module": "src/components/popover/popover.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-popover",
+          "declaration": {
+            "name": "HtPopover",
+            "module": "src/components/popover/popover.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/progress/progress.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Horizontal progress bar for work with a known length, or `indeterminate` for work without one.\nA flat track with a tone-coloured fill that grows with the value.\n\nGive it a visible `label`, or set `aria-label` on the element (it is forwarded to the\nprogressbar). Without either, the bar has no name and a screen reader only says \"progress bar\".",
+          "name": "HtProgress",
+          "cssParts": [
+            {
+              "description": "The row holding the label and value.",
+              "name": "header"
+            },
+            {
+              "description": "The visible label.",
+              "name": "label"
+            },
+            {
+              "description": "The value text shown by `show-value`.",
+              "name": "value"
+            },
+            {
+              "description": "The progressbar element.",
+              "name": "track"
+            },
+            {
+              "description": "The filled part of the track.",
+              "name": "fill"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "value",
+              "privacy": "public",
+              "type": {
+                "text": "number"
+              },
+              "description": "Current amount, from 0 to `max`. Ignored when `indeterminate`.",
+              "default": "0",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "max",
+              "privacy": "public",
+              "type": {
+                "text": "number"
+              },
+              "description": "Amount that counts as complete.",
+              "default": "100",
+              "attribute": "max"
+            },
+            {
+              "kind": "field",
+              "name": "indeterminate",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Work of unknown length. Draws a moving bar and omits `aria-valuenow`. Static stripes under reduced motion.",
+              "default": "false",
+              "attribute": "indeterminate",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "privacy": "public",
+              "description": "Visible label above the bar. Also names the progressbar.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "tone",
+              "privacy": "public",
+              "description": "Fill colour. `accent` is the default.",
+              "type": {
+                "text": "'accent' | 'neutral' | 'success' | 'warning' | 'danger' | 'info'"
+              },
+              "default": "'accent'",
+              "attribute": "tone",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "privacy": "public",
+              "description": "Track height: sm 4px, md 8px.",
+              "type": {
+                "text": "'sm' | 'md'"
+              },
+              "default": "'md'",
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "showValue",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Shows the percentage to the right of the label. Hidden while `indeterminate`.",
+              "default": "false",
+              "attribute": "show-value",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "value",
+              "type": {
+                "text": "number"
+              },
+              "description": "Current amount, from 0 to `max`. Ignored when `indeterminate`.",
+              "default": "0",
+              "fieldName": "value"
+            },
+            {
+              "name": "max",
+              "type": {
+                "text": "number"
+              },
+              "description": "Amount that counts as complete.",
+              "default": "100",
+              "fieldName": "max"
+            },
+            {
+              "name": "indeterminate",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Work of unknown length. Draws a moving bar and omits `aria-valuenow`. Static stripes under reduced motion.",
+              "default": "false",
+              "fieldName": "indeterminate"
+            },
+            {
+              "name": "label",
+              "description": "Visible label above the bar. Also names the progressbar.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "label"
+            },
+            {
+              "name": "tone",
+              "description": "Fill colour. `accent` is the default.",
+              "type": {
+                "text": "'accent' | 'neutral' | 'success' | 'warning' | 'danger' | 'info'"
+              },
+              "default": "'accent'",
+              "fieldName": "tone"
+            },
+            {
+              "name": "size",
+              "description": "Track height: sm 4px, md 8px.",
+              "type": {
+                "text": "'sm' | 'md'"
+              },
+              "default": "'md'",
+              "fieldName": "size"
+            },
+            {
+              "name": "show-value",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Shows the percentage to the right of the label. Hidden while `indeterminate`.",
+              "default": "false",
+              "fieldName": "showValue"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-progress",
+          "customElement": true,
+          "summary": "Progress bar."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtProgress",
+          "declaration": {
+            "name": "HtProgress",
+            "module": "src/components/progress/progress.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-progress",
+          "declaration": {
+            "name": "HtProgress",
+            "module": "src/components/progress/progress.ts"
           }
         }
       ]
@@ -2375,6 +4962,132 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/components/scroll-area/scroll-area.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A region that scrolls natively, with thin themed scrollbars and, optionally, a fade at each\nedge that still has content beyond it. No scrolling is emulated: wheel, touch, keyboard and\nfind-in-page behave as in any scrolling element.\n\nThe scrolling viewport joins the tab order only while the content overflows, so keyboard\nusers can scroll it with the arrow keys without gaining a pointless tab stop. Name it with\n`label` or a host `aria-label` (moved to the viewport, which then becomes a `region`).\n\nSet the height with `--ht-scroll-area-height` (or give the host a height of its own).",
+          "name": "HtScrollArea",
+          "cssProperties": [
+            {
+              "description": "Maximum height of the area. The area scrolls vertically once the content is taller.",
+              "name": "--ht-scroll-area-height",
+              "default": "none"
+            },
+            {
+              "description": "Length of the edge fade.",
+              "name": "--ht-scroll-area-fade",
+              "default": "1.5rem"
+            }
+          ],
+          "cssParts": [
+            {
+              "description": "The scrolling element.",
+              "name": "viewport"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Scrolling content.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "orientation",
+              "privacy": "public",
+              "description": "Scroll direction: `vertical` (default), `horizontal`, or `both`.",
+              "type": {
+                "text": "'vertical' | 'horizontal' | 'both'"
+              },
+              "default": "'vertical'",
+              "attribute": "orientation",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "fade",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Fades the edges that have more content beyond them.",
+              "default": "false",
+              "attribute": "fade",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "privacy": "public",
+              "description": "Accessible name. A host `aria-label` is moved here. Makes the viewport a labelled `region`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "label"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "orientation",
+              "description": "Scroll direction: `vertical` (default), `horizontal`, or `both`.",
+              "type": {
+                "text": "'vertical' | 'horizontal' | 'both'"
+              },
+              "default": "'vertical'",
+              "fieldName": "orientation"
+            },
+            {
+              "name": "fade",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Fades the edges that have more content beyond them.",
+              "default": "false",
+              "fieldName": "fade"
+            },
+            {
+              "name": "label",
+              "description": "Accessible name. A host `aria-label` is moved here. Makes the viewport a labelled `region`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "label"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-scroll-area",
+          "customElement": true,
+          "summary": "Native scroll container with themed scrollbars and edge fades."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtScrollArea",
+          "declaration": {
+            "name": "HtScrollArea",
+            "module": "src/components/scroll-area/scroll-area.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-scroll-area",
+          "declaration": {
+            "name": "HtScrollArea",
+            "module": "src/components/scroll-area/scroll-area.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/components/select/select.ts",
       "declarations": [
         {
@@ -2629,6 +5342,931 @@
           "declaration": {
             "name": "HtSelect",
             "module": "src/components/select/select.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/separator/separator.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A 1px rule between groups of content, horizontal or vertical, with an optional centred label\n(\"Or\", \"Today\"). It is a real `separator` by default, like `<hr>`. Set `decorative` when the\nrule is only ornament and the content around it already has structure.\n\nA labelled separator keeps its text readable: the `separator` role sits on the leading line and\nthe label follows as ordinary text, because a separator's own children are not read out.",
+          "name": "HtSeparator",
+          "cssParts": [
+            {
+              "description": "The row or column holding the lines and the label.",
+              "name": "base"
+            },
+            {
+              "description": "Each of the two line segments.",
+              "name": "line"
+            },
+            {
+              "description": "The label wrapper.",
+              "name": "label"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Optional label, centred on the line. Plain text reads best.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "orientation",
+              "privacy": "public",
+              "description": "Direction of the rule. A vertical one stretches to the height of a flex or grid row.",
+              "type": {
+                "text": "'horizontal' | 'vertical'"
+              },
+              "default": "'horizontal'",
+              "attribute": "orientation",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "decorative",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Removes separator semantics (`role=\"none\"`). For ornament only.",
+              "default": "false",
+              "attribute": "decorative",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "orientation",
+              "description": "Direction of the rule. A vertical one stretches to the height of a flex or grid row.",
+              "type": {
+                "text": "'horizontal' | 'vertical'"
+              },
+              "default": "'horizontal'",
+              "fieldName": "orientation"
+            },
+            {
+              "name": "decorative",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Removes separator semantics (`role=\"none\"`). For ornament only.",
+              "default": "false",
+              "fieldName": "decorative"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-separator",
+          "customElement": true,
+          "summary": "Divider line with optional label."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtSeparator",
+          "declaration": {
+            "name": "HtSeparator",
+            "module": "src/components/separator/separator.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-separator",
+          "declaration": {
+            "name": "HtSeparator",
+            "module": "src/components/separator/separator.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/sheet/sheet.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Side drawer on the native `<dialog>`: focus trap, Escape to close and top-layer stacking\ncome from the browser. It slides in from an edge with a fading scrim, and slides back out\non close. Under `prefers-reduced-motion` it appears and disappears at once.\n\nSame header strip as `ht-dialog` (eyebrow, title, close button). The footer is a plain\nrow of actions, right-aligned, because a drawer's actions sit in a column of content, not\non a card's bottom edge.",
+          "name": "HtSheet",
+          "cssProperties": [
+            {
+              "description": "Overrides `size`: width for left and right sheets, maximum height for top and bottom.",
+              "name": "--ht-sheet-size"
+            }
+          ],
+          "cssParts": [
+            {
+              "description": "The native `<dialog>`.",
+              "name": "dialog"
+            },
+            {
+              "description": "The header row.",
+              "name": "header"
+            },
+            {
+              "description": "The scrolling body.",
+              "name": "body"
+            },
+            {
+              "description": "The footer row.",
+              "name": "footer"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Sheet body.",
+              "name": ""
+            },
+            {
+              "description": "Replaces the `heading` text.",
+              "name": "title"
+            },
+            {
+              "description": "Action row. Hidden when empty.",
+              "name": "footer"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "open",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Shows the sheet. Reflects: closing from inside updates it.",
+              "default": "false",
+              "attribute": "open",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "side",
+              "privacy": "public",
+              "description": "The edge the sheet slides in from.",
+              "type": {
+                "text": "'left' | 'right' | 'top' | 'bottom'"
+              },
+              "default": "'right'",
+              "attribute": "side",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "privacy": "public",
+              "description": "`sm` 20rem, `md` 24rem, `lg` 32rem, `xl` 40rem. Width for left and right, maximum height for top and bottom.",
+              "type": {
+                "text": "'sm' | 'md' | 'lg' | 'xl'"
+              },
+              "default": "'md'",
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "heading",
+              "privacy": "public",
+              "description": "Title text. Use the `title` slot for anything richer.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "heading"
+            },
+            {
+              "kind": "field",
+              "name": "eyebrow",
+              "privacy": "public",
+              "description": "Small uppercase mono label above the title.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "eyebrow"
+            },
+            {
+              "kind": "field",
+              "name": "persistent",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Blocks Escape and backdrop-click dismissal and hides the close button.",
+              "default": "false",
+              "attribute": "persistent",
+              "reflects": true
+            },
+            {
+              "kind": "method",
+              "name": "show",
+              "description": "Opens the sheet."
+            },
+            {
+              "kind": "method",
+              "name": "close",
+              "description": "Closes the sheet, sliding it out first."
+            }
+          ],
+          "events": [
+            {
+              "description": "The sheet closed, by any route (Escape, backdrop, close button, `open = false`).",
+              "name": "ht-close"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Shows the sheet. Reflects: closing from inside updates it.",
+              "default": "false",
+              "fieldName": "open"
+            },
+            {
+              "name": "side",
+              "description": "The edge the sheet slides in from.",
+              "type": {
+                "text": "'left' | 'right' | 'top' | 'bottom'"
+              },
+              "default": "'right'",
+              "fieldName": "side"
+            },
+            {
+              "name": "size",
+              "description": "`sm` 20rem, `md` 24rem, `lg` 32rem, `xl` 40rem. Width for left and right, maximum height for top and bottom.",
+              "type": {
+                "text": "'sm' | 'md' | 'lg' | 'xl'"
+              },
+              "default": "'md'",
+              "fieldName": "size"
+            },
+            {
+              "name": "heading",
+              "description": "Title text. Use the `title` slot for anything richer.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "heading"
+            },
+            {
+              "name": "eyebrow",
+              "description": "Small uppercase mono label above the title.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "eyebrow"
+            },
+            {
+              "name": "persistent",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Blocks Escape and backdrop-click dismissal and hides the close button.",
+              "default": "false",
+              "fieldName": "persistent"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-sheet",
+          "customElement": true,
+          "summary": "Side drawer."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtSheet",
+          "declaration": {
+            "name": "HtSheet",
+            "module": "src/components/sheet/sheet.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-sheet",
+          "declaration": {
+            "name": "HtSheet",
+            "module": "src/components/sheet/sheet.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/sidebar/sidebar.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "App-shell sidebar: a header, a scrolling list of groups, and a footer. On a wide viewport it is a column that can\ncollapse to an icon rail. Below `mobile-breakpoint` it becomes an off-canvas drawer on a native `<dialog>` with a\nscrim, focus trap, Escape to close and focus return.\n\nPut `ht-sidebar-header`, `ht-sidebar-group` and `ht-sidebar-footer` inside it. Rows are the consumer's own\n(`ht-nav-item` or anything else); the sidebar styles them generically. In rail mode slotted rows are clipped to a\n2.25rem icon column, so lead each row with its icon. Mark anything that should vanish in the rail with\n`data-expanded-only`. Tooltips for the rail are the consumer's job (wrap rows in `ht-tooltip`).\n\nThe component keeps no storage: persist `collapsed` yourself and listen for `ht-sidebar-toggle`.\nClicking a link inside the mobile drawer closes it.",
+          "name": "HtSidebar",
+          "cssProperties": [
+            {
+              "description": "Width when expanded, and the drawer width (capped at 85vw).",
+              "name": "--ht-sidebar-width",
+              "default": "16rem"
+            },
+            {
+              "description": "Width of the collapsed icon rail.",
+              "name": "--ht-sidebar-rail-width",
+              "default": "3.75rem"
+            }
+          ],
+          "cssParts": [
+            {
+              "description": "The desktop column.",
+              "name": "panel"
+            },
+            {
+              "description": "The native `<dialog>` used below the breakpoint.",
+              "name": "drawer"
+            },
+            {
+              "description": "The scrolling `<nav>`.",
+              "name": "content"
+            },
+            {
+              "description": "The drawer's close button.",
+              "name": "close"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Navigation content, normally `ht-sidebar-group` elements. Wrapped in a `<nav>` landmark.",
+              "name": ""
+            },
+            {
+              "description": "Set automatically on `ht-sidebar-header`.",
+              "name": "header"
+            },
+            {
+              "description": "Set automatically on `ht-sidebar-footer`.",
+              "name": "footer"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "label",
+              "privacy": "public",
+              "description": "Accessible name of the `<nav>` landmark, and of the drawer.",
+              "type": {
+                "text": "string"
+              },
+              "default": "'Main'",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "collapsible",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Lets the sidebar collapse to an icon rail.",
+              "default": "false",
+              "attribute": "collapsible",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "collapsed",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Shows the icon rail instead of the full sidebar. Needs `collapsible`; ignored in the mobile drawer.",
+              "default": "false",
+              "attribute": "collapsed",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "open",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Shows the mobile drawer. Closes by itself when the viewport grows past the breakpoint.",
+              "default": "false",
+              "attribute": "open",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "mobileBreakpoint",
+              "privacy": "public",
+              "type": {
+                "text": "number"
+              },
+              "description": "Viewport width in px below which the sidebar is an off-canvas drawer.",
+              "default": "768",
+              "attribute": "mobile-breakpoint"
+            },
+            {
+              "kind": "field",
+              "name": "hotkey",
+              "privacy": "public",
+              "description": "Keyboard shortcut that calls `toggle()`, for example `mod+b`. `mod` is Cmd on Apple platforms, Ctrl elsewhere. Empty turns it off.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "hotkey"
+            },
+            {
+              "kind": "field",
+              "name": "mobile",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Read only: true while the viewport is below `mobile-breakpoint`. Reflects, so you can style `ht-sidebar[mobile]`.",
+              "default": "false",
+              "attribute": "mobile",
+              "reflects": true
+            },
+            {
+              "kind": "method",
+              "name": "toggle",
+              "description": "Opens or closes the drawer below the breakpoint; collapses or expands the rail above it (when `collapsible`)."
+            }
+          ],
+          "events": [
+            {
+              "name": "ht-sidebar-toggle",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "The user collapsed, expanded, opened or closed the sidebar (`toggle()`, the hotkey, scrim, Escape, close button or a link click in the drawer). `detail` is `{ collapsed, open, mobile }`. Setting the properties from code does not fire it."
+            }
+          ],
+          "attributes": [
+            {
+              "name": "label",
+              "description": "Accessible name of the `<nav>` landmark, and of the drawer.",
+              "type": {
+                "text": "string"
+              },
+              "default": "'Main'",
+              "fieldName": "label"
+            },
+            {
+              "name": "collapsible",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Lets the sidebar collapse to an icon rail.",
+              "default": "false",
+              "fieldName": "collapsible"
+            },
+            {
+              "name": "collapsed",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Shows the icon rail instead of the full sidebar. Needs `collapsible`; ignored in the mobile drawer.",
+              "default": "false",
+              "fieldName": "collapsed"
+            },
+            {
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Shows the mobile drawer. Closes by itself when the viewport grows past the breakpoint.",
+              "default": "false",
+              "fieldName": "open"
+            },
+            {
+              "name": "mobile-breakpoint",
+              "type": {
+                "text": "number"
+              },
+              "description": "Viewport width in px below which the sidebar is an off-canvas drawer.",
+              "default": "768",
+              "fieldName": "mobileBreakpoint"
+            },
+            {
+              "name": "hotkey",
+              "description": "Keyboard shortcut that calls `toggle()`, for example `mod+b`. `mod` is Cmd on Apple platforms, Ctrl elsewhere. Empty turns it off.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "hotkey"
+            },
+            {
+              "name": "mobile",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Read only: true while the viewport is below `mobile-breakpoint`. Reflects, so you can style `ht-sidebar[mobile]`.",
+              "default": "false",
+              "fieldName": "mobile"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-sidebar",
+          "customElement": true,
+          "summary": "App sidebar with icon rail and mobile drawer."
+        },
+        {
+          "kind": "class",
+          "description": "A titled group of rows inside `ht-sidebar`. With `collapsible` the heading becomes a disclosure button.\nIn the icon rail the heading is replaced by a short rule and the rows stay visible.",
+          "name": "HtSidebarGroup",
+          "cssParts": [
+            {
+              "description": "The heading text, or the disclosure button when `collapsible`.",
+              "name": "heading"
+            },
+            {
+              "description": "The row container.",
+              "name": "body"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Rows, such as `ht-nav-item`.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "heading",
+              "privacy": "public",
+              "description": "Group title, shown as a small uppercase mono label. It also names the group for assistive technology.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "heading"
+            },
+            {
+              "kind": "field",
+              "name": "collapsible",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Makes the heading a button that hides and shows the rows.",
+              "default": "false",
+              "attribute": "collapsible",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "collapsed",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Hides the rows. Needs `collapsible`. Ignored in the icon rail.",
+              "default": "false",
+              "attribute": "collapsed",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "rail",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "rail",
+              "reflects": true
+            }
+          ],
+          "events": [
+            {
+              "description": "The user collapsed or expanded the group. `detail` is `{ collapsed }`.",
+              "name": "ht-sidebar-group-toggle"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "heading",
+              "description": "Group title, shown as a small uppercase mono label. It also names the group for assistive technology.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "heading"
+            },
+            {
+              "name": "collapsible",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Makes the heading a button that hides and shows the rows.",
+              "default": "false",
+              "fieldName": "collapsible"
+            },
+            {
+              "name": "collapsed",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Hides the rows. Needs `collapsible`. Ignored in the icon rail.",
+              "default": "false",
+              "fieldName": "collapsed"
+            },
+            {
+              "name": "rail",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "rail"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-sidebar-group",
+          "customElement": true,
+          "summary": "Sidebar section."
+        },
+        {
+          "kind": "class",
+          "description": "Top strip of `ht-sidebar`, for a workspace switcher or logo. Gets `slot=\"header\"` automatically.\nIn the mobile drawer it leaves room for the close button.",
+          "name": "HtSidebarHeader",
+          "slots": [
+            {
+              "description": "Header content. Elements with `data-expanded-only` are hidden in the icon rail.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "rail",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "rail",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "rail",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "rail"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-sidebar-header",
+          "customElement": true,
+          "summary": "Sidebar header."
+        },
+        {
+          "kind": "class",
+          "description": "Bottom strip of `ht-sidebar`, for quick actions and the user menu. Gets `slot=\"footer\"` automatically.",
+          "name": "HtSidebarFooter",
+          "slots": [
+            {
+              "description": "Footer content. Elements with `data-expanded-only` are hidden in the icon rail.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "rail",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "rail",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "rail",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "rail"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-sidebar-footer",
+          "customElement": true,
+          "summary": "Sidebar footer."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtSidebar",
+          "declaration": {
+            "name": "HtSidebar",
+            "module": "src/components/sidebar/sidebar.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "HtSidebarGroup",
+          "declaration": {
+            "name": "HtSidebarGroup",
+            "module": "src/components/sidebar/sidebar.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "HtSidebarHeader",
+          "declaration": {
+            "name": "HtSidebarHeader",
+            "module": "src/components/sidebar/sidebar.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "HtSidebarFooter",
+          "declaration": {
+            "name": "HtSidebarFooter",
+            "module": "src/components/sidebar/sidebar.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tag",
+          "declaration": {
+            "name": "ctor",
+            "module": "src/components/sidebar/sidebar.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/skeleton/skeleton.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Placeholder block for content that is still loading. It carries no meaning, so it is hidden from\nassistive technology: mark the loading region with `aria-busy=\"true\"` and announce the state in\ntext instead (see the Loading story).",
+          "name": "HtSkeleton",
+          "cssProperties": [
+            {
+              "description": "Space between lines of a multi-line text skeleton.",
+              "name": "--ht-skeleton-lines-gap",
+              "default": "8px"
+            }
+          ],
+          "cssParts": [
+            {
+              "description": "The placeholder shape. With `lines`, the wrapper around the lines.",
+              "name": "base"
+            },
+            {
+              "description": "One line of a multi-line text skeleton.",
+              "name": "line"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "variant",
+              "privacy": "public",
+              "description": "`text` is a single line of type, `rect` a block, `circle` a round avatar-sized dot.",
+              "type": {
+                "text": "'text' | 'rect' | 'circle'"
+              },
+              "default": "'text'",
+              "attribute": "variant",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "width",
+              "privacy": "public",
+              "description": "CSS length. A bare number is pixels. Defaults: `100%` for text and rect, `40px` for circle.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "width"
+            },
+            {
+              "kind": "field",
+              "name": "height",
+              "privacy": "public",
+              "description": "CSS length. A bare number is pixels. Defaults: one text line for text, `4rem` for rect, the width for circle.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "height"
+            },
+            {
+              "kind": "field",
+              "name": "lines",
+              "privacy": "public",
+              "type": {
+                "text": "number"
+              },
+              "description": "Number of text lines. The last of several lines is shorter. Only for `variant=\"text\"`.",
+              "default": "1",
+              "attribute": "lines"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "variant",
+              "description": "`text` is a single line of type, `rect` a block, `circle` a round avatar-sized dot.",
+              "type": {
+                "text": "'text' | 'rect' | 'circle'"
+              },
+              "default": "'text'",
+              "fieldName": "variant"
+            },
+            {
+              "name": "width",
+              "description": "CSS length. A bare number is pixels. Defaults: `100%` for text and rect, `40px` for circle.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "width"
+            },
+            {
+              "name": "height",
+              "description": "CSS length. A bare number is pixels. Defaults: one text line for text, `4rem` for rect, the width for circle.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "height"
+            },
+            {
+              "name": "lines",
+              "type": {
+                "text": "number"
+              },
+              "description": "Number of text lines. The last of several lines is shorter. Only for `variant=\"text\"`.",
+              "default": "1",
+              "fieldName": "lines"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-skeleton",
+          "customElement": true,
+          "summary": "Loading placeholder."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtSkeleton",
+          "declaration": {
+            "name": "HtSkeleton",
+            "module": "src/components/skeleton/skeleton.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-skeleton",
+          "declaration": {
+            "name": "HtSkeleton",
+            "module": "src/components/skeleton/skeleton.ts"
           }
         }
       ]
@@ -2937,6 +6575,423 @@
           "declaration": {
             "name": "HtSwitch",
             "module": "src/components/switch/switch.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/table/table.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Data table made of custom elements. Layout uses `display: table*` on the hosts, and each\nhost carries its own ARIA role (`table`, `rowgroup`, `row`, `columnheader`, `cell`), so\nassistive technology sees an ordinary table. Give it an accessible name with `aria-label`.\n\n```html\n<ht-table aria-label=\"Projects\">\n  <ht-table-head><ht-table-row>\n    <ht-table-header sortable key=\"name\">Name</ht-table-header>\n    <ht-table-header align=\"end\">Events</ht-table-header>\n  </ht-table-row></ht-table-head>\n  <ht-table-body>\n    <ht-table-row><ht-table-cell>sentinel</ht-table-cell><ht-table-cell align=\"end\">1,204</ht-table-cell></ht-table-row>\n  </ht-table-body>\n</ht-table>\n```\n\nThe table does not sort or filter. A sortable header fires `sort`; reorder your rows in\nresponse. Only one header shows a sort direction at a time.\n\nThe wrapper scrolls horizontally when the table is wider than its container, and joins the\ntab order while it does, so keyboard users can scroll it. For a sticky header, set\n`sticky-header` and give the table a height with `--ht-table-max-height`.",
+          "name": "HtTable",
+          "cssProperties": [
+            {
+              "description": "Maximum height of the wrapper. The body scrolls past it, which `sticky-header` needs.",
+              "name": "--ht-table-max-height",
+              "default": "none"
+            }
+          ],
+          "cssParts": [
+            {
+              "description": "The bordered, scrolling wrapper.",
+              "name": "scroll"
+            },
+            {
+              "description": "The empty-state row.",
+              "name": "empty"
+            }
+          ],
+          "slots": [
+            {
+              "description": "`ht-table-head` and `ht-table-body`.",
+              "name": ""
+            },
+            {
+              "description": "Shown below the header while the body has no rows.",
+              "name": "empty"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "density",
+              "privacy": "public",
+              "description": "`comfortable` (rows about 44px) or `dense` (about 32px).",
+              "type": {
+                "text": "'comfortable' | 'dense'"
+              },
+              "default": "'comfortable'",
+              "attribute": "density",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "zebra",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Tints every second body row.",
+              "default": "false",
+              "attribute": "zebra",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "stickyHeader",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Keeps the header row at the top of the wrapper while the body scrolls. Needs `--ht-table-max-height`.",
+              "default": "false",
+              "attribute": "sticky-header",
+              "reflects": true
+            }
+          ],
+          "events": [
+            {
+              "description": "A sortable header was activated. Bubbles from the header: `detail` is `{ key, direction }`. The table resets the other headers' `sort` to `none`.",
+              "name": "sort"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "density",
+              "description": "`comfortable` (rows about 44px) or `dense` (about 32px).",
+              "type": {
+                "text": "'comfortable' | 'dense'"
+              },
+              "default": "'comfortable'",
+              "fieldName": "density"
+            },
+            {
+              "name": "zebra",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Tints every second body row.",
+              "default": "false",
+              "fieldName": "zebra"
+            },
+            {
+              "name": "sticky-header",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Keeps the header row at the top of the wrapper while the body scrolls. Needs `--ht-table-max-height`.",
+              "default": "false",
+              "fieldName": "stickyHeader"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-table",
+          "customElement": true,
+          "summary": "Data table with density, row states and sortable headers."
+        },
+        {
+          "kind": "class",
+          "description": "Header row group. Put `ht-table-row` elements with `ht-table-header` cells in it.",
+          "name": "HtTableHead",
+          "slots": [
+            {
+              "description": "`ht-table-row` elements.",
+              "name": ""
+            }
+          ],
+          "members": [],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-table-head",
+          "customElement": true,
+          "summary": "Table header group."
+        },
+        {
+          "kind": "class",
+          "description": "Body row group. Put `ht-table-row` elements with `ht-table-cell` cells in it.",
+          "name": "HtTableBody",
+          "slots": [
+            {
+              "description": "`ht-table-row` elements.",
+              "name": ""
+            }
+          ],
+          "members": [],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-table-body",
+          "customElement": true,
+          "summary": "Table body group."
+        },
+        {
+          "kind": "class",
+          "description": "One table row. Tints on hover. Mark the current one with `selected`: it gets an accent\ntint, an accent bar on its first cell, and `aria-selected`.",
+          "name": "HtTableRow",
+          "slots": [
+            {
+              "description": "`ht-table-header` or `ht-table-cell` elements.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "selected",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Marks the row as selected.",
+              "default": "false",
+              "attribute": "selected",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "selected",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Marks the row as selected.",
+              "default": "false",
+              "fieldName": "selected"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-table-row",
+          "customElement": true,
+          "summary": "Table row."
+        },
+        {
+          "kind": "class",
+          "description": "A column header. With `sortable` it holds a button, announces `aria-sort`, and fires\n`sort` when activated. It cycles none, ascending, descending, ascending, and so on. The\nheader only reports intent: your code reorders the rows.",
+          "name": "HtTableHeader",
+          "cssParts": [
+            {
+              "description": "The sort button (only when `sortable`).",
+              "name": "button"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Header text.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "sortable",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Makes the header a sort button.",
+              "default": "false",
+              "attribute": "sortable",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "sort",
+              "privacy": "public",
+              "description": "Current direction. Set it from your code to show an initial or restored sort.",
+              "type": {
+                "text": "'none' | 'ascending' | 'descending'"
+              },
+              "default": "'none'",
+              "attribute": "sort",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "key",
+              "privacy": "public",
+              "description": "Identifier sent in the `sort` event. Defaults to the header text.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "key"
+            },
+            {
+              "kind": "field",
+              "name": "align",
+              "privacy": "public",
+              "description": "Text alignment. `end` also uses tabular numerals, for numbers.",
+              "type": {
+                "text": "'start' | 'center' | 'end'"
+              },
+              "default": "'start'",
+              "attribute": "align",
+              "reflects": true
+            }
+          ],
+          "events": [
+            {
+              "description": "The sort button was activated. `detail` is `{ key, direction }`, where `key` is the header's `key` (or its text). Bubbles and is composed.",
+              "name": "sort"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "sortable",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Makes the header a sort button.",
+              "default": "false",
+              "fieldName": "sortable"
+            },
+            {
+              "name": "sort",
+              "description": "Current direction. Set it from your code to show an initial or restored sort.",
+              "type": {
+                "text": "'none' | 'ascending' | 'descending'"
+              },
+              "default": "'none'",
+              "fieldName": "sort"
+            },
+            {
+              "name": "key",
+              "description": "Identifier sent in the `sort` event. Defaults to the header text.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "key"
+            },
+            {
+              "name": "align",
+              "description": "Text alignment. `end` also uses tabular numerals, for numbers.",
+              "type": {
+                "text": "'start' | 'center' | 'end'"
+              },
+              "default": "'start'",
+              "fieldName": "align"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-table-header",
+          "customElement": true,
+          "summary": "Table column header."
+        },
+        {
+          "kind": "class",
+          "description": "A table cell. For a row header, set `role=\"rowheader\"` on it.",
+          "name": "HtTableCell",
+          "slots": [
+            {
+              "description": "Cell content.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "align",
+              "privacy": "public",
+              "description": "Text alignment. `end` also uses tabular numerals, for numbers.",
+              "type": {
+                "text": "'start' | 'center' | 'end'"
+              },
+              "default": "'start'",
+              "attribute": "align",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "align",
+              "description": "Text alignment. `end` also uses tabular numerals, for numbers.",
+              "type": {
+                "text": "'start' | 'center' | 'end'"
+              },
+              "default": "'start'",
+              "fieldName": "align"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-table-cell",
+          "customElement": true,
+          "summary": "Table cell."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtTable",
+          "declaration": {
+            "name": "HtTable",
+            "module": "src/components/table/table.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "HtTableHead",
+          "declaration": {
+            "name": "HtTableHead",
+            "module": "src/components/table/table.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "HtTableBody",
+          "declaration": {
+            "name": "HtTableBody",
+            "module": "src/components/table/table.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "HtTableRow",
+          "declaration": {
+            "name": "HtTableRow",
+            "module": "src/components/table/table.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "HtTableHeader",
+          "declaration": {
+            "name": "HtTableHeader",
+            "module": "src/components/table/table.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "HtTableCell",
+          "declaration": {
+            "name": "HtTableCell",
+            "module": "src/components/table/table.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tag",
+          "declaration": {
+            "name": "ctor",
+            "module": "src/components/table/table.ts"
           }
         }
       ]
@@ -3314,6 +7369,398 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/components/textarea/textarea.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Multi-line text field with label, helper and error text. Same look and API as `ht-input`:\nparticipates in forms, constraint validation and form reset like a native `<textarea>`.\nFor a chat-style command box with trailing actions use `ht-prompt` instead.",
+          "name": "HtTextarea",
+          "cssParts": [
+            {
+              "description": "The label element.",
+              "name": "label"
+            },
+            {
+              "description": "The bordered box around the native textarea.",
+              "name": "control"
+            },
+            {
+              "description": "The native `<textarea>`.",
+              "name": "textarea"
+            },
+            {
+              "description": "The helper or error text.",
+              "name": "message"
+            },
+            {
+              "description": "The character counter.",
+              "name": "counter"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "label",
+              "privacy": "public",
+              "description": "Visible label. With no visible label, set `aria-label` on the element instead; it is forwarded to the native textarea.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "helper",
+              "privacy": "public",
+              "description": "Helper text shown under the field. Replaced by `error` or a validation message.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "helper"
+            },
+            {
+              "kind": "field",
+              "name": "error",
+              "privacy": "public",
+              "description": "Error text. Setting it marks the field invalid.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "error"
+            },
+            {
+              "kind": "field",
+              "name": "invalid",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Marks the field invalid without a message.",
+              "default": "false",
+              "attribute": "invalid",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "placeholder",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "placeholder"
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "privacy": "public",
+              "description": "Current value.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "name"
+            },
+            {
+              "kind": "field",
+              "name": "required",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "required",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "readonly",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "readonly",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "rows",
+              "privacy": "public",
+              "type": {
+                "text": "number"
+              },
+              "description": "Visible lines. With `autosize` this is the minimum.",
+              "default": "3",
+              "attribute": "rows"
+            },
+            {
+              "kind": "field",
+              "name": "autosize",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Grows with its content instead of showing a scrollbar. The manual resize handle is removed.",
+              "default": "false",
+              "attribute": "autosize",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "maxRows",
+              "privacy": "public",
+              "type": {
+                "text": "number"
+              },
+              "description": "With `autosize`, the line count at which growth stops and the field scrolls. 0 means no limit.",
+              "default": "0",
+              "attribute": "max-rows"
+            },
+            {
+              "kind": "field",
+              "name": "maxLength",
+              "privacy": "public",
+              "type": {
+                "text": "number | undefined"
+              },
+              "description": "Maximum number of characters. The browser stops typing at the limit.",
+              "default": "undefined",
+              "attribute": "maxlength"
+            },
+            {
+              "kind": "field",
+              "name": "counter",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Shows `length / maxlength` under the field. Needs `maxlength`.",
+              "default": "false",
+              "attribute": "counter",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "form",
+              "description": "The owning form, if any.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "validity",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "validationMessage",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "checkValidity"
+            },
+            {
+              "kind": "method",
+              "name": "reportValidity"
+            }
+          ],
+          "events": [
+            {
+              "description": "Value changed by typing. Native event, crosses the shadow boundary.",
+              "name": "input"
+            },
+            {
+              "description": "Value committed (blur). Re-dispatched from the host.",
+              "name": "change"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "label",
+              "description": "Visible label. With no visible label, set `aria-label` on the element instead; it is forwarded to the native textarea.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "label"
+            },
+            {
+              "name": "helper",
+              "description": "Helper text shown under the field. Replaced by `error` or a validation message.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "helper"
+            },
+            {
+              "name": "error",
+              "description": "Error text. Setting it marks the field invalid.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "error"
+            },
+            {
+              "name": "invalid",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Marks the field invalid without a message.",
+              "default": "false",
+              "fieldName": "invalid"
+            },
+            {
+              "name": "placeholder",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "placeholder"
+            },
+            {
+              "name": "value",
+              "description": "Current value.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "value"
+            },
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "name"
+            },
+            {
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "required"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "readonly",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "readonly"
+            },
+            {
+              "name": "rows",
+              "type": {
+                "text": "number"
+              },
+              "description": "Visible lines. With `autosize` this is the minimum.",
+              "default": "3",
+              "fieldName": "rows"
+            },
+            {
+              "name": "autosize",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Grows with its content instead of showing a scrollbar. The manual resize handle is removed.",
+              "default": "false",
+              "fieldName": "autosize"
+            },
+            {
+              "name": "max-rows",
+              "type": {
+                "text": "number"
+              },
+              "description": "With `autosize`, the line count at which growth stops and the field scrolls. 0 means no limit.",
+              "default": "0",
+              "fieldName": "maxRows"
+            },
+            {
+              "name": "maxlength",
+              "type": {
+                "text": "number | undefined"
+              },
+              "description": "Maximum number of characters. The browser stops typing at the limit.",
+              "default": "undefined",
+              "fieldName": "maxLength"
+            },
+            {
+              "name": "counter",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Shows `length / maxlength` under the field. Needs `maxlength`.",
+              "default": "false",
+              "fieldName": "counter"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-textarea",
+          "customElement": true,
+          "summary": "Multi-line text field."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtTextarea",
+          "declaration": {
+            "name": "HtTextarea",
+            "module": "src/components/textarea/textarea.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-textarea",
+          "declaration": {
+            "name": "HtTextarea",
+            "module": "src/components/textarea/textarea.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/components/toast/toast.ts",
       "declarations": [
         {
@@ -3533,6 +7980,472 @@
           "declaration": {
             "name": "ctor",
             "module": "src/components/toast/toast.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/toggle-group/toggle-group.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A row of joined toggle buttons with one shared outline and radius. Not `ht-tabs`: there is\nno recessed track, and nothing switches panels. Use it for view modes and formatting.\n\n`type=\"single\"` is a radio group: one item is on, arrows move focus and select, and the\nselected item cannot be cleared. `type=\"multiple\"` is a group of toggle buttons: arrows\nmove focus, Space or Enter toggles. Both have one tab stop (roving tabindex), wrap at the\nends, and honour Home and End.\n\nGive the group an accessible name with `aria-label` (valid on the host, which carries a\nrole). An item with no text needs its own `aria-label`.",
+          "name": "HtToggleGroup",
+          "slots": [
+            {
+              "description": "`ht-toggle-item` elements.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "type",
+              "privacy": "public",
+              "description": "`single` allows one pressed item (radio semantics), `multiple` any number.",
+              "type": {
+                "text": "'single' | 'multiple'"
+              },
+              "default": "'single'",
+              "attribute": "type",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "privacy": "public",
+              "description": "Pressed item values. One value for `single`; comma-separated for `multiple` (so a value cannot contain a comma). Defaults to the items marked `pressed`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "value",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "privacy": "public",
+              "description": "Item height: sm 24px, md 28px, lg 32px.",
+              "type": {
+                "text": "'sm' | 'md' | 'lg'"
+              },
+              "default": "'md'",
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Disables every item.",
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "values",
+              "type": {
+                "text": "string[]"
+              },
+              "description": "The pressed values as an array. Setting it updates `value`."
+            }
+          ],
+          "events": [
+            {
+              "name": "change",
+              "type": {
+                "text": "Event"
+              },
+              "description": "Selection changed by user action. Read `value` (or `values`) from the host."
+            }
+          ],
+          "attributes": [
+            {
+              "name": "type",
+              "description": "`single` allows one pressed item (radio semantics), `multiple` any number.",
+              "type": {
+                "text": "'single' | 'multiple'"
+              },
+              "default": "'single'",
+              "fieldName": "type"
+            },
+            {
+              "name": "value",
+              "description": "Pressed item values. One value for `single`; comma-separated for `multiple` (so a value cannot contain a comma). Defaults to the items marked `pressed`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "value"
+            },
+            {
+              "name": "size",
+              "description": "Item height: sm 24px, md 28px, lg 32px.",
+              "type": {
+                "text": "'sm' | 'md' | 'lg'"
+              },
+              "default": "'md'",
+              "fieldName": "size"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Disables every item.",
+              "default": "false",
+              "fieldName": "disabled"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-toggle-group",
+          "customElement": true,
+          "summary": "Joined toggle buttons, single or multiple choice."
+        },
+        {
+          "kind": "class",
+          "description": "One item inside `ht-toggle-group`. Its role (`radio` or `button`), `aria-checked` or\n`aria-pressed`, and tab stop are managed by the group. An icon-only item needs an\n`aria-label` (valid here, because the host carries the role).",
+          "name": "HtToggleItem",
+          "cssParts": [
+            {
+              "description": "The item face.",
+              "name": "base"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Item label.",
+              "name": ""
+            },
+            {
+              "description": "Icon or element before the label.",
+              "name": "prefix"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "value",
+              "privacy": "public",
+              "description": "Identifier listed in the group's `value`. Defaults to the item's index.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "pressed",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Set by the group from its `value`. Mark an item `pressed` to start with it on.",
+              "default": "false",
+              "attribute": "pressed",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "groupDisabled",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "value",
+              "description": "Identifier listed in the group's `value`. Defaults to the item's index.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "value"
+            },
+            {
+              "name": "pressed",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Set by the group from its `value`. Mark an item `pressed` to start with it on.",
+              "default": "false",
+              "fieldName": "pressed"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-toggle-item",
+          "customElement": true,
+          "summary": "Item in a toggle group."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtToggleGroup",
+          "declaration": {
+            "name": "HtToggleGroup",
+            "module": "src/components/toggle-group/toggle-group.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "HtToggleItem",
+          "declaration": {
+            "name": "HtToggleItem",
+            "module": "src/components/toggle-group/toggle-group.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tag",
+          "declaration": {
+            "name": "ctor",
+            "module": "src/components/toggle-group/toggle-group.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/toggle/toggle.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A button that stays pressed: bold, mute, pin. Reports its state with `aria-pressed`. The\npressed look is an accent-soft fill with an accent border, so it still reads without colour.\nPressed state is submitted with the form as `name=value`; unpressed submits nothing.\n\nA toggle with no text (icon only) needs a `label`, or an `aria-label` on the element,\nwhich is forwarded to the native button.",
+          "name": "HtToggle",
+          "cssParts": [
+            {
+              "description": "The inner native `<button>`.",
+              "name": "base"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Toggle label.",
+              "name": ""
+            },
+            {
+              "description": "Icon or element before the label.",
+              "name": "prefix"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "pressed",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Whether the toggle is on.",
+              "default": "false",
+              "attribute": "pressed",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "variant",
+              "privacy": "public",
+              "description": "`default` is flat with a hover tint, `outline` adds a field-style border.",
+              "type": {
+                "text": "'default' | 'outline'"
+              },
+              "default": "'default'",
+              "attribute": "variant",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "privacy": "public",
+              "description": "Height: sm 24px, md 28px, lg 32px, so it lines up with `ht-button`.",
+              "type": {
+                "text": "'sm' | 'md' | 'lg'"
+              },
+              "default": "'md'",
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "privacy": "public",
+              "description": "Form field name. Without it nothing is submitted.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "name"
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "privacy": "public",
+              "description": "Value submitted while pressed.",
+              "type": {
+                "text": "string"
+              },
+              "default": "'on'",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "privacy": "public",
+              "description": "Accessible name for an icon-only toggle. A host `aria-label` is moved here.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "form",
+              "description": "The owning form, if any.",
+              "readonly": true
+            }
+          ],
+          "events": [
+            {
+              "description": "Pressed state changed by user action (or `el.click()`). Read `pressed` from the host.",
+              "name": "change"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "pressed",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Whether the toggle is on.",
+              "default": "false",
+              "fieldName": "pressed"
+            },
+            {
+              "name": "variant",
+              "description": "`default` is flat with a hover tint, `outline` adds a field-style border.",
+              "type": {
+                "text": "'default' | 'outline'"
+              },
+              "default": "'default'",
+              "fieldName": "variant"
+            },
+            {
+              "name": "size",
+              "description": "Height: sm 24px, md 28px, lg 32px, so it lines up with `ht-button`.",
+              "type": {
+                "text": "'sm' | 'md' | 'lg'"
+              },
+              "default": "'md'",
+              "fieldName": "size"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "name",
+              "description": "Form field name. Without it nothing is submitted.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "name"
+            },
+            {
+              "name": "value",
+              "description": "Value submitted while pressed.",
+              "type": {
+                "text": "string"
+              },
+              "default": "'on'",
+              "fieldName": "value"
+            },
+            {
+              "name": "label",
+              "description": "Accessible name for an icon-only toggle. A host `aria-label` is moved here.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "label"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-toggle",
+          "customElement": true,
+          "summary": "Two-state toggle button."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtToggle",
+          "declaration": {
+            "name": "HtToggle",
+            "module": "src/components/toggle/toggle.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-toggle",
+          "declaration": {
+            "name": "HtToggle",
+            "module": "src/components/toggle/toggle.ts"
           }
         }
       ]
