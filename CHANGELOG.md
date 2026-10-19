@@ -2,6 +2,11 @@
 
 All notable changes to `@_mehrad/halftone`. Versions follow semver; while the major is 0, minor bumps may break.
 
+## Unreleased
+
+- 20 new elements from the Taskscape gap audit: textarea, avatar (+ group), progress, skeleton, separator, breadcrumb (+ item), popover, menu (+ item, separator, label), alert dialog, sheet, command (+ item, group), table (+ head, body, row, header, cell), toggle, toggle group (+ item), scroll area, calendar, sidebar (+ group, header, footer), emoji picker.
+- Decisions and trade-offs: `docs/decisions.md`, entry 2026-10-19.
+
 ## 0.1.0 (2026-10-12)
 
 First public release. Contents:
