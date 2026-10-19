@@ -1579,6 +1579,202 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/components/carousel/carousel.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A row of slides that scrolls sideways and snaps to each one, with previous and next buttons and\noptional dots. Scrolling is native, so touch, trackpad and wheel work as usual. Follows the\nWAI-ARIA carousel pattern: the host is a named region, and each `ht-carousel-item` announces\nitself as \"slide N of M\".\n\nIt never moves on its own. Name it with `label`. Arrow keys, Home and End on the slide area move\nbetween slides. Make slides narrower than the area (to show several at once) with\n`--ht-carousel-item-size`.",
+          "name": "HtCarousel",
+          "cssProperties": [
+            {
+              "description": "Space between slides.",
+              "name": "--ht-carousel-gap",
+              "default": "16px"
+            },
+            {
+              "description": "Width of each slide, as a share of the slide area.",
+              "name": "--ht-carousel-item-size",
+              "default": "100%"
+            }
+          ],
+          "cssParts": [
+            {
+              "description": "The scrolling slide area.",
+              "name": "viewport"
+            },
+            {
+              "description": "The row with the buttons and dots.",
+              "name": "controls"
+            },
+            {
+              "description": "The previous button.",
+              "name": "prev"
+            },
+            {
+              "description": "The next button.",
+              "name": "next"
+            },
+            {
+              "description": "The dots wrapper.",
+              "name": "dots"
+            },
+            {
+              "description": "One dot.",
+              "name": "dot"
+            }
+          ],
+          "slots": [
+            {
+              "description": "`ht-carousel-item` elements.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "label",
+              "privacy": "public",
+              "description": "Accessible name of the carousel, such as `Customer stories`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "dots",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Shows one dot per slide.",
+              "default": "false",
+              "attribute": "dots",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "index",
+              "description": "Index of the current slide, from 0.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "goTo",
+              "parameters": [
+                {
+                  "name": "i",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ],
+              "description": "Scrolls so that slide `i` (from 0) is at the start. Slides at the very end stop where the scroll ends."
+            },
+            {
+              "kind": "method",
+              "name": "next",
+              "description": "Goes to the next slide."
+            },
+            {
+              "kind": "method",
+              "name": "prev",
+              "description": "Goes to the previous slide."
+            }
+          ],
+          "events": [
+            {
+              "description": "The visible slide changed, by any cause. Read `index` from the host.",
+              "name": "change"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "label",
+              "description": "Accessible name of the carousel, such as `Customer stories`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "label"
+            },
+            {
+              "name": "dots",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Shows one dot per slide.",
+              "default": "false",
+              "fieldName": "dots"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-carousel",
+          "customElement": true,
+          "summary": "Snapping sideways slider with arrows and dots."
+        },
+        {
+          "kind": "class",
+          "description": "One slide of an `ht-carousel`. It snaps to the start of the slide area and announces itself as\n\"N of M\". Put any content inside.",
+          "name": "HtCarouselItem",
+          "slots": [
+            {
+              "description": "Slide content.",
+              "name": ""
+            }
+          ],
+          "members": [],
+          "attributes": [],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-carousel-item",
+          "customElement": true,
+          "summary": "One slide in a carousel."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtCarousel",
+          "declaration": {
+            "name": "HtCarousel",
+            "module": "src/components/carousel/carousel.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "HtCarouselItem",
+          "declaration": {
+            "name": "HtCarouselItem",
+            "module": "src/components/carousel/carousel.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-carousel",
+          "declaration": {
+            "name": "HtCarousel",
+            "module": "src/components/carousel/carousel.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-carousel-item",
+          "declaration": {
+            "name": "HtCarouselItem",
+            "module": "src/components/carousel/carousel.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/components/checkbox/checkbox.ts",
       "declarations": [
         {
@@ -4116,6 +4312,199 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/components/number/number.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A formatted number that animates when its `value` changes: stats, totals, counters. Formatting\nis `Intl.NumberFormat`, so grouping, decimals, currency and compact notation follow the locale.\nDigits are always Latin (0 to 9), whatever the locale.\n\nTwo effects. `slide` (default) rolls each digit up or down its own 0 to 9 reel, so only the\ndigits that change move. `count` counts from the old value to the new one. The first value is\nshown as it is, with no animation.\n\nAssistive technology reads the final formatted value once. The moving digits are hidden from it,\nso a screen reader never reads numbers in motion. With reduced motion the number just changes.",
+          "name": "HtNumber",
+          "cssProperties": [
+            {
+              "description": "Time a change takes. Set with the `duration` attribute instead of this variable.",
+              "name": "--ht-number-duration",
+              "default": "600ms"
+            }
+          ],
+          "cssParts": [
+            {
+              "description": "The visible, animated number.",
+              "name": "visual"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "value",
+              "privacy": "public",
+              "type": {
+                "text": "number"
+              },
+              "description": "The number to show.",
+              "default": "0",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "effect",
+              "privacy": "public",
+              "description": "`slide` rolls each digit; `count` counts up or down.",
+              "type": {
+                "text": "'slide' | 'count'"
+              },
+              "default": "'slide'",
+              "attribute": "effect",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "locale",
+              "privacy": "public",
+              "description": "BCP 47 language tag. Defaults to the nearest `lang` ancestor, then the browser language.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "locale"
+            },
+            {
+              "kind": "field",
+              "name": "currency",
+              "privacy": "public",
+              "description": "ISO 4217 currency code, such as `USD`. Shows the value as money.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "currency"
+            },
+            {
+              "kind": "field",
+              "name": "decimals",
+              "privacy": "public",
+              "type": {
+                "text": "number | undefined"
+              },
+              "description": "Digits after the decimal point. Without it, whole numbers show no decimals and others up to 3.",
+              "attribute": "decimals"
+            },
+            {
+              "kind": "field",
+              "name": "compact",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Short form such as `1.2K`.",
+              "default": "false",
+              "attribute": "compact",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "duration",
+              "privacy": "public",
+              "type": {
+                "text": "number"
+              },
+              "description": "Milliseconds a change takes.",
+              "default": "600",
+              "attribute": "duration"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "value",
+              "type": {
+                "text": "number"
+              },
+              "description": "The number to show.",
+              "default": "0",
+              "fieldName": "value"
+            },
+            {
+              "name": "effect",
+              "description": "`slide` rolls each digit; `count` counts up or down.",
+              "type": {
+                "text": "'slide' | 'count'"
+              },
+              "default": "'slide'",
+              "fieldName": "effect"
+            },
+            {
+              "name": "locale",
+              "description": "BCP 47 language tag. Defaults to the nearest `lang` ancestor, then the browser language.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "locale"
+            },
+            {
+              "name": "currency",
+              "description": "ISO 4217 currency code, such as `USD`. Shows the value as money.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "currency"
+            },
+            {
+              "name": "decimals",
+              "type": {
+                "text": "number | undefined"
+              },
+              "description": "Digits after the decimal point. Without it, whole numbers show no decimals and others up to 3.",
+              "fieldName": "decimals"
+            },
+            {
+              "name": "compact",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Short form such as `1.2K`.",
+              "default": "false",
+              "fieldName": "compact"
+            },
+            {
+              "name": "duration",
+              "type": {
+                "text": "number"
+              },
+              "description": "Milliseconds a change takes.",
+              "default": "600",
+              "fieldName": "duration"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-number",
+          "customElement": true,
+          "summary": "Formatted number that rolls or counts to a new value."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtNumber",
+          "declaration": {
+            "name": "HtNumber",
+            "module": "src/components/number/number.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-number",
+          "declaration": {
+            "name": "HtNumber",
+            "module": "src/components/number/number.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/components/popover/popover.ts",
       "declarations": [
         {
@@ -5844,6 +6233,78 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/components/shimmer/shimmer.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Text with a band of light that sweeps across it, for a line that says something is in progress,\nsuch as \"Thinking…\". The text stays real, selectable text in the default slot. The effect is only\na gradient painted through the letters, so it adds nothing for assistive technology: announce the\nstate yourself, for example in a `role=\"status\"` region.\n\nWith reduced motion, or in forced-colors mode, the text is plain and still.",
+          "name": "HtShimmer",
+          "cssParts": [
+            {
+              "description": "The element that carries the gradient.",
+              "name": "text"
+            }
+          ],
+          "slots": [
+            {
+              "description": "The text.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "duration",
+              "privacy": "public",
+              "type": {
+                "text": "number"
+              },
+              "description": "Seconds for one sweep.",
+              "default": "2",
+              "attribute": "duration"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "duration",
+              "type": {
+                "text": "number"
+              },
+              "description": "Seconds for one sweep.",
+              "default": "2",
+              "fieldName": "duration"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-shimmer",
+          "customElement": true,
+          "summary": "Text with a sweeping highlight."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtShimmer",
+          "declaration": {
+            "name": "HtShimmer",
+            "module": "src/components/shimmer/shimmer.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-shimmer",
+          "declaration": {
+            "name": "HtShimmer",
+            "module": "src/components/shimmer/shimmer.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/components/sidebar/sidebar.ts",
       "declarations": [
         {
@@ -6582,6 +7043,78 @@
           "declaration": {
             "name": "HtSpeechBubble",
             "module": "src/components/speech-bubble/speech-bubble.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/spotlight/spotlight.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A wrapper that reveals the halftone dot screen, with a faint accent glow, under the mouse\npointer. Wrap a card or a panel; it follows the pointer and fades out when the pointer leaves.\n\nIt is decoration only: the overlay ignores pointer events and is hidden from assistive\ntechnology, and it does nothing for touch or keyboard. With reduced motion it is not shown. Give\nthe wrapper the radius of what it wraps (`border-radius`) so the overlay matches the corners.",
+          "name": "HtSpotlight",
+          "cssParts": [
+            {
+              "description": "The overlay that holds the glow and the dots.",
+              "name": "overlay"
+            }
+          ],
+          "slots": [
+            {
+              "description": "The content to put the spotlight over.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "size",
+              "privacy": "public",
+              "type": {
+                "text": "number"
+              },
+              "description": "Radius of the spotlight in pixels.",
+              "default": "200",
+              "attribute": "size"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "size",
+              "type": {
+                "text": "number"
+              },
+              "description": "Radius of the spotlight in pixels.",
+              "default": "200",
+              "fieldName": "size"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-spotlight",
+          "customElement": true,
+          "summary": "Cursor-following halftone glow."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtSpotlight",
+          "declaration": {
+            "name": "HtSpotlight",
+            "module": "src/components/spotlight/spotlight.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-spotlight",
+          "declaration": {
+            "name": "HtSpotlight",
+            "module": "src/components/spotlight/spotlight.ts"
           }
         }
       ]
