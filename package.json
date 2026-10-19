@@ -6,6 +6,8 @@
   "license": "MIT",
   "sideEffects": [
     "**/*.css",
+    "./src/components/**",
+    "./src/index.ts",
     "./dist/components/**",
     "./dist/index.js"
   ],
