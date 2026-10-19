@@ -51,6 +51,14 @@
             {
               "description": "Replaces the `heading` text.",
               "name": "title"
+            },
+            {
+              "description": "Replaces the `confirm-label` text inside the confirm action, e.g. a spinner and a label while a request runs.",
+              "name": "confirm"
+            },
+            {
+              "description": "Replaces the `cancel-label` text inside the cancel action.",
+              "name": "cancel"
             }
           ],
           "members": [
@@ -132,6 +140,30 @@
               },
               "default": "'Cancel'",
               "attribute": "cancel-label"
+            },
+            {
+              "kind": "field",
+              "name": "confirmDisabled",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Disables the confirm action, e.g. until a required choice is made or while a request runs.",
+              "default": "false",
+              "attribute": "confirm-disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "cancelDisabled",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Disables the cancel action. Escape still cancels.",
+              "default": "false",
+              "attribute": "cancel-disabled",
+              "reflects": true
             },
             {
               "kind": "field",
@@ -244,6 +276,24 @@
               },
               "default": "'Cancel'",
               "fieldName": "cancelLabel"
+            },
+            {
+              "name": "confirm-disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Disables the confirm action, e.g. until a required choice is made or while a request runs.",
+              "default": "false",
+              "fieldName": "confirmDisabled"
+            },
+            {
+              "name": "cancel-disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Disables the cancel action. Escape still cancels.",
+              "default": "false",
+              "fieldName": "cancelDisabled"
             }
           ],
           "superclass": {

@@ -71,3 +71,42 @@ export const WithRichBody: StoryObj = {
 export const OpenByDefault: StoryObj = {
   render: () => html`<ht-alert-dialog open heading="Heads up" description="Initial focus is on Cancel." confirm-label="Got It"></ht-alert-dialog>`,
 };
+
+/** Slot rich content into the actions and disable them while work runs. The consumer keeps the dialog open with `preventDefault()` on `confirm`. */
+export const BusyAndDisabled: StoryObj = {
+  render: () => html`
+    <ht-button @click=${show}>Delete Comment</ht-button>
+    <ht-alert-dialog
+      tone="danger"
+      heading="Delete comment?"
+      description="This action cannot be undone. The comment will be permanently deleted."
+      @confirm=${(e: Event) => {
+        e.preventDefault();
+        const el = e.currentTarget as any;
+        el.confirmDisabled = true;
+        el.cancelDisabled = true;
+        el.querySelector('[slot=confirm]').textContent = 'Deleting…';
+        setTimeout(() => {
+          el.confirmDisabled = false;
+          el.cancelDisabled = false;
+          el.querySelector('[slot=confirm]').textContent = 'Delete';
+          el.close();
+        }, 1500);
+      }}
+    >
+      <span slot="confirm">Delete</span>
+    </ht-alert-dialog>`,
+};
+
+export const ConfirmDisabledUntilChoice: StoryObj = {
+  render: () => html`
+    <ht-button @click=${show}>Delete Status</ht-button>
+    <ht-alert-dialog tone="danger" heading="Delete status?" confirm-label="Delete Status" confirm-disabled>
+      <label style="display:flex;gap:8px;align-items:center;margin-top:8px">
+        <input type="checkbox" @change=${(e: Event) => {
+          ((e.target as HTMLElement).closest('ht-alert-dialog') as any).confirmDisabled = !(e.target as HTMLInputElement).checked;
+        }} />
+        Move its tickets to another status
+      </label>
+    </ht-alert-dialog>`,
+};
