@@ -38,3 +38,7 @@ export { HtToggleGroup, HtToggleItem } from './components/toggle-group/toggle-gr
 export { HtAccordion, HtAccordionItem } from './components/accordion/accordion.js';
 export { HtMarquee } from './components/marquee/marquee.js';
 export { HtPing } from './components/ping/ping.js';
+export { HtCarousel, HtCarouselItem } from './components/carousel/carousel.js';
+export { HtNumber } from './components/number/number.js';
+export { HtShimmer } from './components/shimmer/shimmer.js';
+export { HtSpotlight } from './components/spotlight/spotlight.js';
