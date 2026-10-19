@@ -35,3 +35,4 @@ export { HtTable, HtTableBody, HtTableCell, HtTableHead, HtTableHeader, HtTableR
 export { HtTextarea } from './components/textarea/textarea.js';
 export { HtToggle } from './components/toggle/toggle.js';
 export { HtToggleGroup, HtToggleItem } from './components/toggle-group/toggle-group.js';
+export { HtCarousel, HtCarouselItem } from './components/carousel/carousel.js';
