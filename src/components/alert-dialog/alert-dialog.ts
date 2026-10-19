@@ -33,6 +33,8 @@ import { LitElement, css, html, nothing } from 'lit';
  */
 export class HtAlertDialog extends LitElement {
   static properties = {
+    /** Liquid glass look: a translucent panel that blurs what is behind it, with a bright rim and a sheen. */
+    glass: { type: Boolean, reflect: true },
     /** Shows the dialog. Reflects: closing from inside updates it. */
     open: { type: Boolean, reflect: true },
     /** Title text. Use the `title` slot for anything richer. */
@@ -59,8 +61,11 @@ export class HtAlertDialog extends LitElement {
 
   #settled = false;
 
+  declare glass: boolean;
+
   constructor() {
     super();
+    this.glass = false;
     this.open = false;
     this.heading = '';
     this.eyebrow = '';
@@ -81,7 +86,7 @@ export class HtAlertDialog extends LitElement {
       overflow: hidden;
       color: var(--ht-text);
       background: var(--ht-surface);
-      border: 1px solid var(--ht-border-strong);
+      border: 0;
       border-radius: var(--ht-radius-lg);
       box-shadow: var(--ht-shadow-md);
     }
@@ -104,6 +109,7 @@ export class HtAlertDialog extends LitElement {
       padding: 14px 16px;
       background: var(--ht-halftone), var(--ht-surface-muted);
       border-bottom: 1px solid var(--ht-border);
+      border-radius: var(--ht-radius-lg) var(--ht-radius-lg) 0 0;
     }
     :host([tone='danger']) header {
       background: var(--ht-danger-soft);
@@ -122,22 +128,24 @@ export class HtAlertDialog extends LitElement {
     h2 { margin: 0; font: 600 1.125rem/1.25 var(--ht-font-display); letter-spacing: 0.01em; }
     .body { padding: 16px; overflow: auto; font: 400 0.875rem/1.5 var(--ht-font-ui); }
     .body p { margin: 0; }
+    /* Cassette keys, as in ht-dialog: bottom-left, flush with the left and bottom edges, a 16px gap,
+       the confirm key taking the dialog's corner radius. They shrink and wrap before leaving the dialog. */
     footer {
       display: flex;
       gap: 16px;
-      align-items: stretch;
-      border-top: 1px solid var(--ht-border);
+      align-items: flex-end;
     }
-    /* The flush-button signature from ht-dialog: flat faces, 44px tall, mixed corner radii. */
     .act {
       all: unset;
       box-sizing: border-box;
-      flex: 1;
+      flex: 0 1 auto;
+      min-width: 0;
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 44px;
-      padding-inline: 1.5rem;
+      min-height: 50px;
+      padding: 0.5rem var(--ht-flush-padding, 3rem);
+      overflow-wrap: break-word;
       font: 700 0.875rem/1rem var(--ht-font-ui);
       text-align: center;
       cursor: pointer;
@@ -149,19 +157,41 @@ export class HtAlertDialog extends LitElement {
     .confirm {
       color: var(--ht-accent-ink);
       background: var(--ht-accent);
-      border-radius: 0 var(--ht-radius-md) 0 var(--ht-radius-lg);
     }
     :host([tone='danger']) .confirm { color: var(--ht-danger-ink); background: var(--ht-danger); }
     .cancel {
       color: var(--ht-text);
-      background: var(--ht-surface-muted);
-      border-radius: var(--ht-radius-md) var(--ht-radius-md) 0 0;
+      background: var(--ht-surface);
+      border: 1px solid var(--ht-border-strong);
+      border-bottom-width: 0;
     }
+    /* Corners follow position, not role (see ht-dialog): keys on the left or right edge are marked by
+       measuring, and take the dialog's radius at that bottom corner with no radius above it. */
+    .act { border-radius: var(--ht-radius-md) var(--ht-radius-md) 0 0; }
+    .act[data-edge-left] { border-radius: 0 var(--ht-radius-md) 0 var(--ht-radius-lg); }
+    .act[data-edge-right] { border-radius: var(--ht-radius-md) 0 var(--ht-radius-lg) 0; }
+    .cancel[data-edge-left] { border-left-width: 0; }
+    .cancel[data-edge-right] { border-right-width: 0; }
+    .act[data-edge-left][data-edge-right] { border-radius: 0 0 var(--ht-radius-lg) var(--ht-radius-lg); }
     .confirm:focus-visible { outline: 2px dotted currentColor; outline-offset: -5px; }
     .cancel:focus-visible { outline: 2px solid var(--ht-focus); outline-offset: -2px; }
     @media (prefers-reduced-motion: reduce) {
       .act { transition: none; }
     }
+    :host([glass]) dialog {
+      background: var(--ht-glass-panel-bg);
+      box-shadow: var(--ht-glass-rim), var(--ht-glass-shadow);
+      -webkit-backdrop-filter: var(--ht-glass-filter);
+      backdrop-filter: var(--ht-glass-filter);
+    }
+    :host([glass]) header {
+      background: var(--ht-halftone), color-mix(in oklab, var(--ht-surface) 28%, transparent);
+      border-bottom-color: color-mix(in oklab, var(--ht-text) 10%, transparent);
+    }
+    :host([glass][tone='danger']) header { background: color-mix(in oklab, var(--ht-danger) 16%, transparent); }
+    :host([glass]) .cancel { background: color-mix(in oklab, var(--ht-surface) 50%, transparent); }
+    /* A lighter scrim, so the glass has colour to blur. */
+    :host([glass]) dialog::backdrop { background: oklch(0.12 0.02 295 / 0.2); }
   `;
 
   /** Opens the dialog. */
@@ -178,6 +208,29 @@ export class HtAlertDialog extends LitElement {
     return this.renderRoot.querySelector('dialog');
   }
 
+  #ro?: ResizeObserver;
+
+  firstUpdated() {
+    const footer = this.renderRoot.querySelector('footer');
+    if (footer) {
+      this.#ro = new ResizeObserver(() => this.#syncEdges());
+      this.#ro.observe(footer);
+    }
+  }
+
+  /** Marks the keys that touch the left or right edge, so their corners can follow position. */
+  #syncEdges = () => {
+    const footer = this.renderRoot.querySelector('footer');
+    if (!footer) return;
+    const fr = footer.getBoundingClientRect();
+    if (fr.width === 0) return;
+    for (const el of footer.querySelectorAll<HTMLElement>('.act')) {
+      const r = el.getBoundingClientRect();
+      el.toggleAttribute('data-edge-left', Math.abs(r.left - fr.left) < 1.5);
+      el.toggleAttribute('data-edge-right', Math.abs(fr.right - r.right) < 1.5);
+    }
+  };
+
   updated(changed: Map<string, unknown>) {
     if (!changed.has('open')) return;
     const dialog = this.#dialog;
@@ -185,6 +238,7 @@ export class HtAlertDialog extends LitElement {
     if (this.open && !dialog.open) {
       this.#settled = false;
       dialog.showModal();
+      this.#syncEdges();
       this.renderRoot.querySelector<HTMLElement>('.cancel')?.focus();
     } else if (!this.open && dialog.open) {
       dialog.close();
@@ -193,6 +247,7 @@ export class HtAlertDialog extends LitElement {
 
   disconnectedCallback() {
     super.disconnectedCallback();
+    this.#ro?.disconnect();
     this.#settled = true;
     this.#dialog?.close();
   }

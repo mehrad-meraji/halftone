@@ -56,6 +56,8 @@ function matches(haystack: string, token: string, loose: string) {
  */
 export class HtCommand extends LitElement {
   static properties = {
+    /** Liquid glass look: a translucent, blurred panel with glass rows. Best over a colourful or photographic backdrop. */
+    glass: { type: Boolean, reflect: true },
     /** The search text. */
     value: {},
     /** Placeholder in the search box. */
@@ -85,8 +87,11 @@ export class HtCommand extends LitElement {
   #observer: MutationObserver | null = null;
   #refilterQueued = false;
 
+  declare glass: boolean;
+
   constructor() {
     super();
+    this.glass = false;
     this.value = '';
     this.placeholder = 'Type A Command Or Search';
     this.label = 'Search';
@@ -114,6 +119,19 @@ export class HtCommand extends LitElement {
       border-radius: var(--ht-radius-lg);
       box-shadow: var(--ht-shadow-md);
     }
+    :host([glass]) .shell {
+      background: var(--ht-glass-panel-bg);
+      border-color: transparent;
+      box-shadow: var(--ht-glass-rim), var(--ht-glass-shadow);
+    -webkit-backdrop-filter: var(--ht-glass-filter);
+    backdrop-filter: var(--ht-glass-filter);
+    --_row-bg: var(--ht-glass-row-bg);
+    --_row-bg-on: var(--ht-glass-row-bg-on);
+    --_row-rim: var(--ht-glass-rim);
+    --_row-rim-on: var(--ht-glass-rim-on);
+    --_row-gap: 1px;
+    }
+    :host([glass]) .search { border-bottom-color: color-mix(in oklab, var(--ht-text) 12%, transparent); }
     dialog {
       box-sizing: border-box;
       width: min(var(--ht-command-width, 32rem), calc(100vw - 2rem));
@@ -173,6 +191,8 @@ export class HtCommand extends LitElement {
       clip-path: inset(50%);
       white-space: nowrap;
     }
+    /* A lighter scrim, so the glass has colour to blur. */
+    :host([glass]) dialog::backdrop { background: oklch(0.12 0.02 295 / 0.2); }
   `;
 
   get #input() {
@@ -543,10 +563,13 @@ export class HtCommandItem extends LitElement {
       cursor: default;
       user-select: none;
       border-radius: var(--ht-radius-md);
+      background: var(--_row-bg, transparent);
+      box-shadow: var(--_row-rim, none);
+      margin-block: var(--_row-gap, 0);
     }
     :host([active]) .item {
-      background: color-mix(in oklab, var(--ht-text) 7.5%, transparent);
-      box-shadow: inset 2px 0 0 0 var(--ht-focus);
+      background: var(--_row-bg-on, color-mix(in oklab, var(--ht-text) 7.5%, transparent));
+      box-shadow: var(--_row-rim-on, 0 0 0 0 transparent), inset 2px 0 0 0 var(--ht-focus);
     }
     :host([disabled]) .item { opacity: 0.55; cursor: not-allowed; }
     .text { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }

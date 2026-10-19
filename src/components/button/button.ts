@@ -178,13 +178,18 @@ export class HtButton extends LitElement {
     :host([variant='quiet']) .btn:focus-visible { box-shadow: 0 0 0 2px var(--ht-focus); }
 
     /* flush: dialog footers. Flat fill, radius from the footer. */
-    :host([flush]) { display: flex; }
+    :host([flush]) { display: flex; min-width: 0; }
     :host([flush]) .btn {
       --_lift: 0px;
       flex: 1;
+      min-width: 0;
       height: auto;
-      min-height: 44px;
-      padding-inline: 1.5rem;
+      min-height: 50px;
+      padding: 0.5rem var(--ht-flush-padding, 3rem);
+      /* Long labels wrap inside the key instead of pushing it past its container. */
+      white-space: normal;
+      text-align: center;
+      overflow-wrap: break-word;
       font-weight: 700;
       border-radius: var(--ht-flush-radius, 0);
     }
@@ -193,7 +198,18 @@ export class HtButton extends LitElement {
     :host([flush]) .btn:hover::after { filter: brightness(0.96); }
     :host([flush]) .btn:active::after { filter: brightness(0.92); }
     :host([flush]) .btn:focus-visible::after { box-shadow: inset 0 0 0 2px var(--ht-focus); border: 0; }
-    :host([flush][variant='quiet']) .btn::after { display: block; background: var(--ht-surface-muted); }
+    /* Secondary footer keys: a plain face outlined on the top and sides, open at the bottom edge. */
+    :host([flush][variant='quiet']) .btn::after,
+    :host([flush][variant='default']) .btn::after {
+      display: block;
+      background: var(--ht-surface);
+      border: 1px solid var(--ht-border-strong);
+      border-bottom-width: 0;
+    }
+    :host([flush][variant='quiet']) { --_fg: var(--ht-text); }
+    /* A key on the dialog's left or right edge drops the outline on that side. */
+    :host([flush][data-edge-left]) .btn::after { border-left-width: 0; }
+    :host([flush][data-edge-right]) .btn::after { border-right-width: 0; }
   `;
 
   #onClick = () => {

@@ -28,6 +28,8 @@ import { ifDefined } from 'lit/directives/if-defined.js';
  */
 export class HtSheet extends LitElement {
   static properties = {
+    /** Liquid glass look: a translucent panel that blurs what is behind it, with a bright rim and a sheen. */
+    glass: { type: Boolean, reflect: true },
     /** Shows the sheet. Reflects: closing from inside updates it. */
     open: { type: Boolean, reflect: true },
     /** The edge the sheet slides in from. */
@@ -54,8 +56,11 @@ export class HtSheet extends LitElement {
   #closing = false;
   #fallback = 0;
 
+  declare glass: boolean;
+
   constructor() {
     super();
+    this.glass = false;
     this.open = false;
     this.side = 'right';
     this.size = 'md';
@@ -177,6 +182,20 @@ export class HtSheet extends LitElement {
       border-top: 1px solid var(--ht-border);
     }
     [hidden] { display: none !important; }
+    :host([glass]) dialog {
+      background: var(--ht-glass-panel-bg);
+      border-color: transparent;
+      box-shadow: var(--ht-glass-rim), var(--ht-glass-shadow);
+      -webkit-backdrop-filter: var(--ht-glass-filter);
+      backdrop-filter: var(--ht-glass-filter);
+    }
+    :host([glass]) header {
+      background: var(--ht-halftone), color-mix(in oklab, var(--ht-surface) 28%, transparent);
+      border-bottom-color: color-mix(in oklab, var(--ht-text) 10%, transparent);
+    }
+    :host([glass]) footer { border-top-color: color-mix(in oklab, var(--ht-text) 10%, transparent); }
+    /* A lighter scrim, so the glass has colour to blur. */
+    :host([glass]) dialog::backdrop { background: oklch(0.12 0.02 295 / 0.2); }
   `;
 
   /** Opens the sheet. */

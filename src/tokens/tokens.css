@@ -59,6 +59,15 @@
 
   /* The one comic nod: a faint dot screen on header strips. Set to `none` to remove. */
   --ht-halftone: radial-gradient(circle, color-mix(in oklch, var(--ht-accent) 26%, transparent) 0.8px, transparent 1.5px) 0 0 / 6px 6px;
+
+  /* Liquid glass: translucent fills, a blur of whatever is behind, a bright rim and a diagonal sheen. Used by components with the `glass` attribute. */
+  --ht-glass-filter: blur(16px) saturate(1.8);
+  --ht-glass-panel-bg: linear-gradient(155deg, color-mix(in oklab, white 55%, transparent) 0%, color-mix(in oklab, white 8%, transparent) 38%, transparent 62%, color-mix(in oklab, white 22%, transparent) 100%), color-mix(in oklab, var(--ht-surface) 62%, transparent);
+  --ht-glass-row-bg: linear-gradient(180deg, color-mix(in oklab, white 38%, transparent), color-mix(in oklab, white 6%, transparent)), color-mix(in oklab, var(--ht-surface) 22%, transparent);
+  --ht-glass-row-bg-on: linear-gradient(180deg, color-mix(in oklab, white 69%, transparent), color-mix(in oklab, white 19%, transparent)), color-mix(in oklab, var(--ht-surface) 62%, transparent);
+  --ht-glass-rim: inset 0 1px 0 color-mix(in oklab, white 70%, transparent), inset 0 0 0 1px color-mix(in oklab, white 32%, transparent), inset 0 -1px 1px color-mix(in oklab, black 5%, transparent);
+  --ht-glass-rim-on: inset 0 1px 0 color-mix(in oklab, white 90%, transparent), inset 0 0 0 1px color-mix(in oklab, white 55%, transparent), inset 0 -1px 2px color-mix(in oklab, black 7%, transparent), 0 2px 6px color-mix(in oklab, black 10%, transparent);
+  --ht-glass-shadow: 0 10px 30px color-mix(in oklab, black 14%, transparent), 0 1px 3px color-mix(in oklab, black 10%, transparent);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -87,6 +96,13 @@
     --ht-shadow-xs: 0 1px 2px oklch(0 0 0 / 0.4);
     --ht-shadow-sm: 0 2px 6px oklch(0 0 0 / 0.45);
     --ht-shadow-md: 0 8px 24px oklch(0 0 0 / 0.6);
+    --ht-glass-filter: blur(16px) saturate(1.5);
+    --ht-glass-panel-bg: linear-gradient(155deg, color-mix(in oklab, white 16%, transparent) 0%, color-mix(in oklab, white 3%, transparent) 38%, transparent 62%, color-mix(in oklab, white 6%, transparent) 100%), color-mix(in oklab, var(--ht-surface) 76%, transparent);
+    --ht-glass-row-bg: linear-gradient(180deg, color-mix(in oklab, white 11%, transparent), color-mix(in oklab, white 2%, transparent)), color-mix(in oklab, var(--ht-surface) 18%, transparent);
+    --ht-glass-row-bg-on: linear-gradient(180deg, color-mix(in oklab, white 20%, transparent), color-mix(in oklab, white 6%, transparent)), color-mix(in oklab, var(--ht-surface) 58%, transparent);
+    --ht-glass-rim: inset 0 1px 0 color-mix(in oklab, white 22%, transparent), inset 0 0 0 1px color-mix(in oklab, white 14%, transparent), inset 0 -1px 1px color-mix(in oklab, black 5%, transparent);
+    --ht-glass-rim-on: inset 0 1px 0 color-mix(in oklab, white 38%, transparent), inset 0 0 0 1px color-mix(in oklab, white 26%, transparent), inset 0 -1px 2px color-mix(in oklab, black 7%, transparent), 0 2px 6px color-mix(in oklab, black 10%, transparent);
+    --ht-glass-shadow: 0 10px 30px color-mix(in oklab, black 45%, transparent), 0 1px 3px color-mix(in oklab, black 35%, transparent);
   }
 }
 
@@ -115,4 +131,11 @@
   --ht-shadow-xs: 0 1px 2px oklch(0 0 0 / 0.4);
   --ht-shadow-sm: 0 2px 6px oklch(0 0 0 / 0.45);
   --ht-shadow-md: 0 8px 24px oklch(0 0 0 / 0.6);
+  --ht-glass-filter: blur(16px) saturate(1.5);
+  --ht-glass-panel-bg: linear-gradient(155deg, color-mix(in oklab, white 16%, transparent) 0%, color-mix(in oklab, white 3%, transparent) 38%, transparent 62%, color-mix(in oklab, white 6%, transparent) 100%), color-mix(in oklab, var(--ht-surface) 76%, transparent);
+  --ht-glass-row-bg: linear-gradient(180deg, color-mix(in oklab, white 11%, transparent), color-mix(in oklab, white 2%, transparent)), color-mix(in oklab, var(--ht-surface) 18%, transparent);
+  --ht-glass-row-bg-on: linear-gradient(180deg, color-mix(in oklab, white 20%, transparent), color-mix(in oklab, white 6%, transparent)), color-mix(in oklab, var(--ht-surface) 58%, transparent);
+  --ht-glass-rim: inset 0 1px 0 color-mix(in oklab, white 22%, transparent), inset 0 0 0 1px color-mix(in oklab, white 14%, transparent), inset 0 -1px 1px color-mix(in oklab, black 5%, transparent);
+  --ht-glass-rim-on: inset 0 1px 0 color-mix(in oklab, white 38%, transparent), inset 0 0 0 1px color-mix(in oklab, white 26%, transparent), inset 0 -1px 2px color-mix(in oklab, black 7%, transparent), 0 2px 6px color-mix(in oklab, black 10%, transparent);
+  --ht-glass-shadow: 0 10px 30px color-mix(in oklab, black 45%, transparent), 0 1px 3px color-mix(in oklab, black 35%, transparent);
 }
