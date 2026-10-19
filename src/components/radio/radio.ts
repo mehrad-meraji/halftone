@@ -69,7 +69,15 @@ export class HtRadio extends LitElement {
     }
     :host([disabled]) label,
     :host([data-group-disabled]) label { cursor: not-allowed; opacity: 0.6; }
+    /*
+     * A recessed round socket (the box) with a raised, glossy key (the ::after face) when checked.
+     * The socket keeps a 1px --ht-border-input outline so the control stays 3:1 against the page.
+     */
     .box {
+      --_well:
+        inset 0 1.5px 2.5px color-mix(in oklab, black 14%, transparent),
+        inset 0 0 0 1px color-mix(in oklab, black 4%, transparent),
+        0 1px 0 color-mix(in oklab, var(--ht-surface), white 60%);
       position: relative;
       box-sizing: border-box;
       flex: none;
@@ -77,30 +85,43 @@ export class HtRadio extends LitElement {
       place-items: center;
       width: 24px;
       height: 24px;
-      background: color-mix(in oklab, var(--ht-text) 3%, transparent);
+      background: linear-gradient(180deg, color-mix(in oklab, var(--ht-surface-sunken), black 3%), var(--ht-surface-sunken));
       border: 1px solid var(--ht-border-input);
       border-radius: 999px;
-      transition: border-color 120ms cubic-bezier(0.72, 0, 0.16, 1), box-shadow 120ms cubic-bezier(0.72, 0, 0.16, 1),
-        background-color 120ms cubic-bezier(0.72, 0, 0.16, 1);
+      box-shadow: var(--_well);
+      transition: border-color 120ms cubic-bezier(0.72, 0, 0.16, 1), box-shadow 120ms cubic-bezier(0.72, 0, 0.16, 1);
     }
     label:hover .box { border-color: var(--ht-text-muted); }
-    :host([checked]) .box {
-      background: var(--ht-accent);
-      border-color: color-mix(in oklab, var(--ht-accent) 62%, black);
-    }
-    .dot {
-      grid-area: 1 / 1;
-      width: 12px;
-      height: 12px;
+    /* Checked: the outline turns a faint accent instead of grey. */
+    :host([checked]) .box { border-color: color-mix(in oklab, var(--ht-accent) 38%, var(--ht-border-strong)); }
+    :host([checked]) label:hover .box { border-color: color-mix(in oklab, var(--ht-accent) 55%, var(--ht-border-strong)); }
+    .box::after {
+      content: '';
+      position: absolute;
+      inset: 1px;
+      z-index: 0;
+      pointer-events: none;
       border-radius: 999px;
-      background: var(--ht-accent-ink);
+      /* Runs accent to 26% darker. */
+      background: radial-gradient(
+        120% 110% at 50% 0%,
+        var(--ht-accent) 0%,
+        color-mix(in oklab, var(--ht-accent), black 12%) 55%,
+        color-mix(in oklab, var(--ht-accent), black 26%) 100%
+      );
+      box-shadow:
+        inset 0 1px 0 color-mix(in oklab, var(--ht-accent), white 45%),
+        inset 0 -1px 2px color-mix(in oklab, var(--ht-accent), black 35%),
+        0 1px 2px color-mix(in oklab, black 28%, transparent);
       opacity: 0;
-      transform: scale(0.5);
-      transition: opacity 160ms cubic-bezier(0.72, 0, 0.16, 1), transform 160ms cubic-bezier(0.72, 0, 0.16, 1);
+      transform: scale(0.85);
+      transition: opacity 120ms cubic-bezier(0.72, 0, 0.16, 1), transform 160ms cubic-bezier(0.72, 0, 0.16, 1);
     }
-    :host([checked]) .dot { opacity: 1; transform: none; }
-    input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: inherit; }
-    .box:has(input:focus-visible) { box-shadow: 0 0 0 2px var(--ht-surface), 0 0 0 4px var(--ht-focus); }
+    :host([checked]) .box::after { opacity: 1; transform: none; }
+    label:hover .box::after { filter: brightness(1.05); }
+    .box:has(input:active)::after { transform: translateY(0.5px) scale(0.97); }
+    input { position: absolute; inset: 0; z-index: 2; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: inherit; }
+    .box:has(input:focus-visible) { box-shadow: var(--_well), 0 0 0 2px var(--ht-surface), 0 0 0 4px var(--ht-focus); }
   `;
 
   willUpdate() {
@@ -117,7 +138,6 @@ export class HtRadio extends LitElement {
           ?disabled=${this.disabled || this._groupDisabled}
           aria-label=${ifDefined(this.label || undefined)}
         />
-        <span class="dot"></span>
       </span>
       <span part="label"><slot></slot></span>
     </label>`;
