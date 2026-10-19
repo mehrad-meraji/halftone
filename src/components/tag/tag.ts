@@ -65,17 +65,17 @@ export class HtTag extends LitElement {
       border-radius: var(--ht-radius-md);
       background: linear-gradient(
         180deg,
-        color-mix(in oklab, var(--_bg), white 14%) 0%,
+        color-mix(in oklab, var(--_bg), white 8%) 0%,
         var(--_bg) 55%,
-        color-mix(in oklab, var(--_bg), var(--ht-text) 4%) 100%
+        color-mix(in oklab, var(--_bg), var(--ht-text) 2%) 100%
       );
       box-shadow:
-        inset 0 1px 0 color-mix(in oklab, var(--_bg), white 75%),
-        inset 0 0 0 1px color-mix(in oklab, var(--ht-text) 5%, transparent),
-        inset 0 0 5px color-mix(in oklab, black 7%, transparent),
-        inset 0 -1px 2px color-mix(in oklab, black 6%, transparent),
-        0 1.5px 1px color-mix(in oklab, black 22%, transparent),
-        0 3px 6px color-mix(in oklab, black 10%, transparent);
+        inset 0 1px 0 color-mix(in oklab, var(--_bg), white 55%),
+        inset 0 0 0 1px color-mix(in oklab, var(--ht-text) 4%, transparent),
+        inset 0 0 4px color-mix(in oklab, black 3.5%, transparent),
+        inset 0 -1px 2px color-mix(in oklab, black 3%, transparent),
+        0 1px 1px color-mix(in oklab, black 11%, transparent),
+        0 2px 4px color-mix(in oklab, black 5%, transparent);
     }
   `;
 
