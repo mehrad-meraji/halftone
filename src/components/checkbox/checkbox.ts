@@ -84,7 +84,15 @@ export class HtCheckbox extends LitElement {
     }
     :host([disabled]) label,
     :host([data-group-disabled]) label { cursor: not-allowed; opacity: 0.6; }
+    /*
+     * A recessed socket (the box) with a raised, glossy key (the ::after face) that appears when
+     * checked. The socket keeps a 1px --ht-border-input outline so the control stays 3:1 against the page.
+     */
     .box {
+      --_well:
+        inset 0 1.5px 2.5px color-mix(in oklab, black 14%, transparent),
+        inset 0 0 0 1px color-mix(in oklab, black 4%, transparent),
+        0 1px 0 color-mix(in oklab, var(--ht-surface), white 60%);
       position: relative;
       box-sizing: border-box;
       flex: none;
@@ -92,22 +100,55 @@ export class HtCheckbox extends LitElement {
       place-items: center;
       width: 24px;
       height: 24px;
-      color: var(--ht-accent-ink);
-      background: color-mix(in oklab, var(--ht-text) 3%, transparent);
+      color: white;
+      background: linear-gradient(180deg, color-mix(in oklab, var(--ht-surface-sunken), black 3%), var(--ht-surface-sunken));
       border: 1px solid var(--ht-border-input);
-      border-radius: 5px;
-      transition: border-color 120ms cubic-bezier(0.72, 0, 0.16, 1), box-shadow 120ms cubic-bezier(0.72, 0, 0.16, 1),
-        background-color 120ms cubic-bezier(0.72, 0, 0.16, 1);
+      border-radius: 7px;
+      box-shadow: var(--_well);
+      transition: border-color 120ms cubic-bezier(0.72, 0, 0.16, 1), box-shadow 120ms cubic-bezier(0.72, 0, 0.16, 1);
     }
     label:hover .box { border-color: var(--ht-text-muted); }
+    /* Checked: the outline turns a faint accent instead of grey. */
     :host([checked]) .box,
-    :host([indeterminate]) .box {
-      background: var(--ht-accent);
-      border-color: color-mix(in oklab, var(--ht-accent) 62%, black);
+    :host([indeterminate]) .box { border-color: color-mix(in oklab, var(--ht-accent) 38%, var(--ht-border-strong)); }
+    :host([checked]) label:hover .box,
+    :host([indeterminate]) label:hover .box { border-color: color-mix(in oklab, var(--ht-accent) 55%, var(--ht-border-strong)); }
+    .box::after {
+      content: '';
+      position: absolute;
+      inset: 1px;
+      z-index: 0;
+      pointer-events: none;
+      /* Concentric with the socket: its 7px radius minus the 1px border and 1px gap. */
+      border-radius: 5px;
+      background: radial-gradient(
+        120% 110% at 50% 0%,
+        var(--ht-accent) 0%,
+        color-mix(in oklab, var(--ht-accent), black 12%) 55%,
+        color-mix(in oklab, var(--ht-accent), black 26%) 100%
+      );
+      box-shadow:
+        inset 0 1px 0 color-mix(in oklab, var(--ht-accent), white 45%),
+        inset 0 -1px 2px color-mix(in oklab, var(--ht-accent), black 35%),
+        0 1px 2px color-mix(in oklab, black 28%, transparent);
+      opacity: 0;
+      transform: scale(0.85);
+      transition: opacity 120ms cubic-bezier(0.72, 0, 0.16, 1), transform 160ms cubic-bezier(0.72, 0, 0.16, 1);
     }
+    /* Squircle corners where supported; elsewhere the plain rounded corners above stay. */
+    @supports (corner-shape: squircle) {
+      /* A squircle corner reads tighter than a circular arc of the same radius, so the radii grow (still concentric: 10 minus 1px border minus 1px gap = 8). */
+      .box { corner-shape: squircle; border-radius: 10px; }
+      .box::after { corner-shape: squircle; border-radius: 8px; }
+    }
+    :host([checked]) .box::after,
+    :host([indeterminate]) .box::after { opacity: 1; transform: none; }
+    label:hover .box::after { filter: brightness(1.05); }
+    .box:has(input:active)::after { transform: translateY(0.5px) scale(0.97); }
     input {
       position: absolute;
       inset: 0;
+      z-index: 2;
       width: 100%;
       height: 100%;
       margin: 0;
@@ -115,9 +156,18 @@ export class HtCheckbox extends LitElement {
       cursor: inherit;
     }
     .box:has(input:focus-visible) {
-      box-shadow: 0 0 0 2px var(--ht-surface), 0 0 0 4px var(--ht-focus);
+      box-shadow: var(--_well), 0 0 0 2px var(--ht-surface), 0 0 0 4px var(--ht-focus);
     }
-    svg { grid-area: 1 / 1; opacity: 0; transform: scale(0.8); transition: opacity 120ms, transform 160ms cubic-bezier(0.72, 0, 0.16, 1); }
+    svg {
+      grid-area: 1 / 1;
+      position: relative;
+      z-index: 1;
+      opacity: 0;
+      transform: scale(0.8);
+      transition: opacity 120ms, transform 160ms cubic-bezier(0.72, 0, 0.16, 1);
+    }
+    /* A heavier stroke than the icon's own, so the mark reads as a bold key legend. */
+    svg path { stroke: currentColor; stroke-width: 22; stroke-linejoin: round; stroke-linecap: round; }
     :host([checked]:not([indeterminate])) .tick,
     :host([indeterminate]) .dash { opacity: 1; transform: none; }
     .text { padding-block: 0; }
