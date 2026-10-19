@@ -10,36 +10,36 @@
 [data-theme='light'] {
   color-scheme: light;
 
-  --ht-bg: oklch(0.96 0.007 305);
-  --ht-surface: oklch(0.995 0.003 305);
-  --ht-surface-muted: oklch(0.97 0.006 305);
-  --ht-surface-sunken: oklch(0.945 0.009 305);
-  --ht-border: oklch(0.9 0.01 305);
-  --ht-border-strong: oklch(0.8 0.016 305);
-  --ht-border-input: oklch(0.64 0.02 305); /* field outlines: 3:1 against --ht-surface (WCAG 1.4.11) */
+  --ht-bg: oklch(0.955 0.006 283);
+  --ht-surface: oklch(0.995 0.003 283);
+  --ht-surface-muted: oklch(0.965 0.005 283);
+  --ht-surface-sunken: oklch(0.94 0.008 283);
+  --ht-border: oklch(0.897 0.009 283);
+  --ht-border-strong: oklch(0.797 0.014 283);
+  --ht-border-input: oklch(0.64 0.018 283); /* field outlines: 3:1 against --ht-surface (WCAG 1.4.11) */
 
-  --ht-text: oklch(0.2 0.02 300);
-  --ht-text-muted: oklch(0.45 0.02 300);
-  --ht-text-subtle: oklch(0.5 0.02 300);
+  --ht-text: oklch(0.2 0.018 278);
+  --ht-text-muted: oklch(0.45 0.018 278);
+  --ht-text-subtle: oklch(0.5 0.018 278);
 
-  --ht-accent: oklch(0.68 0.25 328);
-  --ht-accent-hover: oklch(0.62 0.26 328);
-  --ht-accent-ink: oklch(0.18 0.03 320); /* text on --ht-accent */
-  --ht-accent-soft: oklch(0.94 0.04 325);
-  --ht-accent-text: oklch(0.42 0.17 320); /* text on --ht-accent-soft */
-  --ht-focus: oklch(0.5 0.12 295);
+  --ht-accent: oklch(0.54 0.212 300);
+  --ht-accent-hover: oklch(0.48 0.221 300);
+  --ht-accent-ink: oklch(0.99 0 0); /* text on --ht-accent */
+  --ht-accent-soft: oklch(0.94 0.034 297);
+  --ht-accent-text: oklch(0.378 0.145 292); /* text on --ht-accent-soft */
+  --ht-focus: oklch(0.5 0.108 273);
 
-  --ht-success: oklch(0.55 0.13 150);
-  --ht-warning: oklch(0.7 0.13 65);
-  --ht-danger: oklch(0.56 0.18 30);
-  --ht-danger-ink: oklch(0.99 0 0); /* text on --ht-danger */
-  --ht-danger-soft: oklch(0.95 0.03 25);
-  --ht-danger-text: oklch(0.45 0.17 28);
-  --ht-info: oklch(0.55 0.1 220);
+  --ht-success: oklch(0.55 0.111 160);
+  --ht-warning: oklch(0.7 0.111 75);
+  --ht-danger: oklch(0.56 0.153 25);
+  --ht-danger-ink: oklch(0.99 0 355); /* text on --ht-danger */
+  --ht-danger-soft: oklch(0.95 0.025 20);
+  --ht-danger-text: oklch(0.45 0.145 23);
+  --ht-info: oklch(0.55 0.085 235);
 
   /* Inverse surface for tooltips and neutral toasts: dark in light mode, light in dark mode. */
-  --ht-inverse: oklch(0.26 0.015 295);
-  --ht-inverse-ink: oklch(0.97 0.003 300);
+  --ht-inverse: oklch(0.26 0.013 273);
+  --ht-inverse-ink: oklch(0.97 0.003 278);
 
 
   --ht-font-display: 'Chakra Petch', 'Arial Narrow', system-ui, sans-serif;
@@ -73,26 +73,26 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
     color-scheme: dark;
-    --ht-bg: oklch(0.14 0.02 295);
-    --ht-surface: oklch(0.18 0.02 295);
-    --ht-surface-muted: oklch(0.21 0.022 295);
-    --ht-surface-sunken: oklch(0.12 0.018 295);
-    --ht-border: oklch(0.28 0.025 295);
-    --ht-border-strong: oklch(0.38 0.03 295);
-    --ht-border-input: oklch(0.52 0.03 295);
-    --ht-text: oklch(0.94 0.008 300);
-    --ht-text-muted: oklch(0.74 0.015 300);
-    --ht-text-subtle: oklch(0.68 0.02 300);
-    --ht-accent-hover: oklch(0.74 0.23 328);
-    --ht-accent-soft: oklch(0.28 0.08 325);
-    --ht-accent-text: oklch(0.82 0.13 328);
-    --ht-focus: oklch(0.75 0.14 295);
-    --ht-danger: oklch(0.65 0.19 25);
-    --ht-danger-ink: oklch(0.18 0.03 25);
-    --ht-danger-soft: oklch(0.27 0.07 25);
-    --ht-danger-text: oklch(0.78 0.14 25);
-    --ht-inverse: oklch(0.94 0.008 300);
-    --ht-inverse-ink: oklch(0.2 0.02 300);
+    --ht-bg: oklch(0.16 0.016 273);
+    --ht-surface: oklch(0.2 0.016 273);
+    --ht-surface-muted: oklch(0.23 0.018 273);
+    --ht-surface-sunken: oklch(0.14 0.015 273);
+    --ht-border: oklch(0.3 0.02 273);
+    --ht-border-strong: oklch(0.4 0.024 273);
+    --ht-border-input: oklch(0.52 0.024 273);
+    --ht-text: oklch(0.94 0.006 278);
+    --ht-text-muted: oklch(0.74 0.012 278);
+    --ht-text-subtle: oklch(0.68 0.016 278);
+    --ht-accent-hover: oklch(0.6 0.196 300);
+    --ht-accent-soft: oklch(0.28 0.068 297);
+    --ht-accent-text: oklch(0.89 0.111 300);
+    --ht-focus: oklch(0.75 0.113 273);
+    --ht-danger: oklch(0.65 0.162 25);
+    --ht-danger-ink: oklch(0.18 0.025 25);
+    --ht-danger-soft: oklch(0.27 0.06 25);
+    --ht-danger-text: oklch(0.78 0.119 25);
+    --ht-inverse: oklch(0.94 0.006 278);
+    --ht-inverse-ink: oklch(0.2 0.016 278);
     --ht-shadow-xs: 0 1px 2px oklch(0 0 0 / 0.4);
     --ht-shadow-sm: 0 2px 6px oklch(0 0 0 / 0.45);
     --ht-shadow-md: 0 8px 24px oklch(0 0 0 / 0.6);
@@ -108,26 +108,26 @@
 
 [data-theme='dark'] {
   color-scheme: dark;
-  --ht-bg: oklch(0.14 0.02 295);
-  --ht-surface: oklch(0.18 0.02 295);
-  --ht-surface-muted: oklch(0.21 0.022 295);
-  --ht-surface-sunken: oklch(0.12 0.018 295);
-  --ht-border: oklch(0.28 0.025 295);
-  --ht-border-strong: oklch(0.38 0.03 295);
-  --ht-border-input: oklch(0.52 0.03 295);
-  --ht-text: oklch(0.94 0.008 300);
-  --ht-text-muted: oklch(0.74 0.015 300);
-  --ht-text-subtle: oklch(0.68 0.02 300);
-  --ht-accent-hover: oklch(0.74 0.23 328);
-  --ht-accent-soft: oklch(0.28 0.08 325);
-  --ht-accent-text: oklch(0.82 0.13 328);
-  --ht-focus: oklch(0.75 0.14 295);
-  --ht-danger: oklch(0.65 0.19 25);
-  --ht-danger-ink: oklch(0.18 0.03 25);
-  --ht-danger-soft: oklch(0.27 0.07 25);
-  --ht-danger-text: oklch(0.78 0.14 25);
-  --ht-inverse: oklch(0.94 0.008 300);
-  --ht-inverse-ink: oklch(0.2 0.02 300);
+  --ht-bg: oklch(0.16 0.016 273);
+  --ht-surface: oklch(0.2 0.016 273);
+  --ht-surface-muted: oklch(0.23 0.018 273);
+  --ht-surface-sunken: oklch(0.14 0.015 273);
+  --ht-border: oklch(0.3 0.02 273);
+  --ht-border-strong: oklch(0.4 0.024 273);
+  --ht-border-input: oklch(0.52 0.024 273);
+  --ht-text: oklch(0.94 0.006 278);
+  --ht-text-muted: oklch(0.74 0.012 278);
+  --ht-text-subtle: oklch(0.68 0.016 278);
+  --ht-accent-hover: oklch(0.6 0.196 300);
+  --ht-accent-soft: oklch(0.28 0.068 297);
+  --ht-accent-text: oklch(0.89 0.111 300);
+  --ht-focus: oklch(0.75 0.113 273);
+  --ht-danger: oklch(0.65 0.162 25);
+  --ht-danger-ink: oklch(0.18 0.025 25);
+  --ht-danger-soft: oklch(0.27 0.06 25);
+  --ht-danger-text: oklch(0.78 0.119 25);
+  --ht-inverse: oklch(0.94 0.006 278);
+  --ht-inverse-ink: oklch(0.2 0.016 278);
   --ht-shadow-xs: 0 1px 2px oklch(0 0 0 / 0.4);
   --ht-shadow-sm: 0 2px 6px oklch(0 0 0 / 0.45);
   --ht-shadow-md: 0 8px 24px oklch(0 0 0 / 0.6);

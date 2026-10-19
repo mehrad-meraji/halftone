@@ -134,6 +134,18 @@
               "attribute": "cancel-label"
             },
             {
+              "kind": "field",
+              "name": "glass",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Liquid glass look: a translucent panel that blurs what is behind it, with a bright rim and a sheen.",
+              "default": "false",
+              "attribute": "glass",
+              "reflects": true
+            },
+            {
               "kind": "method",
               "name": "show",
               "description": "Opens the dialog."
@@ -161,6 +173,15 @@
             }
           ],
           "attributes": [
+            {
+              "name": "glass",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Liquid glass look: a translucent panel that blurs what is behind it, with a bright rim and a sheen.",
+              "default": "false",
+              "fieldName": "glass"
+            },
             {
               "name": "open",
               "type": {
@@ -1997,6 +2018,18 @@
             },
             {
               "kind": "field",
+              "name": "glass",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Liquid glass look: a translucent, blurred panel with glass rows. Best over a colourful or photographic backdrop.",
+              "default": "false",
+              "attribute": "glass",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "items",
               "type": {
                 "text": "HtCommandItem[]"
@@ -2054,6 +2087,15 @@
             }
           ],
           "attributes": [
+            {
+              "name": "glass",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Liquid glass look: a translucent, blurred panel with glass rows. Best over a colourful or photographic backdrop.",
+              "default": "false",
+              "fieldName": "glass"
+            },
             {
               "name": "value",
               "description": "The search text.",
@@ -2466,6 +2508,18 @@
               "reflects": true
             },
             {
+              "kind": "field",
+              "name": "glass",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Liquid glass look: a translucent panel that blurs what is behind it, with a bright rim and a sheen.",
+              "default": "false",
+              "attribute": "glass",
+              "reflects": true
+            },
+            {
               "kind": "method",
               "name": "show",
               "description": "Opens the dialog."
@@ -2483,6 +2537,15 @@
             }
           ],
           "attributes": [
+            {
+              "name": "glass",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Liquid glass look: a translucent panel that blurs what is behind it, with a bright rim and a sheen.",
+              "default": "false",
+              "fieldName": "glass"
+            },
             {
               "name": "open",
               "type": {
@@ -3400,6 +3463,18 @@
             },
             {
               "kind": "field",
+              "name": "glass",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Liquid glass look: a translucent, blurred panel with glass rows. Best over a colourful or photographic backdrop.",
+              "default": "false",
+              "attribute": "glass",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "items",
               "type": {
                 "text": "HtMenuItem[]"
@@ -3465,6 +3540,15 @@
             }
           ],
           "attributes": [
+            {
+              "name": "glass",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Liquid glass look: a translucent, blurred panel with glass rows. Best over a colourful or photographic backdrop.",
+              "default": "false",
+              "fieldName": "glass"
+            },
             {
               "name": "open",
               "type": {
@@ -4065,6 +4149,18 @@
               "reflects": true
             },
             {
+              "kind": "field",
+              "name": "glass",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Liquid glass look: a translucent panel that blurs what is behind it, with a bright rim and a sheen.",
+              "default": "false",
+              "attribute": "glass",
+              "reflects": true
+            },
+            {
               "kind": "method",
               "name": "show",
               "description": "Opens the panel."
@@ -4096,6 +4192,15 @@
             }
           ],
           "attributes": [
+            {
+              "name": "glass",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Liquid glass look: a translucent panel that blurs what is behind it, with a bright rim and a sheen.",
+              "default": "false",
+              "fieldName": "glass"
+            },
             {
               "name": "open",
               "type": {
@@ -5566,6 +5671,18 @@
               "reflects": true
             },
             {
+              "kind": "field",
+              "name": "glass",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Liquid glass look: a translucent panel that blurs what is behind it, with a bright rim and a sheen.",
+              "default": "false",
+              "attribute": "glass",
+              "reflects": true
+            },
+            {
               "kind": "method",
               "name": "show",
               "description": "Opens the sheet."
@@ -5583,6 +5700,15 @@
             }
           ],
           "attributes": [
+            {
+              "name": "glass",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Liquid glass look: a translucent panel that blurs what is behind it, with a bright rim and a sheen.",
+              "default": "false",
+              "fieldName": "glass"
+            },
             {
               "name": "open",
               "type": {
@@ -6585,20 +6711,16 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "Data table made of custom elements. Layout uses `display: table*` on the hosts, and each\nhost carries its own ARIA role (`table`, `rowgroup`, `row`, `columnheader`, `cell`), so\nassistive technology sees an ordinary table. Give it an accessible name with `aria-label`.\n\n```html\n<ht-table aria-label=\"Projects\">\n  <ht-table-head><ht-table-row>\n    <ht-table-header sortable key=\"name\">Name</ht-table-header>\n    <ht-table-header align=\"end\">Events</ht-table-header>\n  </ht-table-row></ht-table-head>\n  <ht-table-body>\n    <ht-table-row><ht-table-cell>sentinel</ht-table-cell><ht-table-cell align=\"end\">1,204</ht-table-cell></ht-table-row>\n  </ht-table-body>\n</ht-table>\n```\n\nThe table does not sort or filter. A sortable header fires `sort`; reorder your rows in\nresponse. Only one header shows a sort direction at a time.\n\nThe wrapper scrolls horizontally when the table is wider than its container, and joins the\ntab order while it does, so keyboard users can scroll it. For a sticky header, set\n`sticky-header` and give the table a height with `--ht-table-max-height`.",
+          "description": "Data table made of custom elements. Layout uses `display: table*` on the hosts, and each\nhost carries its own ARIA role (`table`, `rowgroup`, `row`, `columnheader`, `cell`), so\nassistive technology sees an ordinary table. Give it an accessible name with `aria-label`.\n\n```html\n<ht-table aria-label=\"Projects\">\n  <ht-table-head><ht-table-row>\n    <ht-table-header sortable key=\"name\">Name</ht-table-header>\n    <ht-table-header align=\"end\">Events</ht-table-header>\n  </ht-table-row></ht-table-head>\n  <ht-table-body>\n    <ht-table-row><ht-table-cell>sentinel</ht-table-cell><ht-table-cell align=\"end\">1,204</ht-table-cell></ht-table-row>\n  </ht-table-body>\n</ht-table>\n```\n\nThe table does not sort or filter. A sortable header fires `sort`; reorder your rows in\nresponse. Only one header shows a sort direction at a time.\n\nThe table scrolls horizontally when it is wider than its container, and joins the\ntab order while it does, so keyboard users can scroll it. For a sticky header, set\n`sticky-header` and give the table a height with `--ht-table-max-height`.",
           "name": "HtTable",
           "cssProperties": [
             {
-              "description": "Maximum height of the wrapper. The body scrolls past it, which `sticky-header` needs.",
+              "description": "Maximum height of the table box. The body scrolls past it, which `sticky-header` needs.",
               "name": "--ht-table-max-height",
               "default": "none"
             }
           ],
           "cssParts": [
-            {
-              "description": "The bordered, scrolling wrapper.",
-              "name": "scroll"
-            },
             {
               "description": "The empty-state row.",
               "name": "empty"
@@ -7275,7 +7397,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "Small outlined label for status, counts and metadata. 1px border and text share one\ncolour, with a transparent fill (after PostHog's `LemonTag`).",
+          "description": "Small raised chip for status, counts and metadata. A soft gradient fill, inner glow and a\ntwo-layer shadow underneath; tones tint the fill and colour the text.",
           "name": "HtTag",
           "cssParts": [
             {
