@@ -1,8 +1,8 @@
 import { LitElement, css, html } from 'lit';
 
 /**
- * Small outlined label for status, counts and metadata. 1px border and text share one
- * colour, with a transparent fill (after PostHog's `LemonTag`).
+ * Small raised chip for status, counts and metadata. A soft gradient fill, inner glow and a
+ * two-layer shadow underneath; tones tint the fill and colour the text.
  *
  * @tag ht-tag
  * @summary Status or metadata tag.
@@ -33,30 +33,49 @@ export class HtTag extends LitElement {
     :host {
       display: inline-block;
       vertical-align: middle;
-      --_c: var(--ht-text-muted);
+      /* --_c is the text colour. --_t is the raw tone colour and --_mix how much of it tints the fill (neutral stays plain surface). */
+      --_c: var(--ht-text);
+      --_mix: 0%;
+      --_bg: color-mix(in oklab, var(--_t, transparent) var(--_mix), var(--ht-surface));
       --_h: 1rem;
       --_fs: 0.625rem;
       --_lh: 0.875rem;
-      --_px: 3px;
+      --_px: 6px;
     }
-    :host([size='md']) { --_h: 1.25rem; --_fs: 0.75rem; --_lh: 1rem; --_px: 5px; }
-    :host([tone='accent']) { --_c: var(--ht-accent-text); }
-    :host([tone='success']) { --_c: color-mix(in oklab, var(--ht-success) 80%, var(--ht-text)); }
-    :host([tone='warning']) { --_c: color-mix(in oklab, var(--ht-warning) 55%, var(--ht-text)); }
-    :host([tone='danger']) { --_c: var(--ht-danger-text); }
-    :host([tone='info']) { --_c: color-mix(in oklab, var(--ht-info) 85%, var(--ht-text)); }
+    :host([size='md']) { --_h: 1.25rem; --_fs: 0.75rem; --_lh: 1rem; --_px: 8px; }
+    :host([tone='accent']) { --_c: var(--ht-accent-text); --_t: var(--ht-accent); --_mix: 12%; }
+    :host([tone='success']) { --_c: color-mix(in oklab, var(--ht-success) 50%, var(--ht-text)); --_t: var(--ht-success); --_mix: 14%; }
+    :host([tone='warning']) { --_c: color-mix(in oklab, var(--ht-warning) 55%, var(--ht-text)); --_t: var(--ht-warning); --_mix: 16%; }
+    :host([tone='danger']) { --_c: var(--ht-danger-text); --_t: var(--ht-danger); --_mix: 12%; }
+    :host([tone='info']) { --_c: color-mix(in oklab, var(--ht-info) 50%, var(--ht-text)); --_t: var(--ht-info); --_mix: 12%; }
+    /*
+     * A soft, raised chip: a fill that brightens toward the top, a faint inner glow and rim,
+     * a dark crescent just under the bottom edge, and a wide soft shadow below that.
+     */
     .tag {
       box-sizing: border-box;
       display: inline-flex;
       align-items: center;
-      gap: 2px;
+      gap: 3px;
       height: var(--_h);
       padding-inline: var(--_px);
       font: 500 var(--_fs) / var(--_lh) var(--ht-font-ui);
       white-space: nowrap;
       color: var(--_c);
-      border: 1px solid var(--_c);
       border-radius: var(--ht-radius-md);
+      background: linear-gradient(
+        180deg,
+        color-mix(in oklab, var(--_bg), white 8%) 0%,
+        var(--_bg) 55%,
+        color-mix(in oklab, var(--_bg), var(--ht-text) 2%) 100%
+      );
+      box-shadow:
+        inset 0 1px 0 color-mix(in oklab, var(--_bg), white 55%),
+        inset 0 0 0 1px color-mix(in oklab, var(--ht-text) 4%, transparent),
+        inset 0 0 4px color-mix(in oklab, black 3.5%, transparent),
+        inset 0 -1px 2px color-mix(in oklab, black 3%, transparent),
+        0 1px 1px color-mix(in oklab, black 11%, transparent),
+        0 2px 4px color-mix(in oklab, black 5%, transparent);
     }
   `;
 
