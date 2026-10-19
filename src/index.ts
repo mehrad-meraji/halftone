@@ -35,6 +35,9 @@ export { HtTable, HtTableBody, HtTableCell, HtTableHead, HtTableHeader, HtTableR
 export { HtTextarea } from './components/textarea/textarea.js';
 export { HtToggle } from './components/toggle/toggle.js';
 export { HtToggleGroup, HtToggleItem } from './components/toggle-group/toggle-group.js';
+export { HtAccordion, HtAccordionItem } from './components/accordion/accordion.js';
+export { HtMarquee } from './components/marquee/marquee.js';
+export { HtPing } from './components/ping/ping.js';
 export { HtCarousel, HtCarouselItem } from './components/carousel/carousel.js';
 export { HtNumber } from './components/number/number.js';
 export { HtShimmer } from './components/shimmer/shimmer.js';

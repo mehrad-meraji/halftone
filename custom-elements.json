@@ -4,6 +4,212 @@
   "modules": [
     {
       "kind": "javascript-module",
+      "path": "src/components/accordion/accordion.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A stack of headers that each show or hide a panel: FAQs, settings groups, long forms. Follows\nthe WAI-ARIA accordion pattern. Each header is a button inside a heading; Up and Down move\nbetween headers, Home and End jump to the first and last, and Enter or Space toggles.\n\nBy default one item is open at a time. Set `multiple` to let any number stay open.",
+          "name": "HtAccordion",
+          "slots": [
+            {
+              "description": "`ht-accordion-item` elements.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "multiple",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Lets any number of items stay open. Without it, opening one closes the others.",
+              "default": "false",
+              "attribute": "multiple",
+              "reflects": true
+            }
+          ],
+          "events": [
+            {
+              "description": "An item was opened or closed by the user. The event target is the item; read its `open`.",
+              "name": "change"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "multiple",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Lets any number of items stay open. Without it, opening one closes the others.",
+              "default": "false",
+              "fieldName": "multiple"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-accordion",
+          "customElement": true,
+          "summary": "Stack of collapsible sections."
+        },
+        {
+          "kind": "class",
+          "description": "One section of an `ht-accordion`: a header and the panel it controls. Put the header text in the\n`header` slot and the panel content in the default slot. Closed content is hidden from the\naccessibility tree and from the tab order.",
+          "name": "HtAccordionItem",
+          "cssParts": [
+            {
+              "description": "The header button.",
+              "name": "trigger"
+            },
+            {
+              "description": "The panel wrapper.",
+              "name": "panel"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Panel content.",
+              "name": ""
+            },
+            {
+              "description": "Header text.",
+              "name": "header"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "open",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Whether the panel is shown.",
+              "default": "false",
+              "attribute": "open",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Disables the header. A disabled item is skipped by arrow keys.",
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "level",
+              "privacy": "public",
+              "type": {
+                "text": "number"
+              },
+              "description": "Heading level (1 to 6) of the header, so the outline of the page stays correct.",
+              "default": "3",
+              "attribute": "level"
+            },
+            {
+              "kind": "method",
+              "name": "focus",
+              "parameters": [
+                {
+                  "name": "options",
+                  "optional": true,
+                  "type": {
+                    "text": "FocusOptions"
+                  }
+                }
+              ]
+            }
+          ],
+          "events": [
+            {
+              "description": "The user opened or closed the item. Bubbles; read `open` from the target.",
+              "name": "change"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Whether the panel is shown.",
+              "default": "false",
+              "fieldName": "open"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Disables the header. A disabled item is skipped by arrow keys.",
+              "default": "false",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "level",
+              "type": {
+                "text": "number"
+              },
+              "description": "Heading level (1 to 6) of the header, so the outline of the page stays correct.",
+              "default": "3",
+              "fieldName": "level"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-accordion-item",
+          "customElement": true,
+          "summary": "Header and panel inside an accordion."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtAccordion",
+          "declaration": {
+            "name": "HtAccordion",
+            "module": "src/components/accordion/accordion.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "HtAccordionItem",
+          "declaration": {
+            "name": "HtAccordionItem",
+            "module": "src/components/accordion/accordion.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-accordion",
+          "declaration": {
+            "name": "HtAccordion",
+            "module": "src/components/accordion/accordion.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-accordion-item",
+          "declaration": {
+            "name": "HtAccordionItem",
+            "module": "src/components/accordion/accordion.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/components/alert-dialog/alert-dialog.ts",
       "declarations": [
         {
@@ -3618,6 +3824,148 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/components/marquee/marquee.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A row of content that scrolls sideways without end: logo clouds, partner strips, tag tickers.\nThe slotted content is repeated once so the loop has no seam; the copy is hidden from assistive\ntechnology and cannot take focus. Add enough items to fill the width, or the empty space scrolls\nwith them.\n\nMoving content must be stoppable (WCAG 2.2.2). It stops on hover and while anything inside has\nfocus, and the `paused` attribute stops it from your own control. With reduced motion it does not\nmove at all and the row scrolls by hand instead.\n\nThe copy is a snapshot taken when the slotted nodes change. If you edit an item in place, replace\nthe node instead.",
+          "name": "HtMarquee",
+          "cssProperties": [
+            {
+              "description": "Space between items, and between the end of one loop and the start of the next.",
+              "name": "--ht-marquee-gap",
+              "default": "48px"
+            }
+          ],
+          "cssParts": [
+            {
+              "description": "The clipping viewport.",
+              "name": "base"
+            }
+          ],
+          "slots": [
+            {
+              "description": "The items to scroll.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "speed",
+              "privacy": "public",
+              "type": {
+                "text": "number"
+              },
+              "description": "Scroll speed in pixels per second.",
+              "default": "40",
+              "attribute": "speed"
+            },
+            {
+              "kind": "field",
+              "name": "direction",
+              "privacy": "public",
+              "description": "`left` moves content to the left, `right` to the right.",
+              "type": {
+                "text": "'left' | 'right'"
+              },
+              "default": "'left'",
+              "attribute": "direction",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "paused",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Stops the movement. Hover and focus also stop it.",
+              "default": "false",
+              "attribute": "paused",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "fade",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Fades the left and right edges.",
+              "default": "false",
+              "attribute": "fade",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "speed",
+              "type": {
+                "text": "number"
+              },
+              "description": "Scroll speed in pixels per second.",
+              "default": "40",
+              "fieldName": "speed"
+            },
+            {
+              "name": "direction",
+              "description": "`left` moves content to the left, `right` to the right.",
+              "type": {
+                "text": "'left' | 'right'"
+              },
+              "default": "'left'",
+              "fieldName": "direction"
+            },
+            {
+              "name": "paused",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Stops the movement. Hover and focus also stop it.",
+              "default": "false",
+              "fieldName": "paused"
+            },
+            {
+              "name": "fade",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Fades the left and right edges.",
+              "default": "false",
+              "fieldName": "fade"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-marquee",
+          "customElement": true,
+          "summary": "Endless sideways scroller."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtMarquee",
+          "declaration": {
+            "name": "HtMarquee",
+            "module": "src/components/marquee/marquee.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-marquee",
+          "declaration": {
+            "name": "HtMarquee",
+            "module": "src/components/marquee/marquee.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/components/menu/menu.ts",
       "declarations": [
         {
@@ -4499,6 +4847,139 @@
           "declaration": {
             "name": "HtNumber",
             "module": "src/components/number/number.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/ping/ping.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A small status dot with a ring that pulses outward. A dot is only colour, so its meaning must\ntravel in text: put the dot next to a visible label, or give it a `label` so it is announced as an\nimage. Without a `label` it is hidden from assistive technology.",
+          "name": "HtPing",
+          "cssParts": [
+            {
+              "description": "The solid dot.",
+              "name": "dot"
+            },
+            {
+              "description": "The ring that pulses outward.",
+              "name": "ring"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "tone",
+              "privacy": "public",
+              "description": "Colour. `neutral` is the default.",
+              "type": {
+                "text": "'neutral' | 'accent' | 'success' | 'warning' | 'danger' | 'info'"
+              },
+              "default": "'neutral'",
+              "attribute": "tone",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "privacy": "public",
+              "description": "Dot diameter: sm 8px, md 10px, lg 12px.",
+              "type": {
+                "text": "'sm' | 'md' | 'lg'"
+              },
+              "default": "'md'",
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "still",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Turns the pulse off and leaves a plain dot.",
+              "default": "false",
+              "attribute": "still",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "privacy": "public",
+              "description": "Accessible name, such as `Online`. Without it the dot is decorative and hidden from assistive technology.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "label"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "tone",
+              "description": "Colour. `neutral` is the default.",
+              "type": {
+                "text": "'neutral' | 'accent' | 'success' | 'warning' | 'danger' | 'info'"
+              },
+              "default": "'neutral'",
+              "fieldName": "tone"
+            },
+            {
+              "name": "size",
+              "description": "Dot diameter: sm 8px, md 10px, lg 12px.",
+              "type": {
+                "text": "'sm' | 'md' | 'lg'"
+              },
+              "default": "'md'",
+              "fieldName": "size"
+            },
+            {
+              "name": "still",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Turns the pulse off and leaves a plain dot.",
+              "default": "false",
+              "fieldName": "still"
+            },
+            {
+              "name": "label",
+              "description": "Accessible name, such as `Online`. Without it the dot is decorative and hidden from assistive technology.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "label"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-ping",
+          "customElement": true,
+          "summary": "Pulsing status dot."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtPing",
+          "declaration": {
+            "name": "HtPing",
+            "module": "src/components/ping/ping.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-ping",
+          "declaration": {
+            "name": "HtPing",
+            "module": "src/components/ping/ping.ts"
           }
         }
       ]
