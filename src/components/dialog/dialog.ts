@@ -26,6 +26,8 @@ import { ifDefined } from 'lit/directives/if-defined.js';
  */
 export class HtDialog extends LitElement {
   static properties = {
+    /** Liquid glass look: a translucent panel that blurs what is behind it, with a bright rim and a sheen. */
+    glass: { type: Boolean, reflect: true },
     /** Shows the dialog. Reflects: closing from inside updates it. */
     open: { type: Boolean, reflect: true },
     /** Title text. Use the `title` slot for anything richer. */
@@ -43,8 +45,11 @@ export class HtDialog extends LitElement {
   declare persistent: boolean;
   declare _hasFooter: boolean;
 
+  declare glass: boolean;
+
   constructor() {
     super();
+    this.glass = false;
     this.open = false;
     this.heading = '';
     this.eyebrow = '';
@@ -63,7 +68,7 @@ export class HtDialog extends LitElement {
       overflow: hidden;
       color: var(--ht-text);
       background: var(--ht-surface);
-      border: 1px solid var(--ht-border-strong);
+      border: 0;
       border-radius: var(--ht-radius-lg);
       box-shadow: var(--ht-shadow-md);
     }
@@ -77,6 +82,7 @@ export class HtDialog extends LitElement {
       padding: 14px 16px;
       background: var(--ht-halftone), var(--ht-surface-muted);
       border-bottom: 1px solid var(--ht-border);
+      border-radius: var(--ht-radius-lg) var(--ht-radius-lg) 0 0;
     }
     .eyebrow {
       display: block;
@@ -100,19 +106,41 @@ export class HtDialog extends LitElement {
     .close:hover { color: var(--ht-text); background: var(--ht-surface-sunken); }
     .close:focus-visible { outline: 2px solid var(--ht-focus); outline-offset: 2px; }
     .body { padding: 16px; overflow: auto; font: 400 0.875rem/1.5 var(--ht-font-ui); }
+    /*
+     * Cassette keys: the footer buttons sit on the dialog's bottom-left, flush with the left and
+     * bottom edges, side by side with a gap. The first (primary) key takes the dialog's corner
+     * radius at the bottom left; the others are outlined with rounded tops. Nothing leaves the
+     * dialog: keys shrink and wrap long labels before they would pass the right edge.
+     */
     footer {
       display: flex;
       gap: 16px;
-      align-items: stretch;
-      border-top: 1px solid var(--ht-border);
+      align-items: flex-end;
     }
+    /* Corners follow position, not role. A key on the left edge has no top-left radius and takes the
+       dialog's radius at the bottom left; a key on the right edge has no top-right radius and takes it
+       at the bottom right. The component sets data-edge-left / data-edge-right by measuring. */
     footer ::slotted(ht-button) {
+      flex: 0 1 auto;
+      min-width: 0;
       --ht-flush-radius: var(--ht-radius-md) var(--ht-radius-md) 0 0;
     }
-    footer ::slotted(ht-button:first-child) {
-      --ht-flush-radius: 0 var(--ht-radius-md) 0 var(--ht-radius-lg);
-    }
+    footer ::slotted(ht-button[data-edge-left]) { --ht-flush-radius: 0 var(--ht-radius-md) 0 var(--ht-radius-lg); }
+    footer ::slotted(ht-button[data-edge-right]) { --ht-flush-radius: var(--ht-radius-md) 0 var(--ht-radius-lg) 0; }
+    footer ::slotted(ht-button[data-edge-left][data-edge-right]) { --ht-flush-radius: 0 0 var(--ht-radius-lg) var(--ht-radius-lg); }
     [hidden] { display: none !important; }
+    :host([glass]) dialog {
+      background: var(--ht-glass-panel-bg);
+      box-shadow: var(--ht-glass-rim), var(--ht-glass-shadow);
+      -webkit-backdrop-filter: var(--ht-glass-filter);
+      backdrop-filter: var(--ht-glass-filter);
+    }
+    :host([glass]) header {
+      background: var(--ht-halftone), color-mix(in oklab, var(--ht-surface) 28%, transparent);
+      border-bottom-color: color-mix(in oklab, var(--ht-text) 10%, transparent);
+    }
+    /* A lighter scrim, so the glass has colour to blur. */
+    :host([glass]) dialog::backdrop { background: oklch(0.12 0.02 295 / 0.2); }
   `;
 
   /** Opens the dialog. */
@@ -128,16 +156,42 @@ export class HtDialog extends LitElement {
     return this.renderRoot.querySelector('dialog');
   }
 
+  #ro?: ResizeObserver;
+
+  firstUpdated() {
+    const footer = this.renderRoot.querySelector('footer');
+    if (footer) {
+      this.#ro = new ResizeObserver(() => this.#syncEdges());
+      this.#ro.observe(footer);
+    }
+  }
+
+  /** Marks the footer keys that touch the left or right edge, so their corners can follow position. */
+  #syncEdges = () => {
+    const footer = this.renderRoot.querySelector('footer');
+    if (!footer || footer.hidden) return;
+    const fr = footer.getBoundingClientRect();
+    if (fr.width === 0) return;
+    const keys = this.renderRoot.querySelector<HTMLSlotElement>('slot[name="footer"]')?.assignedElements() ?? [];
+    for (const el of keys) {
+      const r = el.getBoundingClientRect();
+      el.toggleAttribute('data-edge-left', Math.abs(r.left - fr.left) < 1.5);
+      el.toggleAttribute('data-edge-right', Math.abs(fr.right - r.right) < 1.5);
+    }
+  };
+
   updated(changed: Map<string, unknown>) {
     if (!changed.has('open')) return;
     const dialog = this.#dialog;
     if (!dialog) return;
     if (this.open && !dialog.open) dialog.showModal();
     else if (!this.open && dialog.open) dialog.close();
+    if (this.open) this.#syncEdges();
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
+    this.#ro?.disconnect();
     this.#dialog?.close();
   }
 
@@ -155,6 +209,7 @@ export class HtDialog extends LitElement {
     const nodes = (e.target as HTMLSlotElement).assignedElements();
     this._hasFooter = nodes.length > 0;
     for (const el of nodes) if (el.localName === 'ht-button') el.toggleAttribute('flush', true);
+    requestAnimationFrame(() => this.#syncEdges());
   };
 
   render() {

@@ -39,6 +39,8 @@ const CHECK = svg`<path d="M232.49,80.49l-128,128a12,12,0,0,1-17,0l-56-56a12,12,
  */
 export class HtMenu extends LitElement {
   static properties = {
+    /** Liquid glass look: a translucent, blurred panel with glass rows. Best over a colourful or photographic backdrop. */
+    glass: { type: Boolean, reflect: true },
     /** Shows the menu. Reflects. */
     open: { type: Boolean, reflect: true },
     /**
@@ -68,8 +70,11 @@ export class HtMenu extends LitElement {
   #buffer = '';
   #bufferTimer = 0;
 
+  declare glass: boolean;
+
   constructor() {
     super();
+    this.glass = false;
     this.open = false;
     this.placement = 'bottom-start';
     this.label = '';
@@ -109,6 +114,19 @@ export class HtMenu extends LitElement {
     .panel[data-side='right'] { --_dx: -4px; }
     .panel.on { opacity: 1; transform: none; }
     .panel:focus { outline: none; }
+    :host([glass]) .panel {
+      background: var(--ht-glass-panel-bg);
+      border-color: transparent;
+      box-shadow: var(--ht-glass-rim), var(--ht-glass-shadow);
+      -webkit-backdrop-filter: var(--ht-glass-filter);
+      backdrop-filter: var(--ht-glass-filter);
+      --_row-bg: var(--ht-glass-row-bg);
+      --_row-bg-on: var(--ht-glass-row-bg-on);
+      --_row-rim: var(--ht-glass-rim);
+      --_row-rim-on: var(--ht-glass-rim-on);
+      --_row-gap: 1px;
+      --_sep: color-mix(in oklab, var(--ht-text) 12%, transparent);
+    }
     @media (prefers-reduced-motion: reduce) {
       .panel { transition: none; transform: none; }
     }
@@ -574,10 +592,13 @@ export class HtMenuItem extends LitElement {
       cursor: default;
       user-select: none;
       border-radius: var(--ht-radius-md);
+      background: var(--_row-bg, transparent);
+      box-shadow: var(--_row-rim, none);
+      margin-block: var(--_row-gap, 0);
       transition: background-color var(--ht-duration) var(--ht-ease);
     }
-    :host(:focus) .item { background: color-mix(in oklab, var(--ht-text) 7.5%, transparent); }
-    :host(:focus-visible) .item { box-shadow: inset 0 0 0 2px var(--ht-focus); }
+    :host(:focus) .item { background: var(--_row-bg-on, color-mix(in oklab, var(--ht-text) 7.5%, transparent)); box-shadow: var(--_row-rim-on, none); }
+    :host(:focus-visible) .item { box-shadow: var(--_row-rim-on, 0 0 0 0 transparent), inset 0 0 0 2px var(--ht-focus); }
     :host([danger]) .item { color: var(--ht-danger-text); }
     :host([danger]:focus) .item { background: color-mix(in oklab, var(--ht-danger) 12%, transparent); }
     :host([disabled]) .item { opacity: 0.55; cursor: not-allowed; }
@@ -663,7 +684,7 @@ export class HtMenuSeparator extends LitElement {
   }
 
   static styles = css`
-    :host { display: block; height: 1px; margin: 4px -4px; background: var(--ht-border); }
+    :host { display: block; height: 1px; margin: 4px -4px; background: var(--_sep, var(--ht-border)); }
   `;
 
   render() {

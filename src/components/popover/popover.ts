@@ -32,6 +32,8 @@ type Align = 'start' | 'center' | 'end';
  */
 export class HtPopover extends LitElement {
   static properties = {
+    /** Liquid glass look: a translucent panel that blurs what is behind it, with a bright rim and a sheen. */
+    glass: { type: Boolean, reflect: true },
     /** Shows the panel. Reflects, so closing from inside updates it. */
     open: { type: Boolean, reflect: true },
     /**
@@ -53,8 +55,11 @@ export class HtPopover extends LitElement {
   #wasOpen = false;
   #mounted = false;
 
+  declare glass: boolean;
+
   constructor() {
     super();
+    this.glass = false;
     this.open = false;
     this.placement = 'bottom';
     this.label = '';
@@ -96,6 +101,13 @@ export class HtPopover extends LitElement {
     .panel:focus-visible { outline: 2px solid var(--ht-focus); outline-offset: -2px; }
     @media (prefers-reduced-motion: reduce) {
       .panel { transition: none; transform: none; }
+    }
+    :host([glass]) .panel {
+      background: var(--ht-glass-panel-bg);
+      border-color: transparent;
+      box-shadow: var(--ht-glass-rim), var(--ht-glass-shadow);
+      -webkit-backdrop-filter: var(--ht-glass-filter);
+      backdrop-filter: var(--ht-glass-filter);
     }
   `;
 
