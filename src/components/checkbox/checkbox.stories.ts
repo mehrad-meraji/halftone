@@ -81,3 +81,12 @@ export const InForm: StoryObj = {
       <pre style="margin:0;font:400 12px var(--ht-font-mono);color:var(--ht-text-muted)">submit to see FormData</pre>
     </form>`,
 };
+
+/** A native `<label for>` outside the element toggles it, like a native control. */
+export const WithExternalLabel: StoryObj = {
+  render: () => html`
+    <div style="display:flex;gap:12px;align-items:center">
+      <label for="ext-checkbox">Notify me about replies</label>
+      <ht-checkbox id="ext-checkbox" label="Notify me about replies"></ht-checkbox>
+    </div>`,
+};

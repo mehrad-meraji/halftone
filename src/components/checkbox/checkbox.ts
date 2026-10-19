@@ -60,6 +60,13 @@ export class HtCheckbox extends LitElement {
     this.label = '';
     this._groupDisabled = false;
     this._formDisabled = false;
+    // A `<label for>` (or a wrapping label) outside the shadow root clicks the host, not the native
+    // input inside it. Pass that click on, so the control toggles like a native one. Clicks from
+    // inside are ignored here: the inner label and input already handle them.
+    this.addEventListener('click', (e) => {
+      if (e.composedPath()[0] !== this) return;
+      this.renderRoot.querySelector('input')?.click();
+    });
   }
 
   connectedCallback() {
