@@ -1,0 +1,35 @@
+---
+// A stage: the dot screen fades out behind live components. See the dot screen page for the rules.
+---
+
+<div class="stage">
+  <div class="dots" aria-hidden="true"></div>
+  <slot />
+</div>
+
+<style>
+  .stage {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.75rem;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 2.5rem 1.5rem;
+    margin-block: 1.5rem;
+    background: var(--ht-surface-muted);
+    border: 1px solid var(--sl-color-hairline);
+    border-radius: 14px;
+  }
+  .dots {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: var(--ht-halftone-stage);
+    -webkit-mask-image: radial-gradient(ellipse 75% 70% at 50% 45%, #000 25%, transparent);
+    mask-image: radial-gradient(ellipse 75% 70% at 50% 45%, #000 25%, transparent);
+  }
+</style>

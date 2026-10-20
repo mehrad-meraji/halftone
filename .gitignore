@@ -9,3 +9,10 @@ registry
 llms.txt
 .claude/
 pnpm-lock.yaml
+
+# Docs site (Astro Starlight)
+site/node_modules
+site/dist
+site/.astro
+site/src/content/docs/components
+site/src/generated

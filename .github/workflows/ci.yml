@@ -17,3 +17,19 @@ jobs:
       - run: npm run typecheck
       - run: npm run build
       - run: npm test
+
+  # The docs site builds with Astro 7, which needs Node 22.12 or newer.
+  site:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            site/package-lock.json
+      - run: npm ci
+      - run: npm ci --prefix site
+      - run: npm run build --prefix site

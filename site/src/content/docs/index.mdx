@@ -1,0 +1,38 @@
+---
+title: Halftone
+description: Lit web components with ht- tags, styled by CSS variables. Works in any framework or none.
+template: splash
+hero:
+  tagline: Web components for product interfaces. Every control is a custom element with an ht- tag, styled by CSS variables.
+  actions:
+    - text: About Halftone
+      link: ./getting-started/about/
+      icon: right-arrow
+    - text: Install
+      link: ./getting-started/install/
+      variant: minimal
+---
+
+import Stage from '../../components/Stage.astro';
+import stats from '../../generated/stats.json';
+
+<Stage>
+  <div style="width:250px">
+    <ht-select label="Role" value="contributor">
+      <ht-option value="viewer">Viewer</ht-option>
+      <ht-option value="contributor">Contributor</ht-option>
+      <ht-option value="manager">Manager</ht-option>
+    </ht-select>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:18px;width:300px;max-width:100%">
+    <ht-tabs label="Sidebar">
+      <ht-tab value="apps">Apps</ht-tab>
+      <ht-tab value="files">Files</ht-tab>
+      <ht-tab value="chat">Chat</ht-tab>
+    </ht-tabs>
+    <ht-switch checked>Email alerts</ht-switch>
+    <ht-button variant="primary">Deploy It</ht-button>
+  </div>
+</Stage>
+
+{stats.components} components, {stats.elements} elements, built on Lit and TypeScript.

@@ -1,0 +1,90 @@
+---
+title: Install
+description: Add Halftone to a project, load the tokens, and theme it.
+sidebar:
+  order: 2
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+## 1. Install
+
+<Tabs>
+  <TabItem label="Package">
+
+```bash
+npm i @_mehrad/halftone lit
+```
+
+  </TabItem>
+  <TabItem label="From GitHub">
+
+Install straight from the repository. It builds itself on install, which takes about 20 seconds. Pin a commit or tag for repeatable installs.
+
+```bash
+npm i github:mehrad-meraji/halftone lit
+npm i github:mehrad-meraji/halftone#<commit> lit
+```
+
+  </TabItem>
+  <TabItem label="Copy a component">
+
+Every component is one file that imports only `lit`. Copy the ones you want and edit them freely.
+
+```bash
+npx @_mehrad/halftone add button input tabs
+```
+
+  </TabItem>
+</Tabs>
+
+## 2. Load the tokens, fonts and a component
+
+`tokens.css` is required. Components read their colors, radii and fonts from it. Fonts are not bundled: load Chakra Petch (display), Geist (UI) and IBM Plex Mono (mono) yourself, or system fonts are used.
+
+```html
+<link rel="stylesheet" href="/node_modules/@_mehrad/halftone/dist/tokens.css" />
+
+<script type="module">
+  import '@_mehrad/halftone/components/button/button.js'; // one component
+  // import '@_mehrad/halftone';                          // or everything
+</script>
+
+<ht-button variant="primary">Deploy It</ht-button>
+```
+
+## 3. Theme it
+
+Everything is a CSS variable. Override on `:root`, or on any wrapper to theme a subtree.
+
+```css
+:root {
+  --ht-accent: oklch(0.7 0.18 200);
+  --ht-radius-md: 0;
+  --ht-halftone: none; /* remove the dot screen on headers */
+}
+```
+
+Dark mode follows the OS. Force it with `<html data-theme="dark">` or `data-theme="light"`. For deeper restyling, every component exposes `::part()` hooks:
+
+```css
+ht-input::part(control) { border-radius: 999px; }
+```
+
+## 4. Frameworks
+
+| Framework | Notes |
+| --- | --- |
+| Plain HTML, Blade, Rails | Use the tags directly. |
+| Vue | Add `isCustomElement: (tag) => tag.startsWith('ht-')` to the compiler options. |
+| React 19 | Works as is. Pass events with `onClick` and properties as props. |
+| Angular | Add `CUSTOM_ELEMENTS_SCHEMA` to the module or standalone component. |
+| Svelte | Works as is. |
+
+## Icons
+
+`ht-icon` ships 50 common [Phosphor](https://phosphoricons.com) icons in regular, bold and fill. It sizes itself in `em`, so it follows the text around it, and it is decorative unless you give it a `label`.
+
+```html
+<ht-button><ht-icon slot="prefix" name="plus" weight="bold"></ht-icon>New Issue</ht-button>
+```

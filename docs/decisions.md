@@ -294,3 +294,13 @@ Not taken: controlled `open` and `onOpenChange` (the toaster is imperative and `
 - **Focus.** Real focus moves onto the options (not `aria-activedescendant`), because an id reference cannot cross from the list's shadow root to options in the host's light DOM.
 - **Gives up.** The native mobile picker. Radix does too.
 - **Not taken.** Radix's item-aligned position (the chosen option sits over the trigger). Only the popper position, which is what shadcn and Taskscape use.
+
+## 2026-10-20 — A docs site in Astro Starlight, with Storybook under it
+The public docs were only Storybook. They now have a real site in `site/`, built with Astro Starlight (chosen over VitePress: its sidebar badges, on-this-page rail, edit link, search and per-component overrides match the docs design, and it works with custom elements). It follows the "Halftone docs system" design: getting started, foundations (color, type, spacing, motion, glass, dot screen), and one page per component.
+- **Generated, not copied.** `site/scripts/gen-components.mjs` writes a page per component folder from `custom-elements.json` (the JSDoc) and the stories files (the live examples), so the API cannot drift. A hand-written page goes in `site/overrides/<folder>.mdx` (Select is the first).
+- **Live.** The site imports Halftone from `../src`, so examples on the hand-written pages are the real elements. Generated pages embed the deployed Storybook stories.
+- **Themed by tokens.** Starlight's variables point at `--ht-*`, so light and dark follow `tokens.css`.
+- **Pages layout.** The site is at the Pages root and Storybook moved to `/storybook/`. The Docs workflow builds both with Node 22 (Astro 7 needs 22.12 or newer; the root package still builds on 20). CI also builds the site on every pull request.
+- **Cost.** Old links to `…/halftone/?path=…` Storybook pages now land on the site, not Storybook.
+- **Not built.** The top navigation bar from the design (the sidebar groups do its job), breadcrumbs, a page-helpful vote, and the Patterns and Resources sections.
+

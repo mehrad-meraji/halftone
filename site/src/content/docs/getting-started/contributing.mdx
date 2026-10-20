@@ -1,0 +1,30 @@
+---
+title: Contributing
+description: The rules a Halftone component follows, for people and for agents.
+sidebar:
+  order: 3
+---
+
+These are the rules in the repository's `AGENTS.md`. They apply to people too.
+
+- Components are Lit and TypeScript with **no decorators**: static `properties` and `declare` fields.
+- One folder per component: `src/components/<name>/<name>.ts` and `<name>.stories.ts`. The tag is `ht-<name>`.
+- A component file imports only `lit`. No cross-component imports, so the file stays copyable. `npm run registry` fails the build if one does. Elements that only make sense together (tabs, radio group, toast and toaster) live in one file.
+- Document every public attribute, slot, part and CSS variable with JSDoc (`@slot`, `@csspart`, `@cssprop`, `@fires`). The manifest, Storybook and these component pages are generated from it.
+- Style only through `--ht-*` tokens. No hard-coded colors, radii or fonts.
+- Form controls use `ElementInternals` (`static formAssociated = true`).
+- Add every new component to `src/index.ts`, with a story for each variant and the disabled state.
+- A control without a visible label forwards a host `aria-label` to its native element. Field outlines use `--ht-border-input` (3 to 1).
+
+## Check your work
+
+```bash
+npm run typecheck && npm run build
+node scripts/contrast.mjs
+```
+
+Then open the story in Storybook and run axe on it. Write a dated entry in `docs/decisions.md` for any choice another person would ask about.
+
+## For agents
+
+The API is machine readable. `custom-elements.json` lists every element, attribute, slot, part and event. `llms.txt` is a plain summary. Both ship in the package.

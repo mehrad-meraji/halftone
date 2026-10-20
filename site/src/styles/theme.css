@@ -1,0 +1,135 @@
+/*
+  Halftone docs theme. Starlight's variables point at Halftone's own tokens, so light and dark
+  follow tokens.css (Starlight sets data-theme on <html>, and tokens.css reads it).
+*/
+@import '../../../src/tokens/tokens.css';
+
+:root {
+  --sl-font: var(--ht-font-ui);
+  --sl-font-system-mono: var(--ht-font-mono);
+  --sl-content-width: 46rem;
+  --sl-sidebar-width: 17rem;
+  --sl-text-h1: 3.5rem;
+  --sl-text-h2: 1.75rem;
+  --sl-text-h3: 1.25rem;
+
+  --sl-color-white: var(--ht-text);
+  --sl-color-gray-1: var(--ht-text);
+  --sl-color-gray-2: var(--ht-text-muted);
+  --sl-color-gray-3: var(--ht-text-subtle);
+  --sl-color-gray-4: var(--ht-border-input);
+  --sl-color-gray-5: var(--ht-border-strong);
+  --sl-color-gray-6: var(--ht-surface-muted);
+  --sl-color-gray-7: var(--ht-surface-sunken);
+  --sl-color-black: var(--ht-bg);
+
+  --sl-color-bg: var(--ht-bg);
+  --sl-color-bg-nav: var(--ht-surface);
+  --sl-color-bg-sidebar: var(--ht-surface);
+  --sl-color-bg-inline-code: var(--ht-surface-sunken);
+  --sl-color-hairline: var(--ht-border);
+  --sl-color-hairline-light: var(--ht-border);
+  --sl-color-hairline-shade: var(--ht-border);
+  --sl-color-text: var(--ht-text);
+  --sl-color-text-accent: var(--ht-accent-text);
+
+  --sl-color-accent-low: var(--ht-accent-soft);
+  --sl-color-accent: var(--ht-accent);
+  --sl-color-accent-high: var(--ht-accent-text);
+}
+
+/* Headings and eyebrows use Halftone's display and mono faces. */
+h1,
+h2,
+h3,
+h4,
+.site-title {
+  font-family: var(--ht-font-display);
+  letter-spacing: 0.005em;
+}
+h1 {
+  font-weight: 600;
+  line-height: 1.04;
+}
+h2,
+h3 {
+  font-weight: 600;
+}
+.sl-markdown-content :not(pre) > code {
+  font-size: 0.875em;
+}
+.site-title {
+  font-weight: 600;
+  font-size: 1.375rem;
+  letter-spacing: 0.02em;
+  text-transform: lowercase;
+}
+.sidebar-content .group-label {
+  font: 500 0.6875rem/1rem var(--ht-font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ht-text-subtle);
+}
+
+/* Sidebar badges: small mono chips. */
+.sidebar-content .sl-badge {
+  font: 500 0.6875rem/1rem var(--ht-font-mono);
+  border-radius: 4px;
+}
+
+/* Tables read as the design's spec tables. */
+.sl-markdown-content table {
+  display: block;
+  overflow-x: auto;
+  border: 1px solid var(--sl-color-hairline);
+  border-radius: var(--ht-radius-lg);
+  background: var(--ht-surface);
+}
+.sl-markdown-content thead th {
+  background: var(--ht-surface-muted);
+  font-weight: 600;
+}
+.sl-markdown-content :is(th, td) {
+  padding: 0.625rem 1rem;
+}
+.sl-markdown-content :is(th, td):first-child code {
+  color: var(--ht-accent-text);
+  font-weight: 500;
+}
+
+/* Elements that have not loaded yet should not flash as raw text. */
+:is(ht-select, ht-tabs, ht-switch, ht-toast, ht-empty-state):not(:defined) {
+  visibility: hidden;
+}
+
+/* A framed block for live components that are not on a stage. */
+.example {
+  padding: 1.5rem;
+  margin-block: 1rem;
+  background: var(--ht-surface);
+  border: 1px solid var(--sl-color-hairline);
+  border-radius: var(--ht-radius-lg);
+}
+.swatches {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+  gap: 0.75rem;
+  margin-block: 1rem;
+}
+.swatch {
+  border: 1px solid var(--sl-color-hairline);
+  border-radius: var(--ht-radius-md);
+  overflow: hidden;
+  background: var(--ht-surface);
+}
+.swatch > span:first-child {
+  display: block;
+  height: 3.5rem;
+  border-bottom: 1px solid var(--sl-color-hairline);
+}
+.swatch code {
+  display: block;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.75rem;
+  background: none;
+}

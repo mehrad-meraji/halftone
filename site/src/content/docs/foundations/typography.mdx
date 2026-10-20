@@ -1,0 +1,24 @@
+---
+title: Typography
+description: Chakra Petch for headings, Geist for the interface, IBM Plex Mono for code and eyebrows.
+sidebar:
+  order: 2
+---
+
+Three faces, each with one job. Fonts are not bundled; load them yourself or system fallbacks are used.
+
+| Token | Face | Used for |
+| --- | --- | --- |
+| `--ht-font-display` | Chakra Petch | Headings and titles |
+| `--ht-font-ui` | Geist | Controls, labels and body text |
+| `--ht-font-mono` | IBM Plex Mono | Code, shortcuts and small uppercase eyebrows |
+
+<div class="example">
+  <div style="font:400 0.6875rem/1 var(--ht-font-mono);letter-spacing:0.08em;text-transform:uppercase;color:var(--ht-text-subtle)">Eyebrow in mono</div>
+  <div style="font:600 1.75rem/1.2 var(--ht-font-display);margin-top:6px">A heading in Chakra Petch</div>
+  <p style="font:400 0.875rem/1.5 var(--ht-font-ui);margin:8px 0 0;color:var(--ht-text-muted)">Body and control text in Geist. Labels use Title Case, sentences use sentence case, and the tone is dry.</p>
+</div>
+
+```css
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Geist:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+```
