@@ -261,3 +261,12 @@ Compared `ht-toast` and `ht-toaster` with the Radix Toast docs and took the beha
 - `swipe-threshold` (50px) and `data-swipe` (`start`, `move`, `cancel`, `end`) on the toast.
 - `toast({ action: { altText } })` becomes the action button's accessible name.
 Not taken: controlled `open` and `onOpenChange` (the toaster is imperative and `toast()` returns the element, so call `dismiss()` and listen for `ht-dismiss`), `forceMount`, `announcerContainer` (each toast is its own live region), and the `--radix-toast-swipe-*` variables (internal here).
+
+## 2026-10-20 — Select is a custom list, like Radix Select
+`ht-select` no longer wraps a native `<select>`. The trigger is a button (`role=combobox`) and the list is a `popover="manual"` panel in the top layer, so it stays above an open `ht-dialog` (the reason Taskscape's `statuses.tsx` stayed on Radix) and is never clipped.
+- **Items.** New `ht-option` (any content, `label` for the short text, `prefix` slot) and `ht-option-group`. Chosen because Taskscape's member and role selects need two-line items. Plain `<option>`, `<optgroup>` and `<hr>` still work as text, drawn from a parsed copy. Do not mix the two kinds.
+- **Behavior from Radix.** Press opens on mouse down and a drag onto an option picks it on release. Trigger: Enter, Space, ArrowDown and ArrowUp open; typing picks a match without opening. List: arrows, Home, End, PageUp and PageDown (10), Enter or Space picks, Escape closes, typeahead (a prefix within 1s, a repeated letter cycles), Tab is held inside. Focus moves onto the chosen option and returns to the trigger. Scroll arrows appear when the list is taller than the room, and it flips above the trigger when there is no room below.
+- **Form.** Still form-associated: `name`, `required` (message "Please select an item in the list."), reset, restore. `change` fires only for a user choice. New `open` property and `open` and `close` events.
+- **Focus.** Real focus moves onto the options (not `aria-activedescendant`), because an id reference cannot cross from the list's shadow root to options in the host's light DOM.
+- **Gives up.** The native mobile picker. Radix does too.
+- **Not taken.** Radix's item-aligned position (the chosen option sits over the trigger). Only the popper position, which is what shadcn and Taskscape use.
