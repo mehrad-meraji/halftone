@@ -1,0 +1,84 @@
+---
+// Live examples: the real Storybook stories, one at a time.
+interface Props {
+  stories: { id: string; label: string }[];
+  height?: number;
+}
+const { stories, height = 280 } = Astro.props;
+const base = (import.meta.env.PUBLIC_STORYBOOK_URL ?? 'https://mehrad-meraji.github.io/halftone/').replace(/\/?$/, '/');
+const src = (id: string) => `${base}iframe.html?id=${id}&viewMode=story`;
+---
+
+<div class="story-frame" data-base={base}>
+  {
+    stories.length > 1 && (
+      <div class="story-tabs" role="group" aria-label="Example">
+        {stories.map((s, i) => (
+          <button type="button" data-id={s.id} aria-pressed={i === 0 ? 'true' : 'false'}>
+            {s.label}
+          </button>
+        ))}
+      </div>
+    )
+  }
+  <iframe title="Live example" src={src(stories[0].id)} style={`height:${height}px`} loading="lazy"></iframe>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.story-frame').forEach((root) => {
+    const frame = root.querySelector('iframe')!;
+    const base = root.dataset.base!;
+    root.querySelectorAll<HTMLButtonElement>('.story-tabs button').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        root.querySelectorAll('.story-tabs button').forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+        frame.src = `${base}iframe.html?id=${btn.dataset.id}&viewMode=story`;
+      });
+    });
+  });
+</script>
+
+<style>
+  .story-frame {
+    margin-block: 1rem;
+    border: 1px solid var(--sl-color-hairline);
+    border-radius: var(--ht-radius-lg);
+    overflow: hidden;
+    background: var(--sl-color-bg);
+  }
+  .story-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    background: var(--ht-surface-muted);
+    border-bottom: 1px solid var(--sl-color-hairline);
+  }
+  .story-tabs button {
+    all: unset;
+    box-sizing: border-box;
+    cursor: pointer;
+    min-height: 2rem;
+    padding: 0 0.875rem;
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid var(--ht-border-strong);
+    border-radius: var(--ht-radius-md);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--ht-text);
+  }
+  .story-tabs button[aria-pressed='true'] {
+    background: var(--ht-text);
+    border-color: var(--ht-text);
+    color: var(--ht-bg);
+  }
+  .story-tabs button:focus-visible {
+    outline: 2px solid var(--ht-focus);
+    outline-offset: 2px;
+  }
+  iframe {
+    display: block;
+    width: 100%;
+    border: 0;
+  }
+</style>

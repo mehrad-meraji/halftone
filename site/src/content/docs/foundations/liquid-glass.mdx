@@ -1,0 +1,21 @@
+---
+title: Liquid glass
+description: A translucent, blurred panel look for things that float above the page.
+sidebar:
+  order: 5
+---
+
+Glass is for overlays only: dialog, alert dialog, sheet, popover, menu, command and select. It blurs whatever is behind, adds a bright rim and a diagonal sheen. Everything else stays solid, so there is one material per role.
+
+Turn it on with the `glass` attribute:
+
+```html
+<ht-popover glass>
+  <ht-button variant="default">Open</ht-button>
+  <div slot="content">A panel with a blurred, translucent fill.</div>
+</ht-popover>
+```
+
+The look comes from tokens: `--ht-glass-filter`, `--ht-glass-panel-bg`, `--ht-glass-row-bg`, `--ht-glass-rim` and `--ht-glass-shadow`. A glass dialog also gets a lighter scrim, so there is color left to blur.
+
+Do not layer glass on glass. Two blurred panels stacked make a muddy, distracting picture.

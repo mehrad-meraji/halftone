@@ -1,0 +1,45 @@
+---
+title: Dot screen
+description: The halftone dot pattern. Where it goes, and where it never does.
+sidebar:
+  order: 6
+---
+
+import Stage from '../../../components/Stage.astro';
+
+The dot screen is Halftone's one comic nod. It is a **stage texture, not a surface**: it marks places that frame or show something, and it fades out. It never sits behind text you have to read.
+
+<Stage>
+  <ht-empty-state heading="No monitors yet" description="A monitor checks a URL on a schedule and tells you when it stops answering.">
+    <ht-button slot="actions" variant="primary">Add Monitor</ht-button>
+  </ht-empty-state>
+</Stage>
+
+## Where it goes
+
+- **Header strips** of containers: card, dialog, alert dialog and sheet. Use `--ht-halftone`.
+- **Stages**: a surface that exists to show or frame something, such as a hero, an example area, an empty state, a sign-in side panel or a spotlight. Use `--ht-halftone-stage`, and fade it with a mask.
+
+## Where it never goes
+
+- Behind body copy, inputs, tables, lists or code.
+- On menus, select lists, popovers, tooltips or toasts. Those are glass or solid.
+- On error states. An error uses the alert icon, not decoration.
+
+## Tokens
+
+| Token | Tile | Dot | Used for |
+| --- | --- | --- | --- |
+| `--ht-halftone` | 6px | 0.8px, accent at 26% | Header strips |
+| `--ht-halftone-stage` | 8px | 1px, accent at 18% | Large stages |
+
+Both become `none` under `forced-colors: active` and `prefers-contrast: more`. To remove the dots everywhere, set them to `none`:
+
+```css
+:root {
+  --ht-halftone: none;
+  --ht-halftone-stage: none;
+}
+```
+
+Text on a patterned area still has to keep 4.5 to 1 contrast against the brightest point of the dots.

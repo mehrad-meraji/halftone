@@ -1,0 +1,34 @@
+---
+title: Spacing and radius
+description: Three radii, three shadows, and one-pixel borders.
+sidebar:
+  order: 3
+---
+
+Corners are sharp but not square: 2, 6 and 10 pixels. Borders are always one pixel.
+
+| Token | Value | Used for |
+| --- | --- | --- |
+| `--ht-radius-sm` | 2px | Keys, small chips |
+| `--ht-radius-md` | 6px | Buttons, fields, menu rows |
+| `--ht-radius-lg` | 10px | Cards, dialogs, panels |
+
+<div class="example" style="display:flex;flex-wrap:wrap;gap:20px">
+  <div style="width:96px;height:64px;background:var(--ht-surface-muted);border:1px solid var(--ht-border-strong);border-radius:var(--ht-radius-sm)"></div>
+  <div style="width:96px;height:64px;background:var(--ht-surface-muted);border:1px solid var(--ht-border-strong);border-radius:var(--ht-radius-md)"></div>
+  <div style="width:96px;height:64px;background:var(--ht-surface-muted);border:1px solid var(--ht-border-strong);border-radius:var(--ht-radius-lg)"></div>
+</div>
+
+## Shadows
+
+| Token | Used for |
+| --- | --- |
+| `--ht-shadow-xs` | Resting controls |
+| `--ht-shadow-sm` | Raised cards and toasts |
+| `--ht-shadow-md` | Floating panels: menus, popovers, dialogs |
+
+<div class="example" style="display:flex;flex-wrap:wrap;gap:24px">
+  <div style="width:96px;height:64px;background:var(--ht-surface);border-radius:var(--ht-radius-md);box-shadow:var(--ht-shadow-xs)"></div>
+  <div style="width:96px;height:64px;background:var(--ht-surface);border-radius:var(--ht-radius-md);box-shadow:var(--ht-shadow-sm)"></div>
+  <div style="width:96px;height:64px;background:var(--ht-surface);border-radius:var(--ht-radius-md);box-shadow:var(--ht-shadow-md)"></div>
+</div>

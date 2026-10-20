@@ -1,0 +1,28 @@
+---
+title: Motion
+description: Spring in, ease out faster. Motion shows where a panel came from.
+sidebar:
+  order: 4
+---
+
+Overlays animate in and out with plain CSS: `@starting-style` plus a `transition` on `overlay` and `display`, so the exit plays before the element leaves the top layer. There is no animation library. Browsers without `overlay` transitions close at once.
+
+| Token | Value | Used for |
+| --- | --- | --- |
+| `--ht-duration` | 120ms | Hover and press feedback |
+| `--ht-duration-in` | 240ms | A panel opening |
+| `--ht-duration-out` | 140ms | A panel closing. Faster than in. |
+| `--ht-ease` | `cubic-bezier(0.2, 0, 0, 1)` | Standard easing |
+| `--ht-ease-spring` | `cubic-bezier(0.34, 1.35, 0.64, 1)` | A small overshoot on the way in |
+
+## What moves
+
+- Panels scale up from 0.96 and grow out of the side that faces the trigger.
+- The scrim behind a dialog fades in while it blurs the page by 3px.
+- Footer keys in a dialog rise from the bottom edge one after another, like cassette keys.
+- Menu items stagger in.
+- Toasts spring in, and they can be swiped away.
+
+## Reduced motion
+
+`prefers-reduced-motion: reduce` removes the transitions and animations. Nothing depends on them to be understood.
