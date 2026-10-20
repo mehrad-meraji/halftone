@@ -375,6 +375,10 @@ export class HtSelect extends LitElement {
 
   /** Marks the chosen option, sets the trigger text and the form value. */
   #sync() {
+    // A listbox may own options and groups only, so a divider is hidden from the accessibility tree.
+    for (const el of this.renderRoot.querySelector<HTMLSlotElement>('slot:not([name])')?.assignedElements() ?? []) {
+      if (el.localName === 'hr' || el.localName === 'ht-separator') el.setAttribute('aria-hidden', 'true');
+    }
     const items = this.#items();
     if (!this.#ready && items.length) {
       this.#ready = true;
@@ -689,7 +693,7 @@ export class HtSelect extends LitElement {
         n.kind === 'option'
           ? opt(n)
           : n.kind === 'separator'
-            ? html`<hr class="sep" />`
+            ? html`<hr class="sep" aria-hidden="true" />`
             : html`<ht-option-group label=${n.label}>${n.items.map(opt)}</ht-option-group>`,
       )}
     </div>`;
