@@ -16,6 +16,9 @@ type Align = 'start' | 'center' | 'end';
  *
  * The trigger must be focusable and activate on click (a button or `ht-button`).
  *
+ * Set `arrow` to draw a small pointer from the panel to the trigger. It follows the trigger's
+ * centre along the panel edge and swaps sides when the panel flips.
+ *
  * @tag ht-popover
  * @summary Anchored, non-modal panel.
  *
@@ -45,12 +48,15 @@ export class HtPopover extends LitElement {
     label: {},
     /** Stops the trigger from opening the panel. */
     disabled: { type: Boolean, reflect: true },
+    /** Draws a pointer from the panel to the trigger. */
+    arrow: { type: Boolean, reflect: true },
   };
 
   declare open: boolean;
   declare placement: string;
   declare label: string;
   declare disabled: boolean;
+  declare arrow: boolean;
 
   #wasOpen = false;
   #mounted = false;
@@ -64,6 +70,7 @@ export class HtPopover extends LitElement {
     this.placement = 'bottom';
     this.label = '';
     this.disabled = false;
+    this.arrow = false;
     this.addEventListener('keydown', this.#onKeydown);
     this.addEventListener('focusout', this.#onFocusout);
   }
@@ -109,6 +116,32 @@ export class HtPopover extends LitElement {
     @starting-style {
       .panel:popover-open { opacity: 0; transform: translate(var(--_dx, 0), var(--_dy, 0)) scale(0.96); }
     }
+    .scroll { display: contents; }
+    /* The arrow hangs outside the panel, so with it the panel stops clipping and the inner box scrolls instead. */
+    :host([arrow]) .panel { overflow: visible; padding: 0; }
+    :host([arrow]) .scroll {
+      display: block;
+      box-sizing: border-box;
+      max-height: calc(100vh - 10px);
+      padding: var(--ht-popover-padding, 1rem);
+      overflow: auto;
+      border-radius: inherit;
+    }
+    :host([arrow]) .panel::before {
+      content: '';
+      position: absolute;
+      box-sizing: border-box;
+      width: 10px;
+      height: 10px;
+      background: inherit;
+      border: 1px solid var(--ht-border-strong);
+      pointer-events: none;
+    }
+    :host([arrow]) .panel[data-side='bottom']::before { top: -6px; left: var(--_ax, 50%); border-width: 1px 0 0 1px; transform: translateX(-50%) rotate(45deg); }
+    :host([arrow]) .panel[data-side='top']::before { bottom: -6px; left: var(--_ax, 50%); border-width: 0 1px 1px 0; transform: translateX(-50%) rotate(45deg); }
+    :host([arrow]) .panel[data-side='right']::before { left: -6px; top: var(--_ay, 50%); border-width: 0 0 1px 1px; transform: translateY(-50%) rotate(45deg); }
+    :host([arrow]) .panel[data-side='left']::before { right: -6px; top: var(--_ay, 50%); border-width: 1px 1px 0 0; transform: translateY(-50%) rotate(45deg); }
+    :host([glass][arrow]) .panel::before { border-color: transparent; }
     .panel:focus { outline: none; }
     .panel:focus-visible { outline: 2px solid var(--ht-focus); outline-offset: -2px; }
     @media (prefers-reduced-motion: reduce) {
@@ -274,8 +307,15 @@ export class HtPopover extends LitElement {
     if (!fits(side) && fits(flip[side])) side = flip[side];
     const p = pos[side];
     panel.dataset.side = side;
-    panel.style.left = `${Math.min(Math.max(margin, p.x), Math.max(margin, vw - b.width - margin))}px`;
-    panel.style.top = `${Math.min(Math.max(margin, p.y), Math.max(margin, vh - b.height - margin))}px`;
+    const left = Math.min(Math.max(margin, p.x), Math.max(margin, vw - b.width - margin));
+    const top = Math.min(Math.max(margin, p.y), Math.max(margin, vh - b.height - margin));
+    panel.style.left = `${left}px`;
+    panel.style.top = `${top}px`;
+    // Point the arrow at the trigger's centre, but keep it clear of the rounded corners.
+    const corner = 16;
+    const clamp = (v: number, size: number) => Math.min(Math.max(v, corner), Math.max(corner, size - corner));
+    panel.style.setProperty('--_ax', `${clamp(t.left + t.width / 2 - left, b.width)}px`);
+    panel.style.setProperty('--_ay', `${clamp(t.top + t.height / 2 - top, b.height)}px`);
   }
 
   disconnectedCallback() {
@@ -288,7 +328,7 @@ export class HtPopover extends LitElement {
   render() {
     return html`<slot @click=${this.#onTriggerClick} @slotchange=${() => this.#syncTrigger()}></slot>
       <div part="panel" class="panel" role="dialog" popover="manual" tabindex="-1">
-        <slot name="content" @slotchange=${() => this.#syncTrigger()}></slot>
+        <div class="scroll"><slot name="content" @slotchange=${() => this.#syncTrigger()}></slot></div>
       </div>`;
   }
 }
