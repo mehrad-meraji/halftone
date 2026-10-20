@@ -1,4 +1,6 @@
-# Builds Storybook and publishes it to GitHub Pages at https://mehrad-meraji.github.io/halftone/
+# Builds the docs site (Astro Starlight) and Storybook, and publishes both to GitHub Pages:
+#   https://mehrad-meraji.github.io/halftone/            the docs site
+#   https://mehrad-meraji.github.io/halftone/storybook/  Storybook (the live examples on component pages load from here)
 # Pages must be set to "GitHub Actions" as its source (Settings > Pages).
 name: Docs
 on:
@@ -20,17 +22,29 @@ jobs:
     runs-on: ubuntu-latest
     env:
       STORYBOOK_DISABLE_TELEMETRY: '1'
+      BASE_PATH: /halftone/
+      PUBLIC_STORYBOOK_URL: https://mehrad-meraji.github.io/halftone/storybook/
     steps:
       - uses: actions/checkout@v4
+      # Astro 7 needs Node 22.12 or newer.
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            site/package-lock.json
       - run: npm ci
+      - run: npm ci --prefix site
       - run: npm run storybook:build
+      - run: npm run build --prefix site
+      - name: Put Storybook under /storybook/
+        run: |
+          mkdir -p site/dist/storybook
+          cp -R storybook-static/. site/dist/storybook/
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: storybook-static
+          path: site/dist
 
   deploy:
     needs: build

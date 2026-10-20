@@ -36,6 +36,8 @@ export default defineConfig({
         { label: 'Foundations', items: [{ autogenerate: { directory: 'foundations' } }] },
         { label: 'Components', items: [{ autogenerate: { directory: 'components' } }] },
       ],
+      // Wrap long lines instead of scrolling: a scrolling block becomes an unnamed region landmark.
+      expressiveCode: { defaultProps: { wrap: true } },
       lastUpdated: false,
     }),
   ],

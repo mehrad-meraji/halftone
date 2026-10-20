@@ -5,7 +5,7 @@ interface Props {
   height?: number;
 }
 const { stories, height = 280 } = Astro.props;
-const base = (import.meta.env.PUBLIC_STORYBOOK_URL ?? 'https://mehrad-meraji.github.io/halftone/').replace(/\/?$/, '/');
+const base = (import.meta.env.PUBLIC_STORYBOOK_URL ?? 'https://mehrad-meraji.github.io/halftone/storybook/').replace(/\/?$/, '/');
 const src = (id: string) => `${base}iframe.html?id=${id}&viewMode=story`;
 ---
 
