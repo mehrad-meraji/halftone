@@ -172,6 +172,7 @@ export class HtSheet extends LitElement {
     .close:hover { color: var(--ht-text); background: var(--ht-surface-sunken); }
     .close:focus-visible { outline: 2px solid var(--ht-focus); outline-offset: 2px; }
     .body { flex: 1; min-height: 0; padding: 16px; overflow: auto; font: 400 0.875rem/1.5 var(--ht-font-ui); }
+    .body:focus-visible { outline: 2px solid var(--ht-focus); outline-offset: -2px; }
     footer {
       flex: none;
       display: flex;
@@ -209,6 +210,23 @@ export class HtSheet extends LitElement {
 
   get #dialog() {
     return this.renderRoot.querySelector('dialog');
+  }
+
+  #ro?: ResizeObserver;
+
+  /** A scrolling body must be reachable by keyboard (WCAG 2.1.1), so it takes focus only while it overflows. */
+  #syncScroll = () => {
+    const body = this.renderRoot.querySelector<HTMLElement>('.body');
+    if (!body) return;
+    if (body.scrollHeight > body.clientHeight) body.tabIndex = 0;
+    else body.removeAttribute('tabindex');
+  };
+
+  firstUpdated() {
+    const body = this.renderRoot.querySelector('.body');
+    if (!body) return;
+    this.#ro = new ResizeObserver(this.#syncScroll);
+    this.#ro.observe(body);
   }
 
   updated(changed: Map<string, unknown>) {
@@ -256,6 +274,7 @@ export class HtSheet extends LitElement {
 
   disconnectedCallback() {
     super.disconnectedCallback();
+    this.#ro?.disconnect();
     clearTimeout(this.#fallback);
     this.#closing = false;
     this.#dialog?.close();

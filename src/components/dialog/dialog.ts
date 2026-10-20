@@ -144,6 +144,7 @@ export class HtDialog extends LitElement {
     @media (prefers-reduced-motion: reduce) { .close svg { transition: none; } .close:hover svg { transform: none; } }
     .close:focus-visible { outline: 2px solid var(--ht-focus); outline-offset: 2px; }
     .body { padding: 16px; overflow: auto; font: 400 0.875rem/1.5 var(--ht-font-ui); }
+    .body:focus-visible { outline: 2px solid var(--ht-focus); outline-offset: -2px; }
     /*
      * Cassette keys: the footer buttons sit on the dialog's bottom-left, flush with the left and
      * bottom edges, side by side with a gap. The first (primary) key takes the dialog's corner
@@ -196,12 +197,23 @@ export class HtDialog extends LitElement {
 
   #ro?: ResizeObserver;
 
+  /** A scrolling body must be reachable by keyboard (WCAG 2.1.1), so it takes focus only while it overflows. */
+  #syncScroll = () => {
+    const body = this.renderRoot.querySelector<HTMLElement>('.body');
+    if (!body) return;
+    if (body.scrollHeight > body.clientHeight) body.tabIndex = 0;
+    else body.removeAttribute('tabindex');
+  };
+
   firstUpdated() {
     const footer = this.renderRoot.querySelector('footer');
-    if (footer) {
-      this.#ro = new ResizeObserver(() => this.#syncEdges());
-      this.#ro.observe(footer);
-    }
+    this.#ro = new ResizeObserver(() => {
+      this.#syncEdges();
+      this.#syncScroll();
+    });
+    if (footer) this.#ro.observe(footer);
+    const body = this.renderRoot.querySelector('.body');
+    if (body) this.#ro.observe(body);
   }
 
   /** Marks the footer keys that touch the left or right edge, so their corners can follow position. */

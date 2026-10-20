@@ -158,6 +158,7 @@ export class HtAlertDialog extends LitElement {
     :host([tone='danger']) .eyebrow { color: var(--ht-danger-text); }
     h2 { margin: 0; font: 600 1.125rem/1.25 var(--ht-font-display); letter-spacing: 0.01em; }
     .body { padding: 16px; overflow: auto; font: 400 0.875rem/1.5 var(--ht-font-ui); }
+    .body:focus-visible { outline: 2px solid var(--ht-focus); outline-offset: -2px; }
     .body p { margin: 0; }
     /* Cassette keys, as in ht-dialog: bottom-left, flush with the left and bottom edges, a 16px gap,
        the confirm key taking the dialog's corner radius. They shrink and wrap before leaving the dialog. */
@@ -242,12 +243,23 @@ export class HtAlertDialog extends LitElement {
 
   #ro?: ResizeObserver;
 
+  /** A scrolling body must be reachable by keyboard (WCAG 2.1.1), so it takes focus only while it overflows. */
+  #syncScroll = () => {
+    const body = this.renderRoot.querySelector<HTMLElement>('.body');
+    if (!body) return;
+    if (body.scrollHeight > body.clientHeight) body.tabIndex = 0;
+    else body.removeAttribute('tabindex');
+  };
+
   firstUpdated() {
     const footer = this.renderRoot.querySelector('footer');
-    if (footer) {
-      this.#ro = new ResizeObserver(() => this.#syncEdges());
-      this.#ro.observe(footer);
-    }
+    this.#ro = new ResizeObserver(() => {
+      this.#syncEdges();
+      this.#syncScroll();
+    });
+    if (footer) this.#ro.observe(footer);
+    const body = this.renderRoot.querySelector('.body');
+    if (body) this.#ro.observe(body);
   }
 
   /** Marks the keys that touch the left or right edge, so their corners can follow position. */
