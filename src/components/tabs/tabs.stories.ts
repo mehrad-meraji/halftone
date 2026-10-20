@@ -45,3 +45,31 @@ export const WithPanels: StoryObj = {
       <ht-tab-panel value="settings">Nothing here you will enjoy changing.</ht-tab-panel>
     </ht-tabs>`,
 };
+
+/** `orientation="vertical"` stacks the tabs beside the panels. Up and Down move between them. */
+export const Vertical: StoryObj = {
+  parameters: { layout: 'padded' },
+  render: () => html`
+    <ht-tabs orientation="vertical" style="max-width:420px" label="Project">
+      <ht-tab value="overview">Overview</ht-tab>
+      <ht-tab value="issues">Issues</ht-tab>
+      <ht-tab value="settings">Settings</ht-tab>
+      <ht-tab-panel value="overview">Four monitors up, one quietly sulking.</ht-tab-panel>
+      <ht-tab-panel value="issues">3 unresolved. One is on fire.</ht-tab-panel>
+      <ht-tab-panel value="settings">Nothing here you will enjoy changing.</ht-tab-panel>
+    </ht-tabs>`,
+};
+
+/** `activation="manual"`: the arrows move focus only. Press Enter or Space to select. */
+export const ManualActivation: StoryObj = {
+  parameters: { layout: 'padded' },
+  render: () => html`
+    <ht-tabs activation="manual" style="max-width:420px" label="Project">
+      <ht-tab value="overview">Overview</ht-tab>
+      <ht-tab value="issues">Issues</ht-tab>
+      <ht-tab value="settings">Settings</ht-tab>
+      <ht-tab-panel value="overview">Four monitors up, one quietly sulking.</ht-tab-panel>
+      <ht-tab-panel value="issues">3 unresolved. One is on fire.</ht-tab-panel>
+      <ht-tab-panel value="settings">Nothing here you will enjoy changing.</ht-tab-panel>
+    </ht-tabs>`,
+};

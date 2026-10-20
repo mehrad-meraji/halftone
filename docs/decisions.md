@@ -267,3 +267,30 @@ Compared how Radix, Fluent, Carbon, Polaris, Primer and pattern guides use backg
 - Halftone ships no raster images. Illustrations are inline SVG that use `currentColor` and tokens, so they follow the theme. Quiet line style by default, expressive (gradient, layered) rarely (Carbon).
 
 **Done.** `--ht-halftone-stage` and the `forced-colors` and `prefers-contrast: more` opt-outs are in `tokens.css`. New `ht-empty-state`: a graphic on a dot disc that fades out (a mask), text and actions on the plain surface, `tone="error"` for no stage and an alert icon, `level` for the heading. Its graphic is decorative and hidden from screen readers. Still open: a glass look and an illustration set.
+
+## 2026-10-20 — Radix review: three updates to existing components
+Reviewed Radix Primitives against Halftone. Halftone covers 18 of the 30 Radix components (Menu covers Dropdown Menu and Context Menu). This change takes three features Halftone lacked, without adding any component:
+- **Tabs**: `orientation="vertical"` (tabs stack on the left, Up and Down move, `aria-orientation` set) and `activation="manual"` (arrows move focus only, Enter or Space selects, the tab stop follows focus).
+- **Toast**: swipe to dismiss. Drag toward the edge the toaster sits on (or set `swipe` to `left`, `right`, `up`, `down`, `none`); 50px or more dismisses, less snaps back, and the timer waits while it is held. Buttons and links inside the toast do not start a drag.
+- **Popover**: `arrow` draws a pointer to the trigger that follows its centre and swaps sides when the panel flips. The panel then stops clipping and an inner `.scroll` box scrolls instead.
+Not taken: Aspect Ratio, Label, Form and Visually Hidden (HTML or CSS already does them), and the React-only helpers (Portal, Slot, Presence, Direction). Still open: Slider, Collapsible, Hover Card, OTP Field, Toolbar, Menubar, Navigation Menu.
+
+## 2026-10-20 — Toast follows Radix Toast
+Compared `ht-toast` and `ht-toaster` with the Radix Toast docs and took the behaviors that fit an imperative toaster:
+- The timer now holds for hover, focus, a swipe and the window being in the background (blur), and releases only when nothing holds it. `ht-pause` and `ht-resume` fire. The toaster holds every toast while the pointer or focus is anywhere in the stack.
+- `F8` (`hotkey`, any `KeyboardEvent.code` or `altKey+KeyT` style combo) moves focus into the stack. The region is named "Notifications (F8)" (`label`, with `{hotkey}`).
+- Escape on a focused toast closes it.
+- `type` (`foreground` assertive, `background` polite) sets the live region. Unset keeps the old rule: danger is assertive.
+- `heading` or a `title` slot gives the bold first line, and the default slot is the description. `toast({ title })` sets it.
+- `swipe-threshold` (50px) and `data-swipe` (`start`, `move`, `cancel`, `end`) on the toast.
+- `toast({ action: { altText } })` becomes the action button's accessible name.
+Not taken: controlled `open` and `onOpenChange` (the toaster is imperative and `toast()` returns the element, so call `dismiss()` and listen for `ht-dismiss`), `forceMount`, `announcerContainer` (each toast is its own live region), and the `--radix-toast-swipe-*` variables (internal here).
+
+## 2026-10-20 — Select is a custom list, like Radix Select
+`ht-select` no longer wraps a native `<select>`. The trigger is a button (`role=combobox`) and the list is a `popover="manual"` panel in the top layer, so it stays above an open `ht-dialog` (the reason Taskscape's `statuses.tsx` stayed on Radix) and is never clipped.
+- **Items.** New `ht-option` (any content, `label` for the short text, `prefix` slot) and `ht-option-group`. Chosen because Taskscape's member and role selects need two-line items. Plain `<option>`, `<optgroup>` and `<hr>` still work as text, drawn from a parsed copy. Do not mix the two kinds.
+- **Behavior from Radix.** Press opens on mouse down and a drag onto an option picks it on release. Trigger: Enter, Space, ArrowDown and ArrowUp open; typing picks a match without opening. List: arrows, Home, End, PageUp and PageDown (10), Enter or Space picks, Escape closes, typeahead (a prefix within 1s, a repeated letter cycles), Tab is held inside. Focus moves onto the chosen option and returns to the trigger. Scroll arrows appear when the list is taller than the room, and it flips above the trigger when there is no room below.
+- **Form.** Still form-associated: `name`, `required` (message "Please select an item in the list."), reset, restore. `change` fires only for a user choice. New `open` property and `open` and `close` events.
+- **Focus.** Real focus moves onto the options (not `aria-activedescendant`), because an id reference cannot cross from the list's shadow root to options in the host's light DOM.
+- **Gives up.** The native mobile picker. Radix does too.
+- **Not taken.** Radix's item-aligned position (the chosen option sits over the trigger). Only the popper position, which is what shadcn and Taskscape use.

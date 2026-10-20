@@ -10,7 +10,7 @@ export { HtKbd } from './components/kbd/kbd.js';
 export { HtNavItem } from './components/nav-item/nav-item.js';
 export { HtPrompt } from './components/prompt/prompt.js';
 export { HtRadio, HtRadioGroup } from './components/radio/radio.js';
-export { HtSelect } from './components/select/select.js';
+export { HtSelect, HtOption, HtOptionGroup } from './components/select/select.js';
 export { HtSpeechBubble } from './components/speech-bubble/speech-bubble.js';
 export { HtSwitch } from './components/switch/switch.js';
 export { HtTab, HtTabPanel, HtTabs } from './components/tabs/tabs.js';
