@@ -74,6 +74,41 @@ export class HtDialog extends LitElement {
     }
     dialog::backdrop { background: oklch(0.12 0.02 295 / 0.55); }
     dialog[open] { display: flex; flex-direction: column; }
+    /*
+     * Motion. The panel pops up with a small overshoot and the scrim fades in while it blurs the page.
+     * Closing is faster. \`overlay\` and \`display\` are transitioned so the exit plays before the dialog
+     * leaves the top layer (browsers without it just close at once). The footer keys rise from the
+     * bottom edge one after another, like cassette keys.
+     */
+    dialog, dialog::backdrop {
+      transition:
+        opacity var(--ht-duration-out) ease-in,
+        transform var(--ht-duration-out) ease-in,
+        backdrop-filter var(--ht-duration-out) ease-in,
+        overlay var(--ht-duration-out) allow-discrete,
+        display var(--ht-duration-out) allow-discrete;
+    }
+    dialog { opacity: 0; transform: translateY(12px) scale(0.96); }
+    dialog::backdrop { opacity: 0; backdrop-filter: blur(0); }
+    dialog[open] { opacity: 1; transform: none; }
+    dialog[open]::backdrop { opacity: 1; backdrop-filter: blur(3px); }
+    dialog[open], dialog[open]::backdrop { transition-duration: var(--ht-duration-in); transition-timing-function: var(--ht-ease-spring); }
+    dialog[open]::backdrop { transition-timing-function: var(--ht-ease); }
+    @starting-style {
+      dialog[open] { opacity: 0; transform: translateY(12px) scale(0.96); }
+      dialog[open]::backdrop { opacity: 0; backdrop-filter: blur(0); }
+    }
+    dialog[open] .body { animation: rise var(--ht-duration-in) var(--ht-ease) 60ms backwards; }
+    dialog[open] footer ::slotted(ht-button) { animation: key-rise var(--ht-duration-in) var(--ht-ease-spring) backwards; }
+    dialog[open] footer ::slotted(ht-button:nth-of-type(1)) { animation-delay: 90ms; }
+    dialog[open] footer ::slotted(ht-button:nth-of-type(2)) { animation-delay: 140ms; }
+    dialog[open] footer ::slotted(ht-button:nth-of-type(n + 3)) { animation-delay: 190ms; }
+    @keyframes rise { from { opacity: 0; transform: translateY(6px); } }
+    @keyframes key-rise { from { transform: translateY(100%); } }
+    @media (prefers-reduced-motion: reduce) {
+      dialog, dialog::backdrop { transition: none; }
+      dialog[open] .body, dialog[open] footer ::slotted(ht-button) { animation: none; }
+    }
     header {
       display: flex;
       align-items: flex-start;
@@ -104,6 +139,9 @@ export class HtDialog extends LitElement {
       border-radius: var(--ht-radius-sm);
     }
     .close:hover { color: var(--ht-text); background: var(--ht-surface-sunken); }
+    .close svg { transition: transform var(--ht-duration-in) var(--ht-ease-spring); }
+    .close:hover svg { transform: rotate(90deg); }
+    @media (prefers-reduced-motion: reduce) { .close svg { transition: none; } .close:hover svg { transform: none; } }
     .close:focus-visible { outline: 2px solid var(--ht-focus); outline-offset: 2px; }
     .body { padding: 16px; overflow: auto; font: 400 0.875rem/1.5 var(--ht-font-ui); }
     /*

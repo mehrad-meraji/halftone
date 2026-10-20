@@ -71,9 +71,25 @@ export class HtTooltip extends LitElement {
       overflow: visible;
       pointer-events: none;
       opacity: 0;
-      transition: opacity 50ms;
+      transform: translateY(2px) scale(0.94);
+      transition:
+        opacity 80ms ease-in,
+        transform 80ms ease-in,
+        overlay 80ms allow-discrete,
+        display 80ms allow-discrete;
     }
-    .bubble.on { opacity: 1; }
+    .bubble:popover-open {
+      opacity: 1;
+      transform: none;
+      transition-duration: 160ms;
+      transition-timing-function: var(--ht-ease-spring);
+    }
+    @starting-style {
+      .bubble:popover-open { opacity: 0; transform: translateY(2px) scale(0.94); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .bubble { transition: none; }
+    }
   `;
 
   get #bubble() {
@@ -94,7 +110,6 @@ export class HtTooltip extends LitElement {
     if (!hasContent || bubble.matches(':popover-open')) return;
     bubble.showPopover();
     this.#place(bubble);
-    requestAnimationFrame(() => bubble.classList.add('on'));
   }
 
   /** Hides the tooltip. */
@@ -102,7 +117,6 @@ export class HtTooltip extends LitElement {
     clearTimeout(this.#timer);
     const bubble = this.#bubble;
     if (!bubble) return;
-    bubble.classList.remove('on');
     if (bubble.matches(':popover-open')) bubble.hidePopover();
   }
 

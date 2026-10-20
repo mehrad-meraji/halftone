@@ -86,21 +86,33 @@ export class HtPopover extends LitElement {
       border: 1px solid var(--ht-border-strong);
       border-radius: var(--ht-radius-lg);
       box-shadow: var(--ht-shadow-md);
+      /* Closed state. The panel grows out of the side that faces its trigger, springs in and leaves faster. */
       opacity: 0;
-      transform: translate(var(--_dx, 0), var(--_dy, 0));
+      transform: translate(var(--_dx, 0), var(--_dy, 0)) scale(0.96);
+      transform-origin: var(--_origin, center);
       transition:
-        opacity var(--ht-duration) var(--ht-ease),
-        transform var(--ht-duration) var(--ht-ease);
+        opacity var(--ht-duration-out) ease-in,
+        transform var(--ht-duration-out) ease-in,
+        overlay var(--ht-duration-out) allow-discrete,
+        display var(--ht-duration-out) allow-discrete;
     }
-    .panel[data-side='bottom'] { --_dy: -4px; }
-    .panel[data-side='top'] { --_dy: 4px; }
-    .panel[data-side='left'] { --_dx: 4px; }
-    .panel[data-side='right'] { --_dx: -4px; }
-    .panel.on { opacity: 1; transform: none; }
+    .panel[data-side='bottom'] { --_dy: -6px; --_origin: top; }
+    .panel[data-side='top'] { --_dy: 6px; --_origin: bottom; }
+    .panel[data-side='left'] { --_dx: 6px; --_origin: right; }
+    .panel[data-side='right'] { --_dx: -6px; --_origin: left; }
+    .panel:popover-open {
+      opacity: 1;
+      transform: none;
+      transition-duration: var(--ht-duration-in);
+      transition-timing-function: var(--ht-ease-spring);
+    }
+    @starting-style {
+      .panel:popover-open { opacity: 0; transform: translate(var(--_dx, 0), var(--_dy, 0)) scale(0.96); }
+    }
     .panel:focus { outline: none; }
     .panel:focus-visible { outline: 2px solid var(--ht-focus); outline-offset: -2px; }
     @media (prefers-reduced-motion: reduce) {
-      .panel { transition: none; transform: none; }
+      .panel { transition: none; }
     }
     :host([glass]) .panel {
       background: var(--ht-glass-panel-bg);
@@ -155,7 +167,6 @@ export class HtPopover extends LitElement {
     panel.setAttribute('aria-label', this.label || this.#triggerName());
     panel.showPopover();
     this.#place(panel);
-    requestAnimationFrame(() => panel.classList.add('on'));
     document.addEventListener('pointerdown', this.#onOutside, true);
     window.addEventListener('resize', this.#reposition);
     window.addEventListener('scroll', this.#reposition, true);
@@ -170,7 +181,6 @@ export class HtPopover extends LitElement {
 
   #conceal(panel: HTMLElement) {
     const hadFocus = this.#focusInside();
-    panel.classList.remove('on');
     panel.hidePopover();
     document.removeEventListener('pointerdown', this.#onOutside, true);
     window.removeEventListener('resize', this.#reposition);

@@ -56,6 +56,10 @@
 
   --ht-duration: 120ms;
   --ht-ease: cubic-bezier(0.2, 0, 0, 1);
+  /* Overlay motion: a quick settle with a small overshoot on the way in, a faster ease-in on the way out. */
+  --ht-ease-spring: cubic-bezier(0.34, 1.35, 0.64, 1);
+  --ht-duration-in: 240ms;
+  --ht-duration-out: 140ms;
 
   /* The one comic nod: a faint dot screen on header strips. Set to `none` to remove. */
   --ht-halftone: radial-gradient(circle, color-mix(in oklch, var(--ht-accent) 26%, transparent) 0.8px, transparent 1.5px) 0 0 / 6px 6px;

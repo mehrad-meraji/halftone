@@ -96,9 +96,9 @@ export class HtSheet extends LitElement {
     dialog[open]::backdrop { animation: fade var(--_dur) var(--ht-ease); }
     dialog.closing { animation: slide var(--_dur) var(--ht-ease) reverse forwards; }
     dialog.closing::backdrop { animation: fade var(--_dur) var(--ht-ease) reverse forwards; }
-    dialog::backdrop { background: oklch(0.12 0.02 295 / 0.55); }
+    dialog::backdrop { background: oklch(0.12 0.02 295 / 0.55); backdrop-filter: blur(3px); }
     @keyframes slide { from { transform: var(--_from); } }
-    @keyframes fade { from { opacity: 0; } }
+    @keyframes fade { from { opacity: 0; backdrop-filter: blur(0); } }
 
     /* Left and right: full height, fixed width. Top and bottom: full width, height follows content. */
     :host([side='right']) dialog,
