@@ -41,10 +41,38 @@ export const Imperative: StoryObj = {
       <ht-button
         variant="default"
         @click=${() =>
-          toast({ message: 'Issue resolved.', tone: 'info', action: { label: 'Undo', onClick: () => toast('Undone.') } })}
+          toast({
+            message: 'Issue resolved.',
+            tone: 'info',
+            action: { label: 'Undo', altText: 'Undo: reopen the issue from its page', onClick: () => toast('Undone.') },
+          })}
         >With action</ht-button
       >
+      <ht-button
+        variant="default"
+        @click=${() => toast({ title: 'Deploy finished', message: 'sentinel is live on 3 environments.', tone: 'success' })}
+        >With title</ht-button
+      >
+      <ht-button variant="default" @click=${() => toast({ message: 'Saved quietly.', type: 'background' })}>Background (polite)</ht-button>
     </div>`,
+};
+
+/**
+ * Behaves like Radix Toast. Press `F8` to move focus into the stack (the region is named "Notifications (F8)"), then Tab
+ * to a toast. The timer stops while the pointer is over the stack, while focus is inside it and while this window is in the
+ * background. Escape closes the focused toast.
+ */
+export const KeyboardAndPause: StoryObj = {
+  parameters: { docs: { story: { inline: false, height: '320px' } } },
+  render: () => html`
+    <ht-button
+      variant="default"
+      @click=${() => {
+        toast({ title: 'First', message: 'Press F8, then Tab to reach me.', duration: 15000 });
+        toast({ message: 'Hover me and the timer waits.', tone: 'info', duration: 15000 });
+      }}
+      >Show two toasts</ht-button
+    >`,
 };
 
 /** Drag a toast toward the edge it sits on and let go past 50px to dismiss it. A shorter drag snaps back, and the timer waits while you hold it. */

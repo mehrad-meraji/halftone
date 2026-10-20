@@ -250,3 +250,14 @@ Reviewed Radix Primitives against Halftone. Halftone covers 18 of the 30 Radix c
 - **Toast**: swipe to dismiss. Drag toward the edge the toaster sits on (or set `swipe` to `left`, `right`, `up`, `down`, `none`); 50px or more dismisses, less snaps back, and the timer waits while it is held. Buttons and links inside the toast do not start a drag.
 - **Popover**: `arrow` draws a pointer to the trigger that follows its centre and swaps sides when the panel flips. The panel then stops clipping and an inner `.scroll` box scrolls instead.
 Not taken: Aspect Ratio, Label, Form and Visually Hidden (HTML or CSS already does them), and the React-only helpers (Portal, Slot, Presence, Direction). Still open: Slider, Collapsible, Hover Card, OTP Field, Toolbar, Menubar, Navigation Menu.
+
+## 2026-10-20 — Toast follows Radix Toast
+Compared `ht-toast` and `ht-toaster` with the Radix Toast docs and took the behaviors that fit an imperative toaster:
+- The timer now holds for hover, focus, a swipe and the window being in the background (blur), and releases only when nothing holds it. `ht-pause` and `ht-resume` fire. The toaster holds every toast while the pointer or focus is anywhere in the stack.
+- `F8` (`hotkey`, any `KeyboardEvent.code` or `altKey+KeyT` style combo) moves focus into the stack. The region is named "Notifications (F8)" (`label`, with `{hotkey}`).
+- Escape on a focused toast closes it.
+- `type` (`foreground` assertive, `background` polite) sets the live region. Unset keeps the old rule: danger is assertive.
+- `heading` or a `title` slot gives the bold first line, and the default slot is the description. `toast({ title })` sets it.
+- `swipe-threshold` (50px) and `data-swipe` (`start`, `move`, `cancel`, `end`) on the toast.
+- `toast({ action: { altText } })` becomes the action button's accessible name.
+Not taken: controlled `open` and `onOpenChange` (the toaster is imperative and `toast()` returns the element, so call `dismiss()` and listen for `ht-dismiss`), `forceMount`, `announcerContainer` (each toast is its own live region), and the `--radix-toast-swipe-*` variables (internal here).

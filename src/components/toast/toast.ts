@@ -16,7 +16,7 @@ ICONS.info = ICONS.neutral;
  * @tag ht-toast
  * @summary Notification message.
  *
- * @slot - Message text.
+ * @slot - Message text (the description).
  * @slot action - A button or link at the end, e.g. "Undo".
  * @slot icon - Replaces the default tone icon.
  *
@@ -24,10 +24,17 @@ ICONS.info = ICONS.neutral;
  *
  * @cssprop [--ht-toast-width=26rem] - Maximum width.
  *
- * Drag it toward the edge it sits on (or set `swipe`) and release past 50px to dismiss it. A
- * shorter drag snaps back. The timer is paused while it is held.
+ * Like Radix Toast: the timer pauses while the pointer is over it, while focus is inside it and
+ * while the window is in the background. Escape on a focused toast closes it. Drag it toward the
+ * edge it sits on (or set `swipe`) and release past `swipe-threshold` (50px) to dismiss it; a
+ * shorter drag snaps back. `data-swipe` is `start`, `move`, `cancel` or `end` during a swipe.
+ * `type` picks how a screen reader announces it: `foreground` is assertive, `background` polite.
  *
- * @fires ht-dismiss - The toast was removed, by timeout, the close button or a swipe.
+ * @slot title - Bold first line. Or set `heading`.
+ *
+ * @fires ht-dismiss - The toast was removed, by timeout, the close button, Escape or a swipe.
+ * @fires ht-pause - The timer paused (hover, focus, window blur or the stack being held).
+ * @fires ht-resume - The timer resumed.
  */
 export class HtToast extends LitElement {
   static properties = {
@@ -35,6 +42,15 @@ export class HtToast extends LitElement {
     tone: { reflect: true },
     /** Milliseconds before it dismisses itself. `0` keeps it until closed. Pauses while hovered or focused. */
     duration: { type: Number },
+    /** Bold first line above the message. Use the `title` slot for anything richer. */
+    heading: {},
+    /**
+     * How a screen reader announces it. `foreground` is assertive (`role=alert`) and `background` is
+     * polite (`role=status`). Unset, `danger` is foreground and every other tone is background.
+     */
+    type: { reflect: true },
+    /** Pixels a swipe must travel to dismiss the toast. */
+    swipeThreshold: { type: Number, attribute: 'swipe-threshold' },
     /** Hides the close button. */
     noClose: { type: Boolean, attribute: 'no-close', reflect: true },
     /**
@@ -48,6 +64,9 @@ export class HtToast extends LitElement {
   declare tone: 'neutral' | 'info' | 'success' | 'warning' | 'danger';
   declare duration: number;
   declare noClose: boolean;
+  declare heading: string;
+  declare type: '' | 'foreground' | 'background';
+  declare swipeThreshold: number;
   declare swipe: '' | 'left' | 'right' | 'up' | 'down' | 'none';
   declare _leaving: boolean;
 
@@ -60,16 +79,25 @@ export class HtToast extends LitElement {
     this.tone = 'neutral';
     this.duration = 5000;
     this.noClose = false;
+    this.heading = '';
+    this.type = '';
+    this.swipeThreshold = 50;
     this.swipe = '';
     this._leaving = false;
     this.addEventListener('pointerdown', this.#onDown);
     this.addEventListener('pointermove', this.#onMove);
     this.addEventListener('pointerup', this.#onUp);
     this.addEventListener('pointercancel', this.#onUp);
-    this.addEventListener('pointerenter', () => this.#pause());
-    this.addEventListener('pointerleave', () => this.#resume());
-    this.addEventListener('focusin', () => this.#pause());
-    this.addEventListener('focusout', () => this.#resume());
+    this.addEventListener('pointerenter', () => this.#hold('pointer'));
+    this.addEventListener('pointerleave', () => this.#release('pointer'));
+    this.addEventListener('focusin', () => this.#hold('focus'));
+    this.addEventListener('focusout', () => this.#release('focus'));
+    this.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !e.defaultPrevented) {
+        e.preventDefault();
+        this.dismiss();
+      }
+    });
   }
 
   static styles = css`
@@ -110,6 +138,7 @@ export class HtToast extends LitElement {
     }
     .icon { display: grid; flex: none; padding-inline: 4px; }
     .content { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+    .title, ::slotted([slot='title']) { display: block; font-weight: 700; }
     .close {
       all: unset;
       display: grid;
@@ -128,6 +157,8 @@ export class HtToast extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
+    window.addEventListener('blur', this.#onWindowBlur);
+    window.addEventListener('focus', this.#onWindowFocus);
     if (this.duration > 0) {
       this.#remaining = this.duration;
       this.#resume();
@@ -137,6 +168,39 @@ export class HtToast extends LitElement {
   disconnectedCallback() {
     super.disconnectedCallback();
     clearTimeout(this.#timer);
+    window.removeEventListener('blur', this.#onWindowBlur);
+    window.removeEventListener('focus', this.#onWindowFocus);
+  }
+
+  // The timer runs only while nothing holds it: pointer, focus, a swipe, the window being in the
+  // background, or the whole stack being held by the toaster.
+  #holds = new Set<string>();
+  #onWindowBlur = () => this.#hold('window');
+  #onWindowFocus = () => this.#release('window');
+
+  #hold(reason: string) {
+    const was = this.#holds.size;
+    this.#holds.add(reason);
+    if (!was) {
+      this.#pause();
+      this.dispatchEvent(new Event('ht-pause'));
+    }
+  }
+
+  #release(reason: string) {
+    if (!this.#holds.delete(reason) || this.#holds.size) return;
+    this.#resume();
+    this.dispatchEvent(new Event('ht-resume'));
+  }
+
+  /** Holds the timer (the toaster calls this while its stack is hovered or focused). */
+  pause() {
+    this.#hold('stack');
+  }
+
+  /** Lets go of the hold taken by `pause()`. */
+  resume() {
+    this.#release('stack');
   }
 
   #pause() {
@@ -147,7 +211,7 @@ export class HtToast extends LitElement {
   }
 
   #resume() {
-    if (this.duration <= 0 || this._leaving || this.#timer) return;
+    if (this.duration <= 0 || this._leaving || this.#timer || this.#holds.size) return;
     this.#started = Date.now();
     this.#timer = window.setTimeout(() => this.dismiss(), this.#remaining);
   }
@@ -165,7 +229,7 @@ export class HtToast extends LitElement {
     // Leave the close button, the action and any link alone.
     if (e.composedPath().some((n) => n instanceof Element && n.matches('button, a, input, select, textarea'))) return;
     this.#drag = { x: e.clientX, y: e.clientY, id: e.pointerId, moved: false };
-    this.#pause();
+    this.#hold('drag');
   };
 
   /** Distance dragged toward the dismiss direction (never negative), in px. */
@@ -198,6 +262,9 @@ export class HtToast extends LitElement {
         /* the pointer is already gone */
       }
       this.toggleAttribute('swiping', true);
+      this.dataset.swipe = 'start';
+    } else {
+      this.dataset.swipe = 'move';
     }
     this.#offset(pull);
   };
@@ -207,18 +274,21 @@ export class HtToast extends LitElement {
     if (!drag || e.pointerId !== drag.id) return;
     this.#drag = null;
     this.toggleAttribute('swiping', false);
-    if (!drag.moved) return this.#resume();
+    if (!drag.moved) return this.#release('drag');
     if (this.hasPointerCapture(e.pointerId)) this.releasePointerCapture(e.pointerId);
-    if (e.type === 'pointerup' && this.#pull(e, drag) >= 50) {
+    if (e.type === 'pointerup' && this.#pull(e, drag) >= this.swipeThreshold) {
       // Fly the rest of the way out, then remove it.
       const d = this.#dir();
       const size = d === 'left' || d === 'right' ? this.offsetWidth : this.offsetHeight;
       this.toggleAttribute('swiped', true);
+      this.dataset.swipe = 'end';
       this.#offset(size + 24);
       this.dismiss(160);
     } else {
+      this.dataset.swipe = 'cancel';
       this.#offset(0);
-      this.#resume();
+      this.#release('drag');
+      setTimeout(() => delete this.dataset.swipe, 200);
     }
   };
 
@@ -235,9 +305,10 @@ export class HtToast extends LitElement {
   }
 
   render() {
-    return html`<div part="base" class="toast" role=${this.tone === 'danger' ? 'alert' : 'status'}>
+    const assertive = this.type === 'foreground' || (this.type !== 'background' && this.tone === 'danger');
+    return html`<div part="base" class="toast" role=${assertive ? 'alert' : 'status'} aria-live=${assertive ? 'assertive' : 'polite'} aria-atomic="true">
       <span class="icon"><slot name="icon">${ICONS[this.tone] ?? ICONS.neutral}</slot></span>
-      <div class="content"><slot></slot></div>
+      <div class="content"><slot name="title">${this.heading ? html`<span class="title">${this.heading}</span>` : nothing}</slot><slot></slot></div>
       <slot name="action"></slot>
       ${this.noClose
         ? nothing
@@ -252,6 +323,10 @@ export class HtToast extends LitElement {
  * Fixed stack that holds toasts. Rendered in the top layer, so it sits above open dialogs.
  * `toast()` creates one on demand; you rarely need to place it by hand.
  *
+ * Like the Radix Toast viewport: it is a labelled region, `F8` moves focus into it (so a keyboard
+ * user can reach a toast before it times out), and the whole stack holds its timers while the
+ * pointer is over it or focus is inside it.
+ *
  * @tag ht-toaster
  * @summary Toast container.
  *
@@ -261,13 +336,58 @@ export class HtToaster extends LitElement {
   static properties = {
     /** Where the stack sits. */
     position: { reflect: true },
+    /**
+     * Key that moves focus into the stack: a `KeyboardEvent.code` such as `F8`, or codes joined with
+     * `+` where a modifier is `altKey`, `ctrlKey`, `metaKey` or `shiftKey` (for example `altKey+KeyT`).
+     */
+    hotkey: {},
+    /** Accessible name of the region. `{hotkey}` is replaced by the hotkey. */
+    label: {},
   };
 
   declare position: 'top-left' | 'top-center' | 'top-right' | 'bottom-left' | 'bottom-center' | 'bottom-right';
+  declare hotkey: string;
+  declare label: string;
+
+  #held = false;
 
   constructor() {
     super();
     this.position = 'bottom-right';
+    this.hotkey = 'F8';
+    this.label = 'Notifications ({hotkey})';
+    // Hovering or focusing any toast holds every timer, so a toast does not vanish from under a pointer in the gap between two.
+    this.addEventListener('pointerenter', () => this.#hold(true));
+    this.addEventListener('pointerleave', () => this.#hold(false));
+    this.addEventListener('focusin', () => this.#hold(true));
+    this.addEventListener('focusout', (e) => {
+      if (!e.relatedTarget || !this.contains(e.relatedTarget as Node)) this.#hold(false);
+    });
+  }
+
+  #toasts() {
+    return [...this.children].filter((c): c is HtToast => c.localName === 'ht-toast');
+  }
+
+  #hold(on: boolean) {
+    this.#held = on;
+    for (const t of this.#toasts()) (on ? t.pause() : t.resume());
+  }
+
+  #onHotkey = (e: KeyboardEvent) => {
+    const keys = (this.hotkey || '').split('+').filter(Boolean);
+    if (!keys.length || !keys.every((k) => (e as unknown as Record<string, unknown>)[k] === true || e.code === k)) return;
+    e.preventDefault();
+    this.focus();
+  };
+
+  #label() {
+    const shown = (this.hotkey || '').split('+').map((k) => k.replace(/^Key|Key$|^Digit/g, ''));
+    return this.label.replace('{hotkey}', shown.join('+'));
+  }
+
+  updated() {
+    this.setAttribute('aria-label', this.#label());
   }
 
   static styles = css`
@@ -300,8 +420,10 @@ export class HtToaster extends LitElement {
   connectedCallback() {
     super.connectedCallback();
     this.setAttribute('role', 'region');
-    this.setAttribute('aria-label', 'Notifications');
+    this.setAttribute('aria-label', this.#label());
+    this.setAttribute('tabindex', '-1');
     this.setAttribute('popover', 'manual');
+    document.addEventListener('keydown', this.#onHotkey);
     // Top layer: stays above modal dialogs.
     queueMicrotask(() => {
       try {
@@ -312,11 +434,18 @@ export class HtToaster extends LitElement {
     });
   }
 
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    document.removeEventListener('keydown', this.#onHotkey);
+  }
+
   /** Adds a toast and returns it. */
   add(options: ToastOptions | string): HtToast {
     const o = typeof options === 'string' ? { message: options } : options;
     const el = document.createElement('ht-toast') as HtToast;
     if (o.tone) el.tone = o.tone;
+    if (o.title) el.heading = o.title;
+    if (o.type) el.type = o.type;
     if (o.duration !== undefined) el.duration = o.duration;
     if (o.noClose) el.noClose = true;
     el.append(o.message);
@@ -324,6 +453,7 @@ export class HtToaster extends LitElement {
       const a = document.createElement('button');
       a.slot = 'action';
       a.textContent = o.action.label;
+      if (o.action.altText) a.setAttribute('aria-label', o.action.altText);
       a.style.cssText =
         'all:unset;cursor:pointer;font:600 0.8125rem/1rem var(--ht-font-ui);text-decoration:underline;padding:4px 6px;border-radius:4px;';
       a.addEventListener('click', () => {
@@ -333,6 +463,7 @@ export class HtToaster extends LitElement {
       el.append(a);
     }
     this.append(el);
+    if (this.#held) el.pause();
     return el;
   }
 
@@ -343,11 +474,16 @@ export class HtToaster extends LitElement {
 
 export interface ToastOptions {
   message: string;
+  /** Bold first line above the message. */
+  title?: string;
   tone?: HtToast['tone'];
+  /** How a screen reader announces it. See `ht-toast` `type`. */
+  type?: HtToast['type'];
   /** Milliseconds, `0` for sticky. Default 5000. */
   duration?: number;
   noClose?: boolean;
-  action?: { label: string; onClick: () => void };
+  /** `altText` is read out instead of `label`: say how to do the same thing another way. */
+  action?: { label: string; altText?: string; onClick: () => void };
 }
 
 function toaster(): HtToaster {
