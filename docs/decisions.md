@@ -244,6 +244,30 @@ Dialog, alert dialog, command, popover, menu and tooltip now animate in and out 
 - Browsers without `overlay` transitions close at once. `prefers-reduced-motion` removes all of it, as before.
 - Sheet keeps its JS close (it slides, so the spring overshoot would show a gap at the edge). It only gains the scrim blur.
 
+## 2026-10-20 — The dot screen is a stage texture, not a surface
+Compared how Radix, Fluent, Carbon, Polaris, Primer and pattern guides use backgrounds and images (notes in the vault, `Projects/halftone/ideas/background-patterns-research.md`). Product chrome stays flat; texture and imagery are placed by role, at chosen moments, in one or two quiet motifs. Halftone keeps one motif, the dot screen, and gives it rules.
+
+**Where it goes**
+- Header strips of containers (card, dialog, alert dialog, sheet). Already so.
+- Stages: a surface that exists to show or frame something. The docs example stage, hero figures, empty states, a sign-in side panel, spotlight and onboarding.
+- Fading out toward the content (a mask), so the dots read as tone and not as a tile. This is what "halftone" means, and it is the signature move for stages.
+
+**Where it never goes**
+- Behind body copy, inputs, tables, lists or code.
+- On menus, select lists, popovers, tooltips and toasts. Those are glass or solid, one material per role (as Fluent does).
+- On error states. An error uses the alert icon, not decoration (Primer).
+
+**Tokens**
+- `--ht-halftone` stays: 6px tile, 0.8px dots, accent at 26%, for strips only.
+- Add `--ht-halftone-stage` for large areas: an 8px tile, 1px dots, accent at 18%. Large areas need a calmer screen.
+- Both are `none` when a product opts out (Taskscape sets `--ht-halftone: none`), and both are `none` under `forced-colors: active` and `prefers-contrast: more`.
+- Text on a patterned area keeps 4.5 to 1 against the dots' brightest point.
+
+**Images**
+- Halftone ships no raster images. Illustrations are inline SVG that use `currentColor` and tokens, so they follow the theme. Quiet line style by default, expressive (gradient, layered) rarely (Carbon).
+
+**Done.** `--ht-halftone-stage` and the `forced-colors` and `prefers-contrast: more` opt-outs are in `tokens.css`. New `ht-empty-state`: a graphic on a dot disc that fades out (a mask), text and actions on the plain surface, `tone="error"` for no stage and an alert icon, `level` for the heading. Its graphic is decorative and hidden from screen readers. Still open: a glass look and an illustration set.
+
 ## 2026-10-20 — Radix review: three updates to existing components
 Reviewed Radix Primitives against Halftone. Halftone covers 18 of the 30 Radix components (Menu covers Dropdown Menu and Context Menu). This change takes three features Halftone lacked, without adding any component:
 - **Tabs**: `orientation="vertical"` (tabs stack on the left, Up and Down move, `aria-orientation` set) and `activation="manual"` (arrows move focus only, Enter or Space selects, the tab stop follows focus).
