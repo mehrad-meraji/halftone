@@ -104,13 +104,34 @@ export class HtAlertDialog extends LitElement {
     dialog[open] {
       display: flex;
       flex-direction: column;
-      animation: pop var(--ht-duration) var(--ht-ease);
     }
-    dialog[open]::backdrop { animation: fade var(--ht-duration) var(--ht-ease); }
-    @keyframes pop { from { opacity: 0; transform: translateY(4px) scale(0.98); } }
-    @keyframes fade { from { opacity: 0; } }
+    /* Motion, as in ht-dialog: spring in, faster ease-in out, scrim fades and blurs the page. */
+    dialog, dialog::backdrop {
+      transition:
+        opacity var(--ht-duration-out) ease-in,
+        transform var(--ht-duration-out) ease-in,
+        backdrop-filter var(--ht-duration-out) ease-in,
+        overlay var(--ht-duration-out) allow-discrete,
+        display var(--ht-duration-out) allow-discrete;
+    }
+    dialog { opacity: 0; transform: translateY(12px) scale(0.96); }
+    dialog::backdrop { opacity: 0; backdrop-filter: blur(0); }
+    dialog[open] { opacity: 1; transform: none; }
+    dialog[open]::backdrop { opacity: 1; backdrop-filter: blur(3px); }
+    dialog[open], dialog[open]::backdrop { transition-duration: var(--ht-duration-in); transition-timing-function: var(--ht-ease-spring); }
+    dialog[open]::backdrop { transition-timing-function: var(--ht-ease); }
+    @starting-style {
+      dialog[open] { opacity: 0; transform: translateY(12px) scale(0.96); }
+      dialog[open]::backdrop { opacity: 0; backdrop-filter: blur(0); }
+    }
+    dialog[open] .body { animation: rise var(--ht-duration-in) var(--ht-ease) 60ms backwards; }
+    dialog[open] .act { animation: key-rise var(--ht-duration-in) var(--ht-ease-spring) 90ms backwards; }
+    dialog[open] .cancel { animation-delay: 140ms; }
+    @keyframes rise { from { opacity: 0; transform: translateY(6px); } }
+    @keyframes key-rise { from { transform: translateY(100%); } }
     @media (prefers-reduced-motion: reduce) {
-      dialog[open], dialog[open]::backdrop { animation: none; }
+      dialog, dialog::backdrop { transition: none; }
+      dialog[open] .body, dialog[open] .act { animation: none; }
     }
     header {
       display: flex;
@@ -137,6 +158,7 @@ export class HtAlertDialog extends LitElement {
     :host([tone='danger']) .eyebrow { color: var(--ht-danger-text); }
     h2 { margin: 0; font: 600 1.125rem/1.25 var(--ht-font-display); letter-spacing: 0.01em; }
     .body { padding: 16px; overflow: auto; font: 400 0.875rem/1.5 var(--ht-font-ui); }
+    .body:focus-visible { outline: 2px solid var(--ht-focus); outline-offset: -2px; }
     .body p { margin: 0; }
     /* Cassette keys, as in ht-dialog: bottom-left, flush with the left and bottom edges, a 16px gap,
        the confirm key taking the dialog's corner radius. They shrink and wrap before leaving the dialog. */
@@ -221,12 +243,23 @@ export class HtAlertDialog extends LitElement {
 
   #ro?: ResizeObserver;
 
+  /** A scrolling body must be reachable by keyboard (WCAG 2.1.1), so it takes focus only while it overflows. */
+  #syncScroll = () => {
+    const body = this.renderRoot.querySelector<HTMLElement>('.body');
+    if (!body) return;
+    if (body.scrollHeight > body.clientHeight) body.tabIndex = 0;
+    else body.removeAttribute('tabindex');
+  };
+
   firstUpdated() {
     const footer = this.renderRoot.querySelector('footer');
-    if (footer) {
-      this.#ro = new ResizeObserver(() => this.#syncEdges());
-      this.#ro.observe(footer);
-    }
+    this.#ro = new ResizeObserver(() => {
+      this.#syncEdges();
+      this.#syncScroll();
+    });
+    if (footer) this.#ro.observe(footer);
+    const body = this.renderRoot.querySelector('.body');
+    if (body) this.#ro.observe(body);
   }
 
   /** Marks the keys that touch the left or right edge, so their corners can follow position. */

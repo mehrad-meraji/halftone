@@ -235,3 +235,11 @@ Checked: typecheck and build pass; axe 4.10 shows 0 violations on 17 stories in 
 
 ## 2026-10-20: Switch and checkbox respond to outside label clicks
 A `<label for="id">` next to an `ht-switch` or `ht-checkbox` clicks the host element, not the native input inside its shadow root, so the control did nothing. Taskscape pairs most of its switches with such labels. Each control now listens for a click on its own host and forwards it to the inner input, which toggles and fires `change` as before. Only clicks whose first target is the host itself are forwarded (`composedPath()[0] === this`); clicks from inside the shadow tree are already handled by the inner label and input, so there is no double toggle. A disabled control ignores it, because a disabled input does not click. `ht-radio` needed no change: `ht-radio-group` already selects on any click that reaches a radio. Measured in Storybook: one `change` per click, from the label and from the control, for both parts.
+
+## 2026-10-19 — Overlay motion is CSS only
+Dialog, alert dialog, command, popover, menu and tooltip now animate in and out with `@starting-style` plus `transition: overlay, display allow-discrete`, so the exit plays before the element leaves the top layer. No JS timers, no animation library. This replaces the `.on` class that popover, menu and tooltip toggled from `requestAnimationFrame` (it could only animate in).
+- Tokens: `--ht-ease-spring` (small overshoot), `--ht-duration-in` 240ms, `--ht-duration-out` 140ms. Out is faster than in.
+- Panels scale from 0.96 and grow out of the side that faces the trigger. Scrims fade while they blur the page by 3px.
+- Micro touches: footer keys rise from the bottom edge one after another (cassette keys), the dialog body fades up, the close icon turns on hover, menu items stagger in (`sibling-index()`, ignored where unsupported), toast springs in.
+- Browsers without `overlay` transitions close at once. `prefers-reduced-motion` removes all of it, as before.
+- Sheet keeps its JS close (it slides, so the spring overshoot would show a gap at the edge). It only gains the scrim blur.

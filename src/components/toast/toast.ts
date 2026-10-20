@@ -63,11 +63,11 @@ export class HtToast extends LitElement {
       display: block;
       width: min(var(--ht-toast-width, 26rem), 100%);
       max-width: 100%;
-      animation: in 160ms cubic-bezier(0.2, 0, 0, 1);
+      animation: in var(--ht-duration-in) var(--ht-ease-spring);
     }
     :host([leaving]) { animation: out 120ms ease-in forwards; }
-    @keyframes in { from { opacity: 0; transform: translateY(8px); } }
-    @keyframes out { to { opacity: 0; transform: translateY(8px); } }
+    @keyframes in { from { opacity: 0; transform: translateY(12px) scale(0.96); } }
+    @keyframes out { to { opacity: 0; transform: translateY(8px) scale(0.96); } }
     @media (prefers-reduced-motion: reduce) { :host, :host([leaving]) { animation-duration: 1ms; } }
     :host { --_bg: var(--ht-inverse); --_fg: var(--ht-inverse-ink); }
     :host([tone='info']) { --_bg: color-mix(in oklab, var(--ht-info) 88%, black); --_fg: oklch(0.99 0 0); }
