@@ -24,7 +24,10 @@ ICONS.info = ICONS.neutral;
  *
  * @cssprop [--ht-toast-width=26rem] - Maximum width.
  *
- * @fires ht-dismiss - The toast was removed, by timeout or the close button.
+ * Drag it toward the edge it sits on (or set `swipe`) and release past 50px to dismiss it. A
+ * shorter drag snaps back. The timer is paused while it is held.
+ *
+ * @fires ht-dismiss - The toast was removed, by timeout, the close button or a swipe.
  */
 export class HtToast extends LitElement {
   static properties = {
@@ -34,12 +37,18 @@ export class HtToast extends LitElement {
     duration: { type: Number },
     /** Hides the close button. */
     noClose: { type: Boolean, attribute: 'no-close', reflect: true },
+    /**
+     * Direction a swipe dismisses it. Defaults to the side the toaster sits on (`left` for a left
+     * position, otherwise `right`). `none` turns swiping off.
+     */
+    swipe: { reflect: true },
     _leaving: { state: true },
   };
 
   declare tone: 'neutral' | 'info' | 'success' | 'warning' | 'danger';
   declare duration: number;
   declare noClose: boolean;
+  declare swipe: '' | 'left' | 'right' | 'up' | 'down' | 'none';
   declare _leaving: boolean;
 
   #timer = 0;
@@ -51,7 +60,12 @@ export class HtToast extends LitElement {
     this.tone = 'neutral';
     this.duration = 5000;
     this.noClose = false;
+    this.swipe = '';
     this._leaving = false;
+    this.addEventListener('pointerdown', this.#onDown);
+    this.addEventListener('pointermove', this.#onMove);
+    this.addEventListener('pointerup', this.#onUp);
+    this.addEventListener('pointercancel', this.#onUp);
     this.addEventListener('pointerenter', () => this.#pause());
     this.addEventListener('pointerleave', () => this.#resume());
     this.addEventListener('focusin', () => this.#pause());
@@ -66,6 +80,13 @@ export class HtToast extends LitElement {
       animation: in var(--ht-duration-in) var(--ht-ease-spring);
     }
     :host([leaving]) { animation: out 120ms ease-in forwards; }
+    /* Swipe: the host follows the pointer through --_sx and --_sy, and snaps back (or flies out) with a transition. */
+    :host { transform: translate(var(--_sx, 0px), var(--_sy, 0px)); transition: transform 160ms var(--ht-ease), opacity 160ms; touch-action: pan-y; }
+    :host([swipe='up']), :host([swipe='down']) { touch-action: pan-x; }
+    :host([swipe='none']) { touch-action: auto; }
+    :host([swiping]) { transition: none; cursor: grabbing; user-select: none; }
+    :host([swiped]) { opacity: 0; }
+    :host([leaving][swiped]) { animation: none; }
     @keyframes in { from { opacity: 0; transform: translateY(12px) scale(0.96); } }
     @keyframes out { to { opacity: 0; transform: translateY(8px) scale(0.96); } }
     @media (prefers-reduced-motion: reduce) { :host, :host([leaving]) { animation-duration: 1ms; } }
@@ -131,8 +152,78 @@ export class HtToast extends LitElement {
     this.#timer = window.setTimeout(() => this.dismiss(), this.#remaining);
   }
 
+  #dir(): 'left' | 'right' | 'up' | 'down' | 'none' {
+    if (this.swipe) return this.swipe;
+    const pos = (this.parentElement as HtToaster | null)?.position ?? '';
+    return pos.endsWith('left') ? 'left' : 'right';
+  }
+
+  #drag: { x: number; y: number; id: number; moved: boolean } | null = null;
+
+  #onDown = (e: PointerEvent) => {
+    if (e.button !== 0 || this._leaving || this.#dir() === 'none') return;
+    // Leave the close button, the action and any link alone.
+    if (e.composedPath().some((n) => n instanceof Element && n.matches('button, a, input, select, textarea'))) return;
+    this.#drag = { x: e.clientX, y: e.clientY, id: e.pointerId, moved: false };
+    this.#pause();
+  };
+
+  /** Distance dragged toward the dismiss direction (never negative), in px. */
+  #pull(e: PointerEvent, from: { x: number; y: number }) {
+    const d = this.#dir();
+    const dx = e.clientX - from.x;
+    const dy = e.clientY - from.y;
+    const along = d === 'right' ? dx : d === 'left' ? -dx : d === 'down' ? dy : -dy;
+    return Math.max(0, along);
+  }
+
+  #offset(px: number) {
+    const d = this.#dir();
+    const sign = d === 'left' || d === 'up' ? -1 : 1;
+    const horizontal = d === 'left' || d === 'right';
+    this.style.setProperty('--_sx', horizontal ? `${sign * px}px` : '0px');
+    this.style.setProperty('--_sy', horizontal ? '0px' : `${sign * px}px`);
+  }
+
+  #onMove = (e: PointerEvent) => {
+    const drag = this.#drag;
+    if (!drag || e.pointerId !== drag.id) return;
+    const pull = this.#pull(e, drag);
+    if (!drag.moved) {
+      if (pull < 4) return;
+      drag.moved = true;
+      try {
+        this.setPointerCapture(e.pointerId);
+      } catch {
+        /* the pointer is already gone */
+      }
+      this.toggleAttribute('swiping', true);
+    }
+    this.#offset(pull);
+  };
+
+  #onUp = (e: PointerEvent) => {
+    const drag = this.#drag;
+    if (!drag || e.pointerId !== drag.id) return;
+    this.#drag = null;
+    this.toggleAttribute('swiping', false);
+    if (!drag.moved) return this.#resume();
+    if (this.hasPointerCapture(e.pointerId)) this.releasePointerCapture(e.pointerId);
+    if (e.type === 'pointerup' && this.#pull(e, drag) >= 50) {
+      // Fly the rest of the way out, then remove it.
+      const d = this.#dir();
+      const size = d === 'left' || d === 'right' ? this.offsetWidth : this.offsetHeight;
+      this.toggleAttribute('swiped', true);
+      this.#offset(size + 24);
+      this.dismiss(160);
+    } else {
+      this.#offset(0);
+      this.#resume();
+    }
+  };
+
   /** Animates out and removes the toast. */
-  dismiss() {
+  dismiss(ms = 120) {
     if (this._leaving) return;
     this._leaving = true;
     this.toggleAttribute('leaving', true);
@@ -140,7 +231,7 @@ export class HtToast extends LitElement {
     setTimeout(() => {
       this.remove();
       this.dispatchEvent(new Event('ht-dismiss', { bubbles: true, composed: true }));
-    }, 120);
+    }, ms);
   }
 
   render() {

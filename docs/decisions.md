@@ -243,3 +243,10 @@ Dialog, alert dialog, command, popover, menu and tooltip now animate in and out 
 - Micro touches: footer keys rise from the bottom edge one after another (cassette keys), the dialog body fades up, the close icon turns on hover, menu items stagger in (`sibling-index()`, ignored where unsupported), toast springs in.
 - Browsers without `overlay` transitions close at once. `prefers-reduced-motion` removes all of it, as before.
 - Sheet keeps its JS close (it slides, so the spring overshoot would show a gap at the edge). It only gains the scrim blur.
+
+## 2026-10-20 — Radix review: three updates to existing components
+Reviewed Radix Primitives against Halftone. Halftone covers 18 of the 30 Radix components (Menu covers Dropdown Menu and Context Menu). This change takes three features Halftone lacked, without adding any component:
+- **Tabs**: `orientation="vertical"` (tabs stack on the left, Up and Down move, `aria-orientation` set) and `activation="manual"` (arrows move focus only, Enter or Space selects, the tab stop follows focus).
+- **Toast**: swipe to dismiss. Drag toward the edge the toaster sits on (or set `swipe` to `left`, `right`, `up`, `down`, `none`); 50px or more dismisses, less snaps back, and the timer waits while it is held. Buttons and links inside the toast do not start a drag.
+- **Popover**: `arrow` draws a pointer to the trigger that follows its centre and swaps sides when the panel flips. The panel then stops clipping and an inner `.scroll` box scrolls instead.
+Not taken: Aspect Ratio, Label, Form and Visually Hidden (HTML or CSS already does them), and the React-only helpers (Portal, Slot, Presence, Direction). Still open: Slider, Collapsible, Hover Card, OTP Field, Toolbar, Menubar, Navigation Menu.

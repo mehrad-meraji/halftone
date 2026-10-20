@@ -46,3 +46,14 @@ export const Imperative: StoryObj = {
       >
     </div>`,
 };
+
+/** Drag a toast toward the edge it sits on and let go past 50px to dismiss it. A shorter drag snaps back, and the timer waits while you hold it. */
+export const SwipeToDismiss: StoryObj = {
+  render: () => html`
+    <div style="display:grid;gap:12px;width:26rem">
+      <ht-toast duration="0">Swipe me right.</ht-toast>
+      <ht-toast tone="success" duration="0" swipe="left">Swipe me left (swipe="left").</ht-toast>
+      <ht-toast tone="info" duration="0" swipe="up">Swipe me up (swipe="up").</ht-toast>
+      <ht-toast tone="warning" duration="0" swipe="none">No swiping here (swipe="none").</ht-toast>
+    </div>`,
+};

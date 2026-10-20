@@ -79,3 +79,44 @@ export const FlipsAtEdge: StoryObj = {
       </ht-popover>
     </div>`,
 };
+
+/** `arrow` draws a pointer from the panel to the trigger. It follows the trigger's centre and swaps sides when the panel flips. */
+export const Arrow: StoryObj = {
+  args: { open: true },
+  render: (a) => html`
+    <div style="padding:96px 128px">
+      <ht-popover arrow placement=${a.placement} ?open=${a.open} label="Project details">
+        <ht-button variant="default">Project Details</ht-button>
+        <div slot="content">
+          <strong>sentinel</strong>
+          <p style="margin:4px 0 0">4,212 open issues across 3 environments. Nobody has looked at them since Tuesday.</p>
+        </div>
+      </ht-popover>
+    </div>`,
+};
+
+export const ArrowAllSides: StoryObj = {
+  parameters: { layout: 'padded' },
+  render: () => html`
+    <div style="display:grid;grid-template-columns:repeat(2,380px);gap:24px">
+      ${(['top', 'bottom-start', 'left', 'right'] as const).map(
+        (p) => html`<div style="display:grid;place-items:center;height:220px">
+          <ht-popover arrow open placement=${p} label=${p} style="--ht-popover-width:11rem">
+            <ht-button variant="default">${p}</ht-button>
+            <div slot="content">Points at the trigger.</div>
+          </ht-popover>
+        </div>`,
+      )}
+    </div>`,
+};
+
+export const ArrowGlass: StoryObj = {
+  args: { open: true },
+  render: () => html`
+    <div style="padding:96px 128px;background:linear-gradient(135deg,#e838e8,#4f46e5)">
+      <ht-popover arrow glass open label="Glass">
+        <ht-button variant="default">Glass</ht-button>
+        <div slot="content">Liquid glass with a pointer.</div>
+      </ht-popover>
+    </div>`,
+};

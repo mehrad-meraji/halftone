@@ -8,7 +8,9 @@ let uid = 0;
  * Apps / Files / Chat switcher in PostHog's sidebar. Put `ht-tab` children in it, and
  * optionally `ht-tab-panel` children whose `value` matches a tab.
  *
- * Arrow keys move between tabs (Home and End jump to the ends) and select as they go.
+ * Arrow keys move between tabs (Home and End jump to the ends) and select as they go. With
+ * `orientation="vertical"` the tabs stack on the left and Up and Down do the moving. With
+ * `activation="manual"` the arrows only move focus, and Enter or Space selects.
  *
  * @tag ht-tabs
  * @summary Tab list with optional panels.
@@ -25,13 +27,19 @@ export class HtTabs extends LitElement {
     value: { reflect: true },
     /** Accessible name for the tab list. */
     label: {},
-    /** Shrinks the track to its content instead of filling the width. */
+    /** Shrinks the track to its content instead of filling the width. Horizontal only. */
     fit: { type: Boolean, reflect: true },
+    /** `vertical` stacks the tabs in a column beside the panels, and Up and Down move between them. */
+    orientation: { reflect: true },
+    /** `manual` makes the arrow keys move focus without selecting. Enter or Space selects. */
+    activation: { reflect: true },
   };
 
   declare value: string;
   declare label: string;
   declare fit: boolean;
+  declare orientation: 'horizontal' | 'vertical';
+  declare activation: 'auto' | 'manual';
 
   #id = `ht-tabs-${++uid}`;
 
@@ -40,6 +48,8 @@ export class HtTabs extends LitElement {
     this.value = '';
     this.label = '';
     this.fit = false;
+    this.orientation = 'horizontal';
+    this.activation = 'auto';
     this.addEventListener('click', (e) => {
       const tab = (e.target as Element).closest('ht-tab') as HtTab | null;
       if (tab && !tab.disabled && tab.parentElement === this) this.#choose(tab);
@@ -61,6 +71,12 @@ export class HtTabs extends LitElement {
     :host([fit]) .list { display: inline-flex; }
     :host([fit]) ::slotted(ht-tab) { flex: 0 0 auto; }
     .panels { display: block; }
+    :host([orientation='vertical']) { display: flex; align-items: flex-start; gap: 12px; --_tab-justify: flex-start; }
+    :host([orientation='vertical'][fit]) { display: flex; }
+    :host([orientation='vertical']) .list { flex: none; flex-direction: column; align-items: stretch; }
+    :host([orientation='vertical']) ::slotted(ht-tab) { flex: 0 0 auto; }
+    :host([orientation='vertical']) ::slotted(ht-tab-panel) { padding-top: 0; }
+    :host([orientation='vertical']) .panels { flex: 1; min-width: 0; }
   `;
 
   #tabs() {
@@ -109,15 +125,26 @@ export class HtTabs extends LitElement {
     const tabs = this.#tabs().filter((t) => !t.disabled);
     const i = tabs.findIndex((t) => t === document.activeElement || t.matches(':focus'));
     if (i < 0) return;
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      this.#choose(tabs[i]);
+      return;
+    }
+    const vertical = this.orientation === 'vertical';
     let next = -1;
-    if (e.key === 'ArrowRight') next = (i + 1) % tabs.length;
-    else if (e.key === 'ArrowLeft') next = (i - 1 + tabs.length) % tabs.length;
+    if (e.key === (vertical ? 'ArrowDown' : 'ArrowRight')) next = (i + 1) % tabs.length;
+    else if (e.key === (vertical ? 'ArrowUp' : 'ArrowLeft')) next = (i - 1 + tabs.length) % tabs.length;
     else if (e.key === 'Home') next = 0;
     else if (e.key === 'End') next = tabs.length - 1;
     if (next < 0) return;
     e.preventDefault();
     tabs[next].focus();
-    this.#choose(tabs[next]);
+    if (this.activation === 'manual') {
+      // Roving tab stop: it follows focus until a tab is chosen.
+      for (const t of this.#tabs()) t.tabIndex = t === tabs[next] ? 0 : -1;
+    } else {
+      this.#choose(tabs[next]);
+    }
   };
 
   render() {
@@ -126,6 +153,7 @@ export class HtTabs extends LitElement {
         part="list"
         class="list"
         role="tablist"
+        aria-orientation=${this.orientation === 'vertical' ? 'vertical' : 'horizontal'}
         aria-label=${ifDefined(this.label || undefined)}
         @keydown=${this.#onKeydown}
       >
@@ -180,7 +208,7 @@ export class HtTab extends LitElement {
       display: flex;
       flex: 1;
       align-items: center;
-      justify-content: center;
+      justify-content: var(--_tab-justify, center);
       gap: 4px;
       min-width: 0;
       height: 30px;
