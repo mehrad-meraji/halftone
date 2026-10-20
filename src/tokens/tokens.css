@@ -63,6 +63,8 @@
 
   /* The one comic nod: a faint dot screen on header strips. Set to `none` to remove. */
   --ht-halftone: radial-gradient(circle, color-mix(in oklch, var(--ht-accent) 26%, transparent) 0.8px, transparent 1.5px) 0 0 / 6px 6px;
+  /* The same screen for a large stage (a hero, an empty state, an example area): a wider tile and a calmer dot. Fade it out with a mask. Set to `none` to remove. */
+  --ht-halftone-stage: radial-gradient(circle, color-mix(in oklch, var(--ht-accent) 18%, transparent) 1px, transparent 1.6px) 0 0 / 8px 8px;
 
   /* Liquid glass: translucent fills, a blur of whatever is behind, a bright rim and a diagonal sheen. Used by components with the `glass` attribute. */
   --ht-glass-filter: blur(16px) saturate(1.8);
@@ -142,4 +144,12 @@
   --ht-glass-rim: inset 0 1px 0 color-mix(in oklab, white 22%, transparent), inset 0 0 0 1px color-mix(in oklab, white 14%, transparent), inset 0 -1px 1px color-mix(in oklab, black 5%, transparent);
   --ht-glass-rim-on: inset 0 1px 0 color-mix(in oklab, white 38%, transparent), inset 0 0 0 1px color-mix(in oklab, white 26%, transparent), inset 0 -1px 2px color-mix(in oklab, black 7%, transparent), 0 2px 6px color-mix(in oklab, black 10%, transparent);
   --ht-glass-shadow: 0 10px 30px color-mix(in oklab, black 45%, transparent), 0 1px 3px color-mix(in oklab, black 35%, transparent);
+}
+
+/* The dot screen is decoration: drop it when the browser forces colours or the person asks for more contrast. */
+@media (forced-colors: active), (prefers-contrast: more) {
+  :root {
+    --ht-halftone: none;
+    --ht-halftone-stage: none;
+  }
 }

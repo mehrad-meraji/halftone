@@ -1,6 +1,7 @@
 export { HtBanner } from './components/banner/banner.js';
 export { HtButton } from './components/button/button.js';
 export { HtCard } from './components/card/card.js';
+export { HtEmptyState } from './components/empty-state/empty-state.js';
 export { HtCheckbox, HtCheckboxGroup } from './components/checkbox/checkbox.js';
 export { HtDialog } from './components/dialog/dialog.js';
 export { HtIcon, registerIcons, type IconSet, type IconWeight } from './components/icon/icon.js';

@@ -266,4 +266,4 @@ Compared how Radix, Fluent, Carbon, Polaris, Primer and pattern guides use backg
 **Images**
 - Halftone ships no raster images. Illustrations are inline SVG that use `currentColor` and tokens, so they follow the theme. Quiet line style by default, expressive (gradient, layered) rarely (Carbon).
 
-**Not done yet.** The stage token, the two media queries, an `ht-empty-state` component and the docs canvas update are follow-ups.
+**Done.** `--ht-halftone-stage` and the `forced-colors` and `prefers-contrast: more` opt-outs are in `tokens.css`. New `ht-empty-state`: a graphic on a dot disc that fades out (a mask), text and actions on the plain surface, `tone="error"` for no stage and an alert icon, `level` for the heading. Its graphic is decorative and hidden from screen readers. Still open: a glass look and an illustration set.
