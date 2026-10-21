@@ -77,10 +77,13 @@ h3 {
   border-radius: 4px;
 }
 
-/* Tables read as the design's spec tables. */
+/* Tables read as the design's spec tables: full width, a rounded frame, a muted header row. */
 .sl-markdown-content table {
-  display: block;
-  overflow-x: auto;
+  display: table;
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
   border: 1px solid var(--sl-color-hairline);
   border-radius: var(--ht-radius-lg);
   background: var(--ht-surface);
@@ -91,6 +94,21 @@ h3 {
 }
 .sl-markdown-content :is(th, td) {
   padding: 0.625rem 1rem;
+  overflow-wrap: anywhere;
+}
+.sl-markdown-content tbody :is(th, td) {
+  border-top: 1px solid var(--sl-color-hairline);
+}
+.sl-markdown-content tr:nth-child(2n) {
+  background: transparent;
+}
+/* Where the content column is narrow (a phone, or a tablet with the sidebar showing), a wide table
+   scrolls inside its own frame instead of widening the page. */
+@media (max-width: 59.99rem) {
+  .sl-markdown-content table {
+    display: block;
+    overflow-x: auto;
+  }
 }
 .sl-markdown-content :is(th, td):first-child code {
   color: var(--ht-accent-text);
@@ -538,4 +556,14 @@ starlight-tabs .tab {
   .rail-links {
     display: none;
   }
+}
+
+/*
+  Starlight puts margin-top: 1rem on every element that follows a sibling in page content. That is right
+  for prose and wrong for a flex row or a grid, where it pushes every item but the first down by 16px.
+  Any container laid out as flex or grid, and the swatch and example grids, opts out here, so raw blocks
+  in an .mdx page do not need a `not-content` class. Inline margins on an item still win.
+*/
+.sl-markdown-content :is([style*='display:flex'], [style*='display: flex'], [style*='display:grid'], [style*='display: grid'], [style*='display:inline-flex'], .swatches, .example, .get-grid, .start-cards, .dodont) > * {
+  margin-top: 0;
 }

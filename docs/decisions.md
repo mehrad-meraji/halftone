@@ -325,3 +325,7 @@ The docs design had Patterns and Resources in its top navigation, so they now ex
 - **Resources**: Links, Accessibility checks (from `docs/a11y.md`), and a Decisions log page that the generator builds from `docs/decisions.md`, so it cannot drift.
 - **Footer**: Starlight's `PageFrame` is copied into `site/src/components/PageFrame.astro` with the site footer added at the bottom of the main column, so it spans the full width beside the sidebar. When Starlight is upgraded, compare the copy with the new default.
 - `docs/a11y.md` said `ht-select` uses the browser's own menu. That stopped being true with the custom list; the line is corrected.
+
+## 2026-10-21 — Docs site alignment sweep
+More misaligned rows turned up: the radius and shadow boxes on Spacing and radius, and the color swatches (every item but the first sat 16px low). Same cause as before, Starlight's `margin-top: 1rem` on every following sibling. The fix is now global in `theme.css`: any container with an inline `display:flex`, `display:grid` or `display:inline-flex`, and the swatch and example grids, resets it. Verified by crawling all 61 pages: no flex or grid child has the leaked margin, and no flex row has children with different tops. Markdown tables also now fill the column (they had shrunk to their content inside a full-width frame); below 60rem a wide table scrolls inside its frame, because at tablet widths the sidebar leaves a content column narrower than the widest API tables.
+
