@@ -314,3 +314,10 @@ The first deploy of the Starlight site looked like stock Starlight with Halftone
 - **Pages**: the first screen is the About page (the root redirects to it, respecting the Pages base path). About has numbered columns and start cards. Select follows the design: Usage, Style, Code and Accessibility tabs, a variant switcher over a stage, do and don't cards, and an "HTML" code frame.
 - **Still not built**: Patterns and Resources in the top navigation (no pages yet), a full-width site footer (Starlight's footer lives in the content column), and the right rail changing per tab (it lists every heading).
 
+## 2026-10-21 — Patterns and Resources sections, and a full-width footer
+The docs design had Patterns and Resources in its top navigation, so they now exist, with content taken from the repo:
+- **Patterns**: Forms (a live form: required blocks submit, `FormData`, reset; which element submits what), Overlays (one live demo of each overlay, a dialog with a select inside to show the top layer, and a table for choosing), and Empty states (the writing rules, and `tone="error"`).
+- **Resources**: Links, Accessibility checks (from `docs/a11y.md`), and a Decisions log page that the generator builds from `docs/decisions.md`, so it cannot drift.
+- **Footer**: Starlight's `PageFrame` is copied into `site/src/components/PageFrame.astro` with the site footer added at the bottom of the main column, so it spans the full width beside the sidebar. When Starlight is upgraded, compare the copy with the new default.
+- `docs/a11y.md` said `ht-select` uses the browser's own menu. That stopped being true with the custom list; the line is corrected.
+

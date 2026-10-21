@@ -1,0 +1,34 @@
+---
+title: Accessibility checks
+description: How Halftone is checked, what has been found, and what has not been tried.
+sidebar:
+  order: 2
+---
+
+Every story is checked with axe in light and dark, and every text and field color pair is checked by a script. Behavior (keyboard, focus, forms, ARIA state) is checked by hand.
+
+## How it is checked
+
+| Check | Tool | Covers |
+| --- | --- | --- |
+| Automated rules, including text contrast | `scripts/a11y-runner.js` (axe-core, run in Storybook) | Every story, both themes |
+| Contrast axe cannot see | `node scripts/contrast.mjs` | Button faces (pseudo-element fills), field borders and focus rings (non-text, 3 to 1), switch icon |
+| Behavior | Manual, in Storybook | Keyboard, focus, forms, ARIA state |
+
+Re-run both after any change to `src/tokens/tokens.css`, and keep the table in `scripts/contrast.mjs` in step with the tokens.
+
+## Rules the components follow
+
+- Text keeps 4.5 to 1 against its fill. Field outlines use `--ht-border-input` and reach 3 to 1 (WCAG 1.4.11).
+- A control with no visible label forwards a host `aria-label` to its native element. `aria-label` is never left on a generic host.
+- Tone colors are mixed toward `--ht-text`, not black, so dark mode keeps its contrast.
+- The dot screen is turned off under `forced-colors` and `prefers-contrast: more`.
+
+## Known limits
+
+- Axe does not check keyboard operation or what a screen reader says. The behaviors were exercised by script and by hand, **not** with a screen reader.
+- `ht-tooltip` adds `aria-description` to its trigger. Support is patchier outside Chromium and Safari, so never put required information in a tooltip.
+- `ht-select` is a custom list. Focus moves onto the options, which is how Radix Select works too. It has not been tried with a screen reader.
+- `ht-dialog` relies on the native dialog: focus is trapped and returned by the browser, but background scroll is not locked.
+- `ht-tree` and `ht-radio-group` follow the WAI-ARIA patterns but have not been tried with VoiceOver or NVDA.
+- Toasts that dismiss on a timer are a risk for slow readers. Use `duration: 0` for anything someone must act on. A toast can also be reached with F8 and closed with Escape.

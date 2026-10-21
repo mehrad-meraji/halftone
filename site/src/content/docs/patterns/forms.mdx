@@ -1,0 +1,58 @@
+---
+title: Forms
+description: "How Halftone fields take part in a form: names, validation, errors and reset."
+sidebar:
+  order: 1
+---
+
+import Stage from '../../../components/Stage.astro';
+import FormDemo from '../../../components/FormDemo.astro';
+
+Halftone fields are form-associated custom elements. They sit inside a normal `<form>`, submit under their `name`, report validity, and restore their starting value on reset. You do not need a wrapper or a library.
+
+## Try it
+
+Submit with the region left empty to see validation. Reset to see every field go back.
+
+<Stage>
+  <FormDemo />
+</Stage>
+
+## What each field submits
+
+| Element | Submits | Notes |
+| --- | --- | --- |
+| [`ht-input`](../../components/input/) | Its `value` | `type`, `required`, `helper`, `error` |
+| [`ht-textarea`](../../components/textarea/) | Its `value` | `rows`, `autosize`, `maxlength` |
+| [`ht-select`](../../components/select/) | The chosen option's `value` | `required` blocks submit until something is chosen |
+| [`ht-checkbox`](../../components/checkbox/) | Its `value` when checked | Supports `indeterminate` |
+| [`ht-radio-group`](../../components/radio/) | The chosen radio's `value` | One tab stop, arrows move and choose |
+| [`ht-switch`](../../components/switch/) | Its `value` (default `on`) when on | |
+| [`ht-toggle`](../../components/toggle/) | Its `value` when pressed | |
+| [`ht-calendar`](../../components/calendar/) | The chosen date | `min`, `max`, `week-start` |
+| [`ht-prompt`](../../components/prompt/) | Its `value` | A multi-line prompt box |
+| [`ht-button`](../../components/button/) | Nothing | `type="submit"` and `type="reset"` act on the form |
+
+## Validation and errors
+
+- Set `required` and the browser's own validation applies. A field with nothing in it blocks the submit, and reports it through `form.reportValidity()`.
+- Set `error` on a field to show your own message, for example one that came back from the server. The field is marked invalid and the message is announced.
+- Use `helper` for guidance that is always visible, such as "Shown in the sidebar."
+- Write the error as the next step, not the failure: "Pick one. Any one." beats "Invalid value".
+
+## Layout
+
+- Give every field a visible `label`. If there truly is no room for one, set `aria-label` on the element and Halftone moves it to the native control. Never use a placeholder as the only label.
+- Stack fields with a 16px gap, and put the actions at the end. One primary action, and a quiet or default secondary one.
+- Labels are in Title Case, helper text and errors in sentence case.
+
+```html
+<form>
+  <ht-input name="project" label="Project Name" required></ht-input>
+  <ht-select name="region" label="Region" required placeholder="Choose a region">
+    <ht-option value="us">United States</ht-option>
+  </ht-select>
+  <ht-button type="submit" variant="primary">Save</ht-button>
+  <ht-button type="reset">Reset</ht-button>
+</form>
+```

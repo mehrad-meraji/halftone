@@ -136,3 +136,26 @@ writeFileSync(
   JSON.stringify({ components: index.length, elements: index.reduce((n, c) => n + c.tags.length, 0) }, null, 2) + '\n',
 );
 console.log(`Generated ${index.length} component pages.`);
+
+// A Resources page listing the decisions log, so each dated choice is one click away.
+const decisions = readFileSync(join(repo, 'docs/decisions.md'), 'utf8');
+const slug = (t) => t.toLowerCase().replace(/[^\p{L}\p{N}\- ]/gu, '').replace(/ /g, '-');
+const items = [...decisions.matchAll(/^## (\d{4}-\d{2}-\d{2})\s*[—:-]+\s*(.+)$/gm)]
+  .map((m) => ({ date: m[1], title: m[2].trim(), heading: m[0].slice(3) }))
+  .reverse();
+const decisionsPage = [
+  '---',
+  'title: Decisions log',
+  'description: Every dated design and engineering choice, newest first, with the reasons.',
+  'sidebar:',
+  '  order: 3',
+  '---',
+  '',
+  `${items.length} decisions. The reasoning for each is in [\`docs/decisions.md\`](https://github.com/mehrad-meraji/halftone/blob/main/docs/decisions.md); the titles below link to it.`,
+  '',
+  ...items.map((d) => `- **${d.date}** [${esc(d.title)}](https://github.com/mehrad-meraji/halftone/blob/main/docs/decisions.md#${slug(d.heading)})`),
+  '',
+].join('\n');
+mkdirSync(join(site, 'src/content/docs/resources'), { recursive: true });
+writeFileSync(join(site, 'src/content/docs/resources/decisions.mdx'), decisionsPage);
+console.log(`Generated the decisions page (${items.length} entries).`);
