@@ -54,11 +54,11 @@ export class HtSpotlight extends LitElement {
       border-radius: inherit;
     }
     .glow {
-      background: radial-gradient(circle var(--_size) at var(--_x, 50%) var(--_y, 50%), color-mix(in oklab, var(--ht-accent) 20%, transparent), transparent 70%);
+      background: radial-gradient(circle var(--_size) at var(--_x, 50%) var(--_y, 50%), color-mix(in oklab, var(--ht-accent) 16%, transparent), transparent 70%);
     }
     /* The mask only sets where the dots show, so its colour is irrelevant. */
     .dots {
-      opacity: 0.6; /* a little softer than a header strip, so text under the glow keeps its contrast */
+      opacity: 0.45; /* a subtle pattern, so text under the glow keeps its contrast */
       background: var(--ht-halftone);
       -webkit-mask-image: radial-gradient(circle var(--_size) at var(--_x, 50%) var(--_y, 50%), black, transparent);
       mask-image: radial-gradient(circle var(--_size) at var(--_x, 50%) var(--_y, 50%), black, transparent);
