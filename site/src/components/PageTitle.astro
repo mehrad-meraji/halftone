@@ -1,0 +1,32 @@
+---
+// The docs design's title block: breadcrumb, a large title, a lede and small chips.
+const { entry } = Astro.locals.starlightRoute;
+const { title, description, chips } = entry.data;
+const groups: Record<string, [string, string]> = {
+  'getting-started': ['Getting started', 'getting-started/about/'],
+  foundations: ['Foundations', 'foundations/color/'],
+  components: ['Components', 'components/'],
+};
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const [first, rest] = entry.id.split('/');
+// A description may hold `code`; show it as code, and escape everything else.
+const lede = (description ?? '')
+  .replace(/&/g, '&amp;')
+  .replace(/</g, '&lt;')
+  .replace(/>/g, '&gt;')
+  .replace(/`([^`]+)`/g, '<code>$1</code>');
+const group = rest ? groups[first] : undefined;
+---
+
+{
+  group && (
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href={`${base}/${group[1]}`}>{group[0]}</a>
+      <span aria-hidden="true">/</span>
+      <span>{title}</span>
+    </nav>
+  )
+}
+<h1 id="_top">{title}</h1>
+{description && <p class="lede" set:html={lede} />}
+{chips && chips.length > 0 && <ul class="chips">{chips.map((c, i) => <li class:list={{ tag: i === 0 }}>{c}</li>)}</ul>}

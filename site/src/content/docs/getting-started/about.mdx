@@ -1,15 +1,13 @@
 ---
 title: About Halftone
-description: What Halftone is, the principles behind it, and where it is going.
+description: Halftone is a library of web components for product interfaces. Every control is a custom element with an ht- tag, styled by CSS variables, and it works in any framework or none.
 sidebar:
   order: 1
 ---
 
-import { Tabs, TabItem, Card, CardGrid } from '@astrojs/starlight/components';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
 import Stage from '../../../components/Stage.astro';
 import stats from '../../../generated/stats.json';
-
-Halftone is a library of web components for product interfaces. Every control is a custom element with an `ht-` tag, styled by CSS variables, and it works in any framework or none.
 
 <Tabs>
   <TabItem label="Overview">
@@ -36,53 +34,73 @@ A select, tabs and a switch, running live. Not a screenshot.
 
 ## What you get
 
-<CardGrid>
-  <Card title="Web components" icon="puzzle">
-    {stats.components} components and {stats.elements} elements, from button to command palette. Built on Lit and TypeScript, one file each, and each file imports only `lit`.
-  </Card>
-  <Card title="Tokens, not forks" icon="seti:css">
-    One set of `--ht-*` variables sets color, type, radius, shadow and motion. Point them at your own tokens and the library wears your brand.
-  </Card>
-  <Card title="Two ways to ship" icon="rocket">
-    Install the package, or copy one component file plus `tokens.css` into your app.
-  </Card>
-</CardGrid>
+<div class="get-grid">
+  <div>
+    <div class="num">01</div>
+    <h3>Web components</h3>
+    <p>{stats.components} components and {stats.elements} elements, from button to command palette. Built on Lit and TypeScript, one file each, and each file imports only `lit`.</p>
+  </div>
+  <div>
+    <div class="num">02</div>
+    <h3>Tokens, not forks</h3>
+    <p>One set of `--ht-*` variables sets color, type, radius, shadow and motion. Point them at your own tokens and the library wears your brand.</p>
+  </div>
+  <div>
+    <div class="num">03</div>
+    <h3>Two ways to ship</h3>
+    <p>Install the package, or copy one component file plus `tokens.css` into your app.</p>
+  </div>
+</div>
 
 ## Start here
 
-<CardGrid>
-  <Card title="Designers" icon="pencil">
-    Color, type, spacing, motion and glass, with the reasoning behind each token. Start with [Color](../foundations/color/).
-  </Card>
-  <Card title="Developers" icon="laptop">
-    Install the package, import a component, map the tokens. Works in React 19, Vue, Svelte and plain HTML. Start with [Install](./install/).
-  </Card>
-  <Card title="Contributors and agents" icon="open-book">
-    How a component is built and checked, and how tools read the API. Start with [Contributing](./contributing/).
-  </Card>
-</CardGrid>
+<div class="start-cards">
+  <a class="start-card" href="../foundations/color/">
+    <span><span class="t">Designers</span><span class="d">Color, type, spacing, motion and glass, with the reasoning behind each token.</span></span>
+    <span class="cta">Read the foundations <span aria-hidden="true">→</span></span>
+  </a>
+  <a class="start-card" href="./install/">
+    <span><span class="t">Developers</span><span class="d">Install the package, import a component, map the tokens. Works in React 19, Vue, Svelte and plain HTML.</span></span>
+    <span class="cta">Install Halftone <span aria-hidden="true">→</span></span>
+  </a>
+  <a class="start-card" href="./contributing/">
+    <span><span class="t">Contributors</span><span class="d">How a component is built and checked, and how tools and agents read the API.</span></span>
+    <span class="cta">Start contributing <span aria-hidden="true">→</span></span>
+  </a>
+</div>
 
   </TabItem>
   <TabItem label="Principles">
 
 These decide what ships and what gets said no to. Each one is written in the decisions log with the date it was made.
 
-1. **Native first.** Dialogs sit on the native dialog element, overlays on the popover API, and fields are form-associated custom elements. The browser keeps the focus trap, the top layer and the form.
-2. **Tokens, not forks.** Components read `--ht-*` variables and carry no hard-coded color. Changing a palette is a token change, never a component edit.
-3. **Motion with a purpose.** Spring in, ease out faster. Motion shows where a panel came from, and `prefers-reduced-motion` turns all of it off. See [Motion](../foundations/motion/).
-4. **Accessible as shipped.** Every story is checked with axe, and text keeps 4.5 to 1 contrast. A control that cannot be used from the keyboard is not done.
+<div class="start-cards">
+  <div class="start-card" style="min-height:0">
+    <span><span class="t">01 Native first</span><span class="d">Dialogs sit on the native dialog element, overlays on the popover API, and fields are form-associated custom elements. The browser keeps the focus trap, the top layer and the form.</span></span>
+  </div>
+  <div class="start-card" style="min-height:0">
+    <span><span class="t">02 Tokens, not forks</span><span class="d">Components read `--ht-*` variables and carry no hard-coded color. Changing a palette is a token change, never a component edit.</span></span>
+  </div>
+  <div class="start-card" style="min-height:0">
+    <span><span class="t">03 Motion with a purpose</span><span class="d">Spring in, ease out faster. Motion shows where a panel came from, and `prefers-reduced-motion` turns all of it off.</span></span>
+  </div>
+  <div class="start-card" style="min-height:0">
+    <span><span class="t">04 Accessible as shipped</span><span class="d">Every story is checked with axe, and text keeps 4.5 to 1 contrast. A control that cannot be used from the keyboard is not done.</span></span>
+  </div>
+</div>
 
   </TabItem>
   <TabItem label="Roadmap">
 
 | Shipped | In review | Next |
 | --- | --- | --- |
-| Overlay motion | This documentation site | Slider |
+| Overlay motion | | Slider |
 | Liquid glass for overlays | | Collapsible |
 | Violet palette | | Hover card |
 | Dot screen rules and the empty state | | One-time password field |
 | Select: a styled list with rich options | | Toolbar |
 | Toast like Radix Toast, vertical and manual tabs, popover arrow | | Menubar, navigation menu |
+| This documentation site | | |
 
 The next column comes from a review of Radix Primitives. The decisions log has the reasons and what was left out.
 

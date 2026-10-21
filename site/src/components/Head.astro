@@ -14,4 +14,19 @@ import Default from '@astrojs/starlight/components/Head.astro';
     sync();
     new MutationObserver(sync).observe(button, { childList: true, subtree: true, characterData: true });
   }
+
+  // "On this page" lists every heading, including ones inside a tab that is not showing.
+  // Open that tab before jumping to the heading.
+  const reveal = (hash: string) => {
+    const target = hash.length > 1 ? document.getElementById(decodeURIComponent(hash.slice(1))) : null;
+    const panel = target?.closest<HTMLElement>('[role="tabpanel"]');
+    if (!target || !panel || !panel.hidden) return;
+    document.getElementById(panel.getAttribute('aria-labelledby') ?? '')?.click();
+    requestAnimationFrame(() => target.scrollIntoView());
+  };
+  document.addEventListener('click', (e) => {
+    const link = (e.target as Element).closest<HTMLAnchorElement>('starlight-toc a[href^="#"]');
+    if (link) reveal(new URL(link.href).hash);
+  });
+  reveal(location.hash);
 </script>

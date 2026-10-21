@@ -1,21 +1,24 @@
 ---
 title: Select
-description: A field for choosing one option from a list. The list is a styled panel in the top layer.
+description: A field for choosing one option from a list. The list is a styled panel in the top layer, so it stays above dialogs and is never clipped.
+chips: ['ht-select', 'Form-associated', 'Top layer', 'New']
 sidebar:
   badge:
     text: New
     variant: tip
 ---
 
-import { Tabs, TabItem, Card, CardGrid, Aside } from '@astrojs/starlight/components';
+import { Tabs, TabItem, Aside } from '@astrojs/starlight/components';
 import Stage from '../../../components/Stage.astro';
 
-A field for choosing one option from a list. The list is a styled panel in the top layer, so it stays above dialogs and is never clipped. It flips above the trigger when there is no room below, and scroll arrows appear when the list is longer than the room. It takes part in forms.
+<Tabs>
+  <TabItem label="Usage">
 
 ## Live example
 
 Open it with the mouse or the keyboard. These are the real elements.
 
+<div class="variants">
 <Tabs>
   <TabItem label="Default">
 <Stage>
@@ -28,7 +31,7 @@ Open it with the mouse or the keyboard. These are the real elements.
   </div>
 </Stage>
 
-```html
+```html title="HTML"
 <ht-select label="Theme" value="light">
   <ht-option value="system">Default to system</ht-option>
   <ht-option value="light">Light</ht-option>
@@ -54,7 +57,7 @@ Open it with the mouse or the keyboard. These are the real elements.
   </div>
 </Stage>
 
-```html
+```html title="HTML"
 <ht-select label="Timezone" placeholder="Choose a timezone">
   <ht-option-group label="Americas">
     <ht-option value="America/Toronto">Toronto</ht-option>
@@ -67,7 +70,7 @@ Open it with the mouse or the keyboard. These are the real elements.
 </ht-select>
 ```
   </TabItem>
-  <TabItem label="Rich options">
+  <TabItem label="Rich">
 <Stage>
   <div style="width:360px;max-width:100%">
     <ht-select label="Role" value="contributor">
@@ -87,7 +90,7 @@ Open it with the mouse or the keyboard. These are the real elements.
   </div>
 </Stage>
 
-```html
+```html title="HTML"
 <ht-select label="Role" value="contributor">
   <ht-option value="viewer" label="Viewer">
     <strong>Viewer</strong>
@@ -99,24 +102,42 @@ Open it with the mouse or the keyboard. These are the real elements.
 Set `label` on a rich option. The trigger and typeahead show that short text instead of both lines.
   </TabItem>
 </Tabs>
+</div>
 
 ## When to use it
 
-<CardGrid>
-  <Card title="Use a select to" icon="approve-check">
-    Pick one value from five to fifteen options people scan by name. Save space when all the options do not need to be visible. Submit a value with a form, or restore one on reset.
-  </Card>
-  <Card title="Use something else when" icon="information">
-    There are two or three options: use radios or a toggle group. People need to search a long list: use the command palette. People pick several values: use checkboxes.
-  </Card>
-</CardGrid>
+<div class="dodont">
+  <div class="start-card" style="min-height:0">
+    <span><span class="t">Use a select to</span><span class="d">Pick one value from five to fifteen options people scan by name. Save space when all the options do not need to be visible. Submit a value with a form, or restore one on reset.</span></span>
+  </div>
+  <div class="start-card" style="min-height:0">
+    <span><span class="t">Use something else when</span><span class="d">There are two or three options: use radios or a toggle group. People need to search a long list: use the command palette. People pick several values: use checkboxes.</span></span>
+  </div>
+</div>
 
 ## Do and don't
 
-| Do | Don't |
-| --- | --- |
-| Keep a visible label above the select, even when a placeholder says the same thing. | Do not use a placeholder as the only label. It disappears once someone chooses. |
-| Set `label` on a rich option so the trigger shows a short name. | Do not let the trigger show two lines of description. It truncates and loses meaning. |
+<div class="dodont">
+  <figure class="rule">
+    <div class="rule-stage"><ht-select label="Role" placeholder="Choose a role"><ht-option value="viewer">Viewer</ht-option></ht-select></div>
+    <figcaption><span class="tag">Do</span>Keep a visible label above the select, even when a placeholder says the same thing.</figcaption>
+  </figure>
+  <figure class="rule">
+    <div class="rule-stage"><ht-select aria-label="Role" placeholder="Choose a role"><ht-option value="viewer">Viewer</ht-option></ht-select></div>
+    <figcaption><span class="tag dont">Don't</span>Do not use a placeholder as the only label. It disappears once someone chooses.</figcaption>
+  </figure>
+  <figure class="rule">
+    <div class="rule-stage"><ht-select label="Role" value="contributor"><ht-option value="contributor" label="Contributor"><strong>Contributor</strong><div style="font-size:12px">Can view and edit project content</div></ht-option></ht-select></div>
+    <figcaption><span class="tag">Do</span>Set `label` on a rich option so the trigger shows a short name.</figcaption>
+  </figure>
+  <figure class="rule">
+    <div class="rule-stage"><ht-select label="Role" value="contributor"><ht-option value="contributor"><strong>Contributor</strong><div style="font-size:12px">Can view and edit project content</div></ht-option></ht-select></div>
+    <figcaption><span class="tag dont">Don't</span>Do not let the trigger show two lines of description. It truncates and loses meaning.</figcaption>
+  </figure>
+</div>
+
+  </TabItem>
+  <TabItem label="Style">
 
 ## States
 
@@ -139,6 +160,21 @@ Set `label` on a rich option. The trigger and typeahead show that short text ins
 | List shadow | Medium | `--ht-shadow-md` |
 | List max height | 20rem, then it scrolls | `--ht-select-max-height` |
 | Open and close | 240ms spring in, 140ms ease out | `--ht-duration-in`, `--ht-duration-out` |
+
+  </TabItem>
+  <TabItem label="Code">
+
+## Import
+
+```js
+import '@_mehrad/halftone/components/select/select.js';
+import '@_mehrad/halftone/tokens.css';
+```
+
+@@API@@
+
+  </TabItem>
+  <TabItem label="Accessibility">
 
 ## Keyboard
 
@@ -168,4 +204,5 @@ The keys follow Radix Select. Focus moves onto the options, and returns to the t
   There is no native mobile picker, and the chosen option does not sit over the trigger (Radix's item-aligned position). Only the popper position is built.
 </Aside>
 
-@@API@@
+  </TabItem>
+</Tabs>

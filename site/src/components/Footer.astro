@@ -1,0 +1,37 @@
+---
+import EditLink from 'virtual:starlight/components/EditLink';
+import Pagination from 'virtual:starlight/components/Pagination';
+---
+
+<div class="feedback">
+  <div class="ask">
+    <span class="q">Was this page helpful?</span>
+    <span class="buttons">
+      <button type="button" data-vote="yes">Yes</button>
+      <button type="button" data-vote="no">No</button>
+    </span>
+  </div>
+  <p class="thanks" role="status" hidden></p>
+  <span class="edit"><EditLink /></span>
+</div>
+<Pagination />
+<div class="site-footer">
+  <span class="mark">halftone</span>
+  <span>Lit web components. MIT licensed.</span>
+  <span class="spacer"></span>
+  <a href="https://github.com/mehrad-meraji/halftone">GitHub</a>
+  <a href="https://github.com/mehrad-meraji/halftone/blob/main/CHANGELOG.md">Changelog</a>
+  <a href="https://github.com/mehrad-meraji/halftone/blob/main/docs/decisions.md">Decisions log</a>
+</div>
+
+<script>
+  const box = document.querySelector<HTMLElement>('.feedback');
+  box?.querySelectorAll<HTMLButtonElement>('[data-vote]').forEach((b) =>
+    b.addEventListener('click', () => {
+      const thanks = box.querySelector<HTMLElement>('.thanks')!;
+      thanks.textContent = b.dataset.vote === 'yes' ? 'Thanks. Glad it helped.' : 'Thanks. Tell us what to fix with Edit this page.';
+      thanks.hidden = false;
+      box.querySelector<HTMLElement>('.ask')!.hidden = true;
+    }),
+  );
+</script>

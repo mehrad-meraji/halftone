@@ -304,3 +304,13 @@ The public docs were only Storybook. They now have a real site in `site/`, built
 - **Cost.** Old links to `…/halftone/?path=…` Storybook pages now land on the site, not Storybook.
 - **Not built.** The top navigation bar from the design (the sidebar groups do its job), breadcrumbs, a page-helpful vote, and the Patterns and Resources sections.
 
+## 2026-10-21 — Docs site brought closer to the design
+The first deploy of the Starlight site looked like stock Starlight with Halftone colors. This pass overrides the Starlight parts to match the "Halftone docs system" design:
+- **Header** (`Header.astro`): logo, top navigation (Getting started, Foundations, Components), search, GitHub and an icon light/dark toggle in place of the Auto dropdown.
+- **Title block** (`PageTitle.astro`): breadcrumb, large title, a lede from the page description, and chips from a new `chips` frontmatter key (the generator fills it with the element names and the New or Updated badge).
+- **Right rail** (`PageSidebar.astro` and CSS): a mono label, a rule and an accent marker on the current heading, plus Report an issue and GitHub links. Headings inside a tab that is not showing open that tab when clicked.
+- **Footer** (`Footer.astro`): a "Was this page helpful?" box, the edit link, next and previous as cards, and a site footer line.
+- **Sidebar**: group labels are small mono caps and not collapsible, and the current page is a soft accent row.
+- **Pages**: the first screen is the About page (the root redirects to it, respecting the Pages base path). About has numbered columns and start cards. Select follows the design: Usage, Style, Code and Accessibility tabs, a variant switcher over a stage, do and don't cards, and an "HTML" code frame.
+- **Still not built**: Patterns and Resources in the top navigation (no pages yet), a full-width site footer (Starlight's footer lives in the content column), and the right rail changing per tab (it lists every heading).
+
