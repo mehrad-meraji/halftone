@@ -101,6 +101,11 @@ export class HtEmptyState extends LitElement {
       pointer-events: none;
       opacity: 0;
       transition: opacity 200ms var(--ht-ease);
+      /* Fade out toward the block's edges, so the glow never stops at a hard line. */
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 64px, #000 calc(100% - 64px), transparent), linear-gradient(transparent, #000 48px, #000 calc(100% - 48px), transparent);
+      mask-image: linear-gradient(90deg, transparent, #000 64px, #000 calc(100% - 64px), transparent), linear-gradient(transparent, #000 48px, #000 calc(100% - 48px), transparent);
+      -webkit-mask-composite: source-in;
+      mask-composite: intersect;
       background:
         radial-gradient(circle 300px at var(--_x, 50%) var(--_y, 50%), color-mix(in oklab, var(--ht-accent) 20%, transparent), transparent 70%);
     }
