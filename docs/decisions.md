@@ -317,3 +317,6 @@ The first deploy of the Starlight site looked like stock Starlight with Halftone
 
 ## 2026-10-21 — The switch's on track is the accent color
 The on state used `--ht-accent-soft` for the track, which was inferred from Sentry and never checked. With the white knob at the right it read as a checkbox with a pale smudge beside it, not as a switch. The on track is now `--ht-accent` (and loses its inset hairline). Measured with `scripts/contrast.mjs` (new rows): track against the page 4.93 to 1 in light and 3.45 in dark, knob against the track 5.54 and 3.22, tick on the knob 10.59 and 12.32; all pass the 3 to 1 non-text rule. Axe is clean on the 6 switch stories in light and dark. The off state, the knob, the hover lift and the spring are unchanged.
+
+Follow-up, same day: the off track stands out too. It gets a recessed well: a 1px outline (`--ht-border-input` mixed 14% toward `--ht-text`, which measured 3.78 to 1 against the light page and 4.49 in dark, in the browser) and a soft inner shadow. The on track gets a matching darker accent edge. Axe is clean on the 6 switch stories in light and dark after both changes.
+
