@@ -57,3 +57,14 @@ export const InsideCard: StoryObj = {
       </ht-empty-state>
     </ht-card>`,
 };
+
+/** Move the pointer over the block: the dot screen and a faint glow appear under it. `no-spotlight` turns it off. */
+export const Spotlight: StoryObj = {
+  render: () => html`
+    <div style="display:flex;gap:24px;flex-wrap:wrap">
+      <ht-empty-state style="width:420px;border:1px solid var(--ht-border);border-radius:var(--ht-radius-lg)" heading="Move the pointer here" description="The dot screen appears under it and fades when it leaves.">
+        <ht-button slot="actions" variant="primary">Add Monitor</ht-button>
+      </ht-empty-state>
+      <ht-empty-state no-spotlight style="width:420px;border:1px solid var(--ht-border);border-radius:var(--ht-radius-lg)" heading="No spotlight" description="This one stays still."></ht-empty-state>
+    </div>`,
+};

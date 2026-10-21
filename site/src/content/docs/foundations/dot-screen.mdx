@@ -9,7 +9,7 @@ import Stage from '../../../components/Stage.astro';
 
 The dot screen is Halftone's one comic nod. It is a **stage texture, not a surface**: it marks places that frame or show something, and it fades out. It never sits behind text you have to read.
 
-<Stage>
+<Stage spotlight={false}>
   <ht-empty-state heading="No monitors yet" description="A monitor checks a URL on a schedule and tells you when it stops answering.">
     <ht-button slot="actions" variant="primary">Add Monitor</ht-button>
   </ht-empty-state>
@@ -25,6 +25,13 @@ The dot screen is Halftone's one comic nod. It is a **stage texture, not a surfa
 - Behind body copy, inputs, tables, lists or code.
 - On menus, select lists, popovers, tooltips or toasts. Those are glass or solid.
 - On error states. An error uses the alert icon, not decoration.
+
+## Spotlight
+
+A stage can follow the pointer: a faint accent glow and a denser dot screen appear under it and fade when it leaves. The docs stages use [`ht-spotlight`](../../components/spotlight/), and [`ht-empty-state`](../../components/empty-state/) has the same effect built in (turn it off with `no-spotlight`).
+
+- It is decoration only: it ignores touch and keyboard, it is off under reduced motion, and it does not take pointer events from the controls under it.
+- On a stage it sits behind the content. It is not used on an error state.
 
 ## Tokens
 
