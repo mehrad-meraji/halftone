@@ -28,6 +28,9 @@ for(const th of ['light','dark']){const t=T[th];
  add('tooltip text',t.inverseInk,t.inverse);
  add('neutral toast text',t.inverseInk,t.inverse);
  add('switch icon (non-text) on surface',t.tmuted,t.surface,3);
+ add('switch on track vs page bg (non-text)',t.accent,t.bg,3);
+ add('switch knob vs on track (non-text)',t.surface,t.accent,3);
+ add('switch tick on knob (non-text)',t.accentText,t.surface,3);
  add('focus ring vs surface (non-text)',(th==='light'?[0.5,0.108,273]:[0.75,0.113,273]),t.surface,3);
  add('field border vs surface (non-text)',t.borderInput,t.surface,3);
 }

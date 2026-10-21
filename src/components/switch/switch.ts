@@ -93,7 +93,7 @@ export class HtSwitch extends LitElement {
       box-shadow: inset 0 1px 0 0 var(--ht-border);
       transition: background-color 120ms cubic-bezier(0.72, 0, 0.16, 1);
     }
-    :host([checked]) .track { background: var(--ht-accent-soft); }
+    :host([checked]) .track { background: var(--ht-accent); box-shadow: none; }
     input {
       position: absolute;
       inset: 0;

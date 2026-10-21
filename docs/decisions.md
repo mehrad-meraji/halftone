@@ -314,3 +314,6 @@ The first deploy of the Starlight site looked like stock Starlight with Halftone
 - **Pages**: the first screen is the About page (the root redirects to it, respecting the Pages base path). About has numbered columns and start cards. Select follows the design: Usage, Style, Code and Accessibility tabs, a variant switcher over a stage, do and don't cards, and an "HTML" code frame.
 - **Still not built**: Patterns and Resources in the top navigation (no pages yet), a full-width site footer (Starlight's footer lives in the content column), and the right rail changing per tab (it lists every heading).
 
+
+## 2026-10-21 — The switch's on track is the accent color
+The on state used `--ht-accent-soft` for the track, which was inferred from Sentry and never checked. With the white knob at the right it read as a checkbox with a pale smudge beside it, not as a switch. The on track is now `--ht-accent` (and loses its inset hairline). Measured with `scripts/contrast.mjs` (new rows): track against the page 4.93 to 1 in light and 3.45 in dark, knob against the track 5.54 and 3.22, tick on the knob 10.59 and 12.32; all pass the 3 to 1 non-text rule. Axe is clean on the 6 switch stories in light and dark. The off state, the knob, the hover lift and the spring are unchanged.
