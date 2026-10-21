@@ -89,14 +89,14 @@ export class HtSwitch extends LitElement {
       width: 40px;
       height: 24px;
       border-radius: 5px;
-      background: color-mix(in oklch, var(--ht-text) 5%, transparent);
-      /* A recessed well: a 1px field outline so the track stands out when off, and a soft inner shadow. */
-      box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--ht-border-input) 70%, transparent), inset 0 1px 3px color-mix(in oklab, var(--ht-text) 8%, transparent);
+      background: color-mix(in oklch, var(--ht-text) 6%, transparent);
+      /* A rail: a deep inner shadow along the top, and a light lip under the bottom edge. No border. */
+      box-shadow: inset 0 2px 4px color-mix(in oklab, var(--ht-text) 24%, transparent), 0 1px 0 color-mix(in oklab, var(--ht-surface), white 60%);
       transition: background-color 120ms cubic-bezier(0.72, 0, 0.16, 1), box-shadow 120ms cubic-bezier(0.72, 0, 0.16, 1);
     }
     :host([checked]) .track {
       background: var(--ht-accent);
-      box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--ht-accent) 82%, black), inset 0 1px 3px color-mix(in oklab, black 25%, transparent);
+      box-shadow: inset 0 2px 4px color-mix(in oklab, black 32%, transparent), 0 1px 0 color-mix(in oklab, var(--ht-surface), white 60%);
     }
     input {
       position: absolute;
