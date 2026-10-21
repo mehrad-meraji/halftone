@@ -1,0 +1,42 @@
+---
+title: Overlays
+description: Which floating surface to reach for, and the rules they all follow.
+sidebar:
+  order: 2
+---
+
+import Stage from '../../../components/Stage.astro';
+import OverlayDemo from '../../../components/OverlayDemo.astro';
+
+Halftone has several things that float above the page. They differ in whether they block the page, where they point, and how they close.
+
+## Try them
+
+The dialog holds a select. Open both: the list opens above the dialog, because every overlay lives in the browser's top layer.
+
+<Stage>
+  <OverlayDemo />
+</Stage>
+
+## Choosing one
+
+| Element | Use it for | Blocks the page | Closes with |
+| --- | --- | --- | --- |
+| [`ht-dialog`](../../components/dialog/) | A task that needs full attention: a form, a settings panel | Yes | Escape, the close button, a click outside (not with `persistent`) |
+| [`ht-alert-dialog`](../../components/alert-dialog/) | A yes or no that cannot be undone | Yes | Confirm or cancel |
+| [`ht-sheet`](../../components/sheet/) | A side panel for context or filters | Yes | Escape, a click outside (not with `persistent`) |
+| [`ht-popover`](../../components/popover/) | A small panel tied to a button | No | Escape, a click outside, tabbing out |
+| [`ht-menu`](../../components/menu/) | A list of actions, or a context menu | No | Choosing an item, Escape |
+| [`ht-select`](../../components/select/) | Choosing one value | No | Choosing, Escape |
+| [`ht-command`](../../components/command/) | Searching actions with a hotkey | Yes | Escape, choosing |
+| [`ht-tooltip`](../../components/tooltip/) | A short name for an icon | No | Moving away |
+| [`ht-toast`](../../components/toast/) | A message about something that already happened | No | A timer, a swipe, Escape or the close button |
+
+## Rules they all follow
+
+- **Top layer.** Nothing is clipped by a parent, and an overlay can open from another one. A toast sits above a dialog.
+- **Escape closes the top one only.** A select or popover inside a dialog closes first, and the dialog stays.
+- **Focus returns.** When an overlay closes, focus goes back to what opened it.
+- **Glass is for overlays only.** Menus, popovers, dialogs, sheets, command and select lists can use the `glass` look. Everything else stays solid. Do not layer glass on glass.
+- **Motion.** Spring in, ease out faster, and none of it with reduced motion. See [Motion](../../foundations/motion/).
+- **No required information in a tooltip.** Tooltips are hints. A toast that someone must act on should stay (`duration` 0) and should not be the only way to do the thing.

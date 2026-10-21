@@ -389,8 +389,9 @@ starlight-toc a[aria-current='true'] {
   align-items: center;
   gap: 1rem 2rem;
   margin-top: 3rem;
-  padding-top: 1.5rem;
+  padding: 1.5rem var(--sl-content-pad-x, 1.5rem);
   border-top: 1px solid var(--sl-color-hairline);
+  background: var(--ht-surface);
   font-size: 0.875rem;
   color: var(--ht-text-muted);
 }

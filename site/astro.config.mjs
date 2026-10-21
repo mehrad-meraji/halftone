@@ -12,6 +12,9 @@ export default defineConfig({
   vite: {
     // The docs load Halftone straight from ../src, so examples always show the current source.
     server: { fs: { allow: ['..'] } },
+    // Pre-bundle what the components import, so the dev server does not re-optimize mid-session
+    // (that shows up as "504 Outdated Optimize Dep" until a reload).
+    optimizeDeps: { include: ['lit', 'lit/directives/if-defined.js', 'lit/directives/live.js', 'lit/directives/unsafe-svg.js'] },
   },
   integrations: [
     starlight({
@@ -27,6 +30,7 @@ export default defineConfig({
         PageTitle: './src/components/PageTitle.astro',
         PageSidebar: './src/components/PageSidebar.astro',
         Footer: './src/components/Footer.astro',
+        PageFrame: './src/components/PageFrame.astro',
       },
       head: [
         { tag: 'link', attrs: { rel: 'preconnect', href: 'https://fonts.googleapis.com' } },
@@ -43,6 +47,8 @@ export default defineConfig({
         { label: 'Getting started', items: [{ autogenerate: { directory: 'getting-started' } }] },
         { label: 'Foundations', items: [{ autogenerate: { directory: 'foundations' } }] },
         { label: 'Components', items: [{ autogenerate: { directory: 'components' } }] },
+        { label: 'Patterns', items: [{ autogenerate: { directory: 'patterns' } }] },
+        { label: 'Resources', items: [{ autogenerate: { directory: 'resources' } }] },
       ],
       // Wrap long lines instead of scrolling: a scrolling block becomes an unnamed region landmark.
       expressiveCode: { defaultProps: { wrap: true } },

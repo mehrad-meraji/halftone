@@ -16,3 +16,4 @@ site/dist
 site/.astro
 site/src/content/docs/components
 site/src/generated
+site/src/content/docs/resources/decisions.mdx

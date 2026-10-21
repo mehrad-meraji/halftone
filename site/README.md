@@ -14,3 +14,7 @@ npm run build    # static files in site/dist
 - **Live components.** The site loads Halftone from `../src`, so examples always show the current source. The "Examples" blocks on generated pages are the deployed Storybook; set `PUBLIC_STORYBOOK_URL` to point them at a local one (`http://localhost:6006/`).
 - **Theme.** `src/styles/theme.css` points Starlight's variables at the `--ht-*` tokens, so light and dark follow `tokens.css`.
 - **Sub-folder.** Set `BASE_PATH` (for example `/halftone/`) when the site is served from one.
+
+## Gotcha: wrap layout blocks in `not-content`
+
+Starlight puts a `margin-top: 1rem` on every element that follows a sibling inside page content. In a flex row or a grid that pushes every item but the first down by 16px, so buttons and columns misalign. Any raw layout block or demo in an `.mdx` page gets the `not-content` class (`Stage`, `FormDemo` and `OverlayDemo` already have it; so do `.get-grid`, `.start-cards` and `.dodont`).
