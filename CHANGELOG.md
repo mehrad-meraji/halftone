@@ -7,6 +7,7 @@ All notable changes to `@_mehrad/halftone`. Versions follow semver; while the ma
 - 20 new elements from the Taskscape gap audit: textarea, avatar (+ group), progress, skeleton, separator, breadcrumb (+ item), popover, menu (+ item, separator, label), alert dialog, sheet, command (+ item, group), table (+ head, body, row, header, cell), toggle, toggle group (+ item), scroll area, calendar, sidebar (+ group, header, footer), emoji picker.
 - 3 new elements from the React Vibe audit: ping (status dot), marquee (endless scroller), accordion (+ item).
 - 4 new elements from the Motion-Primitives audit: carousel (+ item), number, shimmer, spotlight.
+- Generated avatars: `ht-avatar` takes `art` (`pixel`, `dots`, `tiles`) and `seed` and draws an original picture from any string. New exports `generateAvatar`, `avatarDataUri` and `AVATAR_ARTS` make the same pictures outside the element. Opt-in; existing avatars do not change. In forced-colours mode every avatar now gets a `CanvasText` edge.
 - Decisions and trade-offs: `docs/decisions.md`, entries 2026-10-19 and 2026-10-20.
 
 ## 0.1.0 (2026-10-12)
