@@ -7,6 +7,7 @@ All notable changes to `@_mehrad/halftone`. Versions follow semver; while the ma
 - 20 new elements from the Taskscape gap audit: textarea, avatar (+ group), progress, skeleton, separator, breadcrumb (+ item), popover, menu (+ item, separator, label), alert dialog, sheet, command (+ item, group), table (+ head, body, row, header, cell), toggle, toggle group (+ item), scroll area, calendar, sidebar (+ group, header, footer), emoji picker.
 - 3 new elements from the React Vibe audit: ping (status dot), marquee (endless scroller), accordion (+ item).
 - 4 new elements from the Motion-Primitives audit: carousel (+ item), number, shimmer, spotlight.
+- `ht-split-button` (a main action with a menu key), and on `ht-button`: `icon` (square, icon-only), `label` (accessible name) and joined keys.
 - Decisions and trade-offs: `docs/decisions.md`, entries 2026-10-19 and 2026-10-20.
 
 ## 0.1.0 (2026-10-12)

@@ -1,5 +1,6 @@
 export { HtBanner } from './components/banner/banner.js';
 export { HtButton } from './components/button/button.js';
+export { HtSplitButton } from './components/split-button/split-button.js';
 export { HtCard } from './components/card/card.js';
 export { HtEmptyState } from './components/empty-state/empty-state.js';
 export { HtCheckbox, HtCheckboxGroup } from './components/checkbox/checkbox.js';

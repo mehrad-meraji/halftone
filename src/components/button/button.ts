@@ -6,6 +6,9 @@ import { ifDefined } from 'lit/directives/if-defined.js';
  * sits raised over a plate: it lifts 1px on hover and presses flush on click. Renders a
  * link when `href` is set.
  *
+ * An icon-only button needs a name: set `label`, or `aria-label` on the element (it is moved to
+ * the native button). Add `icon` to make it square. `ht-split-button` joins two of these into one key.
+ *
  * @tag ht-button
  * @summary Action control. Submits or resets its form like a native button, or navigates when `href` is set.
  *
@@ -39,6 +42,10 @@ export class HtButton extends LitElement {
     block: { type: Boolean, reflect: true },
     /** Fills its container's height with no lift. Set automatically by `ht-dialog` footers. */
     flush: { type: Boolean, reflect: true },
+    /** Makes the button square, for an icon with no text. Give it a `label`. */
+    icon: { type: Boolean, reflect: true },
+    /** Accessible name, for an icon-only button. A host `aria-label` is moved here. */
+    label: {},
   };
 
   declare variant: 'primary' | 'default' | 'danger' | 'quiet';
@@ -49,8 +56,39 @@ export class HtButton extends LitElement {
   declare target: string;
   declare block: boolean;
   declare flush: boolean;
+  declare icon: boolean;
+  declare label: string;
 
   #internals = this.attachInternals();
+
+  // ARIA that other components write on the host, such as `ht-menu` (`aria-haspopup`, `aria-expanded`)
+  // on its trigger. A generic host cannot carry them, so they are moved to the native button.
+  static #moved = ['aria-label', 'aria-haspopup', 'aria-expanded'];
+  #aria = new Map<string, string>();
+  #observer = new MutationObserver(() => this.#takeAria());
+
+  #takeAria() {
+    let changed = false;
+    for (const name of HtButton.#moved) {
+      const v = this.getAttribute(name);
+      if (v === null) continue;
+      this.#aria.set(name, v);
+      this.removeAttribute(name);
+      changed = true;
+    }
+    if (changed) this.requestUpdate();
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    this.#takeAria();
+    this.#observer.observe(this, { attributes: true, attributeFilter: HtButton.#moved });
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this.#observer.disconnect();
+  }
 
   constructor() {
     super();
@@ -62,6 +100,8 @@ export class HtButton extends LitElement {
     this.target = '';
     this.block = false;
     this.flush = false;
+    this.icon = false;
+    this.label = '';
     // On the host, so a programmatic `el.click()` also submits or resets the form.
     this.addEventListener('click', this.#onClick);
   }
@@ -80,6 +120,8 @@ export class HtButton extends LitElement {
     :host([disabled]) { opacity: 0.55; }
     :host([block]) { display: block; }
     :host([block]) .btn { display: flex; width: 100%; }
+    :host([icon]) { --_px: 0; }
+    :host([icon]) .btn { width: var(--_h); }
 
     :host([variant='primary']) {
       --_fg: var(--ht-accent-ink);
@@ -164,6 +206,15 @@ export class HtButton extends LitElement {
       border: 2px dotted var(--_dotted);
     }
 
+    /* Joined to a neighbour (set by \`ht-split-button\`): the joined side is square. The start segment
+       drops its left border, so the end segment's right border is the one line between them. A joined
+       key rises above its neighbour while hovered or focused, so its focus ring is not cut off. */
+    :host([data-join]) { position: relative; }
+    :host([data-join]:hover), :host([data-join]:focus-within) { z-index: 1; }
+    :host([data-join='end']) .btn { border-radius: var(--ht-radius-md) 0 0 var(--ht-radius-md); }
+    :host([data-join='start']) .btn { border-radius: 0 var(--ht-radius-md) var(--ht-radius-md) 0; }
+    :host([data-join='start']) .btn::after { border-left-width: 0; }
+
     /* quiet: flat, tint on hover, no plate */
     :host([variant='quiet']) .btn {
       --_fg: var(--ht-text-muted);
@@ -221,6 +272,9 @@ export class HtButton extends LitElement {
   };
 
   render() {
+    const label = this.label || this.#aria.get('aria-label') || undefined;
+    const haspopup = this.#aria.get('aria-haspopup');
+    const expanded = this.#aria.get('aria-expanded');
     const content = html`<span part="label" class="label"
       ><slot name="prefix"></slot><slot></slot><slot name="suffix"></slot
     ></span>`;
@@ -232,10 +286,21 @@ export class HtButton extends LitElement {
         href=${this.href}
         target=${ifDefined(this.target || undefined)}
         rel=${ifDefined(rel)}
+        aria-label=${ifDefined(label)}
         >${content}</a
       >`;
     }
-    return html`<button part="base" class="btn" type="button" ?disabled=${this.disabled}>${content}</button>`;
+    return html`<button
+      part="base"
+      class="btn"
+      type="button"
+      ?disabled=${this.disabled}
+      aria-label=${ifDefined(label)}
+      aria-haspopup=${ifDefined(haspopup)}
+      aria-expanded=${ifDefined(expanded)}
+    >
+      ${content}
+    </button>`;
   }
 }
 

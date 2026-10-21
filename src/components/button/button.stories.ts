@@ -57,6 +57,19 @@ export const WithIcons: StoryObj = {
   `,
 };
 
+/** Icon-only buttons: `icon` makes them square, and `label` is their accessible name. */
+export const IconOnly: StoryObj = {
+  render: () => html`
+    <div style="display:flex;gap:8px;align-items:center">
+      <ht-button variant="default" icon label="Subscribe"><ht-icon name="bell" weight="bold"></ht-icon></ht-button>
+      <ht-button variant="default" icon label="Share"><ht-icon name="arrow-up" weight="bold"></ht-icon></ht-button>
+      <ht-button variant="default" icon label="More actions"><ht-icon name="dots-three" weight="bold"></ht-icon></ht-button>
+      <ht-button variant="primary" icon size="sm" label="Add"><ht-icon name="plus" weight="bold"></ht-icon></ht-button>
+      <ht-button variant="quiet" icon label="Close"><ht-icon name="x" weight="bold"></ht-icon></ht-button>
+    </div>
+  `,
+};
+
 /** With `href` the button renders a real link. */
 export const AsLink: StoryObj = {
   render: () => html`<ht-button href="https://sentry.io" target="_blank" variant="default">Open Docs</ht-button>`,
