@@ -9,6 +9,10 @@ const ALERT = html`<svg width="28" height="28" viewBox="0 0 256 256" fill="curre
  * Use one primary action. In the `error` tone there is no stage and the default graphic is the
  * alert icon, because an error should not be playful.
  *
+ * A faint spotlight follows the pointer over the whole block, revealing the dot screen and an accent
+ * glow behind the content, like `ht-spotlight`. It is decoration only: it ignores touch, it is off
+ * under reduced motion and in the `error` tone, and `no-spotlight` turns it off.
+ *
  * @tag ht-empty-state
  * @summary Empty or error state.
  *
@@ -19,6 +23,7 @@ const ALERT = html`<svg width="28" height="28" viewBox="0 0 256 256" fill="curre
  *
  * @csspart base - The whole block.
  * @csspart stage - The area behind the graphic.
+ * @csspart spotlight - The pointer glow behind the content.
  * @csspart heading - The heading.
  * @csspart description - The description.
  * @csspart actions - The actions row.
@@ -33,6 +38,8 @@ export class HtEmptyState extends LitElement {
     tone: { reflect: true },
     /** Heading level announced to screen readers, 1 to 6. */
     level: { type: Number },
+    /** Turns off the pointer spotlight. */
+    noSpotlight: { type: Boolean, attribute: 'no-spotlight', reflect: true },
     _hasActions: { state: true },
   };
 
@@ -40,6 +47,7 @@ export class HtEmptyState extends LitElement {
   declare description: string;
   declare tone: 'default' | 'error';
   declare level: number;
+  declare noSpotlight: boolean;
   declare _hasActions: boolean;
 
   constructor() {
@@ -48,12 +56,32 @@ export class HtEmptyState extends LitElement {
     this.description = '';
     this.tone = 'default';
     this.level = 2;
+    this.noSpotlight = false;
     this._hasActions = false;
+    this.addEventListener('pointermove', this.#move);
+    this.addEventListener('pointerleave', this.#leave);
   }
+
+  #move = (e: PointerEvent) => {
+    if (e.pointerType === 'touch' || this.noSpotlight || this.tone === 'error') return;
+    const spot = this.renderRoot.querySelector<HTMLElement>('.spot');
+    if (!spot) return;
+    const r = this.getBoundingClientRect();
+    spot.style.setProperty('--_x', `${e.clientX - r.left}px`);
+    spot.style.setProperty('--_y', `${e.clientY - r.top}px`);
+    spot.classList.add('on');
+  };
+
+  #leave = () => {
+    this.renderRoot.querySelector('.spot')?.classList.remove('on');
+  };
 
   static styles = css`
     :host { display: block; }
     .base {
+      position: relative;
+      isolation: isolate;
+      border-radius: inherit;
       box-sizing: border-box;
       display: flex;
       flex-direction: column;
@@ -64,6 +92,29 @@ export class HtEmptyState extends LitElement {
       color: var(--ht-text);
       font: 400 0.875rem/1.5 var(--ht-font-ui);
     }
+    /* The spotlight sits behind the content: the dot screen and a faint accent glow under the pointer. */
+    .spot {
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      border-radius: inherit;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 200ms var(--ht-ease);
+      background:
+        radial-gradient(circle 220px at var(--_x, 50%) var(--_y, 50%), color-mix(in oklab, var(--ht-accent) 10%, transparent), transparent 70%);
+    }
+    .spot::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: var(--ht-halftone-stage);
+      -webkit-mask-image: radial-gradient(circle 220px at var(--_x, 50%) var(--_y, 50%), #000, transparent);
+      mask-image: radial-gradient(circle 220px at var(--_x, 50%) var(--_y, 50%), #000, transparent);
+    }
+    .spot.on { opacity: 1; }
+    :host([tone='error']) .spot, :host([no-spotlight]) .spot { display: none; }
     /* The graphic sits on a dot screen that fades to nothing, like a halftone print. */
     .stage {
       position: relative;
@@ -101,12 +152,13 @@ export class HtEmptyState extends LitElement {
     .description { margin: 0; color: var(--ht-text-muted); }
     .actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
     [hidden] { display: none !important; }
-    @media (prefers-reduced-motion: reduce) { .dots { animation: none; } }
+    @media (prefers-reduced-motion: reduce) { .dots { animation: none; } .spot { display: none; } }
   `;
 
   render() {
     return html`
       <div part="base" class="base">
+        <div part="spotlight" class="spot" aria-hidden="true"></div>
         <div part="stage" class="stage">
           <span class="dots"></span>
           <span class="graphic" aria-hidden="true"><slot name="graphic">${this.tone === 'error' ? ALERT : INBOX}</slot></span>

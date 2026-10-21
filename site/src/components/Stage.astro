@@ -1,13 +1,26 @@
 ---
-// A stage: the dot screen fades out behind live components. See the dot screen page for the rules.
+// A stage: the dot screen fades out behind live components, and a spotlight follows the pointer over it.
+// Set spotlight={false} when the content has its own spotlight (ht-empty-state does). See the dot screen page.
+interface Props {
+  spotlight?: boolean;
+}
+const { spotlight = true } = Astro.props;
+const Wrap = spotlight ? 'ht-spotlight' : 'div';
 ---
 
-<div class="stage not-content">
-  <div class="dots" aria-hidden="true"></div>
-  <slot />
-</div>
+<Wrap class="stage-wrap not-content">
+  <div class="stage not-content">
+    <div class="dots" aria-hidden="true"></div>
+    <slot />
+  </div>
+</Wrap>
 
 <style>
+  .stage-wrap {
+    display: block;
+    margin-block: 1.5rem;
+    border-radius: 14px;
+  }
   .stage {
     position: relative;
     isolation: isolate;
@@ -18,7 +31,6 @@
     align-items: flex-start;
     justify-content: center;
     padding: 2.5rem 1.5rem;
-    margin-block: 1.5rem;
     background: var(--ht-surface-muted);
     border: 1px solid var(--sl-color-hairline);
     border-radius: 14px;

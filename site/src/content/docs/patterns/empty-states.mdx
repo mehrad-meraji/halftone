@@ -11,7 +11,7 @@ An empty state tells someone why there is nothing here and what to do about it. 
 
 ## Try it
 
-<Stage>
+<Stage spotlight={false}>
   <ht-empty-state heading="No monitors yet" description="A monitor checks a URL on a schedule and tells you when it stops answering. Add one to get started.">
     <ht-button slot="actions" variant="primary">Add Monitor</ht-button>
     <ht-button slot="actions" variant="default">Learn More</ht-button>
@@ -35,7 +35,7 @@ An empty state tells someone why there is nothing here and what to do about it. 
 
 When something went wrong, use `tone="error"`. There is no dot screen, the graphic is the alert icon, and the copy is plain.
 
-<Stage>
+<Stage spotlight={false}>
   <ht-empty-state tone="error" heading="Monitors could not be loaded" description="Something went wrong on our side. Try again in a minute.">
     <ht-button slot="actions" variant="default">Try Again</ht-button>
   </ht-empty-state>
