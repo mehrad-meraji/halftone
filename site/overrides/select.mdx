@@ -106,7 +106,7 @@ Set `label` on a rich option. The trigger and typeahead show that short text ins
 
 ## When to use it
 
-<div class="dodont">
+<div class="dodont not-content">
   <div class="start-card" style="min-height:0">
     <span><span class="t">Use a select to</span><span class="d">Pick one value from five to fifteen options people scan by name. Save space when all the options do not need to be visible. Submit a value with a form, or restore one on reset.</span></span>
   </div>
@@ -117,21 +117,21 @@ Set `label` on a rich option. The trigger and typeahead show that short text ins
 
 ## Do and don't
 
-<div class="dodont">
+<div class="dodont not-content">
   <figure class="rule">
-    <div class="rule-stage"><ht-select label="Role" placeholder="Choose a role"><ht-option value="viewer">Viewer</ht-option></ht-select></div>
+    <div class="rule-stage not-content"><ht-select label="Role" placeholder="Choose a role"><ht-option value="viewer">Viewer</ht-option></ht-select></div>
     <figcaption><span class="tag">Do</span>Keep a visible label above the select, even when a placeholder says the same thing.</figcaption>
   </figure>
   <figure class="rule">
-    <div class="rule-stage"><ht-select aria-label="Role" placeholder="Choose a role"><ht-option value="viewer">Viewer</ht-option></ht-select></div>
+    <div class="rule-stage not-content"><ht-select aria-label="Role" placeholder="Choose a role"><ht-option value="viewer">Viewer</ht-option></ht-select></div>
     <figcaption><span class="tag dont">Don't</span>Do not use a placeholder as the only label. It disappears once someone chooses.</figcaption>
   </figure>
   <figure class="rule">
-    <div class="rule-stage"><ht-select label="Role" value="contributor"><ht-option value="contributor" label="Contributor"><strong>Contributor</strong><div style="font-size:12px">Can view and edit project content</div></ht-option></ht-select></div>
+    <div class="rule-stage not-content"><ht-select label="Role" value="contributor"><ht-option value="contributor" label="Contributor"><strong>Contributor</strong><div style="font-size:12px">Can view and edit project content</div></ht-option></ht-select></div>
     <figcaption><span class="tag">Do</span>Set `label` on a rich option so the trigger shows a short name.</figcaption>
   </figure>
   <figure class="rule">
-    <div class="rule-stage"><ht-select label="Role" value="contributor"><ht-option value="contributor"><strong>Contributor</strong><div style="font-size:12px">Can view and edit project content</div></ht-option></ht-select></div>
+    <div class="rule-stage not-content"><ht-select label="Role" value="contributor"><ht-option value="contributor"><strong>Contributor</strong><div style="font-size:12px">Can view and edit project content</div></ht-option></ht-select></div>
     <figcaption><span class="tag dont">Don't</span>Do not let the trigger show two lines of description. It truncates and loses meaning.</figcaption>
   </figure>
 </div>
