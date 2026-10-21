@@ -102,16 +102,17 @@ export class HtEmptyState extends LitElement {
       opacity: 0;
       transition: opacity 200ms var(--ht-ease);
       background:
-        radial-gradient(circle 220px at var(--_x, 50%) var(--_y, 50%), color-mix(in oklab, var(--ht-accent) 10%, transparent), transparent 70%);
+        radial-gradient(circle 300px at var(--_x, 50%) var(--_y, 50%), color-mix(in oklab, var(--ht-accent) 20%, transparent), transparent 70%);
     }
     .spot::after {
       content: '';
       position: absolute;
       inset: 0;
       border-radius: inherit;
+      opacity: 0.75; /* a little softer, so the muted description keeps its contrast under the glow */
       background: var(--ht-halftone-stage);
-      -webkit-mask-image: radial-gradient(circle 220px at var(--_x, 50%) var(--_y, 50%), #000, transparent);
-      mask-image: radial-gradient(circle 220px at var(--_x, 50%) var(--_y, 50%), #000, transparent);
+      -webkit-mask-image: radial-gradient(circle 300px at var(--_x, 50%) var(--_y, 50%), #000, transparent);
+      mask-image: radial-gradient(circle 300px at var(--_x, 50%) var(--_y, 50%), #000, transparent);
     }
     .spot.on { opacity: 1; }
     :host([tone='error']) .spot, :host([no-spotlight]) .spot { display: none; }

@@ -9,7 +9,7 @@ const meta: Meta = {
   component: 'ht-spotlight',
   tags: ['autodocs'],
   argTypes: { size: { control: 'number' } },
-  args: { size: 200 },
+  args: { size: 280 },
   render: (a) => html`
     <ht-spotlight size=${a.size} style="width:360px;border-radius:var(--ht-radius-lg)">
       <div style=${card}>
@@ -21,7 +21,7 @@ const meta: Meta = {
 export default meta;
 
 export const Default: StoryObj = {};
-export const Large: StoryObj = { args: { size: 320 } };
+export const Large: StoryObj = { args: { size: 400 } };
 
 /** A grid of spotlights, each one following its own pointer. */
 export const Grid: StoryObj = {
