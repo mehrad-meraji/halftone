@@ -34,6 +34,17 @@ for(const th of ['light','dark']){const t=T[th];
  add('focus ring vs surface (non-text)',(th==='light'?[0.5,0.108,273]:[0.75,0.113,273]),t.surface,3);
  add('field border vs surface (non-text)',t.borderInput,t.surface,3);
 }
+// Generated avatar palette (PALETTE and INK in src/components/avatar/avatar.ts). Hex, not oklch, and theme-free, so one row per pair.
+// Keep in step with the file. Non-text pairs need 3:1, eyes and mouth (ink on the mid tier) 4.5:1. Every hue against every hue.
+const hexLum=h=>{const c=[1,3,5].map(i=>parseInt(h.slice(i,i+2),16)/255).map(v=>v<=0.04045?v/12.92:((v+0.055)/1.055)**2.4);return 0.2126*c[0]+0.7152*c[1]+0.0722*c[2]};
+const hexRatio=(a,b)=>{const[x,y]=[hexLum(a),hexLum(b)].sort((p,q)=>q-p);return (x+0.05)/(y+0.05)};
+const AV=[['#feebea','#dd5559','#791920'],['#feece1','#cb6800','#673200'],['#faefd6','#a27e03','#533f03'],['#e2f7e2','#229633','#025112'],['#d7f8f5','#06928c','#044d4a'],['#e6f2fe','#0986e4','#024478'],['#f1edfe','#916ee2','#492e7f'],['#feeaf2','#d15697','#711a4c']];
+const AV_INK='#0b0c1a';
+const avMin=(name,min,f,note='')=>{let m=Infinity;for(const a of AV)for(const b of AV)m=Math.min(m,f(a,b));rows.push(['avatar',name+note,m.toFixed(2),m>=min?'ok':'FAIL (<'+min+')'])};
+avMin('deep on bg (non-text), worst hue pair',3,(a,b)=>hexRatio(b[2],a[0]));
+avMin('mid on bg (non-text), worst hue pair',3,(a,b)=>hexRatio(b[1],a[0]));
+avMin('ink on mid (eyes, mouth), worst hue',4.5,(a,b)=>hexRatio(AV_INK,b[1]));
+avMin('mid vs deep in one figure, worst hue pair',1,(a,b)=>hexRatio(a[1],b[2]),' (informational, not held)');
 for(const r of rows)console.log(r.join(' | '));
 
 console.log('sanity (axe measured 3.43 for #fcfcfc on #ed5350):', ratio([.99,0,0],[.65,.19,25]).toFixed(2));
