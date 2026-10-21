@@ -1,0 +1,126 @@
+---
+// The docs design's header: logo, top navigation, search, GitHub and a light/dark toggle.
+import config from 'virtual:starlight/user-config';
+import Search from 'virtual:starlight/components/Search';
+import SiteTitle from 'virtual:starlight/components/SiteTitle';
+import SocialIcons from 'virtual:starlight/components/SocialIcons';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const path = Astro.url.pathname;
+const nav = [
+  { label: 'Getting started', href: `${base}/getting-started/about/`, section: `${base}/getting-started/` },
+  { label: 'Foundations', href: `${base}/foundations/color/`, section: `${base}/foundations/` },
+  { label: 'Components', href: `${base}/components/`, section: `${base}/components/` },
+].map((n) => ({ ...n, current: path.startsWith(n.section) }));
+---
+
+<div class="header">
+  <div class="title-wrapper sl-flex"><SiteTitle /></div>
+  <nav class="top-nav" aria-label="Primary">
+    {nav.map((n) => <a href={n.href} aria-current={n.current ? 'page' : undefined}>{n.label}</a>)}
+  </nav>
+  <div class="search sl-flex print:hidden">{config.pagefind && <Search />}</div>
+  <div class="right sl-flex print:hidden">
+    <SocialIcons />
+    <button type="button" id="halftone-theme" aria-label="Switch theme">
+      <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg>
+      <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+  const button = document.getElementById('halftone-theme');
+  const label = () => (document.documentElement.dataset.theme === 'dark' ? 'Switch to the light theme' : 'Switch to the dark theme');
+  button?.setAttribute('aria-label', label());
+  button?.addEventListener('click', () => {
+    const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+    document.documentElement.dataset.theme = next;
+    try {
+      localStorage.setItem('starlight-theme', next);
+    } catch {
+      /* private mode: the choice lasts for this page only */
+    }
+    button.setAttribute('aria-label', label());
+  });
+</script>
+
+<style>
+  @layer starlight.core {
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 1.75rem;
+      height: 100%;
+    }
+    .title-wrapper {
+      min-width: 0;
+      flex: none;
+    }
+    .top-nav {
+      display: none;
+      gap: 0.125rem;
+      align-self: stretch;
+    }
+    @media (min-width: 50rem) {
+      .top-nav {
+        display: flex;
+      }
+    }
+    .top-nav a {
+      display: flex;
+      align-items: center;
+      padding: 0 0.75rem;
+      font-size: 0.9375rem;
+      text-decoration: none;
+      color: var(--ht-text-muted);
+      border-bottom: 2px solid transparent;
+      border-top: 2px solid transparent;
+    }
+    .top-nav a:hover {
+      color: var(--ht-text);
+    }
+    .top-nav a[aria-current='page'] {
+      font-weight: 600;
+      color: var(--ht-text);
+      border-bottom-color: var(--ht-accent);
+    }
+    .search {
+      margin-inline-start: auto;
+    }
+    .right {
+      gap: 0.5rem;
+      align-items: center;
+    }
+    .right :global(.social-icons) {
+      display: flex;
+    }
+    #halftone-theme {
+      all: unset;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      width: 2.25rem;
+      height: 2.25rem;
+      border-radius: var(--ht-radius-md);
+      color: var(--ht-text-muted);
+    }
+    #halftone-theme:hover {
+      color: var(--ht-text);
+      background: var(--ht-surface-sunken);
+    }
+    #halftone-theme:focus-visible {
+      outline: 2px solid var(--ht-focus);
+      outline-offset: 2px;
+    }
+    .icon-sun {
+      display: none;
+    }
+    :global(:root[data-theme='dark']) .icon-sun {
+      display: block;
+    }
+    :global(:root[data-theme='dark']) .icon-moon {
+      display: none;
+    }
+  }
+</style>

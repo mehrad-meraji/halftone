@@ -103,6 +103,7 @@ for (const [folder, decls] of [...folders.entries()].sort(([a], [b]) => a.locale
     '---',
     `title: ${JSON.stringify(title)}`,
     `description: ${JSON.stringify(summary || `The ${main.tagName} element.`)}`,
+    `chips: ${JSON.stringify([...decls.map((d) => d.tagName).slice(0, 3), ...(badge ? [badge.text] : [])])}`,
     badge ? `sidebar:\n  badge:\n    text: ${JSON.stringify(badge.text)}\n    variant: ${badge.variant}` : null,
     '---',
   ]

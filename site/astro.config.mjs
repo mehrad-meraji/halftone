@@ -7,6 +7,8 @@ const base = process.env.BASE_PATH ?? '/';
 export default defineConfig({
   site: process.env.SITE_URL ?? 'https://mehrad-meraji.github.io',
   base,
+  // The first screen is the About page, as in the design.
+  redirects: { '/': `${base.replace(/\/$/, '')}/getting-started/about/` },
   vite: {
     // The docs load Halftone straight from ../src, so examples always show the current source.
     server: { fs: { allow: ['..'] } },
@@ -19,7 +21,13 @@ export default defineConfig({
       social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/mehrad-meraji/halftone' }],
       editLink: { baseUrl: 'https://github.com/mehrad-meraji/halftone/edit/main/site/src/content/docs/' },
       customCss: ['./src/styles/theme.css'],
-      components: { Head: './src/components/Head.astro' },
+      components: {
+        Head: './src/components/Head.astro',
+        Header: './src/components/Header.astro',
+        PageTitle: './src/components/PageTitle.astro',
+        PageSidebar: './src/components/PageSidebar.astro',
+        Footer: './src/components/Footer.astro',
+      },
       head: [
         { tag: 'link', attrs: { rel: 'preconnect', href: 'https://fonts.googleapis.com' } },
         { tag: 'link', attrs: { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' } },
