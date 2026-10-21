@@ -18,7 +18,7 @@ import { styleMap } from 'lit/directives/style-map.js';
  */
 export class HtSpotlight extends LitElement {
   static properties = {
-    /** Radius of the spotlight in pixels. */
+    /** Radius of the spotlight in pixels (default 280). */
     size: { type: Number },
   };
 
@@ -26,7 +26,7 @@ export class HtSpotlight extends LitElement {
 
   constructor() {
     super();
-    this.size = 200;
+    this.size = 280;
     this.addEventListener('pointermove', this.#move);
     this.addEventListener('pointerleave', this.#leave);
   }
@@ -54,10 +54,11 @@ export class HtSpotlight extends LitElement {
       border-radius: inherit;
     }
     .glow {
-      background: radial-gradient(circle var(--_size) at var(--_x, 50%) var(--_y, 50%), color-mix(in oklab, var(--ht-accent) 12%, transparent), transparent 70%);
+      background: radial-gradient(circle var(--_size) at var(--_x, 50%) var(--_y, 50%), color-mix(in oklab, var(--ht-accent) 20%, transparent), transparent 70%);
     }
     /* The mask only sets where the dots show, so its colour is irrelevant. */
     .dots {
+      opacity: 0.6; /* a little softer than a header strip, so text under the glow keeps its contrast */
       background: var(--ht-halftone);
       -webkit-mask-image: radial-gradient(circle var(--_size) at var(--_x, 50%) var(--_y, 50%), black, transparent);
       mask-image: radial-gradient(circle var(--_size) at var(--_x, 50%) var(--_y, 50%), black, transparent);
