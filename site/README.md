@@ -17,4 +17,4 @@ npm run build    # static files in site/dist
 
 ## Gotcha: wrap layout blocks in `not-content`
 
-Starlight puts a `margin-top: 1rem` on every element that follows a sibling inside page content. In a flex row or a grid that pushes every item but the first down by 16px, so buttons and columns misalign. Any raw layout block or demo in an `.mdx` page gets the `not-content` class (`Stage`, `FormDemo` and `OverlayDemo` already have it; so do `.get-grid`, `.start-cards` and `.dodont`).
+Starlight puts a `margin-top: 1rem` on every element that follows a sibling inside page content. In a flex row or a grid that pushes every item but the first down by 16px, so buttons and columns misalign. A global rule in `theme.css` now resets that margin for any container whose inline style is `display:flex` or `display:grid`, and for the `.swatches`, `.example`, `.get-grid`, `.start-cards` and `.dodont` grids, so a new raw block needs nothing extra. Anything else that is laid out by a class (not an inline style) gets the `not-content` class (`Stage`, `FormDemo` and `OverlayDemo` already have it; so do `.get-grid`, `.start-cards` and `.dodont`).
