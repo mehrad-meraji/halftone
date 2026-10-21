@@ -1,0 +1,60 @@
+---
+// One of each overlay, all live. The dialog holds a select: its list opens above the dialog.
+---
+
+<div class="overlay-demo">
+  <ht-button variant="primary" data-open="dialog">Dialog</ht-button>
+  <ht-button variant="default" data-open="alert">Alert dialog</ht-button>
+  <ht-button variant="default" data-open="sheet">Sheet</ht-button>
+  <ht-popover placement="bottom-start" arrow label="Project details">
+    <ht-button variant="default">Popover</ht-button>
+    <div slot="content"><strong>sentinel</strong><p style="margin:4px 0 0">Non-modal. Focus moves in, and Escape puts it back.</p></div>
+  </ht-popover>
+  <ht-menu placement="bottom-start" label="Actions">
+    <ht-button slot="trigger" variant="default">Menu</ht-button>
+    <ht-menu-item>Rename</ht-menu-item>
+    <ht-menu-item>Duplicate</ht-menu-item>
+    <ht-menu-separator></ht-menu-separator>
+    <ht-menu-item danger>Delete</ht-menu-item>
+  </ht-menu>
+  <ht-tooltip text="A short label. Never the only place for required information.">
+    <ht-button variant="default">Tooltip</ht-button>
+  </ht-tooltip>
+  <ht-button variant="default" data-open="toast">Toast</ht-button>
+
+  <ht-dialog id="demo-dialog" heading="Add Member" eyebrow="Project">
+    <ht-select label="Role" placeholder="Choose a role">
+      <ht-option value="viewer">Viewer</ht-option>
+      <ht-option value="contributor">Contributor</ht-option>
+      <ht-option value="manager">Manager</ht-option>
+    </ht-select>
+    <ht-button slot="footer" variant="primary" data-close="dialog">Add</ht-button>
+    <ht-button slot="footer" variant="default" data-close="dialog">Cancel</ht-button>
+  </ht-dialog>
+  <ht-alert-dialog id="demo-alert" heading="Delete sentinel?" eyebrow="Danger zone" tone="danger" description="This removes the project and its 4,212 open issues. It cannot be undone." confirm-label="Delete It" cancel-label="Keep It"></ht-alert-dialog>
+  <ht-sheet id="demo-sheet" side="right" heading="Filters" eyebrow="Issues">Nothing to filter in a demo.</ht-sheet>
+</div>
+
+<script>
+  import { toast } from '../../../src/components/toast/toast.ts';
+  const root = document.querySelector('.overlay-demo');
+  root?.querySelectorAll<HTMLElement>('[data-open]').forEach((b) =>
+    b.addEventListener('click', () => {
+      const k = b.dataset.open;
+      if (k === 'toast') return void toast({ title: 'Deploy finished', message: 'sentinel is live on 3 environments.', tone: 'success' });
+      (root.querySelector(`#demo-${k}`) as unknown as { show(): void }).show();
+    }),
+  );
+  root?.querySelectorAll<HTMLElement>('[data-close]').forEach((b) =>
+    b.addEventListener('click', () => (root.querySelector('#demo-dialog') as unknown as { close(): void }).close()),
+  );
+</script>
+
+<style>
+  .overlay-demo {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+  }
+</style>

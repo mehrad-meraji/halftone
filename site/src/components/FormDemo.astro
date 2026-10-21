@@ -1,0 +1,54 @@
+---
+// A real form with Halftone fields. Submit shows what the browser would send.
+---
+
+<form class="form-demo" novalidate>
+  <ht-input name="project" label="Project Name" helper="Shown in the sidebar." value="sentinel" required></ht-input>
+  <ht-select name="region" label="Region" placeholder="Choose a region" required>
+    <ht-option value="us">United States</ht-option>
+    <ht-option value="eu">European Union</ht-option>
+  </ht-select>
+  <ht-switch name="alerts" checked>Email alerts</ht-switch>
+  <div class="row">
+    <ht-button type="submit" variant="primary">Save</ht-button>
+    <ht-button type="reset" variant="default">Reset</ht-button>
+  </div>
+  <pre class="out" aria-live="polite">Submit to see the form data.</pre>
+</form>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>('.form-demo').forEach((form) => {
+    const out = form.querySelector('.out')!;
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (!form.reportValidity()) {
+        out.textContent = 'Not submitted: a required field is empty.';
+        return;
+      }
+      out.textContent = JSON.stringify(Object.fromEntries(new FormData(form)), null, 2);
+    });
+    form.addEventListener('reset', () => (out.textContent = 'Reset: every field is back to its starting value.'));
+  });
+</script>
+
+<style>
+  .form-demo {
+    display: grid;
+    gap: 1rem;
+    max-width: 22rem;
+  }
+  .row {
+    display: flex;
+    gap: 0.5rem;
+  }
+  .out {
+    margin: 0;
+    padding: 0.75rem 1rem;
+    font: 400 0.75rem/1.5 var(--ht-font-mono);
+    color: var(--ht-text-muted);
+    background: var(--ht-surface-muted);
+    border: 1px solid var(--sl-color-hairline);
+    border-radius: var(--ht-radius-md);
+    white-space: pre-wrap;
+  }
+</style>

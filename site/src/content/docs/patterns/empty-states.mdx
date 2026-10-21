@@ -1,0 +1,48 @@
+---
+title: Empty states
+description: What to show when a list, table or page has nothing in it yet.
+sidebar:
+  order: 3
+---
+
+import Stage from '../../../components/Stage.astro';
+
+An empty state tells someone why there is nothing here and what to do about it. Use [`ht-empty-state`](../../components/empty-state/).
+
+## Try it
+
+<Stage>
+  <ht-empty-state heading="No monitors yet" description="A monitor checks a URL on a schedule and tells you when it stops answering. Add one to get started.">
+    <ht-button slot="actions" variant="primary">Add Monitor</ht-button>
+    <ht-button slot="actions" variant="default">Learn More</ht-button>
+  </ht-empty-state>
+</Stage>
+
+## Write it
+
+- **Heading.** Say what is missing, or what to do: "No monitors yet". Not "Empty".
+- **Description.** One or two sentences: why it is empty, and the next step.
+- **One primary action.** At most one secondary, and it can be a link to learn more.
+- **Be kind.** Never make someone feel they missed something.
+
+## Show it
+
+- The graphic sits on a dot screen that fades out around it. The heading, description and buttons stay on the plain surface. See the [dot screen](../../foundations/dot-screen/) rules.
+- The graphic is decoration and is hidden from screen readers, so the heading must say it all.
+- Inside a card, leave out the card's own header strip decoration and let the empty state sit in the body.
+
+## Errors are not empty states
+
+When something went wrong, use `tone="error"`. There is no dot screen, the graphic is the alert icon, and the copy is plain.
+
+<Stage>
+  <ht-empty-state tone="error" heading="Monitors could not be loaded" description="Something went wrong on our side. Try again in a minute.">
+    <ht-button slot="actions" variant="default">Try Again</ht-button>
+  </ht-empty-state>
+</Stage>
+
+| Do | Don't |
+| --- | --- |
+| "No monitors yet" with an Add Monitor button | "Nothing here" with no way forward |
+| An alert icon and "Try again" for an error | A playful illustration on an error |
+| One primary action | Three buttons of equal weight |
