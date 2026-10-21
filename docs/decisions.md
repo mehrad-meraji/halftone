@@ -314,10 +314,14 @@ The first deploy of the Starlight site looked like stock Starlight with Halftone
 - **Pages**: the first screen is the About page (the root redirects to it, respecting the Pages base path). About has numbered columns and start cards. Select follows the design: Usage, Style, Code and Accessibility tabs, a variant switcher over a stage, do and don't cards, and an "HTML" code frame.
 - **Still not built**: Patterns and Resources in the top navigation (no pages yet), a full-width site footer (Starlight's footer lives in the content column), and the right rail changing per tab (it lists every heading).
 
+## 2026-10-21 — The switch's on track is the accent color
+The on state used `--ht-accent-soft` for the track, which was inferred from Sentry and never checked. With the white knob at the right it read as a checkbox with a pale smudge beside it, not as a switch. The on track is now `--ht-accent` (and loses its inset hairline). Measured with `scripts/contrast.mjs` (new rows): track against the page 4.93 to 1 in light and 3.45 in dark, knob against the track 5.54 and 3.22, tick on the knob 10.59 and 12.32; all pass the 3 to 1 non-text rule. Axe is clean on the 6 switch stories in light and dark. The off state, the knob, the hover lift and the spring are unchanged.
+
+Follow-up, same day: the off track stands out too, as a rail. There is no border on either state: a 2px inner shadow along the top (24% of the text color when off, 32% black when on) and a light lip under the bottom edge, so the track reads as a groove the knob slides in. Two earlier tries with a 1px outline were dropped: one stood out too much, and the softer one measured about 2 to 1 against the page. **Trade-off:** with no outline the track edge is carried by shadow only and has no 3 to 1 contrast measure. The state is still carried by the cross or tick in the knob (7.35 to 1 or better), the knob's own border and its position, and the accent fill when on. Axe was clean on the 6 switch stories in light and dark for the first outline version; it was not re-run after the rail, and axe does not check non-text contrast anyway.
+
 ## 2026-10-21 — Patterns and Resources sections, and a full-width footer
 The docs design had Patterns and Resources in its top navigation, so they now exist, with content taken from the repo:
 - **Patterns**: Forms (a live form: required blocks submit, `FormData`, reset; which element submits what), Overlays (one live demo of each overlay, a dialog with a select inside to show the top layer, and a table for choosing), and Empty states (the writing rules, and `tone="error"`).
 - **Resources**: Links, Accessibility checks (from `docs/a11y.md`), and a Decisions log page that the generator builds from `docs/decisions.md`, so it cannot drift.
 - **Footer**: Starlight's `PageFrame` is copied into `site/src/components/PageFrame.astro` with the site footer added at the bottom of the main column, so it spans the full width beside the sidebar. When Starlight is upgraded, compare the copy with the new default.
 - `docs/a11y.md` said `ht-select` uses the browser's own menu. That stopped being true with the custom list; the line is corrected.
-
