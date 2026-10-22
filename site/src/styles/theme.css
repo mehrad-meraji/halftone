@@ -567,3 +567,8 @@ starlight-tabs .tab {
 .sl-markdown-content :is([style*='display:flex'], [style*='display: flex'], [style*='display:grid'], [style*='display: grid'], [style*='display:inline-flex'], .swatches, .example, .get-grid, .start-cards, .dodont) > * {
   margin-top: 0;
 }
+
+/* The logo is pixel art: scale it without smoothing. */
+.site-title img {
+  image-rendering: pixelated;
+}
