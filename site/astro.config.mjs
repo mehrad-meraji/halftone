@@ -20,7 +20,8 @@ export default defineConfig({
     starlight({
       title: 'Halftone',
       description: 'Lit web components with ht- tags, styled by CSS variables. Works in any framework or none.',
-      logo: { light: './src/assets/logo-light.svg', dark: './src/assets/logo-dark.svg', alt: '' },
+      logo: { src: './src/assets/logo.png', alt: '' },
+      favicon: '/favicon.png',
       social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/mehrad-meraji/halftone' }],
       editLink: { baseUrl: 'https://github.com/mehrad-meraji/halftone/edit/main/site/src/content/docs/' },
       customCss: ['./src/styles/theme.css'],
