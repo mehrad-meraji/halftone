@@ -25,6 +25,12 @@ const STATUS = {
   toast: { text: 'Updated', variant: 'note' },
   alert: { text: 'New', variant: 'tip' },
   popover: { text: 'Updated', variant: 'note' },
+  banner: { text: 'Updated', variant: 'note' },
+  checkbox: { text: 'Updated', variant: 'note' },
+  icon: { text: 'Updated', variant: 'note' },
+  input: { text: 'Updated', variant: 'note' },
+  tag: { text: 'Updated', variant: 'note' },
+  toggle: { text: 'Updated', variant: 'note' },
 };
 
 const manifest = JSON.parse(readFileSync(join(repo, 'custom-elements.json'), 'utf8'));

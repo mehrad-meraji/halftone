@@ -9,11 +9,12 @@ const assets = join(root, 'node_modules/@phosphor-icons/core/assets');
 const WEIGHTS = ['regular', 'bold', 'fill'];
 
 const NAMES = `
-arrow-down arrow-left arrow-right arrow-square-out arrow-up arrow-up-right
+archive arrow-down arrow-left arrow-right arrow-square-out arrow-up arrow-up-right
 bell bug calendar caret-down caret-left caret-right caret-up check check-circle
 chat-circle clock cloud code copy dots-three download-simple envelope eye eye-slash
-flag funnel gear github-logo google-logo house info link list lock magnifying-glass
-minus pencil-simple plus question rocket sign-out star terminal trash user
+flag funnel gear github-logo google-logo house image info link list lock magnifying-glass
+minus paper-plane-tilt paperclip pencil-simple plus question rocket sign-out smiley sparkle
+squares-four star tag terminal trash upload-simple user
 warning warning-circle x x-circle
 `.trim().split(/\s+/);
 

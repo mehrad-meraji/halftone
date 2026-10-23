@@ -371,7 +371,7 @@
   <article class="inbox-reader" aria-labelledby="inbox-subject">
     <div class="inbox-tools">
       <ht-tooltip>
-        <ht-button variant="quiet" size="sm">Archive</ht-button>
+        <ht-button variant="quiet" size="sm"><ht-icon slot="prefix" name="archive"></ht-icon>Archive</ht-button>
         <span slot="content">Archive <ht-kbd keys="E"></ht-kbd></span>
       </ht-tooltip>
       <ht-tooltip>
@@ -451,7 +451,7 @@
       <ht-textarea name="body" aria-label="Reply to Grace Hopper" placeholder="Write a reply" rows="3" max-rows="10" autosize></ht-textarea>
       <div class="inbox-send">
         <ht-dropzone name="attachments" compact multiple aria-label="Attach files"></ht-dropzone>
-        <ht-button type="submit" variant="primary">Send</ht-button>
+        <ht-button type="submit" variant="primary"><ht-icon slot="prefix" name="paper-plane-tilt"></ht-icon>Send</ht-button>
       </div>
     </form>
   </article>

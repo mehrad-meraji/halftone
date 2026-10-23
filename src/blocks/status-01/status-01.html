@@ -31,19 +31,6 @@
       clip-path: inset(50%);
       white-space: nowrap;
     }
-    /* Actions sit in the message, not the action slot, so they wrap under the text on phones. */
-    [data-block='status-01'] .st-banner-body {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px 16px;
-    }
-    [data-block='status-01'] .st-banner-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
     [data-block='status-01'] .st-stats {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -188,13 +175,9 @@
   </div>
 
   <ht-banner tone="danger">
-    <span class="st-banner-body">
-      <span><strong>api-gateway is down</strong> · 12 min · Connection refused</span>
-      <span class="st-banner-actions">
-      <ht-button variant="default" size="xs">Acknowledge</ht-button>
-      <ht-button variant="default" size="xs" href="#">View Incident</ht-button>
-      </span>
-    </span>
+    <strong>api-gateway is down</strong> · 12 min · Connection refused
+    <ht-button slot="action" variant="default" size="xs">Acknowledge</ht-button>
+    <ht-button slot="action" variant="default" size="xs" href="#">View Incident</ht-button>
   </ht-banner>
 
   <h2 class="st-sr">Summary</h2>

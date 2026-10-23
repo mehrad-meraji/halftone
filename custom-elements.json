@@ -1093,6 +1093,10 @@
             {
               "description": "The bar.",
               "name": "base"
+            },
+            {
+              "description": "The row that holds the `action` slot.",
+              "name": "actions"
             }
           ],
           "slots": [
@@ -1101,7 +1105,7 @@
               "name": ""
             },
             {
-              "description": "Action button at the end of the bar.",
+              "description": "One or more action buttons at the end of the bar. On a narrow bar they wrap under the message.",
               "name": "action"
             },
             {
@@ -5634,11 +5638,6 @@
           ],
           "events": [
             {
-              "type": {
-                "text": "Event"
-              }
-            },
-            {
               "name": "ht-select",
               "type": {
                 "text": "CustomEvent"
@@ -6921,11 +6920,6 @@
           ],
           "events": [
             {
-              "type": {
-                "text": "Event"
-              }
-            },
-            {
               "description": "The panel opened, by any route. Does not bubble.",
               "name": "open"
             },
@@ -8125,11 +8119,6 @@
             }
           ],
           "events": [
-            {
-              "type": {
-                "text": "Event"
-              }
-            },
             {
               "name": "change",
               "type": {
@@ -10667,7 +10656,7 @@
               "type": {
                 "text": "boolean"
               },
-              "description": "Shrinks the track to its content instead of filling the width. Horizontal only.",
+              "description": "Shrinks the tab track to its content instead of filling the width. Panels keep the full width. Horizontal only.",
               "default": "false",
               "attribute": "fit",
               "reflects": true
@@ -10730,7 +10719,7 @@
               "type": {
                 "text": "boolean"
               },
-              "description": "Shrinks the track to its content instead of filling the width. Horizontal only.",
+              "description": "Shrinks the tab track to its content instead of filling the width. Panels keep the full width. Horizontal only.",
               "default": "false",
               "fieldName": "fit"
             },
@@ -10855,7 +10844,7 @@
         },
         {
           "kind": "class",
-          "description": "Content for one tab. Shown while the tab with the same `value` is selected.",
+          "description": "Content for one tab. Shown while the tab with the same `value` is selected.\n\nThe panel is a tab stop only when it holds nothing focusable, as the ARIA tabs pattern asks.\nWith a link, button or field inside, Tab goes from the tab straight to that control. Set\n`tabindex` yourself to override.",
           "name": "HtTabPanel",
           "slots": [
             {

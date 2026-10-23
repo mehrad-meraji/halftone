@@ -35,10 +35,6 @@
       white-space: nowrap;
     }
     /* The toggle sizes its prefix to 16px; centre the 8px dot in it. */
-    [data-block='log-viewer-01'] .lv-live {
-      display: grid;
-      place-items: center;
-    }
     [data-block='log-viewer-01'] .lv-query {
       display: flex;
       flex-wrap: wrap;
@@ -213,7 +209,7 @@
     <div class="lv-head">
       <h1 id="lv-title">Logs</h1>
       <ht-toggle variant="outline" size="sm" pressed>
-        <span slot="prefix" class="lv-live"><ht-ping tone="success" size="sm"></ht-ping></span>
+        <ht-ping slot="prefix" tone="success" size="sm"></ht-ping>
         Live
       </ht-toggle>
     </div>
