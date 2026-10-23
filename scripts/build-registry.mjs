@@ -1,9 +1,11 @@
 // Builds registry/registry.json: every component's source (TypeScript and a readable
-// JavaScript build with comments kept) plus tokens.css, for `halftone add` to copy.
-// Also enforces the copy-mode rule: a component file may import only `lit`.
+// JavaScript build with comments kept), every block (HTML and notes) and tokens.css, for
+// `halftone add` to copy. Also enforces the copy-mode rule: a component file may import only
+// `lit`, and the block rules in scripts/blocks.mjs.
 import { execFileSync } from 'node:child_process';
 import { mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { elementFolders, readBlocks } from './blocks.mjs';
 
 const root = new URL('..', import.meta.url).pathname;
 const pkg = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'));
@@ -39,6 +41,9 @@ for (const dir of readdirSync(join(root, 'src/components'), { withFileTypes: tru
   };
 }
 
+const { blocks, problems: blockProblems } = readBlocks(root, elementFolders(root));
+problems.push(...blockProblems);
+
 if (problems.length) {
   console.error(problems.join('\n'));
   process.exit(1);
@@ -49,9 +54,10 @@ const registry = {
   version: pkg.version,
   tokens: readFileSync(join(root, 'src/tokens/tokens.css'), 'utf8'),
   components,
+  blocks,
 };
 
 mkdirSync(join(root, 'registry'), { recursive: true });
 writeFileSync(join(root, 'registry/registry.json'), JSON.stringify(registry, null, 1));
 rmSync(jsDir, { recursive: true, force: true });
-console.log(`registry: ${Object.keys(components).length} components, v${pkg.version}`);
+console.log(`registry: ${Object.keys(components).length} components, ${Object.keys(blocks).length} blocks, v${pkg.version}`);

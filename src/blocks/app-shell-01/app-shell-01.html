@@ -1,0 +1,138 @@
+<div data-block="app-shell-01">
+  <style>
+    [data-block='app-shell-01'] {
+      display: flex;
+      height: 100vh;
+      background: var(--ht-bg);
+      font: 400 0.875rem/1.5 var(--ht-font-ui);
+      color: var(--ht-text);
+    }
+    [data-block='app-shell-01'] .shell-brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 6px;
+      font: 600 1rem/1.5rem var(--ht-font-display);
+    }
+    [data-block='app-shell-01'] .shell-user {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      min-width: 0;
+      padding: 4px 6px;
+      border: 0;
+      border-radius: var(--ht-radius-md);
+      background: none;
+      font: inherit;
+      color: inherit;
+      text-align: start;
+      cursor: pointer;
+    }
+    [data-block='app-shell-01'] .shell-user:hover {
+      background: color-mix(in oklab, var(--ht-text) 7.5%, transparent);
+    }
+    [data-block='app-shell-01'] .shell-user:focus-visible {
+      outline: 2px solid var(--ht-focus);
+      outline-offset: -1px;
+    }
+    [data-block='app-shell-01'] .shell-user span {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    [data-block='app-shell-01'] .shell-main {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    [data-block='app-shell-01'] .shell-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      height: 52px;
+      padding: 0 24px;
+      border-bottom: 1px solid var(--ht-border);
+    }
+    [data-block='app-shell-01'] .shell-bar ht-breadcrumb {
+      flex: 1;
+      min-width: 0;
+    }
+    [data-block='app-shell-01'] .shell-content {
+      flex: 1;
+      overflow: auto;
+      padding: 24px;
+    }
+    [data-block='app-shell-01'] .shell-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    [data-block='app-shell-01'] h1 {
+      margin: 0;
+      font: 600 1.5rem/1.2 var(--ht-font-display);
+    }
+    [data-block='app-shell-01'] .shell-head p {
+      margin: 4px 0 0;
+      color: var(--ht-text-muted);
+    }
+  </style>
+
+  <ht-sidebar label="Main" collapsible hotkey="mod+b">
+    <ht-sidebar-header>
+      <div class="shell-brand"><ht-icon name="rocket"></ht-icon><span data-expanded-only>Acme</span></div>
+    </ht-sidebar-header>
+    <ht-sidebar-group>
+      <ht-nav-item href="#" active><ht-icon slot="prefix" name="house"></ht-icon>Home</ht-nav-item>
+      <ht-nav-item href="#"><ht-icon slot="prefix" name="bell"></ht-icon>Inbox<ht-tag slot="suffix">4</ht-tag></ht-nav-item>
+      <ht-nav-item href="#"><ht-icon slot="prefix" name="magnifying-glass"></ht-icon>Search<ht-kbd slot="suffix" keys="⌘ K"></ht-kbd></ht-nav-item>
+    </ht-sidebar-group>
+    <ht-sidebar-group heading="Projects" collapsible>
+      <ht-nav-item href="#"><ht-icon slot="prefix" name="bug"></ht-icon>Issues</ht-nav-item>
+      <ht-nav-item href="#"><ht-icon slot="prefix" name="rocket"></ht-icon>Releases</ht-nav-item>
+      <ht-nav-item href="#"><ht-icon slot="prefix" name="flag"></ht-icon>Feature Flags</ht-nav-item>
+    </ht-sidebar-group>
+    <ht-sidebar-footer>
+      <ht-nav-item href="#"><ht-icon slot="prefix" name="gear"></ht-icon>Settings</ht-nav-item>
+      <ht-menu placement="top-start" label="Account">
+        <button slot="trigger" class="shell-user" type="button">
+          <ht-avatar size="sm" name="Ada Lovelace"></ht-avatar><span data-expanded-only>Ada Lovelace</span>
+        </button>
+        <ht-menu-label>ada@acme.dev</ht-menu-label>
+        <ht-menu-item><ht-icon slot="prefix" name="user"></ht-icon>Profile</ht-menu-item>
+        <ht-menu-item><ht-icon slot="prefix" name="gear"></ht-icon>Preferences</ht-menu-item>
+        <ht-menu-separator></ht-menu-separator>
+        <ht-menu-item danger><ht-icon slot="prefix" name="sign-out"></ht-icon>Sign Out</ht-menu-item>
+      </ht-menu>
+    </ht-sidebar-footer>
+  </ht-sidebar>
+
+  <div class="shell-main">
+    <header class="shell-bar">
+      <ht-button variant="quiet" size="sm" data-sidebar-toggle><ht-icon name="list" weight="bold" label="Toggle sidebar"></ht-icon></ht-button>
+      <ht-breadcrumb>
+        <ht-breadcrumb-item href="#">Acme</ht-breadcrumb-item>
+        <ht-breadcrumb-item href="#">Projects</ht-breadcrumb-item>
+        <ht-breadcrumb-item>Home</ht-breadcrumb-item>
+      </ht-breadcrumb>
+      <ht-button variant="default" size="sm"><ht-icon slot="prefix" name="chat-circle"></ht-icon>Feedback</ht-button>
+    </header>
+
+    <main class="shell-content">
+      <div class="shell-head">
+        <div>
+          <h1>Home</h1>
+          <p>Everything that happened while you were away.</p>
+        </div>
+        <ht-button variant="primary"><ht-icon slot="prefix" name="plus" weight="bold"></ht-icon>New Project</ht-button>
+      </div>
+      <ht-empty-state heading="No projects yet" description="Create a project to start collecting errors. It takes about a minute.">
+        <ht-button slot="actions" variant="primary">Create Project</ht-button>
+        <ht-button slot="actions" variant="default">Read the Docs</ht-button>
+      </ht-empty-state>
+    </main>
+  </div>
+</div>

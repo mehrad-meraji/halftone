@@ -80,7 +80,7 @@ test('unknown component fails with a hint', () => {
   const dir = project({ 'package.json': '{}' });
   const r = run(dir, 'add', 'not-a-component');
   assert.equal(r.status, 1);
-  assert.match(r.stderr, /unknown component: not-a-component/);
+  assert.match(r.stderr, /unknown component or block: not-a-component/);
 });
 
 test('--dir and --no-tokens are honoured', () => {
@@ -118,5 +118,48 @@ test('every packaged component imports only lit', () => {
   for (const [name, c] of Object.entries(reg.components)) {
     assert.deepEqual(c.dependencies, ['lit'], `${name} dependencies`);
     assert.ok(c.elements.length > 0, `${name} defines no elements`);
+  }
+});
+
+test('add <block> copies its HTML, notes and every component it uses', () => {
+  const dir = project({ 'package.json': '{"dependencies":{"lit":"^3"}}' });
+  const r = run(dir, 'add', 'login-01', '--js');
+  assert.equal(r.status, 0, r.stderr);
+  const html = readFileSync(join(dir, 'components/halftone/blocks/login-01.html'), 'utf8');
+  assert.match(html, /^<!-- Copied from @_mehrad\/halftone@/);
+  assert.match(html, /data-block="login-01"/);
+  assert.match(readFileSync(join(dir, 'components/halftone/blocks/login-01.md'), 'utf8'), /## When to use/);
+  for (const c of ['button', 'input', 'checkbox', 'separator', 'icon']) assert.ok(existsSync(join(dir, `components/halftone/${c}.js`)), c);
+  const cfg = JSON.parse(readFileSync(join(dir, 'halftone.json'), 'utf8'));
+  assert.ok(cfg.blocks['login-01']);
+  assert.ok(cfg.installed.button);
+  assert.equal(cfg.installed['login-01'], undefined);
+});
+
+test('show prints a block, list names it, diff checks it', () => {
+  const dir = project({ 'package.json': '{}' });
+  const shown = run(dir, 'show', 'dashboard-01');
+  assert.equal(shown.status, 0, shown.stderr);
+  assert.match(shown.stdout, /title: Dashboard/);
+  assert.match(shown.stdout, /```html\n<section data-block="dashboard-01"/);
+  assert.match(run(dir, 'list').stdout, /Blocks[\s\S]*dashboard-01/);
+  assert.equal(run(dir, 'show', 'nope-01').status, 1);
+
+  run(dir, 'add', 'dashboard-01', '--js');
+  writeFileSync(join(dir, 'components/halftone/blocks/dashboard-01.html'), 'edited');
+  const d = run(dir, 'diff');
+  assert.equal(d.status, 2);
+  assert.match(d.stdout, /modified\s+components\/halftone\/blocks\/dashboard-01\.html/);
+  assert.match(d.stdout, /same\s+components\/halftone\/blocks\/dashboard-01\.md/);
+});
+
+test('every packaged block uses only packaged components and has its notes', () => {
+  const reg = JSON.parse(readFileSync(new URL('../registry/registry.json', import.meta.url), 'utf8'));
+  assert.ok(Object.keys(reg.blocks).length > 0);
+  const defined = new Set(Object.values(reg.components).flatMap((c) => c.elements));
+  for (const [name, b] of Object.entries(reg.blocks)) {
+    for (const c of b.components) assert.ok(reg.components[c], `${name} uses missing component ${c}`);
+    for (const e of b.elements) assert.ok(defined.has(e), `${name} uses undefined <${e}>`);
+    for (const key of ['title', 'category', 'summary']) assert.ok(b[key], `${name} has no ${key}`);
   }
 });
