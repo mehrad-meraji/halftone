@@ -1,0 +1,340 @@
+<section data-block="list-01" aria-labelledby="list-title">
+  <style>
+    [data-block='list-01'] {
+      box-sizing: border-box;
+      padding: 24px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 16px;
+      font: 400 0.875rem/1.5 var(--ht-font-ui);
+      color: var(--ht-text);
+    }
+    [data-block='list-01'] .list-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    [data-block='list-01'] h1 {
+      margin: 0;
+      font: 600 1.5rem/1.2 var(--ht-font-display);
+    }
+    [data-block='list-01'] .list-head p {
+      margin: 4px 0 0;
+      color: var(--ht-text-muted);
+    }
+    [data-block='list-01'] .list-actions {
+      display: flex;
+      gap: 8px;
+    }
+    [data-block='list-01'] .list-chips {
+      max-width: 100%;
+      overflow-x: auto;
+    }
+    [data-block='list-01'] .list-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+    [data-block='list-01'] .list-search {
+      flex: 1 1 240px;
+      max-width: 360px;
+    }
+    [data-block='list-01'] .list-bulk {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 8px 6px 12px;
+      border: 1px solid var(--ht-border);
+      border-radius: var(--ht-radius-md);
+      background: var(--ht-surface-muted);
+    }
+    [data-block='list-01'] .list-bulk strong {
+      margin-right: auto;
+      font-weight: 500;
+    }
+    [data-block='list-01'] .list-bulk-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+    [data-block='list-01'] .list-narrow {
+      position: relative;
+      width: 1%;
+    }
+    [data-block='list-01'] .list-name {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+    [data-block='list-01'] .list-name a {
+      color: var(--ht-text);
+      font-weight: 500;
+      text-decoration: none;
+    }
+    [data-block='list-01'] .list-name a:hover {
+      text-decoration: underline;
+    }
+    [data-block='list-01'] .list-muted {
+      color: var(--ht-text-muted);
+    }
+    [data-block='list-01'] .list-sr {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+    [data-block='list-01'] .list-foot {
+      display: flex;
+      justify-content: flex-end;
+    }
+    @media (max-width: 720px) {
+      [data-block='list-01'] {
+        padding: 16px;
+      }
+      [data-block='list-01'] .list-search {
+        flex-basis: 100%;
+        max-width: none;
+      }
+      [data-block='list-01'] .list-wide {
+        display: none;
+      }
+    }
+  </style>
+
+  <div class="list-head">
+    <div>
+      <h1 id="list-title">Clients</h1>
+      <p>128 records · sorted by Updated</p>
+    </div>
+    <div class="list-actions">
+      <ht-button variant="default"><ht-icon slot="prefix" name="download-simple"></ht-icon>Import</ht-button>
+      <ht-button variant="primary"><ht-icon slot="prefix" name="plus" weight="bold"></ht-icon>New Client</ht-button>
+    </div>
+  </div>
+
+  <div class="list-chips">
+    <ht-toggle-group value="all" size="sm" aria-label="Status">
+      <ht-toggle-item value="all">All 128</ht-toggle-item>
+      <ht-toggle-item value="active">Active 96</ht-toggle-item>
+      <ht-toggle-item value="paused">Paused 20</ht-toggle-item>
+      <ht-toggle-item value="archived">Archived 12</ht-toggle-item>
+    </ht-toggle-group>
+  </div>
+
+  <div class="list-toolbar">
+    <ht-input class="list-search" type="search" size="sm" aria-label="Search clients" placeholder="Search Clients">
+      <ht-icon slot="prefix" name="magnifying-glass"></ht-icon>
+      <ht-kbd slot="suffix" keys="/"></ht-kbd>
+    </ht-input>
+    <ht-menu label="Filters">
+      <ht-button slot="trigger" variant="default" size="sm"><ht-icon slot="prefix" name="funnel"></ht-icon>Filters<ht-tag slot="suffix" tone="accent">2</ht-tag></ht-button>
+      <ht-menu-label>Owner</ht-menu-label>
+      <ht-menu-item type="checkbox" value="owner:ada" checked>Ada Lovelace</ht-menu-item>
+      <ht-menu-item type="checkbox" value="owner:grace">Grace Hopper</ht-menu-item>
+      <ht-menu-item type="checkbox" value="owner:linus">Linus</ht-menu-item>
+      <ht-menu-separator></ht-menu-separator>
+      <ht-menu-label>Plan</ht-menu-label>
+      <ht-menu-item type="checkbox" value="plan:team" checked>Team</ht-menu-item>
+      <ht-menu-item type="checkbox" value="plan:business">Business</ht-menu-item>
+      <ht-menu-separator></ht-menu-separator>
+      <ht-menu-item value="clear">Clear Filters</ht-menu-item>
+    </ht-menu>
+    <ht-menu label="Sort">
+      <ht-button slot="trigger" variant="default" size="sm"><ht-icon slot="prefix" name="arrow-down"></ht-icon>Sort</ht-button>
+      <ht-menu-item type="radio" name="sort" value="updated" checked>Updated</ht-menu-item>
+      <ht-menu-item type="radio" name="sort" value="name">Name</ht-menu-item>
+      <ht-menu-item type="radio" name="sort" value="revenue">Revenue</ht-menu-item>
+      <ht-menu-item type="radio" name="sort" value="created">Created</ht-menu-item>
+    </ht-menu>
+    <ht-menu label="Columns" placement="bottom-end">
+      <ht-button slot="trigger" variant="default" size="sm"><ht-icon slot="prefix" name="list"></ht-icon>Columns</ht-button>
+      <ht-menu-item type="checkbox" value="status" checked>Status</ht-menu-item>
+      <ht-menu-item type="checkbox" value="owner" checked>Owner</ht-menu-item>
+      <ht-menu-item type="checkbox" value="revenue" checked>Revenue</ht-menu-item>
+      <ht-menu-item type="checkbox" value="updated" checked>Updated</ht-menu-item>
+      <ht-menu-item type="checkbox" value="created">Created</ht-menu-item>
+    </ht-menu>
+  </div>
+
+  <div class="list-bulk" role="toolbar" aria-label="Bulk actions">
+    <strong>2 selected</strong>
+    <div class="list-bulk-group">
+      <ht-button variant="quiet" size="xs"><ht-icon slot="prefix" name="flag"></ht-icon>Change Status</ht-button>
+      <ht-button variant="quiet" size="xs"><ht-icon slot="prefix" name="user"></ht-icon>Assign</ht-button>
+      <ht-button variant="quiet" size="xs"><ht-icon slot="prefix" name="download-simple"></ht-icon>Export</ht-button>
+      <ht-button variant="danger" size="xs"><ht-icon slot="prefix" name="trash"></ht-icon>Delete</ht-button>
+      <ht-button variant="quiet" size="xs"><ht-icon slot="prefix" name="x"></ht-icon>Clear</ht-button>
+    </div>
+  </div>
+
+  <ht-table>
+    <ht-table-head>
+      <ht-table-row>
+        <ht-table-header class="list-narrow"><ht-checkbox label="Select all" indeterminate></ht-checkbox></ht-table-header>
+        <ht-table-header>Name</ht-table-header>
+        <ht-table-header>Status</ht-table-header>
+        <ht-table-header class="list-wide">Owner</ht-table-header>
+        <ht-table-header class="list-wide" align="end">Revenue</ht-table-header>
+        <ht-table-header sortable sort="descending" key="updated">Updated</ht-table-header>
+        <ht-table-header class="list-narrow"><span class="list-sr">Actions</span></ht-table-header>
+      </ht-table-row>
+    </ht-table-head>
+    <ht-table-body>
+      <ht-table-row selected>
+        <ht-table-cell><ht-checkbox label="Select Acme Corp" checked></ht-checkbox></ht-table-cell>
+        <ht-table-cell><span class="list-name"><ht-avatar size="xs" name="Acme Corp"></ht-avatar><a href="#">Acme Corp</a></span></ht-table-cell>
+        <ht-table-cell><ht-tag tone="success">Active</ht-tag></ht-table-cell>
+        <ht-table-cell class="list-wide">Ada Lovelace</ht-table-cell>
+        <ht-table-cell class="list-wide" align="end">$48,200</ht-table-cell>
+        <ht-table-cell><time class="list-muted" datetime="2026-10-23T12:02">2h ago</time></ht-table-cell>
+        <ht-table-cell>
+          <ht-menu label="Actions for Acme Corp" placement="bottom-end">
+            <ht-button slot="trigger" variant="quiet" size="xs"><ht-icon name="dots-three" weight="bold" label="Actions for Acme Corp"></ht-icon></ht-button>
+            <ht-menu-item><ht-icon slot="prefix" name="arrow-square-out"></ht-icon>Open</ht-menu-item>
+            <ht-menu-item><ht-icon slot="prefix" name="pencil-simple"></ht-icon>Edit</ht-menu-item>
+            <ht-menu-item><ht-icon slot="prefix" name="copy"></ht-icon>Copy Link</ht-menu-item>
+            <ht-menu-separator></ht-menu-separator>
+            <ht-menu-item danger><ht-icon slot="prefix" name="trash"></ht-icon>Delete</ht-menu-item>
+          </ht-menu>
+        </ht-table-cell>
+      </ht-table-row>
+      <ht-table-row selected>
+        <ht-table-cell><ht-checkbox label="Select Globex" checked></ht-checkbox></ht-table-cell>
+        <ht-table-cell><span class="list-name"><ht-avatar size="xs" name="Globex"></ht-avatar><a href="#">Globex</a></span></ht-table-cell>
+        <ht-table-cell><ht-tag tone="warning">Paused</ht-tag></ht-table-cell>
+        <ht-table-cell class="list-wide">Grace Hopper</ht-table-cell>
+        <ht-table-cell class="list-wide" align="end">$12,750</ht-table-cell>
+        <ht-table-cell><time class="list-muted" datetime="2026-10-23T09:40">5h ago</time></ht-table-cell>
+        <ht-table-cell>
+          <ht-menu label="Actions for Globex" placement="bottom-end">
+            <ht-button slot="trigger" variant="quiet" size="xs"><ht-icon name="dots-three" weight="bold" label="Actions for Globex"></ht-icon></ht-button>
+            <ht-menu-item><ht-icon slot="prefix" name="arrow-square-out"></ht-icon>Open</ht-menu-item>
+            <ht-menu-item><ht-icon slot="prefix" name="pencil-simple"></ht-icon>Edit</ht-menu-item>
+            <ht-menu-item><ht-icon slot="prefix" name="copy"></ht-icon>Copy Link</ht-menu-item>
+            <ht-menu-separator></ht-menu-separator>
+            <ht-menu-item danger><ht-icon slot="prefix" name="trash"></ht-icon>Delete</ht-menu-item>
+          </ht-menu>
+        </ht-table-cell>
+      </ht-table-row>
+      <ht-table-row>
+        <ht-table-cell><ht-checkbox label="Select Initech"></ht-checkbox></ht-table-cell>
+        <ht-table-cell><span class="list-name"><ht-avatar size="xs" name="Initech"></ht-avatar><a href="#">Initech</a></span></ht-table-cell>
+        <ht-table-cell><ht-tag tone="success">Active</ht-tag></ht-table-cell>
+        <ht-table-cell class="list-wide">Linus</ht-table-cell>
+        <ht-table-cell class="list-wide" align="end">$9,400</ht-table-cell>
+        <ht-table-cell><time class="list-muted" datetime="2026-10-22T16:15">Yesterday</time></ht-table-cell>
+        <ht-table-cell>
+          <ht-menu label="Actions for Initech" placement="bottom-end">
+            <ht-button slot="trigger" variant="quiet" size="xs"><ht-icon name="dots-three" weight="bold" label="Actions for Initech"></ht-icon></ht-button>
+            <ht-menu-item><ht-icon slot="prefix" name="arrow-square-out"></ht-icon>Open</ht-menu-item>
+            <ht-menu-item><ht-icon slot="prefix" name="pencil-simple"></ht-icon>Edit</ht-menu-item>
+            <ht-menu-item><ht-icon slot="prefix" name="copy"></ht-icon>Copy Link</ht-menu-item>
+            <ht-menu-separator></ht-menu-separator>
+            <ht-menu-item danger><ht-icon slot="prefix" name="trash"></ht-icon>Delete</ht-menu-item>
+          </ht-menu>
+        </ht-table-cell>
+      </ht-table-row>
+      <ht-table-row>
+        <ht-table-cell><ht-checkbox label="Select Umbrella Labs"></ht-checkbox></ht-table-cell>
+        <ht-table-cell><span class="list-name"><ht-avatar size="xs" name="Umbrella Labs"></ht-avatar><a href="#">Umbrella Labs</a></span></ht-table-cell>
+        <ht-table-cell><ht-tag tone="success">Active</ht-tag></ht-table-cell>
+        <ht-table-cell class="list-wide">Ada Lovelace</ht-table-cell>
+        <ht-table-cell class="list-wide" align="end">$31,080</ht-table-cell>
+        <ht-table-cell><time class="list-muted" datetime="2026-10-21T10:30">2d ago</time></ht-table-cell>
+        <ht-table-cell>
+          <ht-menu label="Actions for Umbrella Labs" placement="bottom-end">
+            <ht-button slot="trigger" variant="quiet" size="xs"><ht-icon name="dots-three" weight="bold" label="Actions for Umbrella Labs"></ht-icon></ht-button>
+            <ht-menu-item><ht-icon slot="prefix" name="arrow-square-out"></ht-icon>Open</ht-menu-item>
+            <ht-menu-item><ht-icon slot="prefix" name="pencil-simple"></ht-icon>Edit</ht-menu-item>
+            <ht-menu-item><ht-icon slot="prefix" name="copy"></ht-icon>Copy Link</ht-menu-item>
+            <ht-menu-separator></ht-menu-separator>
+            <ht-menu-item danger><ht-icon slot="prefix" name="trash"></ht-icon>Delete</ht-menu-item>
+          </ht-menu>
+        </ht-table-cell>
+      </ht-table-row>
+      <ht-table-row>
+        <ht-table-cell><ht-checkbox label="Select Stark Freight"></ht-checkbox></ht-table-cell>
+        <ht-table-cell><span class="list-name"><ht-avatar size="xs" name="Stark Freight"></ht-avatar><a href="#">Stark Freight</a></span></ht-table-cell>
+        <ht-table-cell><ht-tag>Archived</ht-tag></ht-table-cell>
+        <ht-table-cell class="list-wide">Grace Hopper</ht-table-cell>
+        <ht-table-cell class="list-wide" align="end">$0</ht-table-cell>
+        <ht-table-cell><time class="list-muted" datetime="2026-10-18T08:00">Oct 18</time></ht-table-cell>
+        <ht-table-cell>
+          <ht-menu label="Actions for Stark Freight" placement="bottom-end">
+            <ht-button slot="trigger" variant="quiet" size="xs"><ht-icon name="dots-three" weight="bold" label="Actions for Stark Freight"></ht-icon></ht-button>
+            <ht-menu-item><ht-icon slot="prefix" name="arrow-square-out"></ht-icon>Open</ht-menu-item>
+            <ht-menu-item><ht-icon slot="prefix" name="pencil-simple"></ht-icon>Edit</ht-menu-item>
+            <ht-menu-item><ht-icon slot="prefix" name="copy"></ht-icon>Copy Link</ht-menu-item>
+            <ht-menu-separator></ht-menu-separator>
+            <ht-menu-item danger><ht-icon slot="prefix" name="trash"></ht-icon>Delete</ht-menu-item>
+          </ht-menu>
+        </ht-table-cell>
+      </ht-table-row>
+      <ht-table-row>
+        <ht-table-cell><ht-checkbox label="Select Hooli"></ht-checkbox></ht-table-cell>
+        <ht-table-cell><span class="list-name"><ht-avatar size="xs" name="Hooli"></ht-avatar><a href="#">Hooli</a></span></ht-table-cell>
+        <ht-table-cell><ht-tag tone="warning">Paused</ht-tag></ht-table-cell>
+        <ht-table-cell class="list-wide">Linus</ht-table-cell>
+        <ht-table-cell class="list-wide" align="end">$6,120</ht-table-cell>
+        <ht-table-cell><time class="list-muted" datetime="2026-10-15T14:20">Oct 15</time></ht-table-cell>
+        <ht-table-cell>
+          <ht-menu label="Actions for Hooli" placement="bottom-end">
+            <ht-button slot="trigger" variant="quiet" size="xs"><ht-icon name="dots-three" weight="bold" label="Actions for Hooli"></ht-icon></ht-button>
+            <ht-menu-item><ht-icon slot="prefix" name="arrow-square-out"></ht-icon>Open</ht-menu-item>
+            <ht-menu-item><ht-icon slot="prefix" name="pencil-simple"></ht-icon>Edit</ht-menu-item>
+            <ht-menu-item><ht-icon slot="prefix" name="copy"></ht-icon>Copy Link</ht-menu-item>
+            <ht-menu-separator></ht-menu-separator>
+            <ht-menu-item danger><ht-icon slot="prefix" name="trash"></ht-icon>Delete</ht-menu-item>
+          </ht-menu>
+        </ht-table-cell>
+      </ht-table-row>
+      <ht-table-row>
+        <ht-table-cell><ht-checkbox label="Select Wayne Supply"></ht-checkbox></ht-table-cell>
+        <ht-table-cell><span class="list-name"><ht-avatar size="xs" name="Wayne Supply"></ht-avatar><a href="#">Wayne Supply</a></span></ht-table-cell>
+        <ht-table-cell><ht-tag tone="success">Active</ht-tag></ht-table-cell>
+        <ht-table-cell class="list-wide">Ada Lovelace</ht-table-cell>
+        <ht-table-cell class="list-wide" align="end">$22,940</ht-table-cell>
+        <ht-table-cell><time class="list-muted" datetime="2026-10-14T11:05">Oct 14</time></ht-table-cell>
+        <ht-table-cell>
+          <ht-menu label="Actions for Wayne Supply" placement="bottom-end">
+            <ht-button slot="trigger" variant="quiet" size="xs"><ht-icon name="dots-three" weight="bold" label="Actions for Wayne Supply"></ht-icon></ht-button>
+            <ht-menu-item><ht-icon slot="prefix" name="arrow-square-out"></ht-icon>Open</ht-menu-item>
+            <ht-menu-item><ht-icon slot="prefix" name="pencil-simple"></ht-icon>Edit</ht-menu-item>
+            <ht-menu-item><ht-icon slot="prefix" name="copy"></ht-icon>Copy Link</ht-menu-item>
+            <ht-menu-separator></ht-menu-separator>
+            <ht-menu-item danger><ht-icon slot="prefix" name="trash"></ht-icon>Delete</ht-menu-item>
+          </ht-menu>
+        </ht-table-cell>
+      </ht-table-row>
+      <ht-table-row>
+        <ht-table-cell><ht-checkbox label="Select Soylent Foods"></ht-checkbox></ht-table-cell>
+        <ht-table-cell><span class="list-name"><ht-avatar size="xs" name="Soylent Foods"></ht-avatar><a href="#">Soylent Foods</a></span></ht-table-cell>
+        <ht-table-cell><ht-tag>Archived</ht-tag></ht-table-cell>
+        <ht-table-cell class="list-wide">Grace Hopper</ht-table-cell>
+        <ht-table-cell class="list-wide" align="end">$0</ht-table-cell>
+        <ht-table-cell><time class="list-muted" datetime="2026-10-09T17:45">Oct 9</time></ht-table-cell>
+        <ht-table-cell>
+          <ht-menu label="Actions for Soylent Foods" placement="bottom-end">
+            <ht-button slot="trigger" variant="quiet" size="xs"><ht-icon name="dots-three" weight="bold" label="Actions for Soylent Foods"></ht-icon></ht-button>
+            <ht-menu-item><ht-icon slot="prefix" name="arrow-square-out"></ht-icon>Open</ht-menu-item>
+            <ht-menu-item><ht-icon slot="prefix" name="pencil-simple"></ht-icon>Edit</ht-menu-item>
+            <ht-menu-item><ht-icon slot="prefix" name="copy"></ht-icon>Copy Link</ht-menu-item>
+            <ht-menu-separator></ht-menu-separator>
+            <ht-menu-item danger><ht-icon slot="prefix" name="trash"></ht-icon>Delete</ht-menu-item>
+          </ht-menu>
+        </ht-table-cell>
+      </ht-table-row>
+    </ht-table-body>
+  </ht-table>
+
+  <div class="list-foot">
+    <ht-pagination page="1" total="128" page-size="8" size="sm" label="Clients pages"></ht-pagination>
+  </div>
+</section>

@@ -396,13 +396,18 @@ export class HtSelect extends LitElement {
         if (this.value && !this.hasAttribute('value')) this.#defaultValue = this.value;
       }
     }
+    this.#mark();
+    this.#commit();
+  }
+
+  /** Marks the option that matches `value` and sets the trigger text. */
+  #mark() {
     let chosen: HtOption | undefined;
-    for (const i of items) {
+    for (const i of this.#items()) {
       i.selected = !!this.value && valueOf(i) === this.value;
       if (i.selected && !chosen) chosen = i;
     }
     this._text = chosen ? labelOf(chosen) : '';
-    this.#commit();
   }
 
   #commit() {
@@ -414,12 +419,19 @@ export class HtSelect extends LitElement {
     }
   }
 
+  // State that follows from other state is set here, before render, never in updated():
+  // a change there costs a second render and Lit warns "scheduled an update after an update completed".
+  willUpdate(changed: Map<string, unknown>) {
+    if (!this.hasUpdated) this.#parseNative();
+    if (changed.has('value') && this.#ready) this.#mark();
+  }
+
   firstUpdated() {
-    this.#refresh();
+    // The native options render in this first update; sync once it is done.
+    void this.updateComplete.then(() => this.#sync());
   }
 
   updated(changed: Map<string, unknown>) {
-    if (changed.has('value') && this.#ready) this.#sync();
     if (changed.has('required') || changed.has('value')) this.#commit();
     if (changed.has('disabled') && this.disabled && this.open) this.open = false;
     if (changed.has('open')) {
@@ -431,7 +443,7 @@ export class HtSelect extends LitElement {
       const isOpen = this.open && panel.matches(':popover-open');
       if (isOpen !== this.#wasOpen) {
         this.#wasOpen = isOpen;
-        this.dispatchEvent(new Event(isOpen ? 'open' : 'close'));
+        this.dispatchEvent(isOpen ? new Event('open') : new Event('close'));
       }
     }
   }

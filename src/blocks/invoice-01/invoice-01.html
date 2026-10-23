@@ -1,0 +1,280 @@
+<section data-block="invoice-01" aria-labelledby="inv-title" lang="en-US">
+  <style>
+    [data-block='invoice-01'] {
+      box-sizing: border-box;
+      max-width: 960px;
+      padding: 24px;
+      display: grid;
+      gap: 24px;
+      font: 400 0.875rem/1.5 var(--ht-font-ui);
+      color: var(--ht-text);
+    }
+    [data-block='invoice-01'] .inv-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    [data-block='invoice-01'] .inv-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    [data-block='invoice-01'] h1 {
+      margin: 0;
+      font: 600 1.5rem/1.2 var(--ht-font-display);
+    }
+    [data-block='invoice-01'] .inv-head p {
+      margin: 4px 0 0;
+      color: var(--ht-text-muted);
+    }
+    [data-block='invoice-01'] .inv-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+    [data-block='invoice-01'] .inv-eyebrow {
+      margin: 0 0 8px;
+      font: 400 0.6875rem/1.2 var(--ht-font-mono);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ht-text-subtle);
+    }
+    [data-block='invoice-01'] h2.inv-section {
+      margin: 0 0 12px;
+      font: 600 1rem/1.25 var(--ht-font-display);
+    }
+    [data-block='invoice-01'] .inv-amount {
+      display: grid;
+      gap: 16px;
+      padding: 20px;
+      border: 1px solid var(--ht-border);
+      border-radius: var(--ht-radius-md);
+      background: var(--ht-surface);
+    }
+    [data-block='invoice-01'] .inv-total {
+      display: block;
+      font: 600 2.25rem/1.1 var(--ht-font-display);
+      font-variant-numeric: tabular-nums;
+    }
+    [data-block='invoice-01'] .inv-overdue {
+      color: var(--ht-danger-text);
+      font-weight: 500;
+    }
+    [data-block='invoice-01'] .inv-two {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    [data-block='invoice-01'] address {
+      font-style: normal;
+    }
+    [data-block='invoice-01'] address strong {
+      font-weight: 600;
+    }
+    [data-block='invoice-01'] .inv-muted {
+      color: var(--ht-text-muted);
+    }
+    [data-block='invoice-01'] .inv-items {
+      border: 1px solid var(--ht-border);
+      border-radius: var(--ht-radius-md);
+      overflow: hidden;
+      background: var(--ht-surface);
+    }
+    [data-block='invoice-01'] .inv-desc small {
+      display: block;
+      color: var(--ht-text-muted);
+    }
+    [data-block='invoice-01'] .inv-sum ht-table-cell {
+      color: var(--ht-text-muted);
+    }
+    [data-block='invoice-01'] .inv-grand ht-table-cell {
+      color: var(--ht-text);
+      font-weight: 600;
+    }
+    [data-block='invoice-01'] .inv-notes p {
+      margin: 0;
+    }
+    @media (max-width: 640px) {
+      [data-block='invoice-01'] {
+        padding: 16px;
+      }
+      [data-block='invoice-01'] .inv-two {
+        grid-template-columns: 1fr;
+      }
+      [data-block='invoice-01'] .inv-wide {
+        display: none;
+      }
+      [data-block='invoice-01'] .inv-total {
+        font-size: 1.75rem;
+      }
+    }
+    @media print {
+      [data-block='invoice-01'] {
+        max-width: none;
+        padding: 0;
+      }
+      [data-block='invoice-01'] .inv-actions,
+      [data-block='invoice-01'] ht-breadcrumb,
+      [data-block='invoice-01'] .inv-locked {
+        display: none;
+      }
+      [data-block='invoice-01'] .inv-amount,
+      [data-block='invoice-01'] .inv-items {
+        break-inside: avoid;
+      }
+    }
+  </style>
+
+  <ht-breadcrumb>
+    <ht-breadcrumb-item href="#">Billing</ht-breadcrumb-item>
+    <ht-breadcrumb-item href="#">Invoices</ht-breadcrumb-item>
+    <ht-breadcrumb-item>INV-0042</ht-breadcrumb-item>
+  </ht-breadcrumb>
+
+  <div class="inv-head">
+    <div>
+      <div class="inv-title">
+        <h1 id="inv-title">INV-0042</h1>
+        <ht-tag tone="danger" size="md">Overdue</ht-tag>
+      </div>
+      <p>Sent to Acme Corp on Sep 23, 2026.</p>
+    </div>
+    <div class="inv-actions">
+      <ht-button variant="default">
+        <ht-icon slot="prefix" name="download-simple"></ht-icon>
+        Download PDF
+      </ht-button>
+      <ht-button>Mark Paid</ht-button>
+      <ht-menu placement="bottom-end">
+        <ht-button slot="trigger" variant="quiet">
+          <ht-icon name="dots-three" label="More Actions"></ht-icon>
+        </ht-button>
+        <ht-menu-item value="duplicate">
+          <ht-icon slot="prefix" name="copy"></ht-icon>
+          Duplicate
+        </ht-menu-item>
+        <ht-menu-separator></ht-menu-separator>
+        <ht-menu-item value="void" danger>
+          <ht-icon slot="prefix" name="x-circle"></ht-icon>
+          Void Invoice
+        </ht-menu-item>
+      </ht-menu>
+    </div>
+  </div>
+
+  <ht-alert class="inv-locked" heading="Read Only">
+    <ht-icon slot="icon" name="lock"></ht-icon>
+    Sent invoices are read only. Duplicate to change.
+  </ht-alert>
+
+  <div class="inv-amount">
+    <div>
+      <h2 class="inv-eyebrow">Amount Due</h2>
+      <ht-number class="inv-total" value="5247" currency="USD" decimals="2"></ht-number>
+    </div>
+    <ht-description-list layout="columns" columns="4" dividers label="Invoice details">
+      <ht-description-item label="Issued">Sep 23, 2026</ht-description-item>
+      <ht-description-item label="Due">
+        Oct 22, 2026
+        <span slot="hint" class="inv-overdue">Overdue by 1 day</span>
+      </ht-description-item>
+      <ht-description-item label="Client">Acme Corp</ht-description-item>
+      <ht-description-item label="Reference" copy>PO-7781</ht-description-item>
+    </ht-description-list>
+  </div>
+
+  <div class="inv-two">
+    <div>
+      <h2 class="inv-eyebrow">From</h2>
+      <address>
+        <strong>Northwind Studio Ltd</strong><br>
+        12 Foundry Lane<br>
+        Bristol BS1 4QA, United Kingdom<br>
+        <span class="inv-muted">billing@northwind.example</span>
+      </address>
+    </div>
+    <div>
+      <h2 class="inv-eyebrow">Bill To</h2>
+      <address>
+        <strong>Acme Corp</strong><br>
+        Attn: Grace Hopper<br>
+        400 Market Street, San Francisco, CA 94105<br>
+        <span class="inv-muted">ap@acme.example</span>
+      </address>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="inv-section">Line Items</h2>
+    <div class="inv-items">
+      <ht-table>
+        <ht-table-head>
+          <ht-table-row>
+            <ht-table-header>Description</ht-table-header>
+            <ht-table-header class="inv-wide" align="end">Qty</ht-table-header>
+            <ht-table-header align="end">Rate</ht-table-header>
+            <ht-table-header align="end">Amount</ht-table-header>
+          </ht-table-row>
+        </ht-table-head>
+        <ht-table-body>
+          <ht-table-row>
+            <ht-table-cell><span class="inv-desc">Design system audit<small>Fixed fee</small></span></ht-table-cell>
+            <ht-table-cell class="inv-wide" align="end">1</ht-table-cell>
+            <ht-table-cell align="end"><ht-number value="1800" currency="USD" decimals="2"></ht-number></ht-table-cell>
+            <ht-table-cell align="end"><ht-number value="1800" currency="USD" decimals="2"></ht-number></ht-table-cell>
+          </ht-table-row>
+          <ht-table-row>
+            <ht-table-cell><span class="inv-desc">Component build<small>24 hours, Sep 1–19</small></span></ht-table-cell>
+            <ht-table-cell class="inv-wide" align="end">24</ht-table-cell>
+            <ht-table-cell align="end"><ht-number value="95" currency="USD" decimals="2"></ht-number></ht-table-cell>
+            <ht-table-cell align="end"><ht-number value="2280" currency="USD" decimals="2"></ht-number></ht-table-cell>
+          </ht-table-row>
+          <ht-table-row>
+            <ht-table-cell><span class="inv-desc">Accessibility review<small>6 hours</small></span></ht-table-cell>
+            <ht-table-cell class="inv-wide" align="end">6</ht-table-cell>
+            <ht-table-cell align="end"><ht-number value="95" currency="USD" decimals="2"></ht-number></ht-table-cell>
+            <ht-table-cell align="end"><ht-number value="570" currency="USD" decimals="2"></ht-number></ht-table-cell>
+          </ht-table-row>
+          <ht-table-row>
+            <ht-table-cell><span class="inv-desc">Hosting<small>October</small></span></ht-table-cell>
+            <ht-table-cell class="inv-wide" align="end">1</ht-table-cell>
+            <ht-table-cell align="end"><ht-number value="120" currency="USD" decimals="2"></ht-number></ht-table-cell>
+            <ht-table-cell align="end"><ht-number value="120" currency="USD" decimals="2"></ht-number></ht-table-cell>
+          </ht-table-row>
+          <ht-table-row class="inv-sum">
+            <ht-table-cell></ht-table-cell>
+            <ht-table-cell class="inv-wide"></ht-table-cell>
+            <ht-table-cell align="end">Subtotal</ht-table-cell>
+            <ht-table-cell align="end"><ht-number value="4770" currency="USD" decimals="2"></ht-number></ht-table-cell>
+          </ht-table-row>
+          <ht-table-row class="inv-sum">
+            <ht-table-cell></ht-table-cell>
+            <ht-table-cell class="inv-wide"></ht-table-cell>
+            <ht-table-cell align="end">Tax (10%)</ht-table-cell>
+            <ht-table-cell align="end"><ht-number value="477" currency="USD" decimals="2"></ht-number></ht-table-cell>
+          </ht-table-row>
+          <ht-table-row class="inv-sum inv-grand">
+            <ht-table-cell></ht-table-cell>
+            <ht-table-cell class="inv-wide"></ht-table-cell>
+            <ht-table-cell align="end">Total</ht-table-cell>
+            <ht-table-cell align="end"><ht-number value="5247" currency="USD" decimals="2"></ht-number></ht-table-cell>
+          </ht-table-row>
+        </ht-table-body>
+      </ht-table>
+    </div>
+  </div>
+
+  <div class="inv-two inv-notes">
+    <div>
+      <h2 class="inv-section">Notes</h2>
+      <p>Thanks for the quick feedback on round two. November hosting goes on the next invoice.</p>
+    </div>
+    <div>
+      <h2 class="inv-section">Payment Terms</h2>
+      <p>Net 30. Pay by bank transfer and quote INV-0042 as the reference. Late payments add 1.5% a month.</p>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,294 @@
+<section data-block="detail-01" aria-labelledby="detail-title">
+  <style>
+    [data-block='detail-01'] {
+      box-sizing: border-box;
+      padding: 24px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 24px;
+      font: 400 0.875rem/1.5 var(--ht-font-ui);
+      color: var(--ht-text);
+    }
+    [data-block='detail-01'] .detail-top {
+      display: grid;
+      gap: 12px;
+    }
+    [data-block='detail-01'] .detail-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    [data-block='detail-01'] .detail-title {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+    }
+    [data-block='detail-01'] h1 {
+      margin: 0;
+      font: 600 1.5rem/1.2 var(--ht-font-display);
+    }
+    [data-block='detail-01'] .detail-actions {
+      display: flex;
+      gap: 8px;
+    }
+    [data-block='detail-01'] .detail-facts {
+      border-block: 1px solid var(--ht-border);
+    }
+    [data-block='detail-01'] .detail-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 320px;
+      gap: 32px;
+      align-items: start;
+    }
+    [data-block='detail-01'] .detail-main,
+    [data-block='detail-01'] .detail-rail {
+      display: grid;
+      gap: 16px;
+      min-width: 0;
+    }
+    [data-block='detail-01'] .detail-rail {
+      gap: 24px;
+    }
+    [data-block='detail-01'] h2 {
+      margin: 0 0 8px;
+      font: 600 1rem/1.4 var(--ht-font-display);
+    }
+    [data-block='detail-01'] .detail-main p {
+      margin: 0 0 8px;
+      max-width: 68ch;
+    }
+    [data-block='detail-01'] .detail-person {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    [data-block='detail-01'] .detail-tags {
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+    [data-block='detail-01'] ht-tab-panel {
+      padding-top: 16px;
+    }
+    [data-block='detail-01'] .detail-quote {
+      margin: 0;
+      padding: 8px 12px;
+      border-left: 2px solid var(--ht-border-strong);
+      color: var(--ht-text-muted);
+    }
+    [data-block='detail-01'] .detail-comments {
+      display: grid;
+      gap: 16px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    [data-block='detail-01'] .detail-comments li {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 4px 12px;
+    }
+    [data-block='detail-01'] .detail-comments p {
+      grid-column: 2;
+      margin: 0;
+    }
+    [data-block='detail-01'] .detail-muted {
+      color: var(--ht-text-muted);
+    }
+    [data-block='detail-01'] .detail-related {
+      display: grid;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    [data-block='detail-01'] .detail-related li {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 8px 0;
+      border-top: 1px solid var(--ht-border);
+    }
+    [data-block='detail-01'] .detail-related li:first-child {
+      border-top: 0;
+      padding-top: 0;
+    }
+    [data-block='detail-01'] .detail-related a {
+      color: var(--ht-text);
+      font-weight: 500;
+    }
+    [data-block='detail-01'] .detail-mono {
+      font-family: var(--ht-font-mono);
+    }
+    [data-block='detail-01'] .detail-sr {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+    @media (max-width: 900px) {
+      [data-block='detail-01'] .detail-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+    @media (max-width: 720px) {
+      [data-block='detail-01'] {
+        padding: 16px;
+      }
+    }
+  </style>
+
+  <div class="detail-top">
+    <ht-breadcrumb>
+      <ht-breadcrumb-item href="#">Clients</ht-breadcrumb-item>
+      <ht-breadcrumb-item>Acme Corp</ht-breadcrumb-item>
+    </ht-breadcrumb>
+
+    <div class="detail-head">
+      <div class="detail-title">
+        <ht-avatar size="lg" shape="square" name="Acme Corp"></ht-avatar>
+        <h1 id="detail-title">Acme Corp</h1>
+        <ht-tag tone="success" size="md">Active</ht-tag>
+      </div>
+      <div class="detail-actions">
+        <ht-button variant="default"><ht-icon slot="prefix" name="pencil-simple"></ht-icon>Edit</ht-button>
+        <ht-button variant="primary"><ht-icon slot="prefix" name="plus" weight="bold"></ht-icon>Log Activity</ht-button>
+        <ht-menu label="More actions" placement="bottom-end">
+          <ht-button slot="trigger" variant="default"><ht-icon name="dots-three" weight="bold" label="More actions"></ht-icon></ht-button>
+          <ht-menu-item><ht-icon slot="prefix" name="copy"></ht-icon>Duplicate</ht-menu-item>
+          <ht-menu-item><ht-icon slot="prefix" name="link"></ht-icon>Copy Link</ht-menu-item>
+          <ht-menu-item><ht-icon slot="prefix" name="archive"></ht-icon>Archive</ht-menu-item>
+          <ht-menu-separator></ht-menu-separator>
+          <ht-menu-item danger value="delete"><ht-icon slot="prefix" name="trash"></ht-icon>Delete Client</ht-menu-item>
+        </ht-menu>
+      </div>
+    </div>
+  </div>
+
+  <ht-description-list class="detail-facts" layout="columns" columns="4" dividers label="Key facts">
+    <ht-description-item label="Owner">
+      <span class="detail-person"><ht-avatar size="xs" name="Ada Lovelace"></ht-avatar>Ada Lovelace</span>
+    </ht-description-item>
+    <ht-description-item label="Created">
+      Mar 4, 2026
+      <time slot="hint" datetime="2026-03-04T09:12:00Z">Mar 4, 2026 09:12 UTC</time>
+    </ht-description-item>
+    <ht-description-item label="Last Activity">
+      2h ago
+      <time slot="hint" datetime="2026-10-23T12:02:00Z">Oct 23, 2026 12:02 UTC</time>
+    </ht-description-item>
+    <ht-description-item label="ID" copy><span class="detail-mono">CL-0128</span></ht-description-item>
+  </ht-description-list>
+
+  <div class="detail-grid">
+    <div class="detail-main">
+      <div>
+        <h2>Summary</h2>
+        <p>Freight and logistics client on the Team plan since March. Renewal is due in November and they asked for a second workspace.</p>
+        <p class="detail-muted">Billing goes through their finance team, not the main contact.</p>
+      </div>
+
+      <div>
+        <h2 class="detail-sr">History</h2>
+        <ht-tabs value="activity" label="History">
+          <ht-tab value="activity">Activity (12)</ht-tab>
+          <ht-tab value="comments">Comments (3)</ht-tab>
+          <ht-tab value="files">Files</ht-tab>
+
+          <ht-tab-panel value="activity">
+            <ht-timeline label="Activity">
+              <ht-timeline-item datetime="2026-10-23T12:02" time="2h ago">
+                <ht-avatar slot="marker" size="sm" name="Grace Hopper"></ht-avatar>
+                <b>Grace Hopper</b> commented
+                <blockquote slot="body" class="detail-quote">They confirmed the second workspace. Quote goes out Monday.</blockquote>
+              </ht-timeline-item>
+              <ht-timeline-item tone="accent" datetime="2026-10-22T16:40" time="Yesterday">
+                <ht-icon slot="marker" name="pencil-simple"></ht-icon>
+                <b>Ada Lovelace</b> changed the priority to <b>High</b>
+                <ht-tag slot="meta">Was Medium</ht-tag>
+              </ht-timeline-item>
+              <ht-timeline-item tone="success" datetime="2026-10-20T10:15" time="Oct 20">
+                <ht-icon slot="marker" name="check"></ht-icon>
+                Invoice <a href="#">INV-2041</a> paid
+              </ht-timeline-item>
+              <ht-timeline-item datetime="2026-10-14T09:30" time="Oct 14">
+                <ht-avatar slot="marker" size="sm" name="Linus"></ht-avatar>
+                <b>Linus</b> added the label <b>Renewal</b>
+              </ht-timeline-item>
+              <ht-timeline-item datetime="2026-03-04T09:12" time="Mar 4">
+                <ht-icon slot="marker" name="plus"></ht-icon>
+                <b>Ada Lovelace</b> created the client
+              </ht-timeline-item>
+            </ht-timeline>
+          </ht-tab-panel>
+
+          <ht-tab-panel value="comments">
+            <ul class="detail-comments">
+              <li>
+                <ht-avatar size="sm" name="Grace Hopper"></ht-avatar>
+                <span><b>Grace Hopper</b> <time class="detail-muted" datetime="2026-10-23T12:02">2h ago</time></span>
+                <p>They confirmed the second workspace. Quote goes out Monday.</p>
+              </li>
+              <li>
+                <ht-avatar size="sm" name="Ada Lovelace"></ht-avatar>
+                <span><b>Ada Lovelace</b> <time class="detail-muted" datetime="2026-10-22T16:40">Yesterday</time></span>
+                <p>Raising priority until the renewal is signed.</p>
+              </li>
+              <li>
+                <ht-avatar size="sm" name="Linus"></ht-avatar>
+                <span><b>Linus</b> <time class="detail-muted" datetime="2026-10-14T09:30">Oct 14</time></span>
+                <p>Finance contact is the one to chase for invoices.</p>
+              </li>
+            </ul>
+          </ht-tab-panel>
+
+          <ht-tab-panel value="files">
+            <ht-empty-state level="3" heading="No files yet" description="Contracts and quotes attached to this client show up here.">
+              <ht-button slot="actions" variant="default"><ht-icon slot="prefix" name="paperclip"></ht-icon>Attach File</ht-button>
+            </ht-empty-state>
+          </ht-tab-panel>
+        </ht-tabs>
+      </div>
+    </div>
+
+    <section class="detail-rail" aria-label="Details">
+      <div>
+        <h2>Properties</h2>
+        <ht-description-list layout="inline" dividers density="compact">
+          <ht-description-item label="Status"><ht-tag tone="success">Active</ht-tag></ht-description-item>
+          <ht-description-item label="Priority"><ht-tag tone="warning">High</ht-tag></ht-description-item>
+          <ht-description-item label="Assignee">
+            <span class="detail-person"><ht-avatar size="xs" name="Grace Hopper"></ht-avatar>Grace Hopper</span>
+          </ht-description-item>
+          <ht-description-item label="Labels">
+            <span class="detail-tags"><ht-tag>Logistics</ht-tag><ht-tag tone="accent">Renewal</ht-tag></span>
+          </ht-description-item>
+          <ht-description-item label="Plan">Team</ht-description-item>
+          <ht-description-item label="Due Date">
+            Nov 14, 2026
+            <time slot="hint" datetime="2026-11-14">In 22 days</time>
+          </ht-description-item>
+        </ht-description-list>
+      </div>
+
+      <div>
+        <h2>Related</h2>
+        <ht-card heading="Open Invoices">
+          <ht-button slot="actions" variant="quiet" size="xs" href="#">View All</ht-button>
+          <ul class="detail-related">
+            <li><a href="#" class="detail-mono">INV-2057</a><ht-tag tone="warning">Due Nov 1</ht-tag></li>
+            <li><a href="#" class="detail-mono">INV-2049</a><ht-tag tone="danger">Overdue</ht-tag></li>
+            <li><a href="#" class="detail-mono">INV-2041</a><ht-tag tone="success">Paid</ht-tag></li>
+          </ul>
+        </ht-card>
+      </div>
+    </section>
+  </div>
+
+  <ht-alert-dialog tone="danger" heading="Delete Acme Corp?" description="This deletes the client, its 12 activity entries and 3 comments. Invoices stay in Billing. This cannot be undone." confirm-label="Delete Client"></ht-alert-dialog>
+</section>

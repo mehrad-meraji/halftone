@@ -1,0 +1,353 @@
+<section data-block="search-results-01" aria-labelledby="sr-title">
+  <style>
+    [data-block='search-results-01'] {
+      box-sizing: border-box;
+      font: 400 0.875rem/1.5 var(--ht-font-ui);
+      color: var(--ht-text);
+    }
+    [data-block='search-results-01'] .sr-bar {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      background: var(--ht-bg);
+      border-bottom: 1px solid var(--ht-border);
+    }
+    [data-block='search-results-01'] .sr-query {
+      flex: 1;
+      min-width: 0;
+      max-width: 720px;
+    }
+    [data-block='search-results-01'] .sr-per-page {
+      margin-left: auto;
+      width: 136px;
+    }
+    [data-block='search-results-01'] .sr-body {
+      display: grid;
+      gap: 16px;
+      padding: 24px;
+    }
+    [data-block='search-results-01'] .sr-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 8px 16px;
+    }
+    [data-block='search-results-01'] h1 {
+      margin: 0;
+      font: 600 1.25rem/1.3 var(--ht-font-display);
+    }
+    [data-block='search-results-01'] .sr-meta {
+      margin: 0;
+      color: var(--ht-text-muted);
+      font-variant-numeric: tabular-nums;
+    }
+    [data-block='search-results-01'] .sr-filters ht-tag {
+      margin-left: 6px;
+    }
+    [data-block='search-results-01'] .sr-sources {
+      display: grid;
+      gap: 10px;
+      padding: 12px;
+      border: 1px solid var(--ht-border);
+      border-radius: var(--ht-radius-lg);
+      background: var(--ht-surface-muted);
+    }
+    [data-block='search-results-01'] .sr-src-list {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    [data-block='search-results-01'] .sr-failed::part(base) {
+      color: var(--ht-danger-text);
+    }
+    [data-block='search-results-01'] .sr-main {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 420px);
+      gap: 24px;
+      align-items: start;
+    }
+    [data-block='search-results-01'] .sr-results {
+      display: grid;
+      gap: 8px;
+    }
+    [data-block='search-results-01'] .sr-selbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 6px 6px 12px;
+      border: 1px solid var(--ht-border);
+      border-radius: var(--ht-radius-md);
+      background: var(--ht-surface);
+      box-shadow: var(--ht-shadow-xs);
+    }
+    [data-block='search-results-01'] .sr-selbar span {
+      margin-right: auto;
+      font-weight: 500;
+    }
+    [data-block='search-results-01'] .sr-list {
+      display: grid;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    [data-block='search-results-01'] .sr-item {
+      display: grid;
+      grid-template-columns: auto auto minmax(0, 1fr) auto;
+      gap: 4px 12px;
+      padding: 14px 12px;
+      border-bottom: 1px solid var(--ht-border);
+      border-left: 2px solid transparent;
+    }
+    [data-block='search-results-01'] .sr-item.sr-on {
+      background: color-mix(in oklab, var(--ht-accent) 6%, transparent);
+    }
+    [data-block='search-results-01'] .sr-item.sr-open {
+      border-left-color: var(--ht-accent);
+    }
+    [data-block='search-results-01'] .sr-item ht-checkbox {
+      padding-top: 2px;
+    }
+    [data-block='search-results-01'] .sr-text {
+      display: grid;
+      gap: 2px;
+      min-width: 0;
+    }
+    [data-block='search-results-01'] .sr-source {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0 8px;
+      font-size: 0.8125rem;
+    }
+    [data-block='search-results-01'] .sr-source strong {
+      font-weight: 500;
+    }
+    [data-block='search-results-01'] .sr-url {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: var(--ht-text-muted);
+      font-family: var(--ht-font-mono);
+      font-size: 0.75rem;
+    }
+    [data-block='search-results-01'] h3 {
+      margin: 2px 0 0;
+      font-size: 1rem;
+      font-weight: 500;
+      line-height: 1.4;
+    }
+    [data-block='search-results-01'] h3 a {
+      color: var(--ht-accent-text);
+      text-decoration: none;
+    }
+    [data-block='search-results-01'] h3 a:hover {
+      text-decoration: underline;
+    }
+    [data-block='search-results-01'] .sr-text p {
+      margin: 0;
+      color: var(--ht-text-muted);
+    }
+    [data-block='search-results-01'] mark {
+      padding: 0 2px;
+      border-radius: var(--ht-radius-sm);
+      background: var(--ht-accent-soft);
+      color: var(--ht-accent-text);
+    }
+    [data-block='search-results-01'] .sr-reader {
+      position: sticky;
+      top: 76px;
+    }
+    [data-block='search-results-01'] .sr-reader-meta {
+      margin: 0 0 12px;
+      color: var(--ht-text-muted);
+      font: 400 0.75rem/1.4 var(--ht-font-mono);
+    }
+    [data-block='search-results-01'] .sr-reader p {
+      margin: 0 0 12px;
+    }
+    [data-block='search-results-01'] .sr-reader-actions {
+      display: flex;
+      gap: 8px;
+    }
+    [data-block='search-results-01'] .sr-sr {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+    @media (max-width: 1023px) {
+      [data-block='search-results-01'] .sr-main {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      [data-block='search-results-01'] .sr-reader {
+        display: none;
+      }
+    }
+    @media (max-width: 640px) {
+      [data-block='search-results-01'] .sr-bar {
+        padding: 12px 16px;
+      }
+      [data-block='search-results-01'] .sr-per-page {
+        display: none;
+      }
+      [data-block='search-results-01'] .sr-body {
+        padding: 16px;
+      }
+      [data-block='search-results-01'] .sr-item {
+        grid-template-columns: auto minmax(0, 1fr);
+        padding-inline: 8px;
+      }
+      [data-block='search-results-01'] .sr-item ht-avatar {
+        display: none;
+      }
+      [data-block='search-results-01'] .sr-item > ht-tag {
+        grid-column: 2;
+        justify-self: start;
+      }
+    }
+  </style>
+
+  <form class="sr-bar" role="search" action="#" method="get">
+    <ht-input class="sr-query" type="search" name="q" value="auth tokens" aria-label="Search">
+      <ht-icon slot="prefix" name="magnifying-glass"></ht-icon>
+    </ht-input>
+    <ht-button type="reset" variant="quiet">Clear</ht-button>
+    <ht-select class="sr-per-page" name="per-page" value="20" aria-label="Results per page">
+      <ht-option value="10">10 per page</ht-option>
+      <ht-option value="20">20 per page</ht-option>
+      <ht-option value="50">50 per page</ht-option>
+    </ht-select>
+  </form>
+
+  <div class="sr-body">
+    <div class="sr-head">
+      <h1 id="sr-title">Results for “auth tokens”</h1>
+      <p class="sr-meta">20 results · 1.2 s</p>
+    </div>
+
+    <ht-toggle-group class="sr-filters" value="all" aria-label="Filter results">
+      <ht-toggle-item value="all">All<ht-tag>20</ht-tag></ht-toggle-item>
+      <ht-toggle-item value="read">Read<ht-tag>14</ht-tag></ht-toggle-item>
+      <ht-toggle-item value="link">Link Only<ht-tag>4</ht-tag></ht-toggle-item>
+      <ht-toggle-item value="failed">Failed<ht-tag>2</ht-tag></ht-toggle-item>
+    </ht-toggle-group>
+
+    <div class="sr-sources">
+      <h2 class="sr-sr">Sources</h2>
+      <ht-progress label="5 of 8 sources done" value="5" max="8" size="sm"></ht-progress>
+      <ul class="sr-src-list">
+        <li><ht-tag size="md" tone="success"><ht-icon slot="prefix" name="check"></ht-icon>Docs 9</ht-tag></li>
+        <li><ht-tag size="md" tone="success"><ht-icon slot="prefix" name="check"></ht-icon>Code 6</ht-tag></li>
+        <li><ht-tag size="md" tone="success"><ht-icon slot="prefix" name="check"></ht-icon>Issues 3</ht-tag></li>
+        <li><ht-tag size="md" tone="success"><ht-icon slot="prefix" name="check"></ht-icon>People 2</ht-tag></li>
+        <li><ht-tag size="md"><ht-ping slot="prefix" size="sm" tone="info" label="Waiting"></ht-ping>Wiki</ht-tag></li>
+        <li><ht-tag size="md"><ht-ping slot="prefix" size="sm" tone="info" label="Waiting"></ht-ping>Status Page</ht-tag></li>
+        <li><ht-tag size="md" tone="warning"><ht-icon slot="prefix" name="clock"></ht-icon>Forum · Slow</ht-tag></li>
+        <li>
+          <ht-tooltip text="Timed out after 10 s. Select to retry.">
+            <ht-button class="sr-failed" variant="quiet" size="xs"><ht-icon slot="prefix" name="x-circle"></ht-icon>Chat · Failed</ht-button>
+          </ht-tooltip>
+        </li>
+      </ul>
+    </div>
+
+    <div class="sr-main">
+      <div class="sr-results">
+        <h2 class="sr-sr">Results</h2>
+        <div class="sr-selbar">
+          <span role="status">2 selected</span>
+          <ht-button variant="quiet" size="sm">Clear</ht-button>
+          <ht-button size="sm"><ht-icon slot="prefix" name="copy"></ht-icon>Copy for AI</ht-button>
+        </div>
+
+        <ol class="sr-list">
+          <li class="sr-item sr-on sr-open">
+            <ht-checkbox checked label="Select Authenticate with API tokens"></ht-checkbox>
+            <ht-avatar name="Docs" shape="square" size="sm" aria-hidden="true"></ht-avatar>
+            <div class="sr-text">
+              <div class="sr-source"><strong>Acme Docs</strong><span class="sr-url">docs.acme.dev › guides › auth</span></div>
+              <h3><a href="#" aria-current="true">Authenticate with API tokens</a></h3>
+              <p>Create an <mark>auth token</mark> per service, scope it to one project, and rotate it every 90 days.</p>
+            </div>
+            <ht-tag tone="success">Read</ht-tag>
+          </li>
+          <li class="sr-item sr-on">
+            <ht-checkbox checked label="Select verifyToken in token.ts"></ht-checkbox>
+            <ht-avatar name="Code" shape="square" size="sm" aria-hidden="true"></ht-avatar>
+            <div class="sr-text">
+              <div class="sr-source"><strong>Acme Code</strong><span class="sr-url">code.acme.dev › api-gateway › src › auth</span></div>
+              <h3><a href="#">verifyToken in token.ts</a></h3>
+              <p>Rejects <mark>tokens</mark> whose expiry is within 30 seconds, to absorb clock drift between nodes.</p>
+            </div>
+            <ht-tag tone="success">Read</ht-tag>
+          </li>
+          <li class="sr-item">
+            <ht-checkbox label="Select Tokens expire an hour early in UTC+13"></ht-checkbox>
+            <ht-avatar name="Issues" shape="square" size="sm" aria-hidden="true"></ht-avatar>
+            <div class="sr-text">
+              <div class="sr-source"><strong>Acme Issues</strong><span class="sr-url">issues.acme.dev › api-gateway › 412</span></div>
+              <h3><a href="#">Tokens expire an hour early in UTC+13</a></h3>
+              <p>Reported by Linus. The page needs a sign-in, so only the title and link were saved.</p>
+            </div>
+            <ht-tag>Link Only</ht-tag>
+          </li>
+          <li class="sr-item">
+            <ht-checkbox label="Select 401 Unauthorized"></ht-checkbox>
+            <ht-avatar name="Docs" shape="square" size="sm" aria-hidden="true"></ht-avatar>
+            <div class="sr-text">
+              <div class="sr-source"><strong>Acme Docs</strong><span class="sr-url">docs.acme.dev › reference › errors</span></div>
+              <h3><a href="#">401 Unauthorized</a></h3>
+              <p>Returned when the <mark>auth</mark> header is missing, malformed or signed with a revoked key.</p>
+            </div>
+            <ht-tag tone="success">Read</ht-tag>
+          </li>
+          <li class="sr-item">
+            <ht-checkbox label="Select Grace Hopper"></ht-checkbox>
+            <ht-avatar name="People" shape="square" size="sm" aria-hidden="true"></ht-avatar>
+            <div class="sr-text">
+              <div class="sr-source"><strong>Acme People</strong><span class="sr-url">people.acme.dev › grace-hopper</span></div>
+              <h3><a href="#">Grace Hopper</a></h3>
+              <p>Platform team. Owns the <mark>auth</mark> service and the token rotation job.</p>
+            </div>
+            <ht-tag tone="success">Read</ht-tag>
+          </li>
+          <li class="sr-item">
+            <ht-checkbox label="Select Token service degraded"></ht-checkbox>
+            <ht-avatar name="Status" shape="square" size="sm" aria-hidden="true"></ht-avatar>
+            <div class="sr-text">
+              <div class="sr-source"><strong>Acme Status</strong><span class="sr-url">status.acme.dev › incidents › 2024-03</span></div>
+              <h3><a href="#">Token service degraded</a></h3>
+              <p>The page did not load in time. Open it to read it at the source.</p>
+            </div>
+            <ht-tag tone="danger">Failed</ht-tag>
+          </li>
+        </ol>
+      </div>
+
+      <section class="sr-reader" aria-labelledby="sr-reader-title">
+        <h2 id="sr-reader-title" class="sr-sr">Preview</h2>
+        <ht-card eyebrow="Acme Docs" heading="Authenticate with API tokens">
+          <p class="sr-reader-meta">Read · 4,210 characters</p>
+          <p>Every service that calls the API needs its own token. Tokens are scoped to one project and carry the permissions of the person who made them, never more.</p>
+          <p>Create a token under Settings, Tokens. Copy it once: it is not shown again. Send it in the Authorization header as a bearer token.</p>
+          <p>Tokens last 90 days. Rotate them before they expire; the old token keeps working for 24 hours after a new one is made, so deploys do not have to be timed to the second.</p>
+          <div slot="footer" class="sr-reader-actions">
+            <ht-button href="#" target="_blank">Open Page<ht-icon slot="suffix" name="arrow-square-out"></ht-icon></ht-button>
+            <ht-button variant="default"><ht-icon slot="prefix" name="copy"></ht-icon>Copy Text</ht-button>
+          </div>
+        </ht-card>
+      </section>
+    </div>
+  </div>
+</section>

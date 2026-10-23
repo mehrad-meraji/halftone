@@ -1,0 +1,336 @@
+<section data-block="media-grid-01" aria-labelledby="mg-title">
+  <style>
+    [data-block='media-grid-01'] {
+      box-sizing: border-box;
+      display: grid;
+      gap: 16px;
+      padding: 24px;
+      font: 400 0.875rem/1.5 var(--ht-font-ui);
+      color: var(--ht-text);
+    }
+    [data-block='media-grid-01'] .mg-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    [data-block='media-grid-01'] h1 {
+      margin: 0;
+      font: 600 1.5rem/1.2 var(--ht-font-display);
+    }
+    [data-block='media-grid-01'] .mg-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+    [data-block='media-grid-01'] .mg-search {
+      flex: 1 1 240px;
+      max-width: 360px;
+    }
+    [data-block='media-grid-01'] .mg-count {
+      margin: 0 0 0 auto;
+      color: var(--ht-text-muted);
+      font-variant-numeric: tabular-nums;
+    }
+    [data-block='media-grid-01'] .mg-filter-panel {
+      display: grid;
+      gap: 16px;
+    }
+    [data-block='media-grid-01'] .mg-chips {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    [data-block='media-grid-01'] .mg-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    [data-block='media-grid-01'] .mg-tile {
+      position: relative;
+      display: grid;
+      gap: 8px;
+      align-content: start;
+    }
+    [data-block='media-grid-01'] .mg-thumb {
+      position: relative;
+      display: grid;
+      place-items: center;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      border: 1px solid var(--ht-border);
+      border-radius: var(--ht-radius-md);
+      background: var(--ht-surface-sunken);
+    }
+    [data-block='media-grid-01'] .mg-on .mg-thumb {
+      outline: 2px solid var(--ht-accent);
+      outline-offset: 2px;
+    }
+    [data-block='media-grid-01'] .mg-a {
+      background: var(--ht-halftone), linear-gradient(135deg, color-mix(in oklab, var(--ht-accent) 55%, var(--ht-surface)), color-mix(in oklab, var(--ht-info) 45%, var(--ht-surface)));
+    }
+    [data-block='media-grid-01'] .mg-b {
+      background: linear-gradient(160deg, color-mix(in oklab, var(--ht-warning) 50%, var(--ht-surface)), color-mix(in oklab, var(--ht-danger) 35%, var(--ht-surface)));
+    }
+    [data-block='media-grid-01'] .mg-c {
+      background: var(--ht-halftone), linear-gradient(200deg, color-mix(in oklab, var(--ht-success) 40%, var(--ht-surface)), color-mix(in oklab, var(--ht-info) 30%, var(--ht-surface-sunken)));
+    }
+    [data-block='media-grid-01'] .mg-d {
+      background: linear-gradient(120deg, color-mix(in oklab, var(--ht-text) 70%, var(--ht-surface)), color-mix(in oklab, var(--ht-accent) 40%, var(--ht-surface)));
+    }
+    [data-block='media-grid-01'] .mg-e {
+      background: var(--ht-halftone-stage), linear-gradient(90deg, color-mix(in oklab, var(--ht-info) 50%, var(--ht-surface)), color-mix(in oklab, var(--ht-success) 35%, var(--ht-surface)));
+    }
+    [data-block='media-grid-01'] .mg-f {
+      background: var(--ht-halftone), color-mix(in oklab, var(--ht-accent) 20%, var(--ht-surface));
+    }
+    [data-block='media-grid-01'] .mg-thumb ht-skeleton {
+      position: absolute;
+      inset: 0;
+    }
+    [data-block='media-grid-01'] .mg-thumb ht-shimmer {
+      position: relative;
+      font: 500 0.75rem/1 var(--ht-font-mono);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    [data-block='media-grid-01'] .mg-failed .mg-thumb {
+      align-content: center;
+      gap: 8px;
+      border-style: dashed;
+      border-color: color-mix(in oklab, var(--ht-danger) 50%, var(--ht-border));
+      background: color-mix(in oklab, var(--ht-danger) 8%, var(--ht-surface));
+      color: var(--ht-danger-text);
+      text-align: center;
+    }
+    [data-block='media-grid-01'] .mg-check {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      z-index: 1;
+      display: flex;
+      padding: 3px;
+      border-radius: var(--ht-radius-sm);
+      background: var(--ht-surface);
+      box-shadow: var(--ht-shadow-xs);
+      opacity: 0;
+      transition: opacity var(--ht-duration) var(--ht-ease);
+    }
+    [data-block='media-grid-01'] .mg-tile:hover .mg-check,
+    [data-block='media-grid-01'] .mg-tile:focus-within .mg-check,
+    [data-block='media-grid-01'] .mg-on .mg-check {
+      opacity: 1;
+    }
+    [data-block='media-grid-01'] .mg-badge {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+    }
+    [data-block='media-grid-01'] .mg-caption {
+      display: grid;
+      min-width: 0;
+    }
+    [data-block='media-grid-01'] .mg-caption a,
+    [data-block='media-grid-01'] .mg-caption strong {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: var(--ht-text);
+      font-weight: 500;
+      text-decoration: none;
+    }
+    [data-block='media-grid-01'] .mg-caption a::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+    }
+    [data-block='media-grid-01'] .mg-caption a:focus-visible {
+      outline: none;
+    }
+    [data-block='media-grid-01'] .mg-tile:has(.mg-caption a:focus-visible) .mg-thumb {
+      outline: 2px solid var(--ht-focus);
+      outline-offset: 2px;
+    }
+    [data-block='media-grid-01'] .mg-caption span {
+      color: var(--ht-text-muted);
+      font-size: 0.8125rem;
+    }
+    [data-block='media-grid-01'] .mg-failed .mg-thumb ht-button {
+      position: relative;
+      z-index: 1;
+    }
+    [data-block='media-grid-01'] .mg-bulk {
+      position: sticky;
+      bottom: 16px;
+      z-index: 2;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-self: center;
+      gap: 4px;
+      max-width: 100%;
+      box-sizing: border-box;
+      padding: 6px 6px 6px 14px;
+      border: 1px solid var(--ht-border);
+      border-radius: var(--ht-radius-lg);
+      background: var(--ht-surface);
+      box-shadow: var(--ht-shadow-md);
+    }
+    [data-block='media-grid-01'] .mg-bulk-count {
+      margin-right: 8px;
+      font-weight: 500;
+    }
+    [data-block='media-grid-01'] .mg-bulk-esc {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-left: 4px;
+      padding-left: 10px;
+      border-left: 1px solid var(--ht-border);
+      color: var(--ht-text-muted);
+      font-size: 0.8125rem;
+    }
+    [data-block='media-grid-01'] .mg-sr {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+    @media (hover: none) {
+      [data-block='media-grid-01'] .mg-check {
+        opacity: 1;
+      }
+    }
+    @media (max-width: 640px) {
+      [data-block='media-grid-01'] {
+        padding: 16px;
+      }
+      [data-block='media-grid-01'] .mg-search {
+        flex-basis: 100%;
+        max-width: none;
+      }
+      [data-block='media-grid-01'] .mg-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+      [data-block='media-grid-01'] .mg-check {
+        opacity: 1;
+      }
+      [data-block='media-grid-01'] .mg-bulk-esc {
+        display: none;
+      }
+    }
+  </style>
+
+  <div class="mg-head">
+    <h1 id="mg-title">Library</h1>
+    <ht-button><ht-icon slot="prefix" name="upload-simple"></ht-icon>Upload</ht-button>
+  </div>
+
+  <div class="mg-toolbar">
+    <ht-input class="mg-search" type="search" name="q" aria-label="Search library" placeholder="Search by name or tag">
+      <ht-icon slot="prefix" name="magnifying-glass"></ht-icon>
+      <ht-kbd slot="suffix" keys="/"></ht-kbd>
+    </ht-input>
+    <ht-popover placement="bottom-start" label="Filters">
+      <ht-button variant="default"><ht-icon slot="prefix" name="funnel"></ht-icon>Filters<ht-tag slot="suffix" tone="accent">2</ht-tag></ht-button>
+      <div slot="content" class="mg-filter-panel">
+        <ht-checkbox-group label="Type">
+          <ht-checkbox name="type" value="image">Image</ht-checkbox>
+          <ht-checkbox name="type" value="gif">GIF</ht-checkbox>
+          <ht-checkbox name="type" value="video">Video</ht-checkbox>
+        </ht-checkbox-group>
+        <ht-select name="colour" label="Colour" value="blue">
+          <ht-option value="">Any</ht-option>
+          <ht-option value="blue">Blue</ht-option>
+          <ht-option value="green">Green</ht-option>
+          <ht-option value="orange">Orange</ht-option>
+        </ht-select>
+        <ht-select name="added" label="Added" value="30d">
+          <ht-option value="">Any Time</ht-option>
+          <ht-option value="7d">Last 7 Days</ht-option>
+          <ht-option value="30d">Last 30 Days</ht-option>
+        </ht-select>
+      </div>
+    </ht-popover>
+    <ht-toggle-group value="grid" aria-label="View">
+      <ht-toggle-item value="grid"><ht-icon slot="prefix" name="squares-four"></ht-icon>Grid</ht-toggle-item>
+      <ht-toggle-item value="list"><ht-icon slot="prefix" name="list"></ht-icon>List</ht-toggle-item>
+    </ht-toggle-group>
+    <p class="mg-count">36 of 248 items</p>
+  </div>
+
+  <ul class="mg-chips" aria-label="Active filters">
+    <li><ht-button variant="default" size="xs">Colour: Blue<ht-icon slot="suffix" name="x" label="Remove"></ht-icon></ht-button></li>
+    <li><ht-button variant="default" size="xs">Added: Last 30 Days<ht-icon slot="suffix" name="x" label="Remove"></ht-icon></ht-button></li>
+    <li><ht-button variant="quiet" size="xs">Clear All</ht-button></li>
+  </ul>
+
+  <ht-dropzone page multiple compact name="files" accept="image/*,video/*" aria-label="Upload files" helper="Images and video up to 200 MB. Or drop anywhere on the page."></ht-dropzone>
+
+  <h2 class="mg-sr">Items</h2>
+  <ul class="mg-grid">
+    <li class="mg-tile">
+      <div class="mg-thumb mg-a"><ht-tag class="mg-badge">JPG</ht-tag></div>
+      <span class="mg-check"><ht-checkbox label="Select Harbour at Dusk"></ht-checkbox></span>
+      <div class="mg-caption"><a href="#">Harbour at Dusk</a><span>Ada Lovelace · Uploads</span></div>
+    </li>
+    <li class="mg-tile mg-on">
+      <div class="mg-thumb mg-b"><ht-tag class="mg-badge">GIF</ht-tag></div>
+      <span class="mg-check"><ht-checkbox checked label="Select Loading Loop"></ht-checkbox></span>
+      <div class="mg-caption"><a href="#">Loading Loop</a><span>Grace Hopper · Moodboard</span></div>
+    </li>
+    <li class="mg-tile mg-on">
+      <div class="mg-thumb mg-d"><ht-tag class="mg-badge">Video 0:12</ht-tag></div>
+      <span class="mg-check"><ht-checkbox checked label="Select Product Tour Intro"></ht-checkbox></span>
+      <div class="mg-caption"><a href="#">Product Tour Intro</a><span>Linus · Launch</span></div>
+    </li>
+    <li class="mg-tile mg-on">
+      <div class="mg-thumb mg-f"><ht-tag class="mg-badge">PNG</ht-tag></div>
+      <span class="mg-check"><ht-checkbox checked label="Select Dot Screen Swatch"></ht-checkbox></span>
+      <div class="mg-caption"><a href="#">Dot Screen Swatch</a><span>Ada Lovelace · Brand</span></div>
+    </li>
+    <li class="mg-tile">
+      <div class="mg-thumb"><ht-skeleton variant="rect" height="100%"></ht-skeleton><ht-shimmer>Processing</ht-shimmer></div>
+      <div class="mg-caption"><strong>office-wall.heic</strong><span>Uploaded just now</span></div>
+    </li>
+    <li class="mg-tile mg-failed">
+      <div class="mg-thumb">
+        <ht-icon name="warning-circle" size="24"></ht-icon>
+        <span>Upload failed</span>
+        <ht-button variant="default" size="xs">Retry</ht-button>
+      </div>
+      <div class="mg-caption"><strong>launch-final-v3.mov</strong><span>File is over 200 MB</span></div>
+    </li>
+    <li class="mg-tile">
+      <div class="mg-thumb mg-c"><ht-tag class="mg-badge">JPG</ht-tag></div>
+      <span class="mg-check"><ht-checkbox label="Select Night Market"></ht-checkbox></span>
+      <div class="mg-caption"><a href="#">Night Market</a><span>Grace Hopper · Uploads</span></div>
+    </li>
+    <li class="mg-tile">
+      <div class="mg-thumb mg-e"><ht-tag class="mg-badge">Video 1:04</ht-tag></div>
+      <span class="mg-check"><ht-checkbox label="Select Team Offsite"></ht-checkbox></span>
+      <div class="mg-caption"><a href="#">Team Offsite</a><span>Linus · Events</span></div>
+    </li>
+  </ul>
+
+  <div class="mg-bulk" role="region" aria-label="Bulk actions">
+    <span class="mg-bulk-count" role="status">3 selected</span>
+    <ht-button variant="quiet" size="sm"><ht-icon slot="prefix" name="tag"></ht-icon>Tag</ht-button>
+    <ht-button variant="quiet" size="sm"><ht-icon slot="prefix" name="plus"></ht-icon>Add to Collection</ht-button>
+    <ht-button variant="quiet" size="sm"><ht-icon slot="prefix" name="download-simple"></ht-icon>Download</ht-button>
+    <ht-button variant="danger" size="sm"><ht-icon slot="prefix" name="trash"></ht-icon>Delete</ht-button>
+    <span class="mg-bulk-esc"><ht-kbd keys="Esc"></ht-kbd> Clear</span>
+  </div>
+</section>

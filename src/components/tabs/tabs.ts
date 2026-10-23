@@ -27,7 +27,7 @@ export class HtTabs extends LitElement {
     value: { reflect: true },
     /** Accessible name for the tab list. */
     label: {},
-    /** Shrinks the track to its content instead of filling the width. Horizontal only. */
+    /** Shrinks the tab track to its content instead of filling the width. Panels keep the full width. Horizontal only. */
     fit: { type: Boolean, reflect: true },
     /** `vertical` stacks the tabs in a column beside the panels, and Up and Down move between them. */
     orientation: { reflect: true },
@@ -58,7 +58,6 @@ export class HtTabs extends LitElement {
 
   static styles = css`
     :host { display: block; }
-    :host([fit]) { display: inline-block; }
     .list {
       box-sizing: border-box;
       display: flex;
@@ -68,11 +67,11 @@ export class HtTabs extends LitElement {
       background: color-mix(in oklab, var(--ht-text) 5%, transparent);
       border-radius: var(--ht-radius-lg);
     }
-    :host([fit]) .list { display: inline-flex; }
+    /* Only the track shrinks; the host and the panels keep the full width. */
+    :host([fit]) .list { width: fit-content; }
     :host([fit]) ::slotted(ht-tab) { flex: 0 0 auto; }
     .panels { display: block; }
     :host([orientation='vertical']) { display: flex; align-items: flex-start; gap: 12px; --_tab-justify: flex-start; }
-    :host([orientation='vertical'][fit]) { display: flex; }
     :host([orientation='vertical']) .list { flex: none; flex-direction: column; align-items: stretch; }
     :host([orientation='vertical']) ::slotted(ht-tab) { flex: 0 0 auto; }
     :host([orientation='vertical']) ::slotted(ht-tab-panel) { padding-top: 0; }
@@ -224,7 +223,15 @@ export class HtTab extends LitElement {
       transition: background-color 120ms;
     }
     :host(:hover) .tab { background: color-mix(in oklab, var(--ht-text) 7.5%, transparent); }
-    :host([selected]) .tab { background: var(--ht-surface); box-shadow: var(--ht-shadow-xs); }
+    /*
+     * The pill is lighter than the track in both themes: a touch of white over the surface, and a
+     * hairline edge. Plain --ht-surface sat darker than the track in dark mode.
+     */
+    :host([selected]) .tab {
+      background: color-mix(in oklab, var(--ht-surface), white 12%);
+      border-color: color-mix(in oklab, var(--ht-text) 14%, transparent);
+      box-shadow: var(--ht-shadow-xs);
+    }
     :host(:focus-visible) .tab { outline: 2px solid var(--ht-focus); outline-offset: 1px; }
     :host([disabled]) .tab { opacity: 0.5; cursor: not-allowed; background: transparent; }
     ::slotted([slot='prefix']) { flex: none; width: 16px; height: 16px; }
@@ -244,6 +251,10 @@ export class HtTab extends LitElement {
 /**
  * Content for one tab. Shown while the tab with the same `value` is selected.
  *
+ * The panel is a tab stop only when it holds nothing focusable, as the ARIA tabs pattern asks.
+ * With a link, button or field inside, Tab goes from the tab straight to that control. Set
+ * `tabindex` yourself to override.
+ *
  * @tag ht-tab-panel
  * @summary Tab panel.
  *
@@ -262,11 +273,20 @@ export class HtTabPanel extends LitElement {
     this.value = '';
   }
 
+  #ownTabindex: boolean | undefined;
+
   connectedCallback() {
     super.connectedCallback();
     this.setAttribute('role', 'tabpanel');
-    if (!this.hasAttribute('tabindex')) this.tabIndex = 0;
+    this.#ownTabindex ??= this.hasAttribute('tabindex');
+    this.#syncTabStop();
   }
+
+  /** A tab stop only when there is nothing focusable inside. */
+  #syncTabStop = () => {
+    if (this.#ownTabindex) return;
+    this.tabIndex = this.querySelector(FOCUSABLE) ? -1 : 0;
+  };
 
   static styles = css`
     :host { display: block; padding-top: 12px; }
@@ -275,9 +295,27 @@ export class HtTabPanel extends LitElement {
   `;
 
   render() {
-    return html`<slot></slot>`;
+    return html`<slot @slotchange=${this.#syncTabStop}></slot>`;
   }
 }
+
+/** Native and `ht-*` controls that take focus. Custom elements that delegate focus report tabIndex -1, so they are listed by tag. */
+const FOCUSABLE = [
+  'a[href]',
+  'button:not([disabled])',
+  'input:not([disabled]):not([type="hidden"])',
+  'select:not([disabled])',
+  'textarea:not([disabled])',
+  'summary',
+  'iframe',
+  '[contenteditable]:not([contenteditable="false"])',
+  '[tabindex]:not([tabindex="-1"])',
+  ...[
+    'button', 'input', 'textarea', 'number', 'select', 'checkbox', 'radio', 'switch', 'toggle',
+    'toggle-group', 'tabs', 'menu', 'popover', 'command', 'calendar', 'dropzone', 'prompt',
+    'pagination', 'tree', 'accordion', 'code', 'emoji-picker', 'carousel', 'nav-item', 'breadcrumb',
+  ].map((n) => `ht-${n}:not([disabled])`),
+].join(',');
 
 for (const [tag, ctor] of [
   ['ht-tabs', HtTabs],

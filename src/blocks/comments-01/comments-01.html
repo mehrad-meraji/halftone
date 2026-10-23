@@ -1,0 +1,329 @@
+<section data-block="comments-01" aria-labelledby="cm-title">
+  <style>
+    [data-block='comments-01'] {
+      box-sizing: border-box;
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 32px 24px;
+      display: grid;
+      gap: 24px;
+      font: 400 0.875rem/1.5 var(--ht-font-ui);
+      color: var(--ht-text);
+    }
+    [data-block='comments-01'] .cm-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    [data-block='comments-01'] h2 {
+      margin: 0;
+      font: 600 1.125rem/1.3 var(--ht-font-display);
+    }
+    [data-block='comments-01'] .cm-count {
+      color: var(--ht-text-muted);
+      font-weight: 400;
+    }
+    [data-block='comments-01'] .cm-list,
+    [data-block='comments-01'] .cm-replies {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 24px;
+    }
+    [data-block='comments-01'] .cm-replies {
+      margin-top: 16px;
+      padding-left: 20px;
+      border-left: 1px solid var(--ht-border);
+      gap: 16px;
+    }
+    [data-block='comments-01'] .cm-item {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 12px;
+    }
+    [data-block='comments-01'] .cm-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 4px 8px;
+      min-height: 32px;
+    }
+    [data-block='comments-01'] .cm-name {
+      font-weight: 600;
+    }
+    [data-block='comments-01'] .cm-meta time {
+      color: var(--ht-text-muted);
+    }
+    [data-block='comments-01'] .cm-body {
+      overflow-wrap: anywhere;
+    }
+    [data-block='comments-01'] .cm-body p {
+      margin: 0 0 8px;
+    }
+    [data-block='comments-01'] .cm-body p:last-child {
+      margin-bottom: 0;
+    }
+    [data-block='comments-01'] .cm-body code {
+      padding: 1px 4px;
+      font: 400 0.8125rem/1 var(--ht-font-mono);
+      background: var(--ht-surface-sunken);
+      border: 1px solid var(--ht-border);
+      border-radius: var(--ht-radius-sm);
+    }
+    [data-block='comments-01'] a {
+      color: var(--ht-accent-text);
+      text-underline-offset: 2px;
+    }
+    [data-block='comments-01'] .cm-resolved .cm-body {
+      color: var(--ht-text-muted);
+    }
+    [data-block='comments-01'] .cm-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 4px;
+      margin-top: 8px;
+    }
+    [data-block='comments-01'] .cm-reactions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-right: 8px;
+    }
+    [data-block='comments-01'] .cm-more {
+      margin-top: 8px;
+    }
+    [data-block='comments-01'] .cm-composer {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 12px;
+      padding-top: 24px;
+      border-top: 1px solid var(--ht-border);
+    }
+    [data-block='comments-01'] .cm-fields {
+      display: grid;
+      gap: 12px;
+    }
+    [data-block='comments-01'] .cm-send {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+    [data-block='comments-01'] .cm-hint {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-right: auto;
+      color: var(--ht-text-muted);
+    }
+    @media (max-width: 480px) {
+      [data-block='comments-01'] {
+        padding: 24px 16px;
+      }
+      [data-block='comments-01'] .cm-replies {
+        padding-left: 12px;
+      }
+      [data-block='comments-01'] .cm-hint {
+        display: none;
+      }
+    }
+  </style>
+
+  <div class="cm-head">
+    <h2 id="cm-title">Comments <span class="cm-count">(4)</span></h2>
+    <ht-select size="sm" value="oldest" aria-label="Sort comments">
+      <ht-option value="oldest">Oldest First</ht-option>
+      <ht-option value="newest">Newest First</ht-option>
+      <ht-option value="unresolved">Unresolved Only</ht-option>
+    </ht-select>
+  </div>
+
+  <ul class="cm-list" role="list">
+    <li>
+      <article class="cm-item cm-resolved" aria-label="Comment by Grace Hopper">
+        <ht-avatar size="md" name="Grace Hopper"></ht-avatar>
+        <div>
+          <div class="cm-meta">
+            <span class="cm-name">Grace Hopper</span>
+            <time datetime="2026-10-21T09:12">2 days ago</time>
+            <ht-tag tone="success">Resolved</ht-tag>
+          </div>
+          <div class="cm-body">
+            <p>The retry loop in <code>api-gateway</code> never backs off. It hammered the queue for 40 minutes on Monday.</p>
+          </div>
+          <div class="cm-bar">
+            <div class="cm-reactions">
+              <ht-toggle size="sm" variant="outline">👀 2</ht-toggle>
+            </div>
+            <ht-button variant="quiet" size="xs">Reply</ht-button>
+            <ht-button variant="quiet" size="xs">Reopen</ht-button>
+            <ht-menu placement="bottom-end">
+              <ht-button slot="trigger" variant="quiet" size="xs"><ht-icon name="dots-three" weight="bold" label="More actions"></ht-icon></ht-button>
+              <ht-menu-item><ht-icon slot="prefix" name="pencil-simple"></ht-icon>Edit</ht-menu-item>
+              <ht-menu-item><ht-icon slot="prefix" name="link"></ht-icon>Copy Link</ht-menu-item>
+              <ht-menu-separator></ht-menu-separator>
+              <ht-menu-item danger><ht-icon slot="prefix" name="trash"></ht-icon>Delete</ht-menu-item>
+            </ht-menu>
+          </div>
+        </div>
+      </article>
+    </li>
+
+    <li>
+      <article class="cm-item" aria-label="Comment by Linus">
+        <ht-avatar size="md" name="Linus"></ht-avatar>
+        <div>
+          <div class="cm-meta">
+            <span class="cm-name">Linus</span>
+            <time datetime="2026-10-22T16:40">Yesterday</time>
+          </div>
+          <div class="cm-body">
+            <p>Proposal: cap retries at 5 with jitter, and move the limit to <code>RETRY_MAX</code> so ops can tune it without a deploy.</p>
+            <p>Draft is in <a href="#">the design doc</a>. Objections by Friday, please.</p>
+          </div>
+          <div class="cm-bar">
+            <div class="cm-reactions">
+              <ht-toggle size="sm" variant="outline" pressed>👍 3</ht-toggle>
+              <ht-toggle size="sm" variant="outline">🎉 1</ht-toggle>
+              <ht-button variant="quiet" size="xs"><ht-icon name="plus" weight="bold" label="Add reaction"></ht-icon></ht-button>
+            </div>
+            <ht-button variant="quiet" size="xs">Reply</ht-button>
+            <ht-button variant="quiet" size="xs">Resolve</ht-button>
+            <ht-menu placement="bottom-end">
+              <ht-button slot="trigger" variant="quiet" size="xs"><ht-icon name="dots-three" weight="bold" label="More actions"></ht-icon></ht-button>
+              <ht-menu-item><ht-icon slot="prefix" name="pencil-simple"></ht-icon>Edit</ht-menu-item>
+              <ht-menu-item><ht-icon slot="prefix" name="link"></ht-icon>Copy Link</ht-menu-item>
+              <ht-menu-separator></ht-menu-separator>
+              <ht-menu-item danger><ht-icon slot="prefix" name="trash"></ht-icon>Delete</ht-menu-item>
+            </ht-menu>
+          </div>
+
+          <ul class="cm-replies" role="list" aria-label="Replies to Linus">
+            <li>
+              <article class="cm-item" aria-label="Reply by Ada Lovelace">
+                <ht-avatar size="sm" name="Ada Lovelace"></ht-avatar>
+                <div>
+                  <div class="cm-meta">
+                    <span class="cm-name">Ada Lovelace</span>
+                    <time datetime="2026-10-22T17:05">Yesterday</time>
+                    <ht-tag>Edited</ht-tag>
+                  </div>
+                  <div class="cm-body">
+                    <p>Agreed on 5. Jitter should be full, not equal, or the workers retry in step.</p>
+                  </div>
+                  <div class="cm-bar">
+                    <div class="cm-reactions">
+                      <ht-toggle size="sm" variant="outline">👍 1</ht-toggle>
+                    </div>
+                    <ht-button variant="quiet" size="xs">Reply</ht-button>
+                    <ht-menu placement="bottom-end">
+                      <ht-button slot="trigger" variant="quiet" size="xs"><ht-icon name="dots-three" weight="bold" label="More actions"></ht-icon></ht-button>
+                      <ht-menu-item><ht-icon slot="prefix" name="pencil-simple"></ht-icon>Edit</ht-menu-item>
+                      <ht-menu-item><ht-icon slot="prefix" name="link"></ht-icon>Copy Link</ht-menu-item>
+                      <ht-menu-separator></ht-menu-separator>
+                      <ht-menu-item danger><ht-icon slot="prefix" name="trash"></ht-icon>Delete</ht-menu-item>
+                    </ht-menu>
+                  </div>
+                </div>
+              </article>
+            </li>
+            <li>
+              <article class="cm-item" aria-label="Reply by Grace Hopper">
+                <ht-avatar size="sm" name="Grace Hopper"></ht-avatar>
+                <div>
+                  <div class="cm-meta">
+                    <span class="cm-name">Grace Hopper</span>
+                    <time datetime="2026-10-22T18:31">Yesterday</time>
+                  </div>
+                  <div class="cm-body">
+                    <p>Fine by me. Ship it behind a flag first.</p>
+                  </div>
+                  <div class="cm-bar">
+                    <ht-button variant="quiet" size="xs">Reply</ht-button>
+                    <ht-menu placement="bottom-end">
+                      <ht-button slot="trigger" variant="quiet" size="xs"><ht-icon name="dots-three" weight="bold" label="More actions"></ht-icon></ht-button>
+                      <ht-menu-item><ht-icon slot="prefix" name="pencil-simple"></ht-icon>Edit</ht-menu-item>
+                      <ht-menu-item><ht-icon slot="prefix" name="link"></ht-icon>Copy Link</ht-menu-item>
+                      <ht-menu-separator></ht-menu-separator>
+                      <ht-menu-item danger><ht-icon slot="prefix" name="trash"></ht-icon>Delete</ht-menu-item>
+                    </ht-menu>
+                  </div>
+                </div>
+              </article>
+            </li>
+          </ul>
+          <ht-button class="cm-more" variant="quiet" size="xs"><ht-icon slot="prefix" name="caret-down" weight="bold"></ht-icon>Show 2 More Replies</ht-button>
+        </div>
+      </article>
+    </li>
+
+    <li>
+      <article class="cm-item" aria-label="Comment by Ada Lovelace">
+        <ht-avatar size="md" name="Ada Lovelace"></ht-avatar>
+        <div>
+          <div class="cm-meta">
+            <span class="cm-name">Ada Lovelace</span>
+            <time datetime="2026-10-23T08:02">2 hours ago</time>
+          </div>
+          <div class="cm-body">
+            <p>Flag is <code>gateway.retry-cap</code>, on for staging. Graphs look flat so far.</p>
+          </div>
+          <div class="cm-bar">
+            <ht-button variant="quiet" size="xs">Reply</ht-button>
+            <ht-button variant="quiet" size="xs">Resolve</ht-button>
+            <ht-menu placement="bottom-end">
+              <ht-button slot="trigger" variant="quiet" size="xs"><ht-icon name="dots-three" weight="bold" label="More actions"></ht-icon></ht-button>
+              <ht-menu-item><ht-icon slot="prefix" name="pencil-simple"></ht-icon>Edit</ht-menu-item>
+              <ht-menu-item><ht-icon slot="prefix" name="link"></ht-icon>Copy Link</ht-menu-item>
+              <ht-menu-separator></ht-menu-separator>
+              <ht-menu-item danger><ht-icon slot="prefix" name="trash"></ht-icon>Delete</ht-menu-item>
+            </ht-menu>
+          </div>
+        </div>
+      </article>
+    </li>
+
+    <li>
+      <article class="cm-item" aria-label="Comment by Linus">
+        <ht-avatar size="md" name="Linus"></ht-avatar>
+        <div>
+          <div class="cm-meta">
+            <span class="cm-name">Linus</span>
+            <time datetime="2026-10-23T09:47">12 minutes ago</time>
+          </div>
+          <div class="cm-body">
+            <p>Production at 14:00 UTC unless someone objects.</p>
+          </div>
+          <div class="cm-bar">
+            <ht-button variant="quiet" size="xs">Reply</ht-button>
+            <ht-button variant="quiet" size="xs">Resolve</ht-button>
+            <ht-menu placement="bottom-end">
+              <ht-button slot="trigger" variant="quiet" size="xs"><ht-icon name="dots-three" weight="bold" label="More actions"></ht-icon></ht-button>
+              <ht-menu-item><ht-icon slot="prefix" name="pencil-simple"></ht-icon>Edit</ht-menu-item>
+              <ht-menu-item><ht-icon slot="prefix" name="link"></ht-icon>Copy Link</ht-menu-item>
+              <ht-menu-separator></ht-menu-separator>
+              <ht-menu-item danger><ht-icon slot="prefix" name="trash"></ht-icon>Delete</ht-menu-item>
+            </ht-menu>
+          </div>
+        </div>
+      </article>
+    </li>
+  </ul>
+
+  <form class="cm-composer" action="#" method="post">
+    <ht-avatar size="md" name="Ada Lovelace"></ht-avatar>
+    <div class="cm-fields">
+      <ht-textarea name="body" label="Add a Comment" placeholder="Markdown works. @ to mention." rows="3" max-rows="12" autosize required></ht-textarea>
+      <ht-dropzone name="attachments" compact multiple aria-label="Attach files" helper="Up to 25 MB each"></ht-dropzone>
+      <div class="cm-send">
+        <span class="cm-hint"><ht-kbd keys="⌘ Enter"></ht-kbd>to send</span>
+        <ht-button type="reset" variant="default">Cancel</ht-button>
+        <ht-button type="submit" variant="primary">Comment</ht-button>
+      </div>
+    </div>
+  </form>
+</section>

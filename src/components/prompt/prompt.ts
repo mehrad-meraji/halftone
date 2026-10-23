@@ -103,6 +103,8 @@ export class HtPrompt extends LitElement {
     .field { position: relative; flex: 1; min-width: 0; display: flex; }
     textarea {
       all: unset;
+      /* After all: unset the field would inherit the page's alignment (a centred hero centred the text). */
+      text-align: start;
       box-sizing: border-box;
       flex: 1;
       min-width: 0;

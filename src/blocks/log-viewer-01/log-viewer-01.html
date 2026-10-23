@@ -1,0 +1,399 @@
+<section data-block="log-viewer-01" aria-labelledby="lv-title">
+  <style>
+    [data-block='log-viewer-01'] {
+      box-sizing: border-box;
+      padding: 24px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 380px;
+      gap: 16px 24px;
+      align-items: start;
+      font: 400 0.875rem/1.5 var(--ht-font-ui);
+      color: var(--ht-text);
+    }
+    [data-block='log-viewer-01'] .lv-main {
+      display: grid;
+      gap: 16px;
+      min-width: 0;
+    }
+    [data-block='log-viewer-01'] .lv-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    [data-block='log-viewer-01'] h1 {
+      margin: 0;
+      font: 600 1.5rem/1.2 var(--ht-font-display);
+    }
+    [data-block='log-viewer-01'] .lv-sr {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+    /* The toggle sizes its prefix to 16px; centre the 8px dot in it. */
+    [data-block='log-viewer-01'] .lv-query {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+    [data-block='log-viewer-01'] .lv-query ht-input {
+      flex: 1 1 280px;
+    }
+    [data-block='log-viewer-01'] ht-input::part(input) {
+      font-family: var(--ht-font-mono);
+    }
+    [data-block='log-viewer-01'] .lv-prompt {
+      font-family: var(--ht-font-mono);
+      color: var(--ht-accent-text);
+    }
+    [data-block='log-viewer-01'] .lv-count {
+      color: var(--ht-text-muted);
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+    [data-block='log-viewer-01'] .lv-views {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+    /* The toggle group does not wrap, so on narrow screens it scrolls inside itself. */
+    [data-block='log-viewer-01'] .lv-views ht-toggle-group {
+      max-width: 100%;
+      overflow-x: auto;
+    }
+    [data-block='log-viewer-01'] .lv-volume {
+      display: grid;
+      gap: 8px;
+      padding: 12px;
+      border: 1px solid var(--ht-border);
+      border-radius: var(--ht-radius-md);
+      background: var(--ht-surface);
+    }
+    [data-block='log-viewer-01'] .lv-bars {
+      display: flex;
+      align-items: flex-end;
+      gap: 2px;
+      height: 72px;
+      border-bottom: 1px solid var(--ht-border);
+    }
+    [data-block='log-viewer-01'] .lv-bars i {
+      --u: 1.5px;
+      flex: 1;
+      height: calc((var(--e) + var(--w) + var(--n)) * var(--u));
+      background: linear-gradient(
+        to top,
+        var(--ht-danger) 0 calc(var(--e) * var(--u)),
+        var(--ht-warning) 0 calc((var(--e) + var(--w)) * var(--u)),
+        color-mix(in oklab, var(--ht-info) 45%, transparent) 0
+      );
+    }
+    [data-block='log-viewer-01'] .lv-legend {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 4px 16px;
+      margin: 0;
+      font: 400 0.75rem/1.4 var(--ht-font-mono);
+      color: var(--ht-text-muted);
+    }
+    [data-block='log-viewer-01'] .lv-keys {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    [data-block='log-viewer-01'] .lv-keys span::before {
+      content: '';
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      margin-right: 6px;
+      border-radius: var(--ht-radius-sm);
+      background: var(--k);
+    }
+    [data-block='log-viewer-01'] .lv-lines {
+      border: 1px solid var(--ht-border);
+      border-radius: var(--ht-radius-md);
+      overflow: hidden;
+      background: var(--ht-surface);
+    }
+    [data-block='log-viewer-01'] .lv-time {
+      font: 400 0.75rem/1.4 var(--ht-font-mono);
+      color: var(--ht-text);
+      white-space: nowrap;
+    }
+    [data-block='log-viewer-01'] .lv-svc {
+      font: 400 0.75rem/1.4 var(--ht-font-mono);
+      color: var(--ht-text-muted);
+      white-space: nowrap;
+    }
+    [data-block='log-viewer-01'] .lv-msg {
+      display: block;
+      max-width: 64ch;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font: 400 0.8125rem/1.4 var(--ht-font-mono);
+    }
+    [data-block='log-viewer-01'] .lv-kv {
+      color: var(--ht-text-subtle);
+    }
+    [data-block='log-viewer-01'] .lv-tail {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0;
+      font: 400 0.75rem/1.4 var(--ht-font-mono);
+      color: var(--ht-text-muted);
+    }
+    [data-block='log-viewer-01'] .lv-detail {
+      display: grid;
+      gap: 12px;
+      padding: 16px;
+      border: 1px solid var(--ht-border);
+      border-radius: var(--ht-radius-md);
+      background: var(--ht-surface);
+    }
+    [data-block='log-viewer-01'] .lv-detail h2 {
+      margin: 0;
+      font: 600 1rem/1.25 var(--ht-font-display);
+    }
+    [data-block='log-viewer-01'] .lv-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin: 0;
+    }
+    [data-block='log-viewer-01'] ht-tab-panel {
+      padding-top: 12px;
+    }
+    [data-block='log-viewer-01'] ht-description-list {
+      --ht-description-list-label-width: 96px;
+    }
+    [data-block='log-viewer-01'] .lv-mono {
+      font-family: var(--ht-font-mono);
+      font-size: 0.8125rem;
+      overflow-wrap: anywhere;
+    }
+    @media (max-width: 1100px) {
+      [data-block='log-viewer-01'] {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+    @media (max-width: 640px) {
+      [data-block='log-viewer-01'] {
+        padding: 16px;
+      }
+      [data-block='log-viewer-01'] .lv-wide,
+      [data-block='log-viewer-01'] .lv-kv {
+        display: none;
+      }
+      [data-block='log-viewer-01'] .lv-msg {
+        max-width: 18ch;
+      }
+      [data-block='log-viewer-01'] .lv-keys {
+        order: -1;
+        width: 100%;
+      }
+    }
+  </style>
+
+  <div class="lv-main">
+    <div class="lv-head">
+      <h1 id="lv-title">Logs</h1>
+      <ht-toggle variant="outline" size="sm" pressed>
+        <ht-ping slot="prefix" tone="success" size="sm"></ht-ping>
+        Live
+      </ht-toggle>
+    </div>
+
+    <form class="lv-query" role="search" aria-label="Logs">
+      <ht-input aria-label="Query" value="service:api-gateway -level:debug" size="sm">
+        <span slot="prefix" class="lv-prompt">&gt;</span>
+      </ht-input>
+      <span class="lv-count">846 matches</span>
+      <ht-button variant="default" size="sm">Save View</ht-button>
+      <ht-button type="submit" size="sm">Run</ht-button>
+    </form>
+
+    <div class="lv-views">
+      <ht-toggle-group value="gateway" size="sm" aria-label="Saved views">
+        <ht-toggle-item value="all">All Services</ht-toggle-item>
+        <ht-toggle-item value="gateway">api-gateway</ht-toggle-item>
+        <ht-toggle-item value="payments">Payment Errors</ht-toggle-item>
+        <ht-toggle-item value="slow">Slow Requests</ht-toggle-item>
+      </ht-toggle-group>
+      <ht-button variant="quiet" size="xs">
+        <ht-icon name="plus" label="New View"></ht-icon>
+      </ht-button>
+    </div>
+
+    <h2 class="lv-sr">Volume</h2>
+    <div class="lv-volume">
+      <div class="lv-bars" role="img" aria-label="Last 60 minutes, 2-minute buckets: 846 lines, 45 errors, 128 warnings, 673 info. Errors spike 10 minutes ago.">
+        <i style="--e: 0; --w: 4; --n: 17"></i>
+        <i style="--e: 1; --w: 5; --n: 18"></i>
+        <i style="--e: 0; --w: 2; --n: 16"></i>
+        <i style="--e: 1; --w: 6; --n: 30"></i>
+        <i style="--e: 1; --w: 2; --n: 19"></i>
+        <i style="--e: 2; --w: 6; --n: 21"></i>
+        <i style="--e: 1; --w: 3; --n: 29"></i>
+        <i style="--e: 0; --w: 4; --n: 19"></i>
+        <i style="--e: 0; --w: 4; --n: 28"></i>
+        <i style="--e: 1; --w: 3; --n: 18"></i>
+        <i style="--e: 1; --w: 4; --n: 26"></i>
+        <i style="--e: 1; --w: 2; --n: 29"></i>
+        <i style="--e: 2; --w: 4; --n: 26"></i>
+        <i style="--e: 1; --w: 6; --n: 19"></i>
+        <i style="--e: 0; --w: 3; --n: 23"></i>
+        <i style="--e: 1; --w: 2; --n: 30"></i>
+        <i style="--e: 2; --w: 4; --n: 16"></i>
+        <i style="--e: 1; --w: 6; --n: 27"></i>
+        <i style="--e: 1; --w: 6; --n: 19"></i>
+        <i style="--e: 1; --w: 5; --n: 25"></i>
+        <i style="--e: 1; --w: 5; --n: 23"></i>
+        <i style="--e: 0; --w: 3; --n: 20"></i>
+        <i style="--e: 1; --w: 2; --n: 17"></i>
+        <i style="--e: 0; --w: 5; --n: 26"></i>
+        <i style="--e: 9; --w: 8; --n: 24"></i>
+        <i style="--e: 10; --w: 8; --n: 18"></i>
+        <i style="--e: 0; --w: 2; --n: 22"></i>
+        <i style="--e: 0; --w: 5; --n: 20"></i>
+        <i style="--e: 0; --w: 4; --n: 22"></i>
+        <i style="--e: 6; --w: 5; --n: 26"></i>
+      </div>
+      <p class="lv-legend" aria-hidden="true">
+        <span>13:04</span>
+        <span class="lv-keys">
+          <span style="--k: var(--ht-danger)">Error 45</span>
+          <span style="--k: var(--ht-warning)">Warn 128</span>
+          <span style="--k: color-mix(in oklab, var(--ht-info) 45%, transparent)">Info 673</span>
+        </span>
+        <span>14:04</span>
+      </p>
+    </div>
+
+    <h2 class="lv-sr">Log Lines</h2>
+    <div class="lv-lines">
+      <ht-table density="dense">
+        <ht-table-head>
+          <ht-table-row>
+            <ht-table-header>Time</ht-table-header>
+            <ht-table-header>Level</ht-table-header>
+            <ht-table-header class="lv-wide">Service</ht-table-header>
+            <ht-table-header>Message</ht-table-header>
+          </ht-table-row>
+        </ht-table-head>
+        <ht-table-body>
+          <ht-table-row selected>
+            <ht-table-cell><a class="lv-time" href="#" aria-current="true">14:02:11.204</a></ht-table-cell>
+            <ht-table-cell><ht-tag tone="danger">Error</ht-tag></ht-table-cell>
+            <ht-table-cell class="lv-wide"><span class="lv-svc">api-gateway</span></ht-table-cell>
+            <ht-table-cell><span class="lv-msg">upstream connect error: connection refused <span class="lv-kv">upstream=auth-service:8443 route=/v1/sessions status=502 duration_ms=3004</span></span></ht-table-cell>
+          </ht-table-row>
+          <ht-table-row>
+            <ht-table-cell><a class="lv-time" href="#">14:02:10.877</a></ht-table-cell>
+            <ht-table-cell><ht-tag tone="warning">Warn</ht-tag></ht-table-cell>
+            <ht-table-cell class="lv-wide"><span class="lv-svc">api-gateway</span></ht-table-cell>
+            <ht-table-cell><span class="lv-msg">retrying upstream after timeout <span class="lv-kv">attempt=2 upstream=auth-service:8443</span></span></ht-table-cell>
+          </ht-table-row>
+          <ht-table-row>
+            <ht-table-cell><a class="lv-time" href="#">14:02:09.412</a></ht-table-cell>
+            <ht-table-cell><ht-tag>Info</ht-tag></ht-table-cell>
+            <ht-table-cell class="lv-wide"><span class="lv-svc">api-gateway</span></ht-table-cell>
+            <ht-table-cell><span class="lv-msg">GET /v1/projects 200 <span class="lv-kv">duration_ms=48 user=u_1815</span></span></ht-table-cell>
+          </ht-table-row>
+          <ht-table-row>
+            <ht-table-cell><a class="lv-time" href="#">14:02:08.950</a></ht-table-cell>
+            <ht-table-cell><ht-tag tone="danger">Error</ht-tag></ht-table-cell>
+            <ht-table-cell class="lv-wide"><span class="lv-svc">api-gateway</span></ht-table-cell>
+            <ht-table-cell><span class="lv-msg">upstream connect error: connection refused <span class="lv-kv">upstream=auth-service:8443 route=/v1/tokens status=502</span></span></ht-table-cell>
+          </ht-table-row>
+          <ht-table-row>
+            <ht-table-cell><a class="lv-time" href="#">14:02:07.031</a></ht-table-cell>
+            <ht-table-cell><ht-tag>Info</ht-tag></ht-table-cell>
+            <ht-table-cell class="lv-wide"><span class="lv-svc">api-gateway</span></ht-table-cell>
+            <ht-table-cell><span class="lv-msg">POST /v1/events 202 <span class="lv-kv">duration_ms=12 bytes=5120</span></span></ht-table-cell>
+          </ht-table-row>
+          <ht-table-row>
+            <ht-table-cell><a class="lv-time" href="#">14:02:05.660</a></ht-table-cell>
+            <ht-table-cell><ht-tag tone="warning">Warn</ht-tag></ht-table-cell>
+            <ht-table-cell class="lv-wide"><span class="lv-svc">api-gateway</span></ht-table-cell>
+            <ht-table-cell><span class="lv-msg">rate limit at 92% of 1000 rpm <span class="lv-kv">key=acme-web window=60s</span></span></ht-table-cell>
+          </ht-table-row>
+          <ht-table-row>
+            <ht-table-cell><a class="lv-time" href="#">14:02:04.118</a></ht-table-cell>
+            <ht-table-cell><ht-tag>Info</ht-tag></ht-table-cell>
+            <ht-table-cell class="lv-wide"><span class="lv-svc">api-gateway</span></ht-table-cell>
+            <ht-table-cell><span class="lv-msg">GET /healthz 200 <span class="lv-kv">duration_ms=1</span></span></ht-table-cell>
+          </ht-table-row>
+        </ht-table-body>
+      </ht-table>
+    </div>
+
+    <p class="lv-tail"><ht-ping tone="success" size="sm"></ht-ping>Tailing · 214 lines/min</p>
+  </div>
+
+  <section class="lv-detail" aria-labelledby="lv-detail-title">
+    <h2 id="lv-detail-title">Selected Line</h2>
+    <p class="lv-meta">
+      <ht-tag tone="danger" size="md">Error</ht-tag>
+      <time class="lv-mono" datetime="2026-10-23T14:02:11.204Z">2026-10-23 14:02:11.204 UTC</time>
+    </p>
+    <ht-alert tone="info" heading="Linked to API-1042">
+      Upstream connect error in api-gateway. 38 events in the last hour.
+      <ht-button slot="action" variant="default" size="xs" href="#">View Issue</ht-button>
+    </ht-alert>
+    <ht-tabs value="fields" label="Line details">
+      <ht-tab value="fields">Fields</ht-tab>
+      <ht-tab value="json">Raw JSON</ht-tab>
+      <ht-tab value="context">Context</ht-tab>
+
+      <ht-tab-panel value="fields">
+        <ht-description-list layout="inline" density="compact" label="Fields">
+          <ht-description-item label="Message" copy><span class="lv-mono">upstream connect error: connection refused</span></ht-description-item>
+          <ht-description-item label="Service" copy><span class="lv-mono">api-gateway</span></ht-description-item>
+          <ht-description-item label="Route" copy><span class="lv-mono">/v1/sessions</span></ht-description-item>
+          <ht-description-item label="Status" copy><span class="lv-mono">502</span></ht-description-item>
+          <ht-description-item label="Upstream" copy><span class="lv-mono">auth-service:8443</span></ht-description-item>
+          <ht-description-item label="Duration" copy copy-value="3004"><span class="lv-mono">3,004 ms</span></ht-description-item>
+          <ht-description-item label="Request ID" copy><span class="lv-mono">req_8f2a91c4e07b</span></ht-description-item>
+          <ht-description-item label="Host" copy><span class="lv-mono">gw-eu-2</span></ht-description-item>
+        </ht-description-list>
+      </ht-tab-panel>
+      <ht-tab-panel value="json">
+        <ht-code label="Line" language="json" wrap>
+          {
+            "time": "2026-10-23T14:02:11.204Z",
+            "level": "error",
+            "service": "api-gateway",
+            "message": "upstream connect error: connection refused",
+            "upstream": "auth-service:8443",
+            "route": "/v1/sessions",
+            "status": 502,
+            "duration_ms": 3004,
+            "request_id": "req_8f2a91c4e07b",
+            "host": "gw-eu-2"
+          }
+        </ht-code>
+      </ht-tab-panel>
+      <ht-tab-panel value="context">
+        <ht-code label="Same Request" language="log" wrap>
+          14:02:08.198 info  request start POST /v1/sessions
+          14:02:08.201 info  auth ok user=u_1815
+          14:02:09.705 warn  upstream timeout attempt=1
+          14:02:10.877 warn  retrying upstream attempt=2
+          14:02:11.204 error upstream connect error: connection refused
+          14:02:11.206 info  request end status=502
+        </ht-code>
+      </ht-tab-panel>
+    </ht-tabs>
+  </section>
+</section>

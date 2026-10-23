@@ -1,0 +1,188 @@
+<section data-block="activity-feed-01" aria-labelledby="feed-title">
+  <style>
+    [data-block='activity-feed-01'] {
+      box-sizing: border-box;
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 24px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 16px;
+      font: 400 0.875rem/1.5 var(--ht-font-ui);
+      color: var(--ht-text);
+    }
+    [data-block='activity-feed-01'] .feed-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    [data-block='activity-feed-01'] h1 {
+      margin: 0;
+      font: 600 1.5rem/1.2 var(--ht-font-display);
+    }
+    [data-block='activity-feed-01'] .feed-head p {
+      margin: 4px 0 0;
+      color: var(--ht-text-muted);
+    }
+    [data-block='activity-feed-01'] .feed-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--ht-border);
+    }
+    [data-block='activity-feed-01'] .feed-types {
+      max-width: 100%;
+      overflow-x: auto;
+    }
+    [data-block='activity-feed-01'] .feed-controls {
+      display: flex;
+      flex: 1 1 320px;
+      min-width: 0;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+    [data-block='activity-feed-01'] .feed-search {
+      flex: 1 1 200px;
+      min-width: 0;
+      max-width: 260px;
+    }
+    [data-block='activity-feed-01'] .feed-range {
+      flex: 0 0 150px;
+    }
+    [data-block='activity-feed-01'] ht-timeline a {
+      color: var(--ht-text);
+      font-weight: 500;
+    }
+    [data-block='activity-feed-01'] .feed-mono {
+      font-family: var(--ht-font-mono);
+    }
+    [data-block='activity-feed-01'] .feed-quote {
+      margin: 0;
+      padding: 8px 12px;
+      border-left: 2px solid var(--ht-border-strong);
+      color: var(--ht-text-muted);
+    }
+    [data-block='activity-feed-01'] .feed-more {
+      display: grid;
+      justify-items: center;
+      gap: 8px;
+      padding-top: 8px;
+      color: var(--ht-text-muted);
+    }
+    [data-block='activity-feed-01'] .feed-more p {
+      margin: 0;
+    }
+    @media (max-width: 720px) {
+      [data-block='activity-feed-01'] {
+        padding: 16px;
+      }
+      [data-block='activity-feed-01'] .feed-controls {
+        flex-basis: 100%;
+      }
+      [data-block='activity-feed-01'] .feed-search {
+        max-width: none;
+      }
+      [data-block='activity-feed-01'] .feed-range {
+        flex-basis: 130px;
+      }
+    }
+  </style>
+
+  <div class="feed-head">
+    <div>
+      <h1 id="feed-title">Activity</h1>
+      <p>Every change in the Acme workspace, newest first.</p>
+    </div>
+  </div>
+
+  <div class="feed-toolbar">
+    <div class="feed-types">
+      <ht-toggle-group value="all" size="sm" aria-label="Event type">
+        <ht-toggle-item value="all">All</ht-toggle-item>
+        <ht-toggle-item value="comments">Comments</ht-toggle-item>
+        <ht-toggle-item value="status">Status</ht-toggle-item>
+        <ht-toggle-item value="deploys">Deploys</ht-toggle-item>
+        <ht-toggle-item value="members">Members</ht-toggle-item>
+      </ht-toggle-group>
+    </div>
+    <div class="feed-controls">
+      <ht-input class="feed-search" type="search" size="sm" aria-label="Search activity" placeholder="Search Activity">
+        <ht-icon slot="prefix" name="magnifying-glass"></ht-icon>
+      </ht-input>
+      <ht-select class="feed-range" size="sm" value="7d" aria-label="Time range">
+        <ht-option value="24h">Last 24 Hours</ht-option>
+        <ht-option value="7d">Last 7 Days</ht-option>
+        <ht-option value="30d">Last 30 Days</ht-option>
+        <ht-option value="all">All Time</ht-option>
+      </ht-select>
+    </div>
+  </div>
+
+  <ht-timeline label="Activity">
+    <ht-timeline-group heading="Today" datetime="2026-10-23" level="2">
+      <ht-timeline-item datetime="2026-10-23T14:02" time="14:02">
+        <ht-avatar slot="marker" size="sm" name="Grace Hopper"></ht-avatar>
+        <b>Grace Hopper</b> commented on <a href="#">CL-0128 Acme Corp</a>
+        <blockquote slot="body" class="feed-quote">They confirmed the second workspace. Quote goes out Monday.</blockquote>
+      </ht-timeline-item>
+      <ht-timeline-item tone="success" datetime="2026-10-23T11:40" time="11:40">
+        <ht-icon slot="marker" name="rocket"></ht-icon>
+        Deploy <a href="#" class="feed-mono">v2.14.0</a> to <b>production</b> succeeded
+        <ht-tag slot="meta" tone="success">Live</ht-tag>
+        <ht-tag slot="meta">api-gateway</ht-tag>
+      </ht-timeline-item>
+      <ht-timeline-item tone="accent" datetime="2026-10-23T10:15" time="10:15">
+        <ht-avatar slot="marker" size="sm" name="Ada Lovelace"></ht-avatar>
+        <b>Ada Lovelace</b> moved <a href="#">CL-0131 Globex</a> to <b>Paused</b>
+        <ht-tag slot="meta">Status</ht-tag>
+        <ht-tag slot="meta" tone="warning">Paused</ht-tag>
+      </ht-timeline-item>
+      <ht-timeline-item datetime="2026-10-23T09:03" time="09:03">
+        <ht-icon slot="marker" name="user"></ht-icon>
+        <b>Linus</b> joined the workspace as <b>Member</b>
+        <ht-tag slot="meta">Members</ht-tag>
+      </ht-timeline-item>
+    </ht-timeline-group>
+
+    <ht-timeline-group heading="Yesterday" datetime="2026-10-22" level="2">
+      <ht-timeline-item tone="danger" datetime="2026-10-22T17:55" time="17:55">
+        <ht-icon slot="marker" name="warning"></ht-icon>
+        Deploy <a href="#" class="feed-mono">v2.13.2</a> to <b>production</b> failed and was rolled back
+        <ht-tag slot="meta" tone="danger">Failed</ht-tag>
+        <ht-tag slot="meta">api-gateway</ht-tag>
+      </ht-timeline-item>
+      <ht-timeline-item datetime="2026-10-22T16:40" time="16:40">
+        <ht-avatar slot="marker" size="sm" name="Ada Lovelace"></ht-avatar>
+        <b>Ada Lovelace</b> changed the priority of <a href="#">CL-0128 Acme Corp</a> to <b>High</b>
+        <ht-tag slot="meta">Priority</ht-tag>
+      </ht-timeline-item>
+      <ht-timeline-item tone="success" datetime="2026-10-22T09:20" time="09:20">
+        <ht-avatar slot="marker" size="sm" name="Grace Hopper"></ht-avatar>
+        <b>Grace Hopper</b> closed <a href="#">CL-0102 Initech</a> as <b>Done</b>
+        <ht-tag slot="meta" tone="success">Done</ht-tag>
+      </ht-timeline-item>
+    </ht-timeline-group>
+
+    <ht-timeline-group heading="Monday 20 October" datetime="2026-10-20" level="2">
+      <ht-timeline-item datetime="2026-10-20T15:12" time="15:12">
+        <ht-icon slot="marker" name="envelope"></ht-icon>
+        <b>Ada Lovelace</b> invited <b>margaret@acme.dev</b> as <b>Viewer</b>
+        <ht-tag slot="meta">Members</ht-tag>
+      </ht-timeline-item>
+      <ht-timeline-item datetime="2026-10-20T10:12" time="10:12">
+        <ht-avatar slot="marker" size="sm" name="Linus"></ht-avatar>
+        <b>Linus</b> created <a href="#">CL-0133 Wayne Supply</a>
+      </ht-timeline-item>
+    </ht-timeline-group>
+  </ht-timeline>
+
+  <div class="feed-more">
+    <p>Showing 9 of 214 events</p>
+    <ht-button variant="default" size="sm">Load Older</ht-button>
+  </div>
+</section>

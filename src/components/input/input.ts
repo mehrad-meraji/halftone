@@ -140,6 +140,8 @@ export class HtInput extends LitElement {
     :host([disabled]) .control { cursor: not-allowed; }
     input {
       all: unset;
+      /* After all: unset the field would inherit the page's alignment (a centred hero centred the text). */
+      text-align: start;
       flex: 1;
       min-width: 0;
       height: 100%;

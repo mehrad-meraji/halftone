@@ -4,6 +4,7 @@
       box-sizing: border-box;
       padding: 24px;
       display: grid;
+      grid-template-columns: minmax(0, 1fr);
       gap: 24px;
       font: 400 0.875rem/1.5 var(--ht-font-ui);
       color: var(--ht-text);
@@ -63,7 +64,7 @@
     }
     @media (max-width: 900px) {
       [data-block='dashboard-01'] .dash-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
       }
     }
   </style>

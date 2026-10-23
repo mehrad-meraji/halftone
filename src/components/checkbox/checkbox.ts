@@ -34,6 +34,7 @@ export class HtCheckbox extends LitElement {
     label: {},
     _groupDisabled: { state: true },
     _formDisabled: { state: true },
+    _empty: { state: true },
   };
 
   declare checked: boolean;
@@ -45,6 +46,7 @@ export class HtCheckbox extends LitElement {
   declare label: string;
   declare _groupDisabled: boolean;
   declare _formDisabled: boolean;
+  declare _empty: boolean;
 
   #internals = this.attachInternals();
   #defaultChecked = false;
@@ -60,6 +62,8 @@ export class HtCheckbox extends LitElement {
     this.label = '';
     this._groupDisabled = false;
     this._formDisabled = false;
+    // No slotted text: the label span and its gap go, so a bare box sits flush in a table cell.
+    this._empty = true;
     // A `<label for>` (or a wrapping label) outside the shadow root clicks the host, not the native
     // input inside it. Pass that click on, so the control toggles like a native one. Clicks from
     // inside are ignored here: the inner label and input already handle them.
@@ -178,6 +182,7 @@ export class HtCheckbox extends LitElement {
     :host([checked]:not([indeterminate])) .tick,
     :host([indeterminate]) .dash { opacity: 1; transform: none; }
     .text { padding-block: 0; }
+    .text[hidden] { display: none; }
   `;
 
   get form() {
@@ -212,6 +217,11 @@ export class HtCheckbox extends LitElement {
     this.#internals.setValidity(input.validity, input.validationMessage, input);
   }
 
+  #onLabelSlot = (e: Event) => {
+    const nodes = (e.target as HTMLSlotElement).assignedNodes({ flatten: true });
+    this._empty = !nodes.some((n) => n.nodeType === Node.ELEMENT_NODE || (n.textContent ?? '').trim() !== '');
+  };
+
   #onChange = (e: Event) => {
     this.checked = (e.target as HTMLInputElement).checked;
     this.indeterminate = false;
@@ -233,7 +243,7 @@ export class HtCheckbox extends LitElement {
         <svg class="tick" width="16" height="16" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M232.49,80.49l-128,128a12,12,0,0,1-17,0l-56-56a12,12,0,1,1,17-17L96,183,215.51,63.51a12,12,0,0,1,17,17Z"/></svg>
         <svg class="dash" width="16" height="16" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M228,128a12,12,0,0,1-12,12H40a12,12,0,0,1,0-24H216A12,12,0,0,1,228,128Z"/></svg>
       </span>
-      <span part="label" class="text"><slot></slot></span>
+      <span part="label" class="text" ?hidden=${this._empty}><slot @slotchange=${this.#onLabelSlot}></slot></span>
     </label>`;
   }
 }

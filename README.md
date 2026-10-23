@@ -19,7 +19,7 @@ npm i @_mehrad/halftone lit
 <ht-button variant="primary">Deploy It</ht-button>
 ```
 
-Components: 71 elements, from `ht-button` and `ht-input` to `ht-menu`, `ht-table`, `ht-calendar` and `ht-sidebar`. Run `npx @_mehrad/halftone list` for the full set. `tokens.css` is required.
+Components: 82 elements, from `ht-button` and `ht-input` to `ht-menu`, `ht-table`, `ht-timeline` and `ht-dropzone`. Run `npx @_mehrad/halftone list` for the full set. `tokens.css` is required.
 
 Fonts are not bundled. Load Chakra Petch (display), Geist (UI) and IBM Plex Mono (mono) yourself, or system fallbacks are used. The Storybook docs load them from Google Fonts (`.storybook/preview-head.html`).
 
@@ -69,7 +69,7 @@ After copying you own the code: there is no runtime dependency on this package, 
 
 ## Blocks
 
-Blocks are ready-made page sections, like [shadcn/ui blocks](https://ui.shadcn.com/blocks): a sign-in page, an app shell, a settings page, a dashboard. Each is plain HTML that composes `ht-*` elements, so it works in any framework or none.
+Blocks are ready-made page sections, like [shadcn/ui blocks](https://ui.shadcn.com/blocks). There are 20: sign-in, app shell, settings, dashboard, record list and detail, activity feed, members, inbox, comments, board, notice card, search home and results, media grid, wizard, setup steps, status, log viewer and invoice. Each is plain HTML that composes `ht-*` elements, so it works in any framework or none.
 
 ```bash
 npx @_mehrad/halftone list                 # blocks are listed after the components

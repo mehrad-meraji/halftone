@@ -188,7 +188,7 @@ export class HtPopover extends LitElement {
       const isOpen = this.open && !!panel?.matches(':popover-open');
       if (isOpen !== this.#wasOpen) {
         this.#wasOpen = isOpen;
-        this.dispatchEvent(new Event(isOpen ? 'open' : 'close'));
+        this.dispatchEvent(isOpen ? new Event('open') : new Event('close'));
       }
       this.#syncTrigger();
     }

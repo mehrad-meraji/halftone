@@ -1,0 +1,401 @@
+<section data-block="members-01" aria-labelledby="members-title">
+  <style>
+    [data-block='members-01'] {
+      box-sizing: border-box;
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 24px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 24px;
+      font: 400 0.875rem/1.5 var(--ht-font-ui);
+      color: var(--ht-text);
+    }
+    [data-block='members-01'] .members-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    [data-block='members-01'] h1 {
+      margin: 0;
+      font: 600 1.5rem/1.2 var(--ht-font-display);
+    }
+    [data-block='members-01'] h2 {
+      margin: 0 0 4px;
+      font: 600 1rem/1.4 var(--ht-font-display);
+    }
+    [data-block='members-01'] p {
+      margin: 4px 0 0;
+      color: var(--ht-text-muted);
+    }
+    [data-block='members-01'] ht-tab-panel {
+      padding-top: 16px;
+    }
+    [data-block='members-01'] .members-person {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+    [data-block='members-01'] .members-person b {
+      font-weight: 500;
+    }
+    [data-block='members-01'] .members-person .members-muted {
+      display: block;
+    }
+    [data-block='members-01'] .members-muted {
+      color: var(--ht-text-muted);
+    }
+    [data-block='members-01'] .members-role {
+      width: 160px;
+    }
+    [data-block='members-01'] .members-narrow {
+      position: relative;
+      width: 1%;
+    }
+    [data-block='members-01'] .members-row-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 4px;
+    }
+    [data-block='members-01'] .members-link {
+      display: grid;
+      gap: 12px;
+      padding-top: 24px;
+      border-top: 1px solid var(--ht-border);
+    }
+    [data-block='members-01'] .members-link-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    [data-block='members-01'] .members-link-row ht-code {
+      flex: 1 1 320px;
+      min-width: 0;
+    }
+    [data-block='members-01'] .members-form {
+      display: grid;
+      gap: 16px;
+    }
+    [data-block='members-01'] .members-sr {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+    @media (max-width: 720px) {
+      [data-block='members-01'] {
+        padding: 16px;
+      }
+      [data-block='members-01'] .members-wide {
+        display: none;
+      }
+      [data-block='members-01'] .members-role {
+        width: 116px;
+      }
+      [data-block='members-01'] .members-person ht-avatar {
+        display: none;
+      }
+      [data-block='members-01'] .members-person .members-muted {
+        max-width: 6.25rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+  </style>
+
+  <div class="members-head">
+    <div>
+      <h1 id="members-title">Team Members</h1>
+      <p>People in the Acme workspace and what they can change. 8 of 10 seats used.</p>
+    </div>
+    <ht-button variant="primary"><ht-icon slot="prefix" name="plus" weight="bold"></ht-icon>Invite People</ht-button>
+  </div>
+
+  <div>
+    <h2 class="members-sr">People</h2>
+    <ht-tabs value="members" label="People" fit>
+      <ht-tab value="members">Members (8)</ht-tab>
+      <ht-tab value="invitations">Invitations (2)</ht-tab>
+
+      <ht-tab-panel value="members">
+        <ht-table>
+          <ht-table-head>
+            <ht-table-row>
+              <ht-table-header>Name</ht-table-header>
+              <ht-table-header>Role</ht-table-header>
+              <ht-table-header class="members-wide">Last Active</ht-table-header>
+              <ht-table-header class="members-narrow"><span class="members-sr">Actions</span></ht-table-header>
+            </ht-table-row>
+          </ht-table-head>
+          <ht-table-body>
+            <ht-table-row>
+              <ht-table-cell>
+                <span class="members-person">
+                  <ht-avatar size="sm" name="Ada Lovelace"></ht-avatar>
+                  <span><b>Ada Lovelace</b> <ht-tag>You</ht-tag><span class="members-muted">ada@acme.dev</span></span>
+                </span>
+              </ht-table-cell>
+              <ht-table-cell>
+                <ht-select class="members-role" size="sm" value="owner" aria-label="Role for Ada Lovelace" helper="Transfer ownership to change" disabled>
+                  <ht-option value="owner">Owner</ht-option>
+                  <ht-option value="admin">Admin</ht-option>
+                  <ht-option value="member">Member</ht-option>
+                  <ht-option value="viewer">Viewer</ht-option>
+                </ht-select>
+              </ht-table-cell>
+              <ht-table-cell class="members-wide"><span class="members-muted"><time datetime="2026-10-23T14:10">Online now</time></span></ht-table-cell>
+              <ht-table-cell></ht-table-cell>
+            </ht-table-row>
+            <ht-table-row>
+              <ht-table-cell>
+                <span class="members-person">
+                  <ht-avatar size="sm" name="Grace Hopper"></ht-avatar>
+                  <span><b>Grace Hopper</b><span class="members-muted">grace@acme.dev</span></span>
+                </span>
+              </ht-table-cell>
+              <ht-table-cell>
+                <ht-select class="members-role" size="sm" value="admin" aria-label="Role for Grace Hopper">
+                  <ht-option value="owner" disabled>Owner</ht-option>
+                  <ht-option value="admin">Admin</ht-option>
+                  <ht-option value="member">Member</ht-option>
+                  <ht-option value="viewer">Viewer</ht-option>
+                </ht-select>
+              </ht-table-cell>
+              <ht-table-cell class="members-wide"><span class="members-muted"><time datetime="2026-10-23T12:02">2h ago</time></span></ht-table-cell>
+              <ht-table-cell>
+                <ht-menu label="Actions for Grace Hopper" placement="bottom-end">
+                  <ht-button slot="trigger" variant="quiet" size="xs"><ht-icon name="dots-three" weight="bold" label="Actions for Grace Hopper"></ht-icon></ht-button>
+                  <ht-menu-item><ht-icon slot="prefix" name="envelope"></ht-icon>Copy Email</ht-menu-item>
+                  <ht-menu-separator></ht-menu-separator>
+                  <ht-menu-item danger value="remove"><ht-icon slot="prefix" name="trash"></ht-icon>Remove from Team</ht-menu-item>
+                </ht-menu>
+              </ht-table-cell>
+            </ht-table-row>
+            <ht-table-row>
+              <ht-table-cell>
+                <span class="members-person">
+                  <ht-avatar size="sm" name="Linus"></ht-avatar>
+                  <span><b>Linus</b><span class="members-muted">linus@acme.dev</span></span>
+                </span>
+              </ht-table-cell>
+              <ht-table-cell>
+                <ht-select class="members-role" size="sm" value="admin" aria-label="Role for Linus">
+                  <ht-option value="owner" disabled>Owner</ht-option>
+                  <ht-option value="admin">Admin</ht-option>
+                  <ht-option value="member">Member</ht-option>
+                  <ht-option value="viewer">Viewer</ht-option>
+                </ht-select>
+              </ht-table-cell>
+              <ht-table-cell class="members-wide"><span class="members-muted"><time datetime="2026-10-22T17:55">Yesterday</time></span></ht-table-cell>
+              <ht-table-cell>
+                <ht-menu label="Actions for Linus" placement="bottom-end">
+                  <ht-button slot="trigger" variant="quiet" size="xs"><ht-icon name="dots-three" weight="bold" label="Actions for Linus"></ht-icon></ht-button>
+                  <ht-menu-item><ht-icon slot="prefix" name="envelope"></ht-icon>Copy Email</ht-menu-item>
+                  <ht-menu-separator></ht-menu-separator>
+                  <ht-menu-item danger value="remove"><ht-icon slot="prefix" name="trash"></ht-icon>Remove from Team</ht-menu-item>
+                </ht-menu>
+              </ht-table-cell>
+            </ht-table-row>
+            <ht-table-row>
+              <ht-table-cell>
+                <span class="members-person">
+                  <ht-avatar size="sm" name="Margaret Hamilton"></ht-avatar>
+                  <span><b>Margaret Hamilton</b><span class="members-muted">margaret@acme.dev</span></span>
+                </span>
+              </ht-table-cell>
+              <ht-table-cell>
+                <ht-select class="members-role" size="sm" value="member" aria-label="Role for Margaret Hamilton">
+                  <ht-option value="owner" disabled>Owner</ht-option>
+                  <ht-option value="admin">Admin</ht-option>
+                  <ht-option value="member">Member</ht-option>
+                  <ht-option value="viewer">Viewer</ht-option>
+                </ht-select>
+              </ht-table-cell>
+              <ht-table-cell class="members-wide"><span class="members-muted"><time datetime="2026-10-23T11:20">3h ago</time></span></ht-table-cell>
+              <ht-table-cell>
+                <ht-menu label="Actions for Margaret Hamilton" placement="bottom-end">
+                  <ht-button slot="trigger" variant="quiet" size="xs"><ht-icon name="dots-three" weight="bold" label="Actions for Margaret Hamilton"></ht-icon></ht-button>
+                  <ht-menu-item><ht-icon slot="prefix" name="envelope"></ht-icon>Copy Email</ht-menu-item>
+                  <ht-menu-separator></ht-menu-separator>
+                  <ht-menu-item danger value="remove"><ht-icon slot="prefix" name="trash"></ht-icon>Remove from Team</ht-menu-item>
+                </ht-menu>
+              </ht-table-cell>
+            </ht-table-row>
+            <ht-table-row>
+              <ht-table-cell>
+                <span class="members-person">
+                  <ht-avatar size="sm" name="Alan Turing"></ht-avatar>
+                  <span><b>Alan Turing</b><span class="members-muted">alan@acme.dev</span></span>
+                </span>
+              </ht-table-cell>
+              <ht-table-cell>
+                <ht-select class="members-role" size="sm" value="member" aria-label="Role for Alan Turing">
+                  <ht-option value="owner" disabled>Owner</ht-option>
+                  <ht-option value="admin">Admin</ht-option>
+                  <ht-option value="member">Member</ht-option>
+                  <ht-option value="viewer">Viewer</ht-option>
+                </ht-select>
+              </ht-table-cell>
+              <ht-table-cell class="members-wide"><span class="members-muted"><time datetime="2026-10-20T09:40">Oct 20</time></span></ht-table-cell>
+              <ht-table-cell>
+                <ht-menu label="Actions for Alan Turing" placement="bottom-end">
+                  <ht-button slot="trigger" variant="quiet" size="xs"><ht-icon name="dots-three" weight="bold" label="Actions for Alan Turing"></ht-icon></ht-button>
+                  <ht-menu-item><ht-icon slot="prefix" name="envelope"></ht-icon>Copy Email</ht-menu-item>
+                  <ht-menu-separator></ht-menu-separator>
+                  <ht-menu-item danger value="remove"><ht-icon slot="prefix" name="trash"></ht-icon>Remove from Team</ht-menu-item>
+                </ht-menu>
+              </ht-table-cell>
+            </ht-table-row>
+            <ht-table-row>
+              <ht-table-cell>
+                <span class="members-person">
+                  <ht-avatar size="sm" name="Katherine Johnson"></ht-avatar>
+                  <span><b>Katherine Johnson</b><span class="members-muted">katherine@acme.dev</span></span>
+                </span>
+              </ht-table-cell>
+              <ht-table-cell>
+                <ht-select class="members-role" size="sm" value="member" aria-label="Role for Katherine Johnson">
+                  <ht-option value="owner" disabled>Owner</ht-option>
+                  <ht-option value="admin">Admin</ht-option>
+                  <ht-option value="member">Member</ht-option>
+                  <ht-option value="viewer">Viewer</ht-option>
+                </ht-select>
+              </ht-table-cell>
+              <ht-table-cell class="members-wide"><span class="members-muted"><time datetime="2026-10-18T15:05">Oct 18</time></span></ht-table-cell>
+              <ht-table-cell>
+                <ht-menu label="Actions for Katherine Johnson" placement="bottom-end">
+                  <ht-button slot="trigger" variant="quiet" size="xs"><ht-icon name="dots-three" weight="bold" label="Actions for Katherine Johnson"></ht-icon></ht-button>
+                  <ht-menu-item><ht-icon slot="prefix" name="envelope"></ht-icon>Copy Email</ht-menu-item>
+                  <ht-menu-separator></ht-menu-separator>
+                  <ht-menu-item danger value="remove"><ht-icon slot="prefix" name="trash"></ht-icon>Remove from Team</ht-menu-item>
+                </ht-menu>
+              </ht-table-cell>
+            </ht-table-row>
+            <ht-table-row>
+              <ht-table-cell>
+                <span class="members-person">
+                  <ht-avatar size="sm" name="Edsger Dijkstra"></ht-avatar>
+                  <span><b>Edsger Dijkstra</b><span class="members-muted">edsger@acme.dev</span></span>
+                </span>
+              </ht-table-cell>
+              <ht-table-cell>
+                <ht-select class="members-role" size="sm" value="viewer" aria-label="Role for Edsger Dijkstra">
+                  <ht-option value="owner" disabled>Owner</ht-option>
+                  <ht-option value="admin">Admin</ht-option>
+                  <ht-option value="member">Member</ht-option>
+                  <ht-option value="viewer">Viewer</ht-option>
+                </ht-select>
+              </ht-table-cell>
+              <ht-table-cell class="members-wide"><span class="members-muted"><time datetime="2026-10-09T10:30">Oct 9</time></span></ht-table-cell>
+              <ht-table-cell>
+                <ht-menu label="Actions for Edsger Dijkstra" placement="bottom-end">
+                  <ht-button slot="trigger" variant="quiet" size="xs"><ht-icon name="dots-three" weight="bold" label="Actions for Edsger Dijkstra"></ht-icon></ht-button>
+                  <ht-menu-item><ht-icon slot="prefix" name="envelope"></ht-icon>Copy Email</ht-menu-item>
+                  <ht-menu-separator></ht-menu-separator>
+                  <ht-menu-item danger value="remove"><ht-icon slot="prefix" name="trash"></ht-icon>Remove from Team</ht-menu-item>
+                </ht-menu>
+              </ht-table-cell>
+            </ht-table-row>
+            <ht-table-row>
+              <ht-table-cell>
+                <span class="members-person">
+                  <ht-avatar size="sm" name="Barbara Liskov"></ht-avatar>
+                  <span><b>Barbara Liskov</b><span class="members-muted">barbara@acme.dev</span></span>
+                </span>
+              </ht-table-cell>
+              <ht-table-cell>
+                <ht-select class="members-role" size="sm" value="viewer" aria-label="Role for Barbara Liskov">
+                  <ht-option value="owner" disabled>Owner</ht-option>
+                  <ht-option value="admin">Admin</ht-option>
+                  <ht-option value="member">Member</ht-option>
+                  <ht-option value="viewer">Viewer</ht-option>
+                </ht-select>
+              </ht-table-cell>
+              <ht-table-cell class="members-wide"><span class="members-muted">Never</span></ht-table-cell>
+              <ht-table-cell>
+                <ht-menu label="Actions for Barbara Liskov" placement="bottom-end">
+                  <ht-button slot="trigger" variant="quiet" size="xs"><ht-icon name="dots-three" weight="bold" label="Actions for Barbara Liskov"></ht-icon></ht-button>
+                  <ht-menu-item><ht-icon slot="prefix" name="envelope"></ht-icon>Copy Email</ht-menu-item>
+                  <ht-menu-separator></ht-menu-separator>
+                  <ht-menu-item danger value="remove"><ht-icon slot="prefix" name="trash"></ht-icon>Remove from Team</ht-menu-item>
+                </ht-menu>
+              </ht-table-cell>
+            </ht-table-row>
+
+          </ht-table-body>
+        </ht-table>
+      </ht-tab-panel>
+
+      <ht-tab-panel value="invitations">
+        <ht-table>
+          <ht-table-head>
+            <ht-table-row>
+              <ht-table-header>Email</ht-table-header>
+              <ht-table-header>Role</ht-table-header>
+              <ht-table-header class="members-wide">Sent</ht-table-header>
+              <ht-table-header class="members-narrow"><span class="members-sr">Actions</span></ht-table-header>
+            </ht-table-row>
+          </ht-table-head>
+          <ht-table-body>
+            <ht-table-row>
+              <ht-table-cell>ada.byron@example.com</ht-table-cell>
+              <ht-table-cell>Member</ht-table-cell>
+              <ht-table-cell class="members-wide"><time class="members-muted" datetime="2026-10-21T10:00">Oct 21, expires in 5 days</time></ht-table-cell>
+              <ht-table-cell>
+                <span class="members-row-actions">
+                  <ht-button variant="quiet" size="xs">Resend</ht-button>
+                  <ht-button variant="quiet" size="xs">Revoke</ht-button>
+                </span>
+              </ht-table-cell>
+            </ht-table-row>
+            <ht-table-row>
+              <ht-table-cell>hedy@example.com</ht-table-cell>
+              <ht-table-cell>Viewer</ht-table-cell>
+              <ht-table-cell class="members-wide"><time class="members-muted" datetime="2026-10-15T16:30">Oct 15, expired</time></ht-table-cell>
+              <ht-table-cell>
+                <span class="members-row-actions">
+                  <ht-button variant="quiet" size="xs">Resend</ht-button>
+                  <ht-button variant="quiet" size="xs">Revoke</ht-button>
+                </span>
+              </ht-table-cell>
+            </ht-table-row>
+          </ht-table-body>
+        </ht-table>
+      </ht-tab-panel>
+    </ht-tabs>
+  </div>
+
+  <div class="members-link">
+    <div>
+      <h2>Invite Link</h2>
+      <p>Anyone with this link joins as a Member. Reset it to stop old links from working.</p>
+    </div>
+    <div class="members-link-row">
+      <ht-code label="Invite Link" wrap>https://acme.example.com/join/7Hq2Lw9xT4</ht-code>
+      <ht-button variant="default">Reset Link</ht-button>
+    </div>
+  </div>
+
+  <ht-dialog heading="Invite People">
+    <form class="members-form" id="members-invite">
+      <ht-textarea label="Email Addresses" name="emails" rows="3" required placeholder="ada@example.com, grace@example.com" helper="Separate addresses with commas or new lines."></ht-textarea>
+      <ht-select label="Role" name="role" value="member">
+        <ht-option value="admin">Admin</ht-option>
+        <ht-option value="member">Member</ht-option>
+        <ht-option value="viewer">Viewer</ht-option>
+      </ht-select>
+      <ht-textarea label="Message" name="message" rows="2" helper="Optional. Sent with the invite."></ht-textarea>
+    </form>
+    <ht-button slot="footer" variant="primary">Send Invites</ht-button>
+    <ht-button slot="footer" variant="default">Cancel</ht-button>
+  </ht-dialog>
+
+  <ht-alert-dialog tone="danger" heading="Remove Grace Hopper?" description="Grace loses access to the Acme workspace at once. Their records and comments stay. You can invite them again later." confirm-label="Remove from Team"></ht-alert-dialog>
+</section>

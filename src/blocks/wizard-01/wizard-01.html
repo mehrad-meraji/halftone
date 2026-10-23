@@ -1,0 +1,224 @@
+<section data-block="wizard-01" aria-labelledby="wz-title">
+  <style>
+    [data-block='wizard-01'] {
+      box-sizing: border-box;
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 32px 24px;
+      display: grid;
+      gap: 24px;
+      font: 400 0.875rem/1.5 var(--ht-font-ui);
+      color: var(--ht-text);
+    }
+    [data-block='wizard-01'] .wz-eyebrow {
+      display: block;
+      margin-bottom: 6px;
+      font: 500 0.6875rem/1 var(--ht-font-mono);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ht-text-muted);
+    }
+    [data-block='wizard-01'] h1 {
+      margin: 0;
+      font: 600 1.5rem/1.2 var(--ht-font-display);
+    }
+    [data-block='wizard-01'] .wz-lede {
+      margin: 4px 0 0;
+      color: var(--ht-text-muted);
+    }
+    [data-block='wizard-01'] h2 {
+      margin: 0;
+      font: 600 1rem/1.3 var(--ht-font-display);
+    }
+    [data-block='wizard-01'] .wz-intro {
+      margin: 0 0 16px;
+      color: var(--ht-text-muted);
+    }
+    [data-block='wizard-01'] .wz-intro code {
+      font-family: var(--ht-font-mono);
+      font-size: 0.8125rem;
+      color: var(--ht-text);
+    }
+    [data-block='wizard-01'] .wz-col {
+      font-weight: 500;
+    }
+    [data-block='wizard-01'] .wz-sample {
+      color: var(--ht-text-muted);
+    }
+    [data-block='wizard-01'] .wz-target {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+    [data-block='wizard-01'] .wz-target ht-select {
+      flex: 1 1 180px;
+      max-width: 240px;
+    }
+    [data-block='wizard-01'] .wz-foot {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+    }
+    [data-block='wizard-01'] .wz-position {
+      margin: 0 8px 0 auto;
+      color: var(--ht-text-muted);
+      font: 400 0.75rem/1 var(--ht-font-mono);
+    }
+    @media (max-width: 640px) {
+      [data-block='wizard-01'] {
+        padding: 24px 16px;
+      }
+      [data-block='wizard-01'] .wz-sample {
+        display: none;
+      }
+      [data-block='wizard-01'] .wz-target ht-select {
+        max-width: none;
+      }
+      [data-block='wizard-01'] .wz-position {
+        flex-basis: 100%;
+        order: -1;
+        margin: 0 0 4px;
+      }
+      [data-block='wizard-01'] .wz-cancel {
+        margin-right: auto;
+      }
+    }
+  </style>
+
+  <div>
+    <span class="wz-eyebrow">Contacts</span>
+    <h1 id="wz-title">Import Contacts</h1>
+    <p class="wz-lede">From a CSV or Excel file. Nothing is saved until the last step.</p>
+  </div>
+
+  <ht-steps label="Import steps" current="map">
+    <ht-step value="upload" label="Upload" description="contacts-2024.csv"></ht-step>
+    <ht-step value="map" label="Map Columns" description="Match to fields"></ht-step>
+    <ht-step value="review" label="Review" description="Check before import"></ht-step>
+    <ht-step value="done" label="Done"></ht-step>
+  </ht-steps>
+
+  <form action="#" method="post">
+    <ht-card>
+      <h2 slot="header">Map Columns</h2>
+      <p class="wz-intro">Four columns in <code>contacts-2024.csv</code> matched a field by name. Check the suggestion and the skipped column before you continue.</p>
+      <ht-table density="dense">
+        <ht-table-head>
+          <ht-table-row>
+            <ht-table-header>Column in File</ht-table-header>
+            <ht-table-header class="wz-sample">Sample</ht-table-header>
+            <ht-table-header>Import As</ht-table-header>
+          </ht-table-row>
+        </ht-table-head>
+        <ht-table-body>
+          <ht-table-row>
+            <ht-table-cell><span class="wz-col">Full Name</span></ht-table-cell>
+            <ht-table-cell class="wz-sample">Ada Lovelace</ht-table-cell>
+            <ht-table-cell>
+              <div class="wz-target">
+                <ht-select size="sm" name="map-full-name" value="name" aria-label="Import Full Name as">
+                  <ht-option value="name">Name</ht-option>
+                  <ht-option value="email">Email</ht-option>
+                  <ht-option value="company">Company</ht-option>
+                  <ht-option value="phone">Phone</ht-option>
+                  <ht-option value="title">Job Title</ht-option>
+                  <ht-option value="skip">Skip this column</ht-option>
+                </ht-select>
+              </div>
+            </ht-table-cell>
+          </ht-table-row>
+          <ht-table-row>
+            <ht-table-cell><span class="wz-col">E-mail</span></ht-table-cell>
+            <ht-table-cell class="wz-sample">ada@acme.dev</ht-table-cell>
+            <ht-table-cell>
+              <div class="wz-target">
+                <ht-select size="sm" name="map-e-mail" value="email" aria-label="Import E-mail as">
+                  <ht-option value="name">Name</ht-option>
+                  <ht-option value="email">Email</ht-option>
+                  <ht-option value="company">Company</ht-option>
+                  <ht-option value="phone">Phone</ht-option>
+                  <ht-option value="title">Job Title</ht-option>
+                  <ht-option value="skip">Skip this column</ht-option>
+                </ht-select>
+              </div>
+            </ht-table-cell>
+          </ht-table-row>
+          <ht-table-row>
+            <ht-table-cell><span class="wz-col">Organisation</span></ht-table-cell>
+            <ht-table-cell class="wz-sample">Acme</ht-table-cell>
+            <ht-table-cell>
+              <div class="wz-target">
+                <ht-select size="sm" name="map-organisation" value="company" aria-label="Import Organisation as">
+                  <ht-option value="name">Name</ht-option>
+                  <ht-option value="email">Email</ht-option>
+                  <ht-option value="company">Company</ht-option>
+                  <ht-option value="phone">Phone</ht-option>
+                  <ht-option value="title">Job Title</ht-option>
+                  <ht-option value="skip">Skip this column</ht-option>
+                </ht-select>
+              </div>
+            </ht-table-cell>
+          </ht-table-row>
+          <ht-table-row>
+            <ht-table-cell><span class="wz-col">Phone #</span></ht-table-cell>
+            <ht-table-cell class="wz-sample">+44 20 7946 0018</ht-table-cell>
+            <ht-table-cell>
+              <div class="wz-target">
+                <ht-select size="sm" name="map-phone" value="phone" aria-label="Import Phone # as">
+                  <ht-option value="name">Name</ht-option>
+                  <ht-option value="email">Email</ht-option>
+                  <ht-option value="company">Company</ht-option>
+                  <ht-option value="phone">Phone</ht-option>
+                  <ht-option value="title">Job Title</ht-option>
+                  <ht-option value="skip">Skip this column</ht-option>
+                </ht-select>
+              </div>
+            </ht-table-cell>
+          </ht-table-row>
+          <ht-table-row>
+            <ht-table-cell><span class="wz-col">Role</span></ht-table-cell>
+            <ht-table-cell class="wz-sample">Analyst</ht-table-cell>
+            <ht-table-cell>
+              <div class="wz-target">
+                <ht-select size="sm" name="map-role" value="title" aria-label="Import Role as">
+                  <ht-option value="name">Name</ht-option>
+                  <ht-option value="email">Email</ht-option>
+                  <ht-option value="company">Company</ht-option>
+                  <ht-option value="phone">Phone</ht-option>
+                  <ht-option value="title">Job Title</ht-option>
+                  <ht-option value="skip">Skip this column</ht-option>
+                </ht-select>
+                <ht-tag tone="accent"><ht-icon slot="prefix" name="sparkle"></ht-icon>AI Suggested</ht-tag>
+              </div>
+            </ht-table-cell>
+          </ht-table-row>
+          <ht-table-row>
+            <ht-table-cell><span class="wz-col">Notes</span></ht-table-cell>
+            <ht-table-cell class="wz-sample">Met at the 2023 offsite</ht-table-cell>
+            <ht-table-cell>
+              <div class="wz-target">
+                <ht-select size="sm" name="map-notes" value="skip" aria-label="Import Notes as">
+                  <ht-option value="name">Name</ht-option>
+                  <ht-option value="email">Email</ht-option>
+                  <ht-option value="company">Company</ht-option>
+                  <ht-option value="phone">Phone</ht-option>
+                  <ht-option value="title">Job Title</ht-option>
+                  <ht-option value="skip">Skip this column</ht-option>
+                </ht-select>
+              </div>
+            </ht-table-cell>
+          </ht-table-row>
+        </ht-table-body>
+      </ht-table>
+      <div slot="footer" class="wz-foot">
+        <ht-button class="wz-cancel" variant="quiet">Cancel</ht-button>
+        <span class="wz-position">Step 2 of 4</span>
+        <ht-button variant="default"><ht-icon slot="prefix" name="arrow-left"></ht-icon>Back</ht-button>
+        <ht-button type="submit">Continue<ht-icon slot="suffix" name="arrow-right"></ht-icon></ht-button>
+      </div>
+    </ht-card>
+  </form>
+</section>

@@ -55,7 +55,9 @@ function checkCss(name, css, problems) {
     problems.push(`${name}: hard-coded colour function; use a --ht-* token (color-mix with tokens is fine)`);
   }
   for (const m of noComments.matchAll(/border-radius:\s*([^;]+);/g)) {
-    if (!/^(var\(--ht-radius-[a-z]+\)\s*)+$|^0$|^50%$/.test(m[1].trim())) problems.push(`${name}: border-radius "${m[1].trim()}"; use var(--ht-radius-*)`);
+    // One to four values, each a radius token, 0 or 50%: `var(--ht-radius-md) var(--ht-radius-md) 0 0` is fine.
+    const parts = m[1].trim().split(/\s+(?![^(]*\))/);
+    if (parts.length > 4 || !parts.every((v) => /^(var\(--ht-radius-[a-z]+\)|0|50%)$/.test(v))) problems.push(`${name}: border-radius "${m[1].trim()}"; use var(--ht-radius-*)`);
   }
   for (const m of noComments.matchAll(/(?:^|[\s;{])(font(?:-family)?):\s*([^;]+);/g)) {
     if (m[2].trim() !== 'inherit' && !m[2].includes('var(--ht-font-')) problems.push(`${name}: ${m[1]} "${m[2].trim()}"; use var(--ht-font-*)`);

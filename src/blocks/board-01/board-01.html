@@ -1,0 +1,479 @@
+<section data-block="board-01" aria-labelledby="board-title">
+  <style>
+    [data-block='board-01'] {
+      box-sizing: border-box;
+      padding: 24px 0;
+      display: grid;
+      gap: 20px;
+      font: 400 0.875rem/1.5 var(--ht-font-ui);
+      color: var(--ht-text);
+    }
+    [data-block='board-01'] .board-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      gap: 12px 16px;
+      padding: 0 24px;
+    }
+    [data-block='board-01'] .board-title {
+      flex: 1;
+      min-width: 200px;
+    }
+    [data-block='board-01'] h1 {
+      margin: 0;
+      font: 600 1.5rem/1.2 var(--ht-font-display);
+    }
+    [data-block='board-01'] .board-title p {
+      margin: 4px 0 0;
+      color: var(--ht-text-muted);
+    }
+    [data-block='board-01'] .board-tools {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+    [data-block='board-01'] .board-tools ht-input {
+      width: 220px;
+    }
+    [data-block='board-01'] .board-scroll {
+      min-width: 0;
+    }
+    [data-block='board-01'] .board-scroll::part(viewport) {
+      scroll-snap-type: x proximity;
+    }
+    [data-block='board-01'] .board-track {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 0 24px 16px;
+      width: max-content;
+    }
+    [data-block='board-01'] .board-col {
+      box-sizing: border-box;
+      width: 288px;
+      flex: none;
+      display: grid;
+      gap: 8px;
+      padding: 8px;
+      background: var(--ht-surface-muted);
+      border: 1px solid var(--ht-border);
+      border-radius: var(--ht-radius-lg);
+      scroll-snap-align: start;
+      scroll-margin-left: 24px;
+    }
+    [data-block='board-01'] .board-col-head {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 0 0 6px;
+    }
+    [data-block='board-01'] .board-dot {
+      width: 8px;
+      height: 8px;
+      flex: none;
+      border-radius: 50%;
+      background: var(--ht-text-subtle);
+    }
+    [data-block='board-01'] .board-dot-progress {
+      background: var(--ht-info);
+    }
+    [data-block='board-01'] .board-dot-review {
+      background: var(--ht-warning);
+    }
+    [data-block='board-01'] .board-dot-done {
+      background: var(--ht-success);
+    }
+    [data-block='board-01'] h2 {
+      margin: 0;
+      font: 600 0.875rem/1.5 var(--ht-font-display);
+    }
+    [data-block='board-01'] .board-count {
+      flex: 1;
+      color: var(--ht-text-muted);
+      font-variant-numeric: tabular-nums;
+    }
+    [data-block='board-01'] .board-cards {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 8px;
+    }
+    [data-block='board-01'] .board-card {
+      display: grid;
+      gap: 8px;
+      padding: 12px;
+      background: var(--ht-surface);
+      border: 1px solid var(--ht-border);
+      border-radius: var(--ht-radius-md);
+      box-shadow: var(--ht-shadow-xs);
+    }
+    [data-block='board-01'] .board-card-top {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    [data-block='board-01'] h3 {
+      flex: 1;
+      margin: 0;
+      font: 500 0.875rem/1.4 var(--ht-font-ui);
+    }
+    [data-block='board-01'] h3 a {
+      color: inherit;
+      text-decoration: none;
+    }
+    [data-block='board-01'] h3 a:hover {
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    [data-block='board-01'] .board-labels {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+    [data-block='board-01'] ht-tag.board-id {
+      font-family: var(--ht-font-mono);
+    }
+    [data-block='board-01'] .board-card-foot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      color: var(--ht-text-muted);
+      font-size: 0.75rem;
+    }
+    [data-block='board-01'] .board-due {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    [data-block='board-01'] .board-late {
+      color: var(--ht-danger-text);
+    }
+    [data-block='board-01'] .board-done h3 {
+      color: var(--ht-text-muted);
+    }
+    [data-block='board-01'] .board-empty {
+      margin: 0;
+      padding: 24px 12px;
+      text-align: center;
+      color: var(--ht-text-muted);
+      border: 1px dashed var(--ht-border-strong);
+      border-radius: var(--ht-radius-md);
+    }
+    [data-block='board-01'] .board-add {
+      display: grid;
+      gap: 8px;
+      padding: 8px;
+      background: var(--ht-surface);
+      border: 1px solid var(--ht-border);
+      border-radius: var(--ht-radius-md);
+    }
+    [data-block='board-01'] .board-add-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+    @media (max-width: 640px) {
+      [data-block='board-01'] {
+        padding: 16px 0;
+      }
+      [data-block='board-01'] .board-head,
+      [data-block='board-01'] .board-track {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+      [data-block='board-01'] .board-tools {
+        width: 100%;
+      }
+      [data-block='board-01'] .board-tools ht-input {
+        flex: 1 1 100%;
+        width: auto;
+      }
+      [data-block='board-01'] .board-col {
+        width: 280px;
+        scroll-margin-left: 16px;
+      }
+    }
+  </style>
+
+  <div class="board-head">
+    <div class="board-title">
+      <h1 id="board-title">Sprint 14</h1>
+      <p>Oct 20 to Oct 31. Nine cards, two of them late.</p>
+    </div>
+    <div class="board-tools">
+      <ht-input type="search" size="sm" aria-label="Filter cards" placeholder="Filter cards"><ht-icon slot="prefix" name="magnifying-glass"></ht-icon></ht-input>
+      <ht-toggle-group value="board" size="md" aria-label="View">
+        <ht-toggle-item value="board">Board</ht-toggle-item>
+        <ht-toggle-item value="list">List</ht-toggle-item>
+      </ht-toggle-group>
+      <ht-button variant="primary" size="sm"><ht-icon slot="prefix" name="plus" weight="bold"></ht-icon>New Card</ht-button>
+    </div>
+  </div>
+
+  <ht-scroll-area class="board-scroll" orientation="horizontal" fade label="Board columns">
+    <div class="board-track">
+      <section class="board-col" aria-labelledby="board-backlog">
+        <div class="board-col-head">
+          <span class="board-dot"></span>
+          <h2 id="board-backlog">Backlog</h2>
+          <span class="board-count">3</span>
+          <ht-button variant="quiet" size="xs"><ht-icon name="plus" weight="bold" label="Add card to Backlog"></ht-icon></ht-button>
+        </div>
+        <form class="board-add" action="#" method="post">
+          <ht-input name="title" size="sm" aria-label="Card title" placeholder="Card title" required></ht-input>
+          <div class="board-add-actions">
+            <ht-button type="reset" variant="quiet" size="xs">Cancel</ht-button>
+            <ht-button type="submit" variant="primary" size="xs">Add Card</ht-button>
+          </div>
+        </form>
+        <ul class="board-cards" role="list">
+          <li class="board-card">
+            <div class="board-card-top">
+              <h3><a href="#">Rate limit the public search endpoint</a></h3>
+              <ht-menu placement="bottom-end">
+                <ht-button slot="trigger" variant="quiet" size="xs"><ht-icon name="dots-three" weight="bold" label="Card actions"></ht-icon></ht-button>
+                <ht-menu-label>Move To</ht-menu-label>
+                <ht-menu-item value="progress">In Progress</ht-menu-item>
+                <ht-menu-item value="review">In Review</ht-menu-item>
+                <ht-menu-item value="done">Done</ht-menu-item>
+                <ht-menu-separator></ht-menu-separator>
+                <ht-menu-item><ht-icon slot="prefix" name="link"></ht-icon>Copy Link</ht-menu-item>
+                <ht-menu-item danger><ht-icon slot="prefix" name="trash"></ht-icon>Delete</ht-menu-item>
+              </ht-menu>
+            </div>
+            <div class="board-labels">
+              <ht-tag class="board-id">ACME-212</ht-tag>
+              <ht-tag tone="info">Backend</ht-tag>
+            </div>
+            <div class="board-card-foot">
+              <ht-avatar size="xs" name="Linus"></ht-avatar>
+              <span>No due date</span>
+            </div>
+          </li>
+          <li class="board-card">
+            <div class="board-card-top">
+              <h3><a href="#">Empty state for the reports page</a></h3>
+              <ht-menu placement="bottom-end">
+                <ht-button slot="trigger" variant="quiet" size="xs"><ht-icon name="dots-three" weight="bold" label="Card actions"></ht-icon></ht-button>
+                <ht-menu-label>Move To</ht-menu-label>
+                <ht-menu-item value="progress">In Progress</ht-menu-item>
+                <ht-menu-item value="review">In Review</ht-menu-item>
+                <ht-menu-item value="done">Done</ht-menu-item>
+                <ht-menu-separator></ht-menu-separator>
+                <ht-menu-item><ht-icon slot="prefix" name="link"></ht-icon>Copy Link</ht-menu-item>
+                <ht-menu-item danger><ht-icon slot="prefix" name="trash"></ht-icon>Delete</ht-menu-item>
+              </ht-menu>
+            </div>
+            <div class="board-labels">
+              <ht-tag class="board-id">ACME-208</ht-tag>
+              <ht-tag tone="accent">Design</ht-tag>
+            </div>
+            <div class="board-card-foot">
+              <ht-avatar size="xs" name="Ada Lovelace"></ht-avatar>
+              <span class="board-due"><ht-icon name="calendar"></ht-icon><time datetime="2026-10-30">Oct 30</time></span>
+            </div>
+          </li>
+          <li class="board-card">
+            <div class="board-card-top">
+              <h3><a href="#">Drop support for the v1 webhook format</a></h3>
+              <ht-menu placement="bottom-end">
+                <ht-button slot="trigger" variant="quiet" size="xs"><ht-icon name="dots-three" weight="bold" label="Card actions"></ht-icon></ht-button>
+                <ht-menu-label>Move To</ht-menu-label>
+                <ht-menu-item value="progress">In Progress</ht-menu-item>
+                <ht-menu-item value="review">In Review</ht-menu-item>
+                <ht-menu-item value="done">Done</ht-menu-item>
+                <ht-menu-separator></ht-menu-separator>
+                <ht-menu-item><ht-icon slot="prefix" name="link"></ht-icon>Copy Link</ht-menu-item>
+                <ht-menu-item danger><ht-icon slot="prefix" name="trash"></ht-icon>Delete</ht-menu-item>
+              </ht-menu>
+            </div>
+            <div class="board-labels">
+              <ht-tag class="board-id">ACME-197</ht-tag>
+              <ht-tag tone="warning">Breaking</ht-tag>
+            </div>
+            <div class="board-card-foot">
+              <span>Unassigned</span>
+              <span>No due date</span>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <section class="board-col" aria-labelledby="board-progress">
+        <div class="board-col-head">
+          <span class="board-dot board-dot-progress"></span>
+          <h2 id="board-progress">In Progress</h2>
+          <span class="board-count">3</span>
+          <ht-button variant="quiet" size="xs"><ht-icon name="plus" weight="bold" label="Add card to In Progress"></ht-icon></ht-button>
+        </div>
+        <ul class="board-cards" role="list">
+          <li class="board-card">
+            <div class="board-card-top">
+              <h3><a href="#">Retry loop in api-gateway never backs off</a></h3>
+              <ht-menu placement="bottom-end">
+                <ht-button slot="trigger" variant="quiet" size="xs"><ht-icon name="dots-three" weight="bold" label="Card actions"></ht-icon></ht-button>
+                <ht-menu-label>Move To</ht-menu-label>
+                <ht-menu-item value="backlog">Backlog</ht-menu-item>
+                <ht-menu-item value="review">In Review</ht-menu-item>
+                <ht-menu-item value="done">Done</ht-menu-item>
+                <ht-menu-separator></ht-menu-separator>
+                <ht-menu-item><ht-icon slot="prefix" name="link"></ht-icon>Copy Link</ht-menu-item>
+                <ht-menu-item danger><ht-icon slot="prefix" name="trash"></ht-icon>Delete</ht-menu-item>
+              </ht-menu>
+            </div>
+            <div class="board-labels">
+              <ht-tag class="board-id">ACME-204</ht-tag>
+              <ht-tag tone="danger">Bug</ht-tag>
+              <ht-tag tone="info">Backend</ht-tag>
+            </div>
+            <div class="board-card-foot">
+              <ht-avatar-group size="xs" label="Assignees">
+                <ht-avatar name="Linus"></ht-avatar>
+                <ht-avatar name="Grace Hopper"></ht-avatar>
+              </ht-avatar-group>
+              <span class="board-due board-late"><ht-icon name="warning-circle"></ht-icon>Late, <time datetime="2026-10-22">Oct 22</time></span>
+            </div>
+          </li>
+          <li class="board-card">
+            <div class="board-card-top">
+              <h3><a href="#">Move invoices to the new PDF renderer</a></h3>
+              <ht-menu placement="bottom-end">
+                <ht-button slot="trigger" variant="quiet" size="xs"><ht-icon name="dots-three" weight="bold" label="Card actions"></ht-icon></ht-button>
+                <ht-menu-label>Move To</ht-menu-label>
+                <ht-menu-item value="backlog">Backlog</ht-menu-item>
+                <ht-menu-item value="review">In Review</ht-menu-item>
+                <ht-menu-item value="done">Done</ht-menu-item>
+                <ht-menu-separator></ht-menu-separator>
+                <ht-menu-item><ht-icon slot="prefix" name="link"></ht-icon>Copy Link</ht-menu-item>
+                <ht-menu-item danger><ht-icon slot="prefix" name="trash"></ht-icon>Delete</ht-menu-item>
+              </ht-menu>
+            </div>
+            <div class="board-labels">
+              <ht-tag class="board-id">ACME-199</ht-tag>
+              <ht-tag tone="success">Billing</ht-tag>
+            </div>
+            <div class="board-card-foot">
+              <ht-avatar size="xs" name="Ada Lovelace"></ht-avatar>
+              <span class="board-due board-late"><ht-icon name="warning-circle"></ht-icon>Late, <time datetime="2026-10-21">Oct 21</time></span>
+            </div>
+          </li>
+          <li class="board-card">
+            <div class="board-card-top">
+              <h3><a href="#">Audit log export as CSV</a></h3>
+              <ht-menu placement="bottom-end">
+                <ht-button slot="trigger" variant="quiet" size="xs"><ht-icon name="dots-three" weight="bold" label="Card actions"></ht-icon></ht-button>
+                <ht-menu-label>Move To</ht-menu-label>
+                <ht-menu-item value="backlog">Backlog</ht-menu-item>
+                <ht-menu-item value="review">In Review</ht-menu-item>
+                <ht-menu-item value="done">Done</ht-menu-item>
+                <ht-menu-separator></ht-menu-separator>
+                <ht-menu-item><ht-icon slot="prefix" name="link"></ht-icon>Copy Link</ht-menu-item>
+                <ht-menu-item danger><ht-icon slot="prefix" name="trash"></ht-icon>Delete</ht-menu-item>
+              </ht-menu>
+            </div>
+            <div class="board-labels">
+              <ht-tag class="board-id">ACME-215</ht-tag>
+              <ht-tag tone="info">Backend</ht-tag>
+            </div>
+            <div class="board-card-foot">
+              <ht-avatar size="xs" name="Grace Hopper"></ht-avatar>
+              <span class="board-due"><ht-icon name="calendar"></ht-icon><time datetime="2026-10-29">Oct 29</time></span>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <section class="board-col" aria-labelledby="board-review">
+        <div class="board-col-head">
+          <span class="board-dot board-dot-review"></span>
+          <h2 id="board-review">In Review</h2>
+          <span class="board-count">0</span>
+          <ht-button variant="quiet" size="xs"><ht-icon name="plus" weight="bold" label="Add card to In Review"></ht-icon></ht-button>
+        </div>
+        <p class="board-empty">Nothing here yet</p>
+      </section>
+
+      <section class="board-col" aria-labelledby="board-done">
+        <div class="board-col-head">
+          <span class="board-dot board-dot-done"></span>
+          <h2 id="board-done">Done</h2>
+          <span class="board-count">3</span>
+          <ht-button variant="quiet" size="xs"><ht-icon name="plus" weight="bold" label="Add card to Done"></ht-icon></ht-button>
+        </div>
+        <ul class="board-cards" role="list">
+          <li class="board-card board-done">
+            <div class="board-card-top">
+              <h3><a href="#">Dark mode for the settings page</a></h3>
+              <ht-menu placement="bottom-end">
+                <ht-button slot="trigger" variant="quiet" size="xs"><ht-icon name="dots-three" weight="bold" label="Card actions"></ht-icon></ht-button>
+                <ht-menu-label>Move To</ht-menu-label>
+                <ht-menu-item value="backlog">Backlog</ht-menu-item>
+                <ht-menu-item value="progress">In Progress</ht-menu-item>
+                <ht-menu-item value="review">In Review</ht-menu-item>
+                <ht-menu-separator></ht-menu-separator>
+                <ht-menu-item><ht-icon slot="prefix" name="link"></ht-icon>Copy Link</ht-menu-item>
+                <ht-menu-item danger><ht-icon slot="prefix" name="trash"></ht-icon>Delete</ht-menu-item>
+              </ht-menu>
+            </div>
+            <div class="board-labels">
+              <ht-tag class="board-id">ACME-188</ht-tag>
+              <ht-tag tone="accent">Design</ht-tag>
+            </div>
+            <div class="board-card-foot">
+              <ht-avatar size="xs" name="Ada Lovelace"></ht-avatar>
+              <span class="board-due"><ht-icon name="check-circle"></ht-icon>Done <time datetime="2026-10-21">Oct 21</time></span>
+            </div>
+          </li>
+          <li class="board-card board-done">
+            <div class="board-card-top">
+              <h3><a href="#">Remove the legacy session cookie</a></h3>
+              <ht-menu placement="bottom-end">
+                <ht-button slot="trigger" variant="quiet" size="xs"><ht-icon name="dots-three" weight="bold" label="Card actions"></ht-icon></ht-button>
+                <ht-menu-label>Move To</ht-menu-label>
+                <ht-menu-item value="backlog">Backlog</ht-menu-item>
+                <ht-menu-item value="progress">In Progress</ht-menu-item>
+                <ht-menu-item value="review">In Review</ht-menu-item>
+                <ht-menu-separator></ht-menu-separator>
+                <ht-menu-item><ht-icon slot="prefix" name="link"></ht-icon>Copy Link</ht-menu-item>
+                <ht-menu-item danger><ht-icon slot="prefix" name="trash"></ht-icon>Delete</ht-menu-item>
+              </ht-menu>
+            </div>
+            <div class="board-labels">
+              <ht-tag class="board-id">ACME-181</ht-tag>
+              <ht-tag tone="info">Backend</ht-tag>
+            </div>
+            <div class="board-card-foot">
+              <ht-avatar size="xs" name="Linus"></ht-avatar>
+              <span class="board-due"><ht-icon name="check-circle"></ht-icon>Done <time datetime="2026-10-20">Oct 20</time></span>
+            </div>
+          </li>
+          <li class="board-card board-done">
+            <div class="board-card-top">
+              <h3><a href="#">Status page copy review</a></h3>
+              <ht-menu placement="bottom-end">
+                <ht-button slot="trigger" variant="quiet" size="xs"><ht-icon name="dots-three" weight="bold" label="Card actions"></ht-icon></ht-button>
+                <ht-menu-label>Move To</ht-menu-label>
+                <ht-menu-item value="backlog">Backlog</ht-menu-item>
+                <ht-menu-item value="progress">In Progress</ht-menu-item>
+                <ht-menu-item value="review">In Review</ht-menu-item>
+                <ht-menu-separator></ht-menu-separator>
+                <ht-menu-item><ht-icon slot="prefix" name="link"></ht-icon>Copy Link</ht-menu-item>
+                <ht-menu-item danger><ht-icon slot="prefix" name="trash"></ht-icon>Delete</ht-menu-item>
+              </ht-menu>
+            </div>
+            <div class="board-labels">
+              <ht-tag class="board-id">ACME-176</ht-tag>
+            </div>
+            <div class="board-card-foot">
+              <ht-avatar size="xs" name="Grace Hopper"></ht-avatar>
+              <span class="board-due"><ht-icon name="check-circle"></ht-icon>Done <time datetime="2026-10-20">Oct 20</time></span>
+            </div>
+          </li>
+        </ul>
+      </section>
+    </div>
+  </ht-scroll-area>
+</section>

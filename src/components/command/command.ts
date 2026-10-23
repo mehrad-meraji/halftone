@@ -181,6 +181,8 @@ export class HtCommand extends LitElement {
     .search svg { flex: none; width: 16px; height: 16px; color: var(--ht-text-muted); }
     input {
       all: unset;
+      /* After all: unset the field would inherit the page's alignment (a centred hero centred the text). */
+      text-align: start;
       box-sizing: border-box;
       flex: 1;
       min-width: 0;
