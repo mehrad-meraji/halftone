@@ -4,6 +4,7 @@ All notable changes to `@_mehrad/halftone`. Versions follow semver; while the ma
 
 ## Unreleased
 
+- 16 more blocks, 20 in all: list, detail, activity feed, members, inbox, comments, board, notice card (interstitial), search home, search results, media grid, wizard, setup steps, status, log viewer and invoice. `scripts/check-blocks.mjs` checks blocks without building.
 - 6 new components for blocks: code (copy, secret), description list, dropzone (form-associated), pagination, steps, timeline. 10 new elements.
 - 20 new elements from the Taskscape gap audit: textarea, avatar (+ group), progress, skeleton, separator, breadcrumb (+ item), popover, menu (+ item, separator, label), alert dialog, sheet, command (+ item, group), table (+ head, body, row, header, cell), toggle, toggle group (+ item), scroll area, calendar, sidebar (+ group, header, footer), emoji picker.
 - 3 new elements from the React Vibe audit: ping (status dot), marquee (endless scroller), accordion (+ item).

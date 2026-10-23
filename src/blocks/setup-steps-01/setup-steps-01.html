@@ -1,0 +1,220 @@
+<section data-block="setup-steps-01" aria-labelledby="ss-title">
+  <style>
+    [data-block='setup-steps-01'] {
+      box-sizing: border-box;
+      padding: 24px;
+      display: grid;
+      gap: 24px;
+      font: 400 0.875rem/1.5 var(--ht-font-ui);
+      color: var(--ht-text);
+    }
+    [data-block='setup-steps-01'] .ss-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    [data-block='setup-steps-01'] h1 {
+      margin: 0;
+      font: 600 1.5rem/1.2 var(--ht-font-display);
+    }
+    [data-block='setup-steps-01'] p {
+      margin: 0;
+    }
+    [data-block='setup-steps-01'] .ss-head p {
+      margin-top: 4px;
+      color: var(--ht-text-muted);
+    }
+    [data-block='setup-steps-01'] .ss-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 300px;
+      gap: 24px;
+      align-items: start;
+    }
+    [data-block='setup-steps-01'] .ss-sr {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+    /* `fit` makes the host inline-block, which would shrink the panels too. */
+    [data-block='setup-steps-01'] ht-tabs {
+      display: block;
+    }
+    [data-block='setup-steps-01'] ht-tab-panel {
+      padding-top: 16px;
+    }
+    [data-block='setup-steps-01'] .ss-body {
+      display: grid;
+      gap: 8px;
+    }
+    [data-block='setup-steps-01'] .ss-muted {
+      color: var(--ht-text-muted);
+    }
+    [data-block='setup-steps-01'] .ss-test {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+    }
+    [data-block='setup-steps-01'] .ss-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--ht-text-muted);
+    }
+    [data-block='setup-steps-01'] .ss-card-title {
+      margin: 0;
+      font: 600 1rem/1.25 var(--ht-font-display);
+    }
+    [data-block='setup-steps-01'] .ss-checks {
+      margin: 8px 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 8px;
+    }
+    [data-block='setup-steps-01'] .ss-checks li {
+      display: flex;
+      gap: 8px;
+      align-items: baseline;
+    }
+    [data-block='setup-steps-01'] .ss-checks ht-icon {
+      flex: none;
+      color: var(--ht-text-subtle);
+      transform: translateY(2px);
+    }
+    [data-block='setup-steps-01'] .ss-mono {
+      font-family: var(--ht-font-mono);
+      font-size: 0.8125rem;
+    }
+    @media (max-width: 960px) {
+      [data-block='setup-steps-01'] .ss-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+    @media (max-width: 480px) {
+      [data-block='setup-steps-01'] {
+        padding: 16px;
+      }
+    }
+  </style>
+
+  <div class="ss-head">
+    <div>
+      <h1 id="ss-title">Send Your First Event</h1>
+      <p>Four steps. Most projects see their first event in under five minutes.</p>
+    </div>
+    <ht-button variant="default" class="ss-agent">
+      <ht-icon slot="prefix" name="terminal"></ht-icon>
+      Hand to an Agent
+    </ht-button>
+  </div>
+
+  <div class="ss-grid">
+    <div>
+      <h2 class="ss-sr">Setup Steps</h2>
+      <ht-tabs value="node" label="Language" fit>
+        <ht-tab value="node">Node</ht-tab>
+        <ht-tab value="python">Python</ht-tab>
+        <ht-tab value="php">PHP</ht-tab>
+        <ht-tab value="go">Go</ht-tab>
+
+        <ht-tab-panel value="node">
+          <ht-steps orientation="vertical" label="Node setup steps">
+            <ht-step label="Install the SDK">
+              <div class="ss-body">
+                <p>Add the package to the app you want to watch.</p>
+                <ht-code label="Terminal" language="bash">npm install @acme/sdk</ht-code>
+              </div>
+            </ht-step>
+            <ht-step label="Add Your Token" description="One line in your env file">
+              <div class="ss-body">
+                <p>Treat the token like a password. Keep it out of version control.</p>
+                <ht-code label=".env" language="env" secret wrap>ACME_TOKEN=acme_tok_7f3c91d04b2e48a6a0c5e19d82f4b736</ht-code>
+                <ht-alert tone="warning" heading="Copy It Now">
+                  This token is shown once. If you lose it, make a new one in Settings.
+                </ht-alert>
+              </div>
+            </ht-step>
+            <ht-step label="Start the Client">
+              <div class="ss-body">
+                <p>Import it before anything else, so it sees every error.</p>
+                <ht-code label="instrument.js" language="js">
+                  import * as Acme from '@acme/sdk';
+
+                  Acme.init({
+                    token: process.env.ACME_TOKEN,
+                    environment: 'development',
+                  });
+                </ht-code>
+              </div>
+            </ht-step>
+            <ht-step label="Send a Test Event">
+              <div class="ss-test">
+                <ht-button size="sm">Send Test Event</ht-button>
+                <span class="ss-status">
+                  <ht-ping tone="warning"></ht-ping>
+                  Waiting for the first event…
+                </span>
+              </div>
+            </ht-step>
+          </ht-steps>
+        </ht-tab-panel>
+
+        <ht-tab-panel value="python">
+          <div class="ss-body">
+            <p class="ss-muted">Same four steps as Node. Install with pip, then start the client at the top of your entry point.</p>
+            <ht-code label="Terminal" language="bash">pip install acme-sdk</ht-code>
+          </div>
+        </ht-tab-panel>
+        <ht-tab-panel value="php">
+          <div class="ss-body">
+            <p class="ss-muted">Same four steps as Node. Install with Composer, then start the client in your bootstrap file.</p>
+            <ht-code label="Terminal" language="bash">composer require acme/sdk</ht-code>
+          </div>
+        </ht-tab-panel>
+        <ht-tab-panel value="go">
+          <div class="ss-body">
+            <p class="ss-muted">Same four steps as Node. Add the module, then start the client in <span class="ss-mono">main()</span>.</p>
+            <ht-code label="Terminal" language="bash">go get github.com/acme/acme-go</ht-code>
+          </div>
+        </ht-tab-panel>
+      </ht-tabs>
+    </div>
+
+    <section aria-labelledby="ss-verify-title">
+      <ht-card>
+        <h2 slot="header" id="ss-verify-title" class="ss-card-title">Verify</h2>
+        <p>When it works, this is what you see:</p>
+        <ul class="ss-checks">
+          <li><ht-icon name="check-circle"></ht-icon>The test event shows in Issues within 30 seconds.</li>
+          <li><ht-icon name="check-circle"></ht-icon>Its environment reads <span class="ss-mono">development</span>.</li>
+          <li><ht-icon name="check-circle"></ht-icon>This page marks every step done.</li>
+        </ul>
+        <ht-button slot="footer" variant="default" size="sm" href="#" block>
+          Open Dashboard
+          <ht-icon slot="suffix" name="arrow-right"></ht-icon>
+        </ht-button>
+      </ht-card>
+    </section>
+  </div>
+
+  <ht-dialog heading="Hand to an Agent" class="ss-agent-dialog">
+    <div class="ss-body">
+      <p>Paste this into your coding agent. It holds no token: the agent asks for it.</p>
+      <ht-code label="Prompt" wrap>
+        Add the Acme SDK to this Node project.
+        1. Run: npm install @acme/sdk
+        2. Create instrument.js that calls Acme.init({ token: process.env.ACME_TOKEN, environment: 'development' }).
+        3. Import instrument.js first in the entry point, before any other import.
+        4. Ask me for ACME_TOKEN and add it to .env. Make sure .env is in .gitignore.
+        5. Throw a test error once and tell me when it is sent.
+      </ht-code>
+    </div>
+    <ht-button slot="footer" variant="default">Close</ht-button>
+  </ht-dialog>
+</section>

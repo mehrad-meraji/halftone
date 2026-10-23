@@ -1,0 +1,95 @@
+<main data-block="interstitial-01">
+  <style>
+    [data-block='interstitial-01'] {
+      box-sizing: border-box;
+      min-height: 100vh;
+      display: grid;
+      place-content: center;
+      justify-items: center;
+      gap: 16px;
+      padding: 24px 16px;
+      background: var(--ht-halftone-stage), var(--ht-bg);
+      font: 400 0.875rem/1.5 var(--ht-font-ui);
+      color: var(--ht-text);
+    }
+    [data-block='interstitial-01'] .note-panel {
+      box-sizing: border-box;
+      width: min(100%, 420px);
+      padding: 32px;
+      display: grid;
+      gap: 24px;
+      background: var(--ht-surface);
+      border: 1px solid var(--ht-border);
+      border-radius: var(--ht-radius-lg);
+      box-shadow: var(--ht-shadow-md);
+    }
+    [data-block='interstitial-01'] .note-head {
+      display: grid;
+      justify-items: center;
+      gap: 8px;
+      text-align: center;
+    }
+    [data-block='interstitial-01'] .note-eyebrow {
+      margin-top: 8px;
+      font: 500 0.75rem/1 var(--ht-font-mono);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ht-text-muted);
+    }
+    [data-block='interstitial-01'] h1 {
+      margin: 0;
+      font: 600 1.5rem/1.2 var(--ht-font-display);
+    }
+    [data-block='interstitial-01'] .note-sub {
+      margin: 0;
+      color: var(--ht-text-muted);
+    }
+    [data-block='interstitial-01'] .note-facts {
+      padding: 12px 16px;
+      background: var(--ht-surface-muted);
+      border: 1px solid var(--ht-border);
+      border-radius: var(--ht-radius-md);
+    }
+    [data-block='interstitial-01'] .note-actions {
+      display: grid;
+      gap: 8px;
+    }
+    [data-block='interstitial-01'] .note-foot {
+      margin: 0;
+      text-align: center;
+      color: var(--ht-text-muted);
+    }
+    [data-block='interstitial-01'] a {
+      color: var(--ht-accent-text);
+      text-underline-offset: 2px;
+    }
+    @media (max-width: 480px) {
+      [data-block='interstitial-01'] .note-panel {
+        padding: 24px;
+      }
+    }
+  </style>
+
+  <div class="note-panel">
+    <div class="note-head">
+      <ht-avatar size="lg" name="Ada Lovelace"></ht-avatar>
+      <span class="note-eyebrow">Invitation</span>
+      <h1>Ada invited you to Acme</h1>
+      <p class="note-sub">Join the workspace to see its projects and issues.</p>
+    </div>
+
+    <ht-description-list class="note-facts" layout="inline" density="compact">
+      <ht-description-item label="Workspace">Acme</ht-description-item>
+      <ht-description-item label="Role">Member</ht-description-item>
+      <ht-description-item label="Invited As">grace@acme.dev</ht-description-item>
+      <ht-description-item label="Expires">In 6 days</ht-description-item>
+    </ht-description-list>
+
+    <form class="note-actions" action="#" method="post">
+      <ht-button type="submit" variant="primary" size="lg" block>Accept Invitation</ht-button>
+      <ht-button variant="default" size="lg" block>Decline</ht-button>
+    </form>
+  </div>
+
+  <p class="note-foot">Signed in as grace@acme.dev. Wrong account? <a href="#">Sign out</a></p>
+</main>

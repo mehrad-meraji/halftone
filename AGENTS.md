@@ -20,6 +20,8 @@
 - The HTML composes `ht-*` elements only. Its first element carries `data-block="<name>"`, and every selector in its `<style>` starts with `[data-block='<name>']`. No `<script>`: describe wiring in the notes. Tokens only, the same as components.
 - The notes start with front matter (`title`, `category`, `summary`) and need `## When to use` and `## How to adapt`. Add `## When not to use`, `## Wiring` and `## Do not` when they have something to say. Write rules an agent can follow, not descriptions of the markup.
 - The list of components is derived from the tags in the HTML. Never write it by hand.
+- Page-level `ht-card`s: the card renders an `h3`, so give the block a `<section>` root and put an `h2` above the cards, or put your own `<h2 slot="header">` in the card. Do not put `<aside>` inside a `<section>`/`<main>` root (axe: complementary landmark must be top level); use a labelled `<section>`.
+- `node scripts/check-blocks.mjs <name>` runs the block rules without building.
 - Add one export per block to `src/blocks/blocks.stories.ts`. `npm run registry` fails on any broken rule, including a missing story.
 - Tune a block by editing its notes when an agent gets it wrong, and its HTML when the default is wrong. Then check the story in light, dark and at phone width, and run axe over it (`scripts/a11y-runner.js`).
 

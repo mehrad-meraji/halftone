@@ -1,0 +1,485 @@
+<div data-block="inbox-01">
+  <style>
+    [data-block='inbox-01'] {
+      box-sizing: border-box;
+      height: 100vh;
+      display: grid;
+      grid-template-columns: 360px minmax(0, 1fr) 280px;
+      background: var(--ht-bg);
+      font: 400 0.875rem/1.5 var(--ht-font-ui);
+      color: var(--ht-text);
+    }
+    [data-block='inbox-01'] .inbox-list,
+    [data-block='inbox-01'] .inbox-reader,
+    [data-block='inbox-01'] .inbox-rail {
+      min-width: 0;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    [data-block='inbox-01'] .inbox-list {
+      border-right: 1px solid var(--ht-border);
+    }
+    [data-block='inbox-01'] .inbox-rail {
+      border-left: 1px solid var(--ht-border);
+      background: var(--ht-surface-muted);
+    }
+    [data-block='inbox-01'] .inbox-list-head {
+      display: grid;
+      gap: 12px;
+      padding: 16px;
+      border-bottom: 1px solid var(--ht-border);
+    }
+    [data-block='inbox-01'] .inbox-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    [data-block='inbox-01'] h1 {
+      margin: 0;
+      font: 600 1.25rem/1.2 var(--ht-font-display);
+    }
+    [data-block='inbox-01'] .inbox-filters {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    [data-block='inbox-01'] .inbox-scroll {
+      flex: 1;
+      min-height: 0;
+      overflow: auto;
+    }
+    [data-block='inbox-01'] .inbox-group {
+      margin: 0;
+      padding: 16px 16px 6px;
+      font: 500 0.6875rem/1 var(--ht-font-mono);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ht-text-muted);
+    }
+    [data-block='inbox-01'] .inbox-rows {
+      margin: 0;
+      padding: 0 8px;
+      list-style: none;
+      display: grid;
+      gap: 2px;
+    }
+    [data-block='inbox-01'] .inbox-row {
+      position: relative;
+    }
+    [data-block='inbox-01'] .inbox-link {
+      display: grid;
+      grid-template-columns: 10px minmax(0, 1fr) auto;
+      column-gap: 8px;
+      padding: 10px 40px 10px 8px;
+      border-radius: var(--ht-radius-md);
+      color: inherit;
+      text-decoration: none;
+    }
+    [data-block='inbox-01'] .inbox-link:hover {
+      background: color-mix(in oklab, var(--ht-text) 5%, transparent);
+    }
+    [data-block='inbox-01'] .inbox-link:focus-visible {
+      outline: 2px solid var(--ht-focus);
+      outline-offset: -2px;
+    }
+    [data-block='inbox-01'] .inbox-link[aria-current] {
+      background: var(--ht-accent-soft);
+    }
+    [data-block='inbox-01'] .inbox-mark {
+      grid-row: 1;
+      align-self: center;
+      display: flex;
+    }
+    [data-block='inbox-01'] .inbox-from,
+    [data-block='inbox-01'] .inbox-subject,
+    [data-block='inbox-01'] .inbox-snippet {
+      grid-column: 2 / 4;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    [data-block='inbox-01'] .inbox-from {
+      grid-column: 2;
+    }
+    [data-block='inbox-01'] .inbox-time {
+      grid-column: 3;
+      grid-row: 1;
+      color: var(--ht-text-muted);
+      font-size: 0.75rem;
+      font-variant-numeric: tabular-nums;
+    }
+    [data-block='inbox-01'] .inbox-snippet {
+      color: var(--ht-text-muted);
+    }
+    [data-block='inbox-01'] .inbox-unread .inbox-from,
+    [data-block='inbox-01'] .inbox-unread .inbox-subject {
+      font-weight: 600;
+    }
+    [data-block='inbox-01'] .inbox-star {
+      position: absolute;
+      right: 6px;
+      bottom: 8px;
+    }
+    [data-block='inbox-01'] .inbox-tools {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      height: 52px;
+      padding: 0 16px;
+      border-bottom: 1px solid var(--ht-border);
+    }
+    [data-block='inbox-01'] .inbox-tools-end {
+      margin-left: auto;
+      display: flex;
+      gap: 4px;
+    }
+    [data-block='inbox-01'] .inbox-thread {
+      flex: 1;
+      min-height: 0;
+      overflow: auto;
+      padding: 24px;
+    }
+    [data-block='inbox-01'] .inbox-subject-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    [data-block='inbox-01'] h2 {
+      margin: 0;
+      font: 600 1.25rem/1.3 var(--ht-font-display);
+    }
+    [data-block='inbox-01'] .inbox-messages {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 12px;
+    }
+    [data-block='inbox-01'] .inbox-msg {
+      padding: 16px;
+      background: var(--ht-surface);
+      border: 1px solid var(--ht-border);
+      border-radius: var(--ht-radius-lg);
+    }
+    [data-block='inbox-01'] .inbox-msg-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    [data-block='inbox-01'] .inbox-msg-head div {
+      flex: 1;
+      min-width: 0;
+    }
+    [data-block='inbox-01'] h3 {
+      margin: 0;
+      font: 600 0.875rem/1.4 var(--ht-font-ui);
+    }
+    [data-block='inbox-01'] .inbox-msg-head span,
+    [data-block='inbox-01'] .inbox-msg-head time {
+      color: var(--ht-text-muted);
+      font-size: 0.75rem;
+    }
+    [data-block='inbox-01'] .inbox-msg p {
+      margin: 0 0 8px;
+    }
+    [data-block='inbox-01'] .inbox-msg p:last-child {
+      margin-bottom: 0;
+    }
+    [data-block='inbox-01'] .inbox-composer {
+      display: grid;
+      gap: 8px;
+      padding: 12px 16px 16px;
+      border-top: 1px solid var(--ht-border);
+    }
+    [data-block='inbox-01'] .inbox-composer ht-toggle-group {
+      justify-self: start;
+    }
+    [data-block='inbox-01'] .inbox-send {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    [data-block='inbox-01'] .inbox-send ht-dropzone {
+      flex: 1;
+      min-width: 0;
+    }
+    [data-block='inbox-01'] .inbox-rail-head {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      height: 52px;
+      padding: 0 8px;
+      border-bottom: 1px solid var(--ht-border);
+    }
+    [data-block='inbox-01'] .inbox-rail-body {
+      flex: 1;
+      min-height: 0;
+      overflow: auto;
+      display: grid;
+      align-content: start;
+      gap: 20px;
+      padding: 20px 16px;
+    }
+    [data-block='inbox-01'] .inbox-person {
+      display: grid;
+      justify-items: center;
+      gap: 4px;
+      text-align: center;
+    }
+    [data-block='inbox-01'] .inbox-person h2 {
+      margin-top: 8px;
+      font-size: 1rem;
+    }
+    [data-block='inbox-01'] .inbox-person p {
+      margin: 0;
+      color: var(--ht-text-muted);
+    }
+    [data-block='inbox-01'] .inbox-rail h3 {
+      margin-bottom: 8px;
+      font: 500 0.6875rem/1 var(--ht-font-mono);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ht-text-muted);
+    }
+    [data-block='inbox-01'] .inbox-related {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 8px;
+    }
+    [data-block='inbox-01'] .inbox-related a {
+      display: block;
+      color: var(--ht-text);
+      text-underline-offset: 2px;
+    }
+    [data-block='inbox-01'] .inbox-related time {
+      color: var(--ht-text-muted);
+      font-size: 0.75rem;
+    }
+    @media (max-width: 1180px) {
+      [data-block='inbox-01'] {
+        grid-template-columns: 320px minmax(0, 1fr);
+      }
+      [data-block='inbox-01'] .inbox-rail {
+        display: none;
+      }
+    }
+    @media (max-width: 768px) {
+      [data-block='inbox-01'] {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      [data-block='inbox-01'] .inbox-list {
+        border-right: 0;
+      }
+      [data-block='inbox-01'] .inbox-reader {
+        display: none;
+      }
+    }
+  </style>
+
+  <section class="inbox-list" aria-labelledby="inbox-title">
+    <div class="inbox-list-head">
+      <div class="inbox-title">
+        <h1 id="inbox-title">Inbox</h1>
+        <ht-button variant="default" size="sm"><ht-icon slot="prefix" name="pencil-simple"></ht-icon>New Message</ht-button>
+      </div>
+      <ht-input type="search" size="sm" aria-label="Search inbox" placeholder="Search inbox"><ht-icon slot="prefix" name="magnifying-glass"></ht-icon></ht-input>
+      <ht-toggle-group class="inbox-filters" value="all" size="sm" aria-label="Filter">
+        <ht-toggle-item value="all">All</ht-toggle-item>
+        <ht-toggle-item value="unread">Unread 4</ht-toggle-item>
+        <ht-toggle-item value="starred">Starred</ht-toggle-item>
+        <ht-toggle-item value="snoozed">Snoozed</ht-toggle-item>
+      </ht-toggle-group>
+    </div>
+
+    <div class="inbox-scroll">
+      <h2 class="inbox-group" id="inbox-needs">Needs Action</h2>
+      <ul class="inbox-rows" role="list" aria-labelledby="inbox-needs">
+        <li class="inbox-row inbox-unread">
+          <a class="inbox-link" href="#" aria-current="true">
+            <span class="inbox-mark"><ht-ping tone="accent" size="sm" still label="Unread"></ht-ping></span>
+            <span class="inbox-from">Grace Hopper</span>
+            <time class="inbox-time" datetime="2026-10-23T09:41">9:41</time>
+            <span class="inbox-subject">Invoice 2041 charged twice</span>
+            <span class="inbox-snippet">We were billed on the 1st and again on the 3rd. Same amount, same card.</span>
+          </a>
+          <ht-toggle class="inbox-star" size="sm" label="Star"><ht-icon name="star"></ht-icon></ht-toggle>
+        </li>
+        <li class="inbox-row inbox-unread">
+          <a class="inbox-link" href="#">
+            <span class="inbox-mark"><ht-ping tone="accent" size="sm" still label="Unread"></ht-ping></span>
+            <span class="inbox-from">Linus</span>
+            <time class="inbox-time" datetime="2026-10-23T08:15">8:15</time>
+            <span class="inbox-subject">SSO setup for the Helsinki office</span>
+            <span class="inbox-snippet">Our IdP wants a metadata URL. Where do I find it?</span>
+          </a>
+          <ht-toggle class="inbox-star" size="sm" label="Star" pressed><ht-icon name="star" weight="fill"></ht-icon></ht-toggle>
+        </li>
+        <li class="inbox-row inbox-unread">
+          <a class="inbox-link" href="#">
+            <span class="inbox-mark"><ht-ping tone="accent" size="sm" still label="Unread"></ht-ping></span>
+            <span class="inbox-from">Ada Lovelace</span>
+            <time class="inbox-time" datetime="2026-10-22T17:30">Yesterday</time>
+            <span class="inbox-subject">Export stuck at 99%</span>
+            <span class="inbox-snippet">It has said 99% since lunch. I suspect it is lying.</span>
+          </a>
+          <ht-toggle class="inbox-star" size="sm" label="Star"><ht-icon name="star"></ht-icon></ht-toggle>
+        </li>
+      </ul>
+
+      <h2 class="inbox-group" id="inbox-earlier">Earlier</h2>
+      <ul class="inbox-rows" role="list" aria-labelledby="inbox-earlier">
+        <li class="inbox-row inbox-unread">
+          <a class="inbox-link" href="#">
+            <span class="inbox-mark"><ht-ping tone="accent" size="sm" still label="Unread"></ht-ping></span>
+            <span class="inbox-from">Margaret Hamilton</span>
+            <time class="inbox-time" datetime="2026-10-21T11:02">Oct 21</time>
+            <span class="inbox-subject">Seat count on the Team plan</span>
+            <span class="inbox-snippet">Can we add three seats mid-cycle without a new contract?</span>
+          </a>
+          <ht-toggle class="inbox-star" size="sm" label="Star"><ht-icon name="star"></ht-icon></ht-toggle>
+        </li>
+        <li class="inbox-row">
+          <a class="inbox-link" href="#">
+            <span class="inbox-mark"></span>
+            <span class="inbox-from">Alan Turing</span>
+            <time class="inbox-time" datetime="2026-10-20T15:48">Oct 20</time>
+            <span class="inbox-subject">Re: Webhook signatures</span>
+            <span class="inbox-snippet">That fixed it. The clock on our worker was four minutes slow.</span>
+          </a>
+          <ht-toggle class="inbox-star" size="sm" label="Star"><ht-icon name="star"></ht-icon></ht-toggle>
+        </li>
+        <li class="inbox-row">
+          <a class="inbox-link" href="#">
+            <span class="inbox-mark"></span>
+            <span class="inbox-from">Katherine Johnson</span>
+            <time class="inbox-time" datetime="2026-10-18T10:20">Oct 18</time>
+            <span class="inbox-subject">Data residency in the EU</span>
+            <span class="inbox-snippet">Thanks, the DPA is signed and back with you.</span>
+          </a>
+          <ht-toggle class="inbox-star" size="sm" label="Star"><ht-icon name="star"></ht-icon></ht-toggle>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <article class="inbox-reader" aria-labelledby="inbox-subject">
+    <div class="inbox-tools">
+      <ht-tooltip>
+        <ht-button variant="quiet" size="sm">Archive</ht-button>
+        <span slot="content">Archive <ht-kbd keys="E"></ht-kbd></span>
+      </ht-tooltip>
+      <ht-tooltip>
+        <ht-button variant="quiet" size="sm"><ht-icon slot="prefix" name="clock"></ht-icon>Snooze</ht-button>
+        <span slot="content">Snooze <ht-kbd keys="H"></ht-kbd></span>
+      </ht-tooltip>
+      <ht-tooltip>
+        <ht-button variant="quiet" size="sm"><ht-icon slot="prefix" name="envelope"></ht-icon>Mark Unread</ht-button>
+        <span slot="content">Mark unread <ht-kbd keys="U"></ht-kbd></span>
+      </ht-tooltip>
+      <div class="inbox-tools-end">
+        <ht-menu placement="bottom-end">
+          <ht-button slot="trigger" variant="quiet" size="sm"><ht-icon name="dots-three" weight="bold" label="More actions"></ht-icon></ht-button>
+          <ht-menu-item><ht-icon slot="prefix" name="user"></ht-icon>Assign To</ht-menu-item>
+          <ht-menu-item><ht-icon slot="prefix" name="link"></ht-icon>Copy Link</ht-menu-item>
+          <ht-menu-item><ht-icon slot="prefix" name="bell"></ht-icon>Mute Thread</ht-menu-item>
+          <ht-menu-separator></ht-menu-separator>
+          <ht-menu-item danger shortcut="#"><ht-icon slot="prefix" name="trash"></ht-icon>Move To Trash</ht-menu-item>
+        </ht-menu>
+      </div>
+    </div>
+
+    <div class="inbox-thread">
+      <div class="inbox-subject-head">
+        <h2 id="inbox-subject">Invoice 2041 charged twice</h2>
+        <ht-tag tone="warning">Billing</ht-tag>
+      </div>
+      <ol class="inbox-messages">
+        <li>
+          <article class="inbox-msg" aria-labelledby="inbox-m1">
+            <div class="inbox-msg-head">
+              <ht-avatar size="sm" name="Grace Hopper"></ht-avatar>
+              <div>
+                <h3 id="inbox-m1">Grace Hopper</h3>
+                <span>grace@hopper.example</span>
+              </div>
+              <time datetime="2026-10-23T09:12">9:12</time>
+            </div>
+            <p>Hi. We were billed for invoice 2041 on the 1st and again on the 3rd. Same amount, same card.</p>
+            <p>Please refund the second charge. Receipt numbers are below if you need them.</p>
+          </article>
+        </li>
+        <li>
+          <article class="inbox-msg" aria-labelledby="inbox-m2">
+            <div class="inbox-msg-head">
+              <ht-avatar size="sm" name="Ada Lovelace"></ht-avatar>
+              <div>
+                <h3 id="inbox-m2">Ada Lovelace</h3>
+                <span>Acme Support</span>
+              </div>
+              <time datetime="2026-10-23T09:30">9:30</time>
+            </div>
+            <p>Thanks, Grace. I can see both charges. The second one came from a retry after a timeout on our side.</p>
+          </article>
+        </li>
+        <li>
+          <article class="inbox-msg" aria-labelledby="inbox-m3">
+            <div class="inbox-msg-head">
+              <ht-avatar size="sm" name="Grace Hopper"></ht-avatar>
+              <div>
+                <h3 id="inbox-m3">Grace Hopper</h3>
+                <span>grace@hopper.example</span>
+              </div>
+              <time datetime="2026-10-23T09:41">9:41</time>
+            </div>
+            <p>Good to know it was not us. When will the refund land?</p>
+          </article>
+        </li>
+      </ol>
+    </div>
+
+    <form class="inbox-composer" action="#" method="post">
+      <ht-toggle-group value="reply" size="sm" aria-label="Response type">
+        <ht-toggle-item value="reply">Reply</ht-toggle-item>
+        <ht-toggle-item value="note">Internal Note</ht-toggle-item>
+      </ht-toggle-group>
+      <ht-textarea name="body" aria-label="Reply to Grace Hopper" placeholder="Write a reply" rows="3" max-rows="10" autosize></ht-textarea>
+      <div class="inbox-send">
+        <ht-dropzone name="attachments" compact multiple aria-label="Attach files"></ht-dropzone>
+        <ht-button type="submit" variant="primary">Send</ht-button>
+      </div>
+    </form>
+  </article>
+
+  <aside class="inbox-rail" aria-labelledby="inbox-person">
+    <div class="inbox-rail-head">
+      <ht-button variant="quiet" size="sm"><ht-icon name="caret-right" weight="bold" label="Hide details"></ht-icon></ht-button>
+    </div>
+    <div class="inbox-rail-body">
+      <div class="inbox-person">
+        <ht-avatar size="lg" name="Grace Hopper"></ht-avatar>
+        <h2 id="inbox-person">Grace Hopper</h2>
+        <p>Hopper &amp; Co.</p>
+      </div>
+      <ht-description-list density="compact" label="Customer">
+        <ht-description-item label="Email" copy>grace@hopper.example</ht-description-item>
+        <ht-description-item label="Plan">Team, 12 seats</ht-description-item>
+        <ht-description-item label="Customer Since">March 2024</ht-description-item>
+        <ht-description-item label="Local Time" hint="New York">5:41 AM</ht-description-item>
+      </ht-description-list>
+      <div>
+        <h3>Recent Threads</h3>
+        <ul class="inbox-related">
+          <li><a href="#">Annual plan quote</a><time datetime="2026-09-14">Sep 14</time></li>
+          <li><a href="#">Add a billing contact</a><time datetime="2026-07-02">Jul 2</time></li>
+          <li><a href="#">SAML certificate rotation</a><time datetime="2026-05-19">May 19</time></li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+</div>

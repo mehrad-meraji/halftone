@@ -69,7 +69,7 @@ After copying you own the code: there is no runtime dependency on this package, 
 
 ## Blocks
 
-Blocks are ready-made page sections, like [shadcn/ui blocks](https://ui.shadcn.com/blocks): a sign-in page, an app shell, a settings page, a dashboard. Each is plain HTML that composes `ht-*` elements, so it works in any framework or none.
+Blocks are ready-made page sections, like [shadcn/ui blocks](https://ui.shadcn.com/blocks). There are 20: sign-in, app shell, settings, dashboard, record list and detail, activity feed, members, inbox, comments, board, notice card, search home and results, media grid, wizard, setup steps, status, log viewer and invoice. Each is plain HTML that composes `ht-*` elements, so it works in any framework or none.
 
 ```bash
 npx @_mehrad/halftone list                 # blocks are listed after the components

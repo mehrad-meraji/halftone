@@ -1,0 +1,362 @@
+<section data-block="status-01" aria-labelledby="st-title">
+  <style>
+    [data-block='status-01'] {
+      box-sizing: border-box;
+      padding: 24px;
+      display: grid;
+      gap: 24px;
+      font: 400 0.875rem/1.5 var(--ht-font-ui);
+      color: var(--ht-text);
+    }
+    [data-block='status-01'] .st-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    [data-block='status-01'] h1 {
+      margin: 0;
+      font: 600 1.5rem/1.2 var(--ht-font-display);
+    }
+    [data-block='status-01'] .st-head p {
+      margin: 4px 0 0;
+      color: var(--ht-text-muted);
+    }
+    [data-block='status-01'] .st-sr {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+    /* Actions sit in the message, not the action slot, so they wrap under the text on phones. */
+    [data-block='status-01'] .st-banner-body {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px 16px;
+    }
+    [data-block='status-01'] .st-banner-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    [data-block='status-01'] .st-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
+    }
+    [data-block='status-01'] .st-value {
+      display: block;
+      font: 600 1.75rem/1.2 var(--ht-font-display);
+      font-variant-numeric: tabular-nums;
+    }
+    [data-block='status-01'] .st-of {
+      color: var(--ht-text-muted);
+      font-size: 1rem;
+    }
+    [data-block='status-01'] .st-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 320px;
+      gap: 16px;
+      align-items: start;
+    }
+    [data-block='status-01'] .st-side {
+      display: grid;
+      gap: 16px;
+    }
+    [data-block='status-01'] .st-card-title {
+      margin: 0;
+      font: 600 1rem/1.25 var(--ht-font-display);
+    }
+    [data-block='status-01'] .st-name {
+      display: flex;
+      flex-direction: column;
+    }
+    [data-block='status-01'] .st-name small,
+    [data-block='status-01'] .st-beat small {
+      font: 400 0.75rem/1.4 var(--ht-font-mono);
+      color: var(--ht-text-muted);
+    }
+    [data-block='status-01'] .st-state {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
+    [data-block='status-01'] .st-uptime {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    [data-block='status-01'] .st-pct {
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+    /* 90 days, 3px bar + 1px gap each. Only the bad days are elements. */
+    [data-block='status-01'] .st-strip {
+      position: relative;
+      flex: none;
+      width: 360px;
+      height: 20px;
+      overflow: hidden;
+    }
+    [data-block='status-01'] .st-days {
+      position: absolute;
+      inset: 0 0 0 auto;
+      width: 360px;
+      background: repeating-linear-gradient(to right, var(--ht-success) 0 3px, transparent 3px 4px);
+    }
+    [data-block='status-01'] .st-days i {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: calc(var(--d) * 4px);
+      width: 3px;
+    }
+    [data-block='status-01'] .st-days .st-slow {
+      background: var(--ht-warning);
+    }
+    [data-block='status-01'] .st-days .st-down {
+      background: var(--ht-danger);
+    }
+    [data-block='status-01'] .st-days .st-none {
+      left: 0;
+      width: calc(var(--d) * 4px);
+      background: repeating-linear-gradient(to right, var(--ht-border-strong) 0 3px, var(--ht-surface) 3px 4px);
+    }
+    [data-block='status-01'] .st-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 12px;
+    }
+    [data-block='status-01'] .st-beat {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    [data-block='status-01'] .st-beat > span:first-child {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+    [data-block='status-01'] .st-foot {
+      margin: 0;
+      color: var(--ht-text-muted);
+    }
+    @media (max-width: 1100px) {
+      [data-block='status-01'] .st-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+    @media (max-width: 640px) {
+      [data-block='status-01'] {
+        padding: 16px;
+      }
+      [data-block='status-01'] .st-wide {
+        display: none;
+      }
+      [data-block='status-01'] .st-strip {
+        width: 56px;
+      }
+      [data-block='status-01'] .st-name small {
+        display: none;
+      }
+      [data-block='status-01'] .st-uptime {
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 4px;
+      }
+    }
+  </style>
+
+  <div class="st-head">
+    <div>
+      <h1 id="st-title">Status</h1>
+      <p>12 monitors, checked every 60 seconds. Updated 20s ago.</p>
+    </div>
+    <ht-button>
+      <ht-icon slot="prefix" name="plus"></ht-icon>
+      Add Monitor
+    </ht-button>
+  </div>
+
+  <ht-banner tone="danger">
+    <span class="st-banner-body">
+      <span><strong>api-gateway is down</strong> · 12 min · Connection refused</span>
+      <span class="st-banner-actions">
+      <ht-button variant="default" size="xs">Acknowledge</ht-button>
+      <ht-button variant="default" size="xs" href="#">View Incident</ht-button>
+      </span>
+    </span>
+  </ht-banner>
+
+  <h2 class="st-sr">Summary</h2>
+  <div class="st-stats">
+    <ht-card eyebrow="Up">
+      <span class="st-value"><ht-number value="11"></ht-number> <span class="st-of">of 12</span></span>
+    </ht-card>
+    <ht-card eyebrow="Slow">
+      <ht-number class="st-value" value="1"></ht-number>
+    </ht-card>
+    <ht-card eyebrow="Down">
+      <ht-number class="st-value" value="1"></ht-number>
+    </ht-card>
+    <ht-card eyebrow="Uptime, 90 Days">
+      <span class="st-value">99.94%</span>
+    </ht-card>
+  </div>
+
+  <div class="st-grid">
+    <ht-card>
+      <h2 slot="header" class="st-card-title">Monitors</h2>
+      <ht-button slot="actions" variant="quiet" size="xs" href="#">View All 12</ht-button>
+      <ht-table density="dense">
+        <ht-table-head>
+          <ht-table-row>
+            <ht-table-header>Monitor</ht-table-header>
+            <ht-table-header>Status</ht-table-header>
+            <ht-table-header class="st-wide">Type</ht-table-header>
+            <ht-table-header class="st-wide" align="end">Response</ht-table-header>
+            <ht-table-header align="end">Uptime</ht-table-header>
+          </ht-table-row>
+        </ht-table-head>
+        <ht-table-body>
+          <ht-table-row>
+            <ht-table-cell><span class="st-name">api-gateway<small>api.acme.dev</small></span></ht-table-cell>
+            <ht-table-cell><span class="st-state"><ht-ping tone="danger"></ht-ping>Down</span></ht-table-cell>
+            <ht-table-cell class="st-wide">HTTP</ht-table-cell>
+            <ht-table-cell class="st-wide" align="end">—</ht-table-cell>
+            <ht-table-cell align="end">
+              <span class="st-uptime">
+                <span class="st-strip" role="img" aria-label="Last 90 days: 99.71% up, 2 incidents">
+                  <span class="st-days" aria-hidden="true"><i class="st-down" style="--d: 34"></i><i class="st-down" style="--d: 89"></i></span>
+                </span>
+                <span class="st-pct">99.71%</span>
+              </span>
+            </ht-table-cell>
+          </ht-table-row>
+          <ht-table-row>
+            <ht-table-cell><span class="st-name">billing-worker<small>billing.internal:7000</small></span></ht-table-cell>
+            <ht-table-cell><span class="st-state"><ht-ping tone="warning" still></ht-ping>Slow</span></ht-table-cell>
+            <ht-table-cell class="st-wide">TCP</ht-table-cell>
+            <ht-table-cell class="st-wide" align="end">1,840 ms</ht-table-cell>
+            <ht-table-cell align="end">
+              <span class="st-uptime">
+                <span class="st-strip" role="img" aria-label="Last 90 days: 99.90% up, 3 slow days">
+                  <span class="st-days" aria-hidden="true"><i class="st-slow" style="--d: 52"></i><i class="st-slow" style="--d: 88"></i><i class="st-slow" style="--d: 89"></i></span>
+                </span>
+                <span class="st-pct">99.90%</span>
+              </span>
+            </ht-table-cell>
+          </ht-table-row>
+          <ht-table-row>
+            <ht-table-cell><span class="st-name">auth-service<small>auth.acme.dev</small></span></ht-table-cell>
+            <ht-table-cell><span class="st-state"><ht-ping tone="success" still></ht-ping>Up</span></ht-table-cell>
+            <ht-table-cell class="st-wide">HTTP</ht-table-cell>
+            <ht-table-cell class="st-wide" align="end">142 ms</ht-table-cell>
+            <ht-table-cell align="end">
+              <span class="st-uptime">
+                <span class="st-strip" role="img" aria-label="Last 90 days: 99.98% up, 1 incident">
+                  <span class="st-days" aria-hidden="true"><i class="st-down" style="--d: 79"></i></span>
+                </span>
+                <span class="st-pct">99.98%</span>
+              </span>
+            </ht-table-cell>
+          </ht-table-row>
+          <ht-table-row>
+            <ht-table-cell><span class="st-name">web-frontend<small>acme.dev</small></span></ht-table-cell>
+            <ht-table-cell><span class="st-state"><ht-ping tone="success" still></ht-ping>Up</span></ht-table-cell>
+            <ht-table-cell class="st-wide">HTTP</ht-table-cell>
+            <ht-table-cell class="st-wide" align="end">88 ms</ht-table-cell>
+            <ht-table-cell align="end">
+              <span class="st-uptime">
+                <span class="st-strip" role="img" aria-label="Last 90 days: 99.99% up, 1 slow day">
+                  <span class="st-days" aria-hidden="true"><i class="st-slow" style="--d: 85"></i></span>
+                </span>
+                <span class="st-pct">99.99%</span>
+              </span>
+            </ht-table-cell>
+          </ht-table-row>
+          <ht-table-row>
+            <ht-table-cell><span class="st-name">search-indexer<small>search.acme.dev</small></span></ht-table-cell>
+            <ht-table-cell><span class="st-state"><ht-ping tone="success" still></ht-ping>Up</span></ht-table-cell>
+            <ht-table-cell class="st-wide">HTTP</ht-table-cell>
+            <ht-table-cell class="st-wide" align="end">210 ms</ht-table-cell>
+            <ht-table-cell align="end">
+              <span class="st-uptime">
+                <span class="st-strip" role="img" aria-label="Added 30 days ago: 100% up since">
+                  <span class="st-days" aria-hidden="true"><i class="st-none" style="--d: 60"></i></span>
+                </span>
+                <span class="st-pct">100%</span>
+              </span>
+            </ht-table-cell>
+          </ht-table-row>
+          <ht-table-row>
+            <ht-table-cell><span class="st-name">postgres-primary<small>10.0.2.8:5432</small></span></ht-table-cell>
+            <ht-table-cell><span class="st-state"><ht-ping tone="success" still></ht-ping>Up</span></ht-table-cell>
+            <ht-table-cell class="st-wide">TCP</ht-table-cell>
+            <ht-table-cell class="st-wide" align="end">4 ms</ht-table-cell>
+            <ht-table-cell align="end">
+              <span class="st-uptime">
+                <span class="st-strip" role="img" aria-label="Last 90 days: 100% up, no incidents">
+                  <span class="st-days" aria-hidden="true"></span>
+                </span>
+                <span class="st-pct">100%</span>
+              </span>
+            </ht-table-cell>
+          </ht-table-row>
+        </ht-table-body>
+      </ht-table>
+    </ht-card>
+
+    <div class="st-side">
+      <ht-card>
+        <h2 slot="header" class="st-card-title">Recent Incidents</h2>
+        <ht-timeline density="dense" label="Recent incidents">
+          <ht-timeline-item tone="danger" time="12 min ago" datetime="2026-10-23T14:02:00Z">
+            api-gateway went down
+            <ht-tag slot="meta" tone="danger">Ongoing</ht-tag>
+            <span slot="body">Connection refused on port 443 from 3 regions.</span>
+          </ht-timeline-item>
+          <ht-timeline-item tone="success" time="Yesterday" datetime="2026-10-22T09:40:00Z">
+            billing-worker was slow
+            <ht-tag slot="meta" tone="success">Resolved · 8 min</ht-tag>
+          </ht-timeline-item>
+          <ht-timeline-item tone="success" time="Oct 18" datetime="2026-10-18T22:15:00Z">
+            web-frontend was slow
+            <ht-tag slot="meta" tone="success">Resolved · 22 min</ht-tag>
+          </ht-timeline-item>
+          <ht-timeline-item tone="success" time="Oct 13" datetime="2026-10-13T03:51:00Z">
+            auth-service went down
+            <ht-tag slot="meta" tone="success">Resolved · 3 min</ht-tag>
+          </ht-timeline-item>
+        </ht-timeline>
+      </ht-card>
+
+      <ht-card>
+        <h2 slot="header" class="st-card-title">Heartbeats</h2>
+        <ul class="st-list">
+          <li class="st-beat">
+            <span>nightly-backup<small>Every 24h · seen 6h ago</small></span>
+            <span class="st-state"><ht-ping tone="success" still></ht-ping>On Time</span>
+          </li>
+          <li class="st-beat">
+            <span>queue-drain<small>Every 1 min · seen 40s ago</small></span>
+            <span class="st-state"><ht-ping tone="success" still></ht-ping>On Time</span>
+          </li>
+          <li class="st-beat">
+            <span>invoice-sync<small>Every 1h · seen 3h ago</small></span>
+            <span class="st-state"><ht-ping tone="warning" still></ht-ping>Late</span>
+          </li>
+        </ul>
+      </ht-card>
+    </div>
+  </div>
+</section>
