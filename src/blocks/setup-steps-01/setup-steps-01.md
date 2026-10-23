@@ -23,7 +23,6 @@ summary: Install guide for an SDK, API or CLI with language tabs, numbered steps
 - A token appears in exactly one step, with `secret`, followed by the warning `ht-alert` that says it is shown once. Keep the code label short (`.env`); long labels truncate on phones. Never print it in plain text elsewhere, and never put it in the agent prompt.
 - The last step is the test: one `ht-button size="sm"` and a status line. Waiting is `ht-ping tone="warning"` plus text; received is `tone="success" still` plus "Event received 2s ago"; failed is `tone="danger" still` plus what went wrong.
 - Tabs name the language or install method. Keep the `value`s short and stable (`node`, `python`), since they are stored. Every panel holds the full steps in your app; the block writes them out for Node only and gives the others one line and the install command, to stay short.
-- Keep the `display: block` rule on `ht-tabs`. `fit` makes the tab bar hug its tabs but also makes the host inline-block, which would shrink the panels to their content.
 - The Verify card says what success looks like in two to four checks a person can see, and links to the place the data lands. One button, `variant="default"`.
 - With no side card, drop `.ss-grid` to one column and move the Verify card under the steps.
 

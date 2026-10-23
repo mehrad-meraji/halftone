@@ -9,7 +9,9 @@ const publicApiOnly = {
     for (const mod of customElementsManifest.modules) {
       for (const decl of mod.declarations ?? []) {
         if (decl.attributes) decl.attributes = decl.attributes.filter((a) => !a.name.startsWith('_'));
-      if (!decl.members) continue;
+        // A dispatch with a computed name (`new Event(x ? 'open' : 'close')`) yields a nameless event.
+        if (decl.events) decl.events = decl.events.filter((e) => e.name);
+        if (!decl.members) continue;
         decl.members = decl.members.filter(
           (m) =>
             m.privacy !== 'private' &&

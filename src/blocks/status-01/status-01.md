@@ -18,7 +18,7 @@ summary: Health page with an open-incident banner, four count tiles, a monitors 
 
 ## How to adapt
 
-- The banner shows the one open incident: `ht-banner tone="danger"` with the service, how long, and the error, then Acknowledge and View Incident inside the message (not the `action` slot, so they wrap under the text on phones). With two or more open, say "3 monitors are down" and link to the filtered list; never stack banners. With none, remove it.
+- The banner shows the one open incident: `ht-banner tone="danger"` with the service, how long, and the error, then Acknowledge and View Incident in the `action` slot (they wrap under the text on phones). With two or more open, say "3 monitors are down" and link to the filtered list; never stack banners. With none, remove it.
 - Tiles count states: Up, Slow, Down and one uptime figure. Slow counts as up. Keep the uptime as plain text with two decimals; `ht-number` is for whole counts.
 - Every state is a dot plus a word ("Up", "Slow", "Down", "Late", "On Time"). The dot is decorative because the word sits beside it; give `ht-ping` a `label` only when it stands alone.
 - Pulse (`ht-ping` without `still`) only for something that needs a person now: an ongoing Down. Everything else is `still`. Use `ht-tag` for states inside text and timelines, `ht-ping` for live states in rows.

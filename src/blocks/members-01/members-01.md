@@ -24,7 +24,6 @@ summary: Team and access page with Members and Invitations tabs, a role select p
 - Mark the current user with an `ht-tag` "You" after their name.
 - Name cell: avatar, name, then email on its own line. Do not split email into its own column; at 375px there is no room.
 - Last Active and Sent carry `.members-wide` and hide under 720px. Put the class on the header and every cell. Under 720px the avatar also hides and the email truncates, so the role select and the row menu stay on screen.
-- Keep the `ht-tabs { display: block; }` rule. `fit` makes the whole tabs element inline-block, which would shrink the tables to their content.
 - Invitations: Resend and Revoke are quiet buttons in the row. Revoke is not `danger`: it can be undone by inviting again. Say when an invite expires in the Sent column.
 - The invite link is optional. Remove the whole `.members-link` section if your app has no link invites. `ht-code` gives the copy button; Reset Link must confirm first.
 - Show seat usage in the description line when your plan has a seat limit. Drop it otherwise.

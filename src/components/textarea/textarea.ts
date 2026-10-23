@@ -154,6 +154,8 @@ export class HtTextarea extends LitElement {
     :host([disabled]) .control { cursor: not-allowed; }
     textarea {
       all: unset;
+      /* After all: unset the field would inherit the page's alignment (a centred hero centred the text). */
+      text-align: start;
       box-sizing: border-box;
       display: block;
       flex: 1;

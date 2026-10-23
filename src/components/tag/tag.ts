@@ -33,6 +33,8 @@ export class HtTag extends LitElement {
     :host {
       display: inline-block;
       vertical-align: middle;
+      /* On the host, so a font-family set on the element (a mono ID, say) wins. */
+      font-family: var(--ht-font-ui);
       /* --_c is the text colour. --_t is the raw tone colour and --_mix how much of it tints the fill (neutral stays plain surface). */
       --_c: var(--ht-text);
       --_mix: 0%;
@@ -59,7 +61,10 @@ export class HtTag extends LitElement {
       gap: 3px;
       height: var(--_h);
       padding-inline: var(--_px);
-      font: 500 var(--_fs) / var(--_lh) var(--ht-font-ui);
+      font-family: inherit;
+      font-weight: 500;
+      font-size: var(--_fs);
+      line-height: var(--_lh);
       white-space: nowrap;
       color: var(--_c);
       border-radius: var(--ht-radius-md);

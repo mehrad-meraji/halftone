@@ -121,7 +121,10 @@ export class HtToggle extends LitElement {
     }
     .btn:focus-visible { outline: 2px solid var(--ht-focus); outline-offset: 1px; }
     .btn:disabled { cursor: not-allowed; background: transparent; }
-    ::slotted([slot='prefix']) { flex: none; width: 16px; height: 16px; }
+    ::slotted([slot='prefix']) { flex: none; }
+    /* Icons get the 16px box. Anything else (a status dot, an avatar) keeps its own size. */
+    ::slotted(ht-icon[slot='prefix']),
+    ::slotted(svg[slot='prefix']) { width: 16px; height: 16px; }
     @media (prefers-reduced-motion: reduce) {
       .btn { transition: none; }
     }

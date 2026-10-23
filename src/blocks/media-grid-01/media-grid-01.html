@@ -125,9 +125,6 @@
       opacity: 0;
       transition: opacity var(--ht-duration) var(--ht-ease);
     }
-    [data-block='media-grid-01'] .mg-check ht-checkbox::part(label) {
-      display: none;
-    }
     [data-block='media-grid-01'] .mg-tile:hover .mg-check,
     [data-block='media-grid-01'] .mg-tile:focus-within .mg-check,
     [data-block='media-grid-01'] .mg-on .mg-check {
@@ -238,7 +235,7 @@
 
   <div class="mg-head">
     <h1 id="mg-title">Library</h1>
-    <ht-button><ht-icon slot="prefix" name="arrow-up"></ht-icon>Upload</ht-button>
+    <ht-button><ht-icon slot="prefix" name="upload-simple"></ht-icon>Upload</ht-button>
   </div>
 
   <div class="mg-toolbar">
@@ -268,8 +265,8 @@
       </div>
     </ht-popover>
     <ht-toggle-group value="grid" aria-label="View">
-      <ht-toggle-item value="grid">Grid</ht-toggle-item>
-      <ht-toggle-item value="list">List</ht-toggle-item>
+      <ht-toggle-item value="grid"><ht-icon slot="prefix" name="squares-four"></ht-icon>Grid</ht-toggle-item>
+      <ht-toggle-item value="list"><ht-icon slot="prefix" name="list"></ht-icon>List</ht-toggle-item>
     </ht-toggle-group>
     <p class="mg-count">36 of 248 items</p>
   </div>
@@ -330,7 +327,7 @@
 
   <div class="mg-bulk" role="region" aria-label="Bulk actions">
     <span class="mg-bulk-count" role="status">3 selected</span>
-    <ht-button variant="quiet" size="sm">Tag</ht-button>
+    <ht-button variant="quiet" size="sm"><ht-icon slot="prefix" name="tag"></ht-icon>Tag</ht-button>
     <ht-button variant="quiet" size="sm"><ht-icon slot="prefix" name="plus"></ht-icon>Add to Collection</ht-button>
     <ht-button variant="quiet" size="sm"><ht-icon slot="prefix" name="download-simple"></ht-icon>Download</ht-button>
     <ht-button variant="danger" size="sm"><ht-icon slot="prefix" name="trash"></ht-icon>Delete</ht-button>

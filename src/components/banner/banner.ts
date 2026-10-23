@@ -15,10 +15,11 @@ const ICONS: Record<string, TemplateResult> = {
  * @summary Inline alert.
  *
  * @slot - Message text.
- * @slot action - Action button at the end of the bar.
+ * @slot action - One or more action buttons at the end of the bar. On a narrow bar they wrap under the message.
  * @slot icon - Replaces the default tone icon.
  *
  * @csspart base - The bar.
+ * @csspart actions - The row that holds the `action` slot.
  *
  * @fires ht-dismiss - The dismiss button was pressed. The banner hides itself unless this is cancelled.
  */
@@ -29,17 +30,20 @@ export class HtBanner extends LitElement {
     /** Shows a close button. */
     dismissible: { type: Boolean, reflect: true },
     hidden: { type: Boolean, reflect: true },
+    _hasAction: { state: true },
   };
 
   declare tone: 'info' | 'success' | 'warning' | 'danger';
   declare dismissible: boolean;
   declare hidden: boolean;
+  declare _hasAction: boolean;
 
   constructor() {
     super();
     this.tone = 'info';
     this.dismissible = false;
     this.hidden = false;
+    this._hasAction = false;
   }
 
   static styles = css`
@@ -75,7 +79,21 @@ export class HtBanner extends LitElement {
       --_ic: var(--ht-danger-text);
     }
     .icon { display: grid; flex: none; padding-inline: 4px; color: var(--_ic); }
-    .content { flex: 1; min-width: 0; }
+    /*
+     * The message and the actions share one wrapping row. The message wants 14rem before the
+     * actions move under it, so on a phone the buttons drop to a second line instead of crushing it.
+     */
+    .main {
+      display: flex;
+      flex: 1;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px 12px;
+      min-width: 0;
+    }
+    .content { flex: 1 1 14rem; min-width: 0; }
+    .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+    .actions[hidden] { display: none; }
     .close {
       all: unset;
       display: grid;
@@ -91,6 +109,10 @@ export class HtBanner extends LitElement {
     .close:focus-visible { outline: 2px solid var(--ht-focus); outline-offset: 2px; }
   `;
 
+  #onActionSlot = (e: Event) => {
+    this._hasAction = (e.target as HTMLSlotElement).assignedElements({ flatten: true }).length > 0;
+  };
+
   #dismiss = () => {
     const ev = new Event('ht-dismiss', { bubbles: true, composed: true, cancelable: true });
     if (this.dispatchEvent(ev)) this.hidden = true;
@@ -99,8 +121,10 @@ export class HtBanner extends LitElement {
   render() {
     return html`<div part="base" class="bar" role=${this.tone === 'danger' ? 'alert' : 'status'}>
       <span class="icon"><slot name="icon">${ICONS[this.tone] ?? ICONS.info}</slot></span>
-      <div class="content"><slot></slot></div>
-      <slot name="action"></slot>
+      <div class="main">
+        <div class="content"><slot></slot></div>
+        <div part="actions" class="actions" ?hidden=${!this._hasAction}><slot name="action" @slotchange=${this.#onActionSlot}></slot></div>
+      </div>
       ${this.dismissible
         ? html`<button class="close" aria-label="Dismiss" @click=${this.#dismiss}>
             <svg width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208.49,191.51a12,12,0,0,1-17,17L128,145,64.49,208.49a12,12,0,0,1-17-17L111,128,47.51,64.49a12,12,0,0,1,17-17L128,111l63.51-63.52a12,12,0,0,1,17,17L145,128Z"/></svg>
