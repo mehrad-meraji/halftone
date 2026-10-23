@@ -1,7 +1,7 @@
 // Builds one docs page per block from src/blocks/<name>/ (front matter, notes and HTML), using the
 // same reader as the registry. Also writes src/generated/blocks.json, which the bare preview pages
 // (src/pages/block-preview/[name].astro) render inside the frame on each page.
-import { writeFileSync, mkdirSync, rmSync } from 'node:fs';
+import { existsSync, readFileSync, writeFileSync, mkdirSync, rmSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { elementFolders, readBlocks } from '../../scripts/blocks.mjs';
@@ -40,6 +40,11 @@ const list = Object.entries(blocks)
 rmSync(outDir, { recursive: true, force: true });
 mkdirSync(outDir, { recursive: true });
 mkdirSync(dirname(dataFile), { recursive: true });
+
+// Add the block count to the stats that gen-components.mjs wrote, for the About page.
+const statsFile = join(site, 'src/generated/stats.json');
+const stats = existsSync(statsFile) ? JSON.parse(readFileSync(statsFile, 'utf8')) : {};
+writeFileSync(statsFile, JSON.stringify({ ...stats, blocks: list.length }, null, 2) + '\n');
 
 writeFileSync(dataFile, JSON.stringify(list.map((b) => ({ name: b.name, title: b.title, html: b.files.html })), null, 2) + '\n');
 
