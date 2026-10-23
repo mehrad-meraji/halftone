@@ -19,7 +19,7 @@ npm i @_mehrad/halftone lit
 <ht-button variant="primary">Deploy It</ht-button>
 ```
 
-Components: 59 elements, from `ht-button` and `ht-input` to `ht-menu`, `ht-table`, `ht-calendar` and `ht-sidebar`. Run `npx @_mehrad/halftone list` for the full set. `tokens.css` is required.
+Components: 71 elements, from `ht-button` and `ht-input` to `ht-menu`, `ht-table`, `ht-calendar` and `ht-sidebar`. Run `npx @_mehrad/halftone list` for the full set. `tokens.css` is required.
 
 Fonts are not bundled. Load Chakra Petch (display), Geist (UI) and IBM Plex Mono (mono) yourself, or system fallbacks are used. The Storybook docs load them from Google Fonts (`.storybook/preview-head.html`).
 
@@ -66,6 +66,20 @@ npx @_mehrad/halftone diff                       # which of your copies drifted
 Files land in `src/components/halftone/` (or `components/halftone/`) and a `halftone.json` records the choices. TypeScript is copied when a `tsconfig.json` exists, readable JavaScript with comments otherwise (`--ts` / `--js` to force). Existing files you edited are never overwritten without `--overwrite`; `--dry-run` shows the plan. Add `lit` yourself, or pass `--install`.
 
 After copying you own the code: there is no runtime dependency on this package, and upgrades are a `halftone diff` plus your own merge.
+
+## Blocks
+
+Blocks are ready-made page sections, like [shadcn/ui blocks](https://ui.shadcn.com/blocks): a sign-in page, an app shell, a settings page, a dashboard. Each is plain HTML that composes `ht-*` elements, so it works in any framework or none.
+
+```bash
+npx @_mehrad/halftone list                 # blocks are listed after the components
+npx @_mehrad/halftone show login-01        # print a block's notes and HTML
+npx @_mehrad/halftone add login-01         # copy the block and every component it uses
+```
+
+A block lands in `<dir>/blocks/` as two files: `<name>.html` and `<name>.md`. The notes say when to use the block, how to adapt it and what not to do. They are written for agents as much as people, and `llms.txt` carries them too, so an agent starts from the closest block instead of composing from scratch.
+
+To add or tune a block, edit `src/blocks/<name>/`. The rules are in `AGENTS.md`; `npm run registry` checks them.
 
 ## Develop
 

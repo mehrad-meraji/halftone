@@ -1,6 +1,7 @@
 // Generates llms.txt from custom-elements.json so agents get the whole API in one file.
 import { readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { elementFolders, readBlocks } from './blocks.mjs';
 
 const root = new URL('..', import.meta.url).pathname;
 const pkg = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'));
@@ -65,10 +66,32 @@ for (const d of decls) {
   if (methods.length) p(`\nMethods: ${methods.map((m) => `\`${m.name}()\``).join(', ')}`);
 }
 
+// Blocks: ready-made page sections. Their notes are written for agents, so they go in whole.
+const { blocks, problems } = readBlocks(root, elementFolders(root));
+if (problems.length) {
+  console.error(problems.join('\n'));
+  process.exit(1);
+}
+p();
+p('## Blocks');
+p();
+p('Blocks are ready-made page sections in plain HTML that compose the elements above, like shadcn/ui blocks. When you build a page, start from the closest block and adapt it by its notes instead of composing from scratch. `npx @_mehrad/halftone add <block>` copies the HTML, its notes and every component it uses; `npx @_mehrad/halftone show <block>` prints the HTML and notes.');
+for (const [name, b] of Object.entries(blocks)) {
+  p();
+  p(`### ${name}: ${b.title}`);
+  p();
+  p(`${one(b.summary)} Category: ${b.category}. Components: ${b.components.map((c) => `\`${c}\``).join(', ')}.`);
+  for (const [heading, text] of Object.entries(b.notes)) {
+    p();
+    p(`${heading}:`);
+    p(text);
+  }
+}
+
 p();
 p('## More');
 p();
 p('- API data: custom-elements.json (Custom Elements Manifest).');
 p('- Decisions and accessibility notes: docs/decisions.md, docs/a11y.md in the repository.');
 writeFileSync(join(root, 'llms.txt'), lines.join('\n') + '\n');
-console.log(`llms.txt: ${decls.length} elements, ${lines.length} lines`);
+console.log(`llms.txt: ${decls.length} elements, ${Object.keys(blocks).length} blocks, ${lines.length} lines`);

@@ -1,0 +1,134 @@
+<div data-block="settings-01">
+  <style>
+    [data-block='settings-01'] {
+      box-sizing: border-box;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 32px 24px;
+      font: 400 0.875rem/1.5 var(--ht-font-ui);
+      color: var(--ht-text);
+    }
+    [data-block='settings-01'] h1 {
+      margin: 0 0 4px;
+      font: 600 1.5rem/1.2 var(--ht-font-display);
+    }
+    [data-block='settings-01'] .settings-lede {
+      margin: 0 0 24px;
+      color: var(--ht-text-muted);
+    }
+    [data-block='settings-01'] .settings-section {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+      gap: 24px;
+      padding: 24px 0;
+      border-top: 1px solid var(--ht-border);
+    }
+    [data-block='settings-01'] h2 {
+      margin: 0 0 4px;
+      font: 600 1rem/1.4 var(--ht-font-display);
+    }
+    [data-block='settings-01'] .settings-section p {
+      margin: 0;
+      color: var(--ht-text-muted);
+    }
+    [data-block='settings-01'] .settings-fields {
+      display: grid;
+      gap: 16px;
+    }
+    [data-block='settings-01'] .settings-pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    [data-block='settings-01'] .settings-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+    [data-block='settings-01'] .settings-danger {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    [data-block='settings-01'] .settings-danger strong {
+      display: block;
+      font-weight: 500;
+    }
+    @media (max-width: 720px) {
+      [data-block='settings-01'] .settings-section,
+      [data-block='settings-01'] .settings-pair {
+        grid-template-columns: 1fr;
+      }
+      [data-block='settings-01'] .settings-danger {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+  </style>
+
+  <h1>Settings</h1>
+  <p class="settings-lede">Changes save per section. Nothing here is undoable by asking nicely.</p>
+
+  <form class="settings-section" action="#" method="post">
+    <div>
+      <h2>Profile</h2>
+      <p>How you appear to your team.</p>
+    </div>
+    <div class="settings-fields">
+      <div class="settings-pair">
+        <ht-input name="name" label="Full Name" value="Ada Lovelace" autocomplete="name" required></ht-input>
+        <ht-input name="email" type="email" label="Email" value="ada@acme.dev" autocomplete="email" required></ht-input>
+      </div>
+      <ht-textarea name="bio" label="Bio" helper="Shown on your profile. Plain text." maxlength="160" counter autosize></ht-textarea>
+      <ht-select name="timezone" label="Time Zone" value="utc">
+        <ht-option value="utc">UTC</ht-option>
+        <ht-option value="europe-london">Europe/London</ht-option>
+        <ht-option value="america-toronto">America/Toronto</ht-option>
+        <ht-option value="asia-tokyo">Asia/Tokyo</ht-option>
+      </ht-select>
+      <div class="settings-actions">
+        <ht-button type="reset" variant="default">Reset</ht-button>
+        <ht-button type="submit" variant="primary">Save Profile</ht-button>
+      </div>
+    </div>
+  </form>
+
+  <form class="settings-section" action="#" method="post">
+    <div>
+      <h2>Notifications</h2>
+      <p>Email only. Everything else lives in the inbox.</p>
+    </div>
+    <div class="settings-fields">
+      <ht-switch name="notify-issues" checked>New issues in my projects</ht-switch>
+      <ht-switch name="notify-deploys" checked>Deploys I started</ht-switch>
+      <ht-switch name="notify-digest">Weekly digest</ht-switch>
+      <ht-radio-group name="frequency" label="Send Alerts" value="instant" orientation="horizontal">
+        <ht-radio value="instant">Instantly</ht-radio>
+        <ht-radio value="hourly">Hourly</ht-radio>
+        <ht-radio value="daily">Daily</ht-radio>
+      </ht-radio-group>
+      <div class="settings-actions">
+        <ht-button type="submit" variant="primary">Save Notifications</ht-button>
+      </div>
+    </div>
+  </form>
+
+  <section class="settings-section">
+    <div>
+      <h2>Danger Zone</h2>
+      <p>These act at once.</p>
+    </div>
+    <div class="settings-fields">
+      <ht-card variant="muted">
+        <div class="settings-danger">
+          <div>
+            <strong>Delete account</strong>
+            Removes your account and every project you own.
+          </div>
+          <ht-button variant="danger">Delete Account</ht-button>
+        </div>
+      </ht-card>
+    </div>
+  </section>
+</div>

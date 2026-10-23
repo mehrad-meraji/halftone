@@ -535,8 +535,67 @@
       "path": "src/components/avatar/avatar.ts",
       "declarations": [
         {
+          "kind": "variable",
+          "name": "AVATAR_ARTS",
+          "type": {
+            "text": "readonly AvatarArt[]"
+          },
+          "default": "['pixel', 'dots', 'tiles']",
+          "description": "Every style, in the order the docs show them."
+        },
+        {
+          "kind": "function",
+          "name": "generateAvatar",
+          "return": {
+            "type": {
+              "text": "string"
+            }
+          },
+          "parameters": [
+            {
+              "name": "seed",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "options",
+              "default": "{}",
+              "type": {
+                "text": "AvatarArtOptions"
+              }
+            }
+          ],
+          "description": "Draws an avatar picture for a seed and returns it as SVG markup. Use it for a name, an email or an\nid: the same seed always gives the same picture, so nothing needs to be stored. Colours are fixed\n(not theme tokens), so the markup can go in a file, an `<img>` or an email.\n\n```ts\nel.innerHTML = generateAvatar('ada@example.com', { art: 'dots', size: 48, label: 'Ada' });\n```"
+        },
+        {
+          "kind": "function",
+          "name": "avatarDataUri",
+          "return": {
+            "type": {
+              "text": "string"
+            }
+          },
+          "parameters": [
+            {
+              "name": "seed",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "options",
+              "default": "{}",
+              "type": {
+                "text": "AvatarArtOptions"
+              }
+            }
+          ],
+          "description": "`generateAvatar` as a `data:` URI, ready for `<img src>` or a CSS `background-image`."
+        },
+        {
           "kind": "class",
-          "description": "Round or square picture of a person or team. Shows the image when it loads and falls back to\ninitials (first and last name) on a tint picked from the name, so the same person always gets\nthe same colour. With no name either it shows a generic person glyph.\n\nThe avatar is an image with the name as its text alternative. With no `name` it is hidden from\nassistive technology, so give it one unless a visible name sits right beside it.",
+          "description": "Round or square picture of a person or team. Shows the image when it loads and falls back to\ninitials (first and last name) on a tint picked from the name, so the same person always gets\nthe same colour. With no name either it shows a generic person glyph.\n\nSet `art` to draw a generated picture from `seed` (or from `name`) instead of initials: the same\nseed always gives the same picture. It sits under the image, so a photo still wins once it loads.\n`generateAvatar` and `avatarDataUri` make the same pictures outside the element.\n\nThe avatar is an image with the name as its text alternative. With no `name` it is hidden from\nassistive technology, so give it one unless a visible name sits right beside it. A generated\npicture follows the same rule: it is decoration until the avatar has a `name`.",
           "name": "HtAvatar",
           "cssProperties": [
             {
@@ -549,6 +608,10 @@
             {
               "description": "The avatar circle or square.",
               "name": "base"
+            },
+            {
+              "description": "The generated picture (`<svg>`), when `art` is set.",
+              "name": "art"
             },
             {
               "description": "The `<img>`, once it has loaded.",
@@ -591,6 +654,28 @@
               },
               "default": "''",
               "attribute": "name"
+            },
+            {
+              "kind": "field",
+              "name": "seed",
+              "privacy": "public",
+              "description": "Text the generated picture is drawn from: a name, an email or an id. Same seed, same picture. Used only when `art` is set; defaults to `name`. Spaces around it are ignored, case counts.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "seed"
+            },
+            {
+              "kind": "field",
+              "name": "art",
+              "privacy": "public",
+              "description": "Draws a picture from `seed` in place of the initials: `pixel` (a creature), `dots` (a halftone screen) or `tiles` (nine turned shapes). Empty, the default, turns it off.",
+              "type": {
+                "text": "AvatarArt | ''"
+              },
+              "default": "''",
+              "attribute": "art"
             },
             {
               "kind": "field",
@@ -648,6 +733,24 @@
               "fieldName": "name"
             },
             {
+              "name": "seed",
+              "description": "Text the generated picture is drawn from: a name, an email or an id. Same seed, same picture. Used only when `art` is set; defaults to `name`. Spaces around it are ignored, case counts.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "seed"
+            },
+            {
+              "name": "art",
+              "description": "Draws a picture from `seed` in place of the initials: `pixel` (a creature), `dots` (a halftone screen) or `tiles` (nine turned shapes). Empty, the default, turns it off.",
+              "type": {
+                "text": "AvatarArt | ''"
+              },
+              "default": "''",
+              "fieldName": "art"
+            },
+            {
               "name": "size",
               "description": "Diameter: xs 20px, sm 24px, md 32px, lg 40px.",
               "type": {
@@ -681,7 +784,7 @@
           },
           "tagName": "ht-avatar",
           "customElement": true,
-          "summary": "User picture with initials fallback."
+          "summary": "User picture with initials fallback, or a picture drawn from a seed."
         },
         {
           "kind": "class",
@@ -778,6 +881,30 @@
         }
       ],
       "exports": [
+        {
+          "kind": "js",
+          "name": "AVATAR_ARTS",
+          "declaration": {
+            "name": "AVATAR_ARTS",
+            "module": "src/components/avatar/avatar.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "generateAvatar",
+          "declaration": {
+            "name": "generateAvatar",
+            "module": "src/components/avatar/avatar.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "avatarDataUri",
+          "declaration": {
+            "name": "avatarDataUri",
+            "module": "src/components/avatar/avatar.ts"
+          }
+        },
         {
           "kind": "js",
           "name": "HtAvatar",
@@ -3229,6 +3356,192 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/components/empty-state/empty-state.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Tells someone why a list, table or page has nothing to show and what to do next. A graphic sits\non a halftone stage: the dot screen fades out around it, and the text stays on a plain surface.\nUse one primary action. In the `error` tone there is no stage and the default graphic is the\nalert icon, because an error should not be playful.\n\nA faint spotlight follows the pointer over the whole block, revealing the dot screen and an accent\nglow behind the content, like `ht-spotlight`. It is decoration only: it ignores touch, it is off\nunder reduced motion and in the `error` tone, and `no-spotlight` turns it off.",
+          "name": "HtEmptyState",
+          "cssParts": [
+            {
+              "description": "The whole block.",
+              "name": "base"
+            },
+            {
+              "description": "The area behind the graphic.",
+              "name": "stage"
+            },
+            {
+              "description": "The pointer glow behind the content.",
+              "name": "spotlight"
+            },
+            {
+              "description": "The heading.",
+              "name": "heading"
+            },
+            {
+              "description": "The description.",
+              "name": "description"
+            },
+            {
+              "description": "The actions row.",
+              "name": "actions"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Description, when you do not set `description`.",
+              "name": ""
+            },
+            {
+              "description": "Replaces the `heading` text.",
+              "name": "title"
+            },
+            {
+              "description": "An icon or small illustration. Decorative: it is hidden from screen readers.",
+              "name": "graphic"
+            },
+            {
+              "description": "One primary button and at most one secondary. Hidden when empty.",
+              "name": "actions"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "heading",
+              "privacy": "public",
+              "description": "Short title: say what is missing, or what to do.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "heading"
+            },
+            {
+              "kind": "field",
+              "name": "description",
+              "privacy": "public",
+              "description": "One or two sentences: why it is empty and the next step.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "description"
+            },
+            {
+              "kind": "field",
+              "name": "tone",
+              "privacy": "public",
+              "description": "`error` drops the dot stage and uses the alert icon.",
+              "type": {
+                "text": "'default' | 'error'"
+              },
+              "default": "'default'",
+              "attribute": "tone",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "level",
+              "privacy": "public",
+              "type": {
+                "text": "number"
+              },
+              "description": "Heading level announced to screen readers, 1 to 6.",
+              "default": "2",
+              "attribute": "level"
+            },
+            {
+              "kind": "field",
+              "name": "noSpotlight",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Turns off the pointer spotlight.",
+              "default": "false",
+              "attribute": "no-spotlight",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "heading",
+              "description": "Short title: say what is missing, or what to do.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "heading"
+            },
+            {
+              "name": "description",
+              "description": "One or two sentences: why it is empty and the next step.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "description"
+            },
+            {
+              "name": "tone",
+              "description": "`error` drops the dot stage and uses the alert icon.",
+              "type": {
+                "text": "'default' | 'error'"
+              },
+              "default": "'default'",
+              "fieldName": "tone"
+            },
+            {
+              "name": "level",
+              "type": {
+                "text": "number"
+              },
+              "description": "Heading level announced to screen readers, 1 to 6.",
+              "default": "2",
+              "fieldName": "level"
+            },
+            {
+              "name": "no-spotlight",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Turns off the pointer spotlight.",
+              "default": "false",
+              "fieldName": "noSpotlight"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-empty-state",
+          "customElement": true,
+          "summary": "Empty or error state."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtEmptyState",
+          "declaration": {
+            "name": "HtEmptyState",
+            "module": "src/components/empty-state/empty-state.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-empty-state",
+          "declaration": {
+            "name": "HtEmptyState",
+            "module": "src/components/empty-state/empty-state.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/components/icon/icon.ts",
       "declarations": [
         {
@@ -4990,7 +5303,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "Non-modal panel anchored to a trigger. The panel is a manual popover in the top layer, so\nit is never clipped, and it is positioned in JavaScript: it flips to the opposite side when\nthere is no room and is clamped to the viewport.\n\nThe first element in the default slot is the trigger. It gets `aria-haspopup=\"dialog\"`,\n`aria-expanded`, and `aria-controls` pointing at the first element in the `content` slot\n(the panel itself lives in the shadow root, which an id reference cannot cross). Focus moves\ninto the panel on open and returns to the trigger on Escape or when `hide()` runs while focus\nis inside. Focus is not trapped. Escape, a press outside, or tabbing out closes it.\n\nThe trigger must be focusable and activate on click (a button or `ht-button`).",
+          "description": "Non-modal panel anchored to a trigger. The panel is a manual popover in the top layer, so\nit is never clipped, and it is positioned in JavaScript: it flips to the opposite side when\nthere is no room and is clamped to the viewport.\n\nThe first element in the default slot is the trigger. It gets `aria-haspopup=\"dialog\"`,\n`aria-expanded`, and `aria-controls` pointing at the first element in the `content` slot\n(the panel itself lives in the shadow root, which an id reference cannot cross). Focus moves\ninto the panel on open and returns to the trigger on Escape or when `hide()` runs while focus\nis inside. Focus is not trapped. Escape, a press outside, or tabbing out closes it.\n\nThe trigger must be focusable and activate on click (a button or `ht-button`).\n\nSet `arrow` to draw a small pointer from the panel to the trigger. It follows the trigger's\ncentre along the panel edge and swaps sides when the panel flips.",
           "name": "HtPopover",
           "cssProperties": [
             {
@@ -5066,6 +5379,18 @@
               "description": "Stops the trigger from opening the panel.",
               "default": "false",
               "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "arrow",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Draws a pointer from the panel to the trigger.",
+              "default": "false",
+              "attribute": "arrow",
               "reflects": true
             },
             {
@@ -5156,6 +5481,15 @@
               "description": "Stops the trigger from opening the panel.",
               "default": "false",
               "fieldName": "disabled"
+            },
+            {
+              "name": "arrow",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Draws a pointer from the panel to the trigger.",
+              "default": "false",
+              "fieldName": "arrow"
             }
           ],
           "superclass": {
@@ -6117,8 +6451,15 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "Dropdown built on the native `<select>`: keyboard, mobile pickers and accessibility come\nfrom the browser. Give it `<option>` / `<optgroup>` children. Participates in forms.",
+          "description": "Select field with a styled list you control, like Radix Select. Pressing the trigger opens a\nlistbox in the top layer, so it is never clipped and it stays above an open `ht-dialog`.\nIt flips above the trigger when there is no room below, and scroll arrows appear when the list\nis longer than the room. Participates in forms.\n\nPut `ht-option` children in it (optionally inside `ht-option-group`, with `ht-separator` or\n`<hr>` between). An `ht-option` can hold any content: icons, two lines, badges. Set its `label`\nwhen the content is more than a name, so the trigger and typeahead have a short text.\nPlain `<option>`, `<optgroup>` and `<hr>` children still work, as text only; do not mix them\nwith `ht-option` in one select.\n\nKeyboard, as in Radix: on the trigger, Enter, Space, ArrowDown and ArrowUp open it, and typing\npicks a matching option without opening. In the list, arrows move, Home and End jump, PageUp and\nPageDown move by ten, Enter or Space picks, Escape closes, and typing jumps to a match. Pressing\nthe trigger with a mouse and releasing over an option picks it. The trade: there is no native\nmobile picker any more.",
           "name": "HtSelect",
+          "cssProperties": [
+            {
+              "description": "Tallest the list gets before it scrolls.",
+              "name": "--ht-select-max-height",
+              "default": "20rem"
+            }
+          ],
           "cssParts": [
             {
               "description": "The label element.",
@@ -6129,8 +6470,12 @@
               "name": "control"
             },
             {
-              "description": "The native `<select>`.",
+              "description": "The trigger button.",
               "name": "select"
+            },
+            {
+              "description": "The floating list.",
+              "name": "panel"
             },
             {
               "description": "The helper or error text.",
@@ -6139,16 +6484,28 @@
           ],
           "slots": [
             {
-              "description": "`<option>` and `<optgroup>` elements.",
+              "description": "`ht-option`, `ht-option-group`, `ht-separator` (or plain `<option>`, `<optgroup>`, `<hr>`).",
               "name": ""
             }
           ],
           "members": [
             {
               "kind": "field",
+              "name": "glass",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Liquid glass look for the list: a translucent panel that blurs what is behind it.",
+              "default": "false",
+              "attribute": "glass",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "label",
               "privacy": "public",
-              "description": "Visible label. With no visible label, set `aria-label` on the element instead; it is forwarded to the native select.",
+              "description": "Visible label. With no visible label, set `aria-label` on the element instead; it is forwarded to the trigger.",
               "type": {
                 "text": "string"
               },
@@ -6181,7 +6538,7 @@
               "kind": "field",
               "name": "placeholder",
               "privacy": "public",
-              "description": "Disabled first option shown until the user chooses.",
+              "description": "Muted text shown in the trigger until the user chooses.",
               "type": {
                 "text": "string"
               },
@@ -6208,6 +6565,18 @@
               },
               "default": "''",
               "attribute": "name"
+            },
+            {
+              "kind": "field",
+              "name": "open",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Shows the list. Reflects, so closing from inside updates it.",
+              "default": "false",
+              "attribute": "open",
+              "reflects": true
             },
             {
               "kind": "field",
@@ -6259,14 +6628,39 @@
           ],
           "events": [
             {
-              "description": "A new option was chosen. Re-dispatched from the host.",
-              "name": "change"
+              "type": {
+                "text": "Event"
+              }
+            },
+            {
+              "name": "change",
+              "type": {
+                "text": "Event"
+              },
+              "description": "A new option was chosen by the user. Re-dispatched from the host."
+            },
+            {
+              "description": "The list opened. Does not bubble.",
+              "name": "open"
+            },
+            {
+              "description": "The list closed. Does not bubble.",
+              "name": "close"
             }
           ],
           "attributes": [
             {
+              "name": "glass",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Liquid glass look for the list: a translucent panel that blurs what is behind it.",
+              "default": "false",
+              "fieldName": "glass"
+            },
+            {
               "name": "label",
-              "description": "Visible label. With no visible label, set `aria-label` on the element instead; it is forwarded to the native select.",
+              "description": "Visible label. With no visible label, set `aria-label` on the element instead; it is forwarded to the trigger.",
               "type": {
                 "text": "string"
               },
@@ -6293,7 +6687,7 @@
             },
             {
               "name": "placeholder",
-              "description": "Disabled first option shown until the user chooses.",
+              "description": "Muted text shown in the trigger until the user chooses.",
               "type": {
                 "text": "string"
               },
@@ -6316,6 +6710,15 @@
               },
               "default": "''",
               "fieldName": "name"
+            },
+            {
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Shows the list. Reflects, so closing from inside updates it.",
+              "default": "false",
+              "fieldName": "open"
             },
             {
               "name": "required",
@@ -6350,6 +6753,170 @@
           "tagName": "ht-select",
           "customElement": true,
           "summary": "Select field."
+        },
+        {
+          "kind": "class",
+          "description": "One choice in an `ht-select`. Put any content inside: text, an icon, two lines. Set `label` to the\nshort text the trigger and typeahead should use when the content is more than a name.",
+          "name": "HtOption",
+          "cssParts": [
+            {
+              "description": "The row.",
+              "name": "base"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Content.",
+              "name": ""
+            },
+            {
+              "description": "Icon or avatar before the content.",
+              "name": "prefix"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "value",
+              "privacy": "public",
+              "description": "Value submitted when chosen. Defaults to the text, as a native `<option>` does.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "privacy": "public",
+              "description": "Short text for the trigger and typeahead. Defaults to the text content.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "selected",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Set by `ht-select`.",
+              "default": "false",
+              "attribute": "selected",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "value",
+              "description": "Value submitted when chosen. Defaults to the text, as a native `<option>` does.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "value"
+            },
+            {
+              "name": "label",
+              "description": "Short text for the trigger and typeahead. Defaults to the text content.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "label"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "selected",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Set by `ht-select`.",
+              "default": "false",
+              "fieldName": "selected"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-option",
+          "customElement": true,
+          "summary": "Select option."
+        },
+        {
+          "kind": "class",
+          "description": "A labelled group of `ht-option`s inside an `ht-select`.",
+          "name": "HtOptionGroup",
+          "cssParts": [
+            {
+              "description": "The group label.",
+              "name": "label"
+            }
+          ],
+          "slots": [
+            {
+              "description": "`ht-option` elements.",
+              "name": ""
+            },
+            {
+              "description": "Replaces the `label` text.",
+              "name": "label"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "label",
+              "privacy": "public",
+              "description": "Group name, shown above its options.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "label"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "label",
+              "description": "Group name, shown above its options.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "label"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-option-group",
+          "customElement": true,
+          "summary": "Select option group."
         }
       ],
       "exports": [
@@ -6362,10 +6929,26 @@
           }
         },
         {
-          "kind": "custom-element-definition",
-          "name": "ht-select",
+          "kind": "js",
+          "name": "HtOption",
           "declaration": {
-            "name": "HtSelect",
+            "name": "HtOption",
+            "module": "src/components/select/select.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "HtOptionGroup",
+          "declaration": {
+            "name": "HtOptionGroup",
+            "module": "src/components/select/select.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tag",
+          "declaration": {
+            "name": "ctor",
             "module": "src/components/select/select.ts"
           }
         }
@@ -7556,8 +8139,8 @@
               "type": {
                 "text": "number"
               },
-              "description": "Radius of the spotlight in pixels.",
-              "default": "200",
+              "description": "Radius of the spotlight in pixels (default 280).",
+              "default": "280",
               "attribute": "size"
             }
           ],
@@ -7567,8 +8150,8 @@
               "type": {
                 "text": "number"
               },
-              "description": "Radius of the spotlight in pixels.",
-              "default": "200",
+              "description": "Radius of the spotlight in pixels (default 280).",
+              "default": "280",
               "fieldName": "size"
             }
           ],
@@ -8188,7 +8771,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "Segmented tab control: a recessed track with a filled pill on the selected tab, after the\nApps / Files / Chat switcher in PostHog's sidebar. Put `ht-tab` children in it, and\noptionally `ht-tab-panel` children whose `value` matches a tab.\n\nArrow keys move between tabs (Home and End jump to the ends) and select as they go.",
+          "description": "Segmented tab control: a recessed track with a filled pill on the selected tab, after the\nApps / Files / Chat switcher in PostHog's sidebar. Put `ht-tab` children in it, and\noptionally `ht-tab-panel` children whose `value` matches a tab.\n\nArrow keys move between tabs (Home and End jump to the ends) and select as they go. With\n`orientation=\"vertical\"` the tabs stack on the left and Up and Down do the moving. With\n`activation=\"manual\"` the arrows only move focus, and Enter or Space selects.",
           "name": "HtTabs",
           "cssParts": [
             {
@@ -8233,9 +8816,33 @@
               "type": {
                 "text": "boolean"
               },
-              "description": "Shrinks the track to its content instead of filling the width.",
+              "description": "Shrinks the track to its content instead of filling the width. Horizontal only.",
               "default": "false",
               "attribute": "fit",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "orientation",
+              "privacy": "public",
+              "description": "`vertical` stacks the tabs in a column beside the panels, and Up and Down move between them.",
+              "type": {
+                "text": "'horizontal' | 'vertical'"
+              },
+              "default": "'horizontal'",
+              "attribute": "orientation",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "activation",
+              "privacy": "public",
+              "description": "`manual` makes the arrow keys move focus without selecting. Enter or Space selects.",
+              "type": {
+                "text": "'auto' | 'manual'"
+              },
+              "default": "'auto'",
+              "attribute": "activation",
               "reflects": true
             }
           ],
@@ -8272,9 +8879,27 @@
               "type": {
                 "text": "boolean"
               },
-              "description": "Shrinks the track to its content instead of filling the width.",
+              "description": "Shrinks the track to its content instead of filling the width. Horizontal only.",
               "default": "false",
               "fieldName": "fit"
+            },
+            {
+              "name": "orientation",
+              "description": "`vertical` stacks the tabs in a column beside the panels, and Up and Down move between them.",
+              "type": {
+                "text": "'horizontal' | 'vertical'"
+              },
+              "default": "'horizontal'",
+              "fieldName": "orientation"
+            },
+            {
+              "name": "activation",
+              "description": "`manual` makes the arrow keys move focus without selecting. Enter or Space selects.",
+              "type": {
+                "text": "'auto' | 'manual'"
+              },
+              "default": "'auto'",
+              "fieldName": "activation"
             }
           ],
           "superclass": {
@@ -8955,7 +9580,7 @@
           "name": "HtToast",
           "cssProperties": [
             {
-              "description": "Maximum width.",
+              "description": "Maximum width. Like Radix Toast: the timer pauses while the pointer is over it, while focus is inside it and while the window is in the background. Escape on a focused toast closes it. Drag it toward the edge it sits on (or set `swipe`) and release past `swipe-threshold` (50px) to dismiss it; a shorter drag snaps back. `data-swipe` is `start`, `move`, `cancel` or `end` during a swipe. `type` picks how a screen reader announces it: `foreground` is assertive, `background` polite.",
               "name": "--ht-toast-width",
               "default": "26rem"
             }
@@ -8968,7 +9593,7 @@
           ],
           "slots": [
             {
-              "description": "Message text.",
+              "description": "Message text (the description).",
               "name": ""
             },
             {
@@ -8978,6 +9603,10 @@
             {
               "description": "Replaces the default tone icon.",
               "name": "icon"
+            },
+            {
+              "description": "Bold first line. Or set `heading`.",
+              "name": "title"
             }
           ],
           "members": [
@@ -9017,18 +9646,94 @@
               "reflects": true
             },
             {
+              "kind": "field",
+              "name": "heading",
+              "privacy": "public",
+              "description": "Bold first line above the message. Use the `title` slot for anything richer.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "heading"
+            },
+            {
+              "kind": "field",
+              "name": "type",
+              "privacy": "public",
+              "description": "How a screen reader announces it. `foreground` is assertive (`role=alert`) and `background` is\npolite (`role=status`). Unset, `danger` is foreground and every other tone is background.",
+              "type": {
+                "text": "'' | 'foreground' | 'background'"
+              },
+              "default": "''",
+              "attribute": "type",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "swipeThreshold",
+              "privacy": "public",
+              "type": {
+                "text": "number"
+              },
+              "description": "Pixels a swipe must travel to dismiss the toast.",
+              "default": "50",
+              "attribute": "swipe-threshold"
+            },
+            {
+              "kind": "field",
+              "name": "swipe",
+              "privacy": "public",
+              "description": "Direction a swipe dismisses it. Defaults to the side the toaster sits on (`left` for a left\nposition, otherwise `right`). `none` turns swiping off.",
+              "type": {
+                "text": "'' | 'left' | 'right' | 'up' | 'down' | 'none'"
+              },
+              "default": "''",
+              "attribute": "swipe",
+              "reflects": true
+            },
+            {
+              "kind": "method",
+              "name": "pause",
+              "description": "Holds the timer (the toaster calls this while its stack is hovered or focused)."
+            },
+            {
+              "kind": "method",
+              "name": "resume",
+              "description": "Lets go of the hold taken by `pause()`."
+            },
+            {
               "kind": "method",
               "name": "dismiss",
+              "parameters": [
+                {
+                  "name": "ms",
+                  "default": "120"
+                }
+              ],
               "description": "Animates out and removes the toast."
             }
           ],
           "events": [
             {
+              "name": "ht-pause",
+              "type": {
+                "text": "Event"
+              },
+              "description": "The timer paused (hover, focus, window blur or the stack being held)."
+            },
+            {
+              "name": "ht-resume",
+              "type": {
+                "text": "Event"
+              },
+              "description": "The timer resumed."
+            },
+            {
               "name": "ht-dismiss",
               "type": {
                 "text": "Event"
               },
-              "description": "The toast was removed, by timeout or the close button."
+              "description": "The toast was removed, by timeout, the close button, Escape or a swipe."
             }
           ],
           "attributes": [
@@ -9051,6 +9756,33 @@
               "fieldName": "duration"
             },
             {
+              "name": "heading",
+              "description": "Bold first line above the message. Use the `title` slot for anything richer.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "heading"
+            },
+            {
+              "name": "type",
+              "description": "How a screen reader announces it. `foreground` is assertive (`role=alert`) and `background` is\npolite (`role=status`). Unset, `danger` is foreground and every other tone is background.",
+              "type": {
+                "text": "'' | 'foreground' | 'background'"
+              },
+              "default": "''",
+              "fieldName": "type"
+            },
+            {
+              "name": "swipe-threshold",
+              "type": {
+                "text": "number"
+              },
+              "description": "Pixels a swipe must travel to dismiss the toast.",
+              "default": "50",
+              "fieldName": "swipeThreshold"
+            },
+            {
               "name": "no-close",
               "type": {
                 "text": "boolean"
@@ -9058,6 +9790,15 @@
               "description": "Hides the close button.",
               "default": "false",
               "fieldName": "noClose"
+            },
+            {
+              "name": "swipe",
+              "description": "Direction a swipe dismisses it. Defaults to the side the toaster sits on (`left` for a left\nposition, otherwise `right`). `none` turns swiping off.",
+              "type": {
+                "text": "'' | 'left' | 'right' | 'up' | 'down' | 'none'"
+              },
+              "default": "''",
+              "fieldName": "swipe"
             }
           ],
           "superclass": {
@@ -9070,7 +9811,7 @@
         },
         {
           "kind": "class",
-          "description": "Fixed stack that holds toasts. Rendered in the top layer, so it sits above open dialogs.\n`toast()` creates one on demand; you rarely need to place it by hand.",
+          "description": "Fixed stack that holds toasts. Rendered in the top layer, so it sits above open dialogs.\n`toast()` creates one on demand; you rarely need to place it by hand.\n\nLike the Radix Toast viewport: it is a labelled region, `F8` moves focus into it (so a keyboard\nuser can reach a toast before it times out), and the whole stack holds its timers while the\npointer is over it or focus is inside it.",
           "name": "HtToaster",
           "slots": [
             {
@@ -9090,6 +9831,28 @@
               "default": "'bottom-right'",
               "attribute": "position",
               "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "hotkey",
+              "privacy": "public",
+              "description": "Key that moves focus into the stack: a `KeyboardEvent.code` such as `F8`, or codes joined with\n`+` where a modifier is `altKey`, `ctrlKey`, `metaKey` or `shiftKey` (for example `altKey+KeyT`).",
+              "type": {
+                "text": "string"
+              },
+              "default": "'F8'",
+              "attribute": "hotkey"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "privacy": "public",
+              "description": "Accessible name of the region. `{hotkey}` is replaced by the hotkey.",
+              "type": {
+                "text": "string"
+              },
+              "default": "'Notifications ({hotkey})'",
+              "attribute": "label"
             },
             {
               "kind": "method",
@@ -9119,6 +9882,24 @@
               },
               "default": "'bottom-right'",
               "fieldName": "position"
+            },
+            {
+              "name": "hotkey",
+              "description": "Key that moves focus into the stack: a `KeyboardEvent.code` such as `F8`, or codes joined with\n`+` where a modifier is `altKey`, `ctrlKey`, `metaKey` or `shiftKey` (for example `altKey+KeyT`).",
+              "type": {
+                "text": "string"
+              },
+              "default": "'F8'",
+              "fieldName": "hotkey"
+            },
+            {
+              "name": "label",
+              "description": "Accessible name of the region. `{hotkey}` is replaced by the hotkey.",
+              "type": {
+                "text": "string"
+              },
+              "default": "'Notifications ({hotkey})'",
+              "fieldName": "label"
             }
           ],
           "superclass": {

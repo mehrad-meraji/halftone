@@ -22,6 +22,7 @@ const config: StorybookConfig = {
         'lit/directives/if-defined.js',
         'lit/directives/live.js',
         'lit/directives/unsafe-svg.js',
+        'lit/directives/unsafe-html.js',
       ],
     },
   }),

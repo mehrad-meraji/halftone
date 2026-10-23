@@ -352,3 +352,19 @@ The glow was too faint to see, most of all in dark mode. It is now about double:
 
 **Accessibility.** The picture is decoration until the avatar has a `name`; the name is the only source of the accessible label, and the `<svg>` is always `aria-hidden`. This is the existing `ht-avatar` rule, so it needed no new code. The function's SVG has `aria-hidden="true"` unless `label` is passed, and the label is escaped. In forced-colours mode the picture keeps its colours (like a photo) and a `CanvasText` outline draws the edge, because forced colours remove the shadow hairline that normally does it. That outline applies to initials avatars too. The hairline over the picture stays, so a pale picture still has an edge.
 
+## 2026-10-23 — Blocks: page sections in plain HTML, with notes for agents
+Like shadcn/ui blocks: ready-made sections (sign-in, app shell, settings, dashboard) that you copy and adapt. Four to start: `login-01`, `app-shell-01`, `settings-01`, `dashboard-01`.
+
+Decisions:
+- A block is plain HTML, not a Lit component. A component may import only `lit` and no other component (the copy-mode rule), and a block is by nature a composition of components. HTML also works in any framework, and an agent can read it and change it directly.
+- Two files per block in `src/blocks/<name>/`: `<name>.html` and `<name>.md`. The notes (front matter plus `When to use`, `How to adapt`, `Do not`) are the part to tune for AI: when an agent misuses a block, fix the notes first. Prose, not JSON, because agents follow written rules better than fields.
+- Names end in `-NN` (shadcn's convention), so variants can exist later and a block name never collides with a component name.
+- The component list is derived from the tags in the HTML, never written by hand. `scripts/blocks.mjs` maps tags to component folders from the component source.
+- `npm run registry` checks every block: names, required notes, a scoped root (`data-block`), every selector scoped to it, no `<script>`, no hard-coded colours, radii or fonts, every tag a real element, and a story. This turns the rules into a build failure, like the `lit`-only import check.
+- Blocks ship inside `registry/registry.json` (`blocks` key), so the CLI still reads one file and works offline. `halftone add <block>` writes `<dir>/blocks/<name>.html` (with a copy header) and `<name>.md`, and adds the components it uses through the normal skip/overwrite path. `halftone.json` records blocks under `blocks`, apart from `installed`. `halftone show <block>` prints notes and HTML for agents. `diff` covers blocks. `add --all` stays components only.
+- `llms.txt` gets a `Blocks` section with each block's summary, components and full notes, and tells agents to start from the closest block.
+- Storybook: one file, `src/blocks/blocks.stories.ts`, renders each HTML file as is (`?raw` plus `unsafeHTML`), so the story is exactly what gets copied. `lit/directives/unsafe-html.js` is pre-bundled for the same reason as the other directives (2026-10-12).
+- Accessibility: axe over the four block stories, light and dark, zero violations. It first found that `ht-card` always renders an `h3` and a `<header>`. Four cards at page level read as four banner landmarks and the heading order jumped from `h1` to `h3`. Fixed in the block, not the card: the dashboard root is a `<section>`, and two visually hidden `h2` headings fill the gap. A `level` attribute on `ht-card` would be the better fix later.
+
+Not done: a Blocks gallery on the docs site, more blocks (sign-up, pricing, data table page, command palette), and wiring the app-shell menu button (blocks have no script; the notes say how).
+
