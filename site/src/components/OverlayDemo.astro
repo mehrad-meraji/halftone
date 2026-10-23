@@ -41,7 +41,7 @@
   root?.querySelectorAll<HTMLElement>('[data-open]').forEach((b) =>
     b.addEventListener('click', () => {
       const k = b.dataset.open;
-      if (k === 'toast') return void toast({ title: 'Deploy finished', message: 'sentinel is live on 3 environments.', tone: 'success' });
+      if (k === 'toast') return void toast.success('Deploy finished', { description: 'sentinel is live on 3 environments.' });
       (root.querySelector(`#demo-${k}`) as unknown as { show(): void }).show();
     }),
   );

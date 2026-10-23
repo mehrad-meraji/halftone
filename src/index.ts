@@ -1,3 +1,4 @@
+export { HtAlert } from './components/alert/alert.js';
 export { HtBanner } from './components/banner/banner.js';
 export { HtButton } from './components/button/button.js';
 export { HtCard } from './components/card/card.js';
@@ -14,7 +15,7 @@ export { HtSelect, HtOption, HtOptionGroup } from './components/select/select.js
 export { HtSpeechBubble } from './components/speech-bubble/speech-bubble.js';
 export { HtSwitch } from './components/switch/switch.js';
 export { HtTab, HtTabPanel, HtTabs } from './components/tabs/tabs.js';
-export { HtToast, HtToaster, toast, type ToastOptions } from './components/toast/toast.js';
+export { HtToast, HtToaster, toast, type ToastOptions, type ToastButton, type ToastPromiseOptions } from './components/toast/toast.js';
 export { HtTree, HtTreeItem } from './components/tree/tree.js';
 export { HtTooltip } from './components/tooltip/tooltip.js';
 export { HtTag } from './components/tag/tag.js';

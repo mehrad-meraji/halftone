@@ -8,7 +8,9 @@ function oklch([L,C,h]){const a=C*Math.cos(h*Math.PI/180),b=C*Math.sin(h*Math.PI
  return [4.0767416621*l-3.3077115913*m+0.2309699292*s,-1.2684380046*l+2.6097574011*m-0.3413193965*s,-0.0041960863*l-0.7034186147*m+1.7076147010*s].map(v=>Math.min(1,Math.max(0,v)))}
 const lum=([r,g,b])=>{const f=v=>{const c=Math.min(1,Math.max(0,v));return c}; return 0.2126*r+0.7152*g+0.0722*b};
 const ratio=(a,b)=>{const A=lum(oklch(a)),B=lum(oklch(b));const[x,y]=A>B?[A,B]:[B,A];return ((x+0.05)/(y+0.05))};
-// mix two oklch/oklab colours roughly in linear-light for tinted fills
+// color-mix(in oklab, a p, b): mix in oklab, return oklch so ratio() can read it
+const mix=(a,p,b)=>{const lab=([L,C,h])=>[L,C*Math.cos(h*Math.PI/180),C*Math.sin(h*Math.PI/180)];
+ const A=lab(a),B=lab(b),[L,x,y]=A.map((v,i)=>v*p+B[i]*(1-p));return [L,Math.hypot(x,y),Math.atan2(y,x)*180/Math.PI]};
 const T={
  light:{bg:[0.955,0.006,283],surface:[0.995,0.003,283],muted:[0.965,0.005,283],sunken:[0.94,0.008,283],text:[0.2,0.018,278],tmuted:[0.45,0.018,278],tsub:[0.5,0.018,278],accent:[0.54,0.212,300],accentInk:[0.99,0,0],accentText:[0.378,0.145,292],accentSoft:[0.94,0.034,297],danger:[0.56,0.153,25],dangerInk:[0.99,0,355],dangerText:[0.45,0.145,23],dangerSoft:[0.95,0.025,20],success:[0.55,0.111,160],warning:[0.7,0.111,75],info:[0.55,0.085,235],border:[0.797,0.014,283],borderInput:[0.64,0.018,283],inverse:[0.26,0.013,273],inverseInk:[0.97,0.003,278]},
  dark:{bg:[0.16,0.016,273],surface:[0.2,0.016,273],muted:[0.23,0.018,273],sunken:[0.14,0.015,273],text:[0.94,0.006,278],tmuted:[0.74,0.012,278],tsub:[0.68,0.016,278],accent:[0.54,0.212,300],accentInk:[0.99,0,0],accentText:[0.89,0.111,300],accentSoft:[0.28,0.068,297],danger:[0.65,0.162,25],dangerInk:[0.18,0.025,25],dangerText:[0.78,0.119,25],dangerSoft:[0.27,0.06,25],success:[0.55,0.111,160],warning:[0.7,0.111,75],info:[0.55,0.085,235],border:[0.4,0.024,273],borderInput:[0.52,0.024,273],inverse:[0.94,0.006,278],inverseInk:[0.2,0.016,278]}};
@@ -26,7 +28,19 @@ for(const th of ['light','dark']){const t=T[th];
  add('accent-text on accent-soft',t.accentText,t.accentSoft);
  add('danger-text on danger-soft',t.dangerText,t.dangerSoft);
  add('tooltip text',t.inverseInk,t.inverse);
- add('neutral toast text',t.inverseInk,t.inverse);
+ add('toast and alert text on surface',t.text,t.surface);
+ add('toast and alert description on surface',t.tmuted,t.surface);
+ add('toast action text',t.inverseInk,t.inverse);
+ add('toast cancel text',t.text,t.sunken);
+ add('rich toast info',mix(t.info,.55,t.text),mix(t.info,.10,t.surface));
+ add('rich toast success',mix(t.success,.55,t.text),mix(t.success,.10,t.surface));
+ add('rich toast warning',mix(t.warning,.40,t.text),mix(t.warning,.14,t.surface));
+ add('rich toast danger',t.dangerText,t.dangerSoft);
+ add('alert danger text on surface',t.dangerText,t.surface);
+ add('alert danger description on surface',mix(t.dangerText,.9,t.surface),t.surface);
+ add('toast/alert info icon (non-text)',mix(t.info,.8,t.text),t.surface,3);
+ add('toast/alert success icon (non-text)',mix(t.success,.8,t.text),t.surface,3);
+ add('toast/alert warning icon (non-text)',mix(t.warning,.55,t.text),t.surface,3);
  add('switch icon (non-text) on surface',t.tmuted,t.surface,3);
  add('switch on track vs page bg (non-text)',t.accent,t.bg,3);
  add('switch knob vs on track (non-text)',t.surface,t.accent,3);

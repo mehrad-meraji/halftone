@@ -17,6 +17,7 @@ const STATUS = {
   'empty-state': { text: 'New', variant: 'tip' },
   tabs: { text: 'Updated', variant: 'note' },
   toast: { text: 'Updated', variant: 'note' },
+  alert: { text: 'New', variant: 'tip' },
   popover: { text: 'Updated', variant: 'note' },
 };
 

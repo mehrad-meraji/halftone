@@ -5,7 +5,7 @@ Phosphor Icons
   Licence: MIT
   Copyright (c) 2023 Phosphor Icons
   Used in: src/components/icon/icon.ts (built-in icon set) and the small glyphs inside
-  banner, checkbox, dialog, select, switch and toast.
+  alert, banner, checkbox, dialog, select, switch and toast.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of the icons
 and associated files, to deal in them without restriction, including without limitation the
@@ -13,3 +13,16 @@ rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 to permit persons to whom they are furnished to do so, subject to the above copyright notice
 and this permission notice being included in all copies or substantial portions. The icons are
 provided "as is", without warranty of any kind.
+
+Sonner, by Emil Kowalski
+  https://github.com/emilkowalski/sonner
+  Licence: MIT
+  Used in: src/components/toast/toast.ts. The stacking, expand-on-hover, enter and exit motion,
+  swipe thresholds and sizes follow Sonner's styles.css and index.tsx. Rewritten as a Lit
+  component; no Sonner code is copied verbatim.
+
+shadcn/ui
+  https://ui.shadcn.com
+  Licence: MIT
+  Used in: src/components/alert/alert.ts (layout of the Alert) and the toast's look (shadcn's
+  Sonner wrapper). Rewritten as Lit components with Halftone tokens.
