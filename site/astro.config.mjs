@@ -48,6 +48,7 @@ export default defineConfig({
         { label: 'Getting started', items: [{ autogenerate: { directory: 'getting-started' } }] },
         { label: 'Foundations', items: [{ autogenerate: { directory: 'foundations' } }] },
         { label: 'Components', items: [{ autogenerate: { directory: 'components' } }] },
+        { label: 'Blocks', items: [{ autogenerate: { directory: 'blocks' } }] },
         { label: 'Patterns', items: [{ autogenerate: { directory: 'patterns' } }] },
         { label: 'Resources', items: [{ autogenerate: { directory: 'resources' } }] },
       ],
