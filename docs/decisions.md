@@ -376,3 +376,11 @@ Decisions:
 - The frame shows a bare site page (`/block-preview/<name>/`) that renders the HTML with `tokens.css` and the elements, not the Storybook story. Blocks use `100vh`, so they need a page of their own. The deployed Storybook only has blocks after a deploy, and its theme does not follow the docs. The bare page copies the docs theme (`data-theme` on the parent) and follows it live.
 - Block pages drop the right-hand contents column and widen the content to 64rem, only on pages with a frame. At 46rem the dashboard showed its tablet layout. A Phone button narrows the frame to 375px; it is hidden on small screens, where the frame is already phone width.
 - Blocks is also a header link. Six links did not fit next to search at 1024px, so the header nav now shows from 64rem (the left sidebar is the navigation below that), links never wrap, and link padding is 0.5rem below 72rem.
+
+## 2026-10-23 — Keeping the docs site current
+The docs site is the reference people use most, so it must not drift from the source.
+
+- More of it is generated. The Contributing page now copies the rules from `AGENTS.md` at build (`site/scripts/gen-rules.mjs`) instead of keeping its own copy. The About page counts blocks from the build, like components and elements.
+- `AGENTS.md` has a "Docs site" section: a change is done when the site shows it. It lists the pages that are still written by hand (About with its Roadmap, Install, foundations, patterns, the `STATUS` badges), so a reviewer knows what to check.
+- `npm run build --prefix site` now ends with a link check (`site/scripts/check-links.mjs`): every internal link in `dist/` must reach a page or file. Renaming or removing a component or block without fixing its links fails CI. Storybook links are skipped, because Storybook is copied in only by the deploy job. The first run found four broken "Start here" cards on the live About page (relative links one level short); fixed.
+- Install has a "Copy a block" tab, About a "Building a page" card and a Blocks row in the Roadmap. Four start cards sit 2 by 2, not 3 and 1.
