@@ -139,7 +139,7 @@ export class HtSheet extends LitElement {
       dialog[open], dialog[open]::backdrop, dialog.closing, dialog.closing::backdrop { animation: none; }
     }
 
-    header {
+    .header {
       flex: none;
       display: flex;
       align-items: flex-start;
@@ -173,7 +173,7 @@ export class HtSheet extends LitElement {
     .close:focus-visible { outline: 2px solid var(--ht-focus); outline-offset: 2px; }
     .body { flex: 1; min-height: 0; padding: 16px; overflow: auto; font: 400 0.875rem/1.5 var(--ht-font-ui); }
     .body:focus-visible { outline: 2px solid var(--ht-focus); outline-offset: -2px; }
-    footer {
+    .footer {
       flex: none;
       display: flex;
       flex-wrap: wrap;
@@ -190,11 +190,11 @@ export class HtSheet extends LitElement {
       -webkit-backdrop-filter: var(--ht-glass-filter);
       backdrop-filter: var(--ht-glass-filter);
     }
-    :host([glass]) header {
+    :host([glass]) .header {
       background: var(--ht-halftone), color-mix(in oklab, var(--ht-surface) 28%, transparent);
       border-bottom-color: color-mix(in oklab, var(--ht-text) 10%, transparent);
     }
-    :host([glass]) footer { border-top-color: color-mix(in oklab, var(--ht-text) 10%, transparent); }
+    :host([glass]) .footer { border-top-color: color-mix(in oklab, var(--ht-text) 10%, transparent); }
     /* A lighter scrim, so the glass has colour to blur. */
     :host([glass]) dialog::backdrop { background: oklch(0.12 0.02 295 / 0.2); }
   `;
@@ -306,7 +306,7 @@ export class HtSheet extends LitElement {
         @close=${this.#onClose}
         @click=${this.#onBackdropClick}
       >
-        <header part="header">
+        <div part="header" class="header">
           <div>
             ${this.eyebrow ? html`<span class="eyebrow">${this.eyebrow}</span>` : nothing}
             <h2 id="title"><slot name="title">${this.heading}</slot></h2>
@@ -316,11 +316,11 @@ export class HtSheet extends LitElement {
             : html`<button class="close" aria-label="Close" @click=${() => this.close()}>
                 <svg width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208.49,191.51a12,12,0,0,1-17,17L128,145,64.49,208.49a12,12,0,0,1-17-17L111,128,47.51,64.49a12,12,0,0,1,17-17L128,111l63.51-63.52a12,12,0,0,1,17,17L145,128Z"/></svg>
               </button>`}
-        </header>
+        </div>
         <div part="body" class="body"><slot></slot></div>
-        <footer part="footer" ?hidden=${!this._hasFooter}>
+        <div part="footer" class="footer" ?hidden=${!this._hasFooter}>
           <slot name="footer" @slotchange=${this.#onFooterSlot}></slot>
-        </footer>
+        </div>
       </dialog>
     `;
   }

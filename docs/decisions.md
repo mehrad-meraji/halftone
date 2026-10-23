@@ -352,3 +352,14 @@ The glow was too faint to see, most of all in dark mode. It is now about double:
 
 **Accessibility.** The picture is decoration until the avatar has a `name`; the name is the only source of the accessible label, and the `<svg>` is always `aria-hidden`. This is the existing `ht-avatar` rule, so it needed no new code. The function's SVG has `aria-hidden="true"` unless `label` is passed, and the label is escaped. In forced-colours mode the picture keeps its colours (like a photo) and a `CanvasText` outline draws the edge, because forced colours remove the shadow hairline that normally does it. That outline applies to initials avatars too. The hairline over the picture stays, so a pale picture still has an edge.
 
+
+## 2026-10-23 — No landmarks in dialog, sheet and alert-dialog strips
+**Problem.** `ht-dialog`, `ht-sheet` and `ht-alert-dialog` rendered their header and footer strips as `<header>` and `<footer>` inside a native `<dialog>`. Those elements are a banner and a contentinfo landmark unless an `article`, `aside`, `main`, `nav` or `section` is around them. A `<dialog>` is not on that list. So an open dialog added a second banner (and footer) to the page. This is the same issue `ht-card` had.
+
+**Checked with axe** (`scripts/a11y-runner.js` method, axe-core 4.10.2). The 24 dialog, sheet, alert-dialog and liquid-glass overlay stories were clean before the change in light and dark, because each one has one dialog and no page header. Test pages built on the open-by-default stories did fire with the old code:
+- A dialog, sheet or alert dialog open on a page with its own `<header>` and `<footer>`: `landmark-no-duplicate-banner` and `landmark-unique`. The alert dialog also gave `landmark-no-duplicate-contentinfo`, because its footer is always shown.
+- Two `ht-dialog`s open at the same time: `landmark-no-duplicate-banner` and `landmark-unique`.
+
+**Change.** The strips are now `<div part="header" class="header">` and `<div part="footer" class="footer">`, as in `ht-card`. The `header` and `footer` part names are the same, so `::part()` styles still work. Style selectors moved from `header` and `footer` to `.header` and `.footer`. The footer lookup that sets the corners of the edge keys now uses `.footer`. The dialog itself keeps `aria-labelledby` on its heading, so screen readers still announce the dialog name when it opens.
+
+**After.** All the test pages above are clean in light and dark, and the 24 stories are still clean in light and dark.

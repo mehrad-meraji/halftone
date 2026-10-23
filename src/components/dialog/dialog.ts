@@ -99,17 +99,17 @@ export class HtDialog extends LitElement {
       dialog[open]::backdrop { opacity: 0; backdrop-filter: blur(0); }
     }
     dialog[open] .body { animation: rise var(--ht-duration-in) var(--ht-ease) 60ms backwards; }
-    dialog[open] footer ::slotted(ht-button) { animation: key-rise var(--ht-duration-in) var(--ht-ease-spring) backwards; }
-    dialog[open] footer ::slotted(ht-button:nth-of-type(1)) { animation-delay: 90ms; }
-    dialog[open] footer ::slotted(ht-button:nth-of-type(2)) { animation-delay: 140ms; }
-    dialog[open] footer ::slotted(ht-button:nth-of-type(n + 3)) { animation-delay: 190ms; }
+    dialog[open] .footer ::slotted(ht-button) { animation: key-rise var(--ht-duration-in) var(--ht-ease-spring) backwards; }
+    dialog[open] .footer ::slotted(ht-button:nth-of-type(1)) { animation-delay: 90ms; }
+    dialog[open] .footer ::slotted(ht-button:nth-of-type(2)) { animation-delay: 140ms; }
+    dialog[open] .footer ::slotted(ht-button:nth-of-type(n + 3)) { animation-delay: 190ms; }
     @keyframes rise { from { opacity: 0; transform: translateY(6px); } }
     @keyframes key-rise { from { transform: translateY(100%); } }
     @media (prefers-reduced-motion: reduce) {
       dialog, dialog::backdrop { transition: none; }
-      dialog[open] .body, dialog[open] footer ::slotted(ht-button) { animation: none; }
+      dialog[open] .body, dialog[open] .footer ::slotted(ht-button) { animation: none; }
     }
-    header {
+    .header {
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
@@ -151,7 +151,7 @@ export class HtDialog extends LitElement {
      * radius at the bottom left; the others are outlined with rounded tops. Nothing leaves the
      * dialog: keys shrink and wrap long labels before they would pass the right edge.
      */
-    footer {
+    .footer {
       display: flex;
       gap: 16px;
       align-items: flex-end;
@@ -159,14 +159,14 @@ export class HtDialog extends LitElement {
     /* Corners follow position, not role. A key on the left edge has no top-left radius and takes the
        dialog's radius at the bottom left; a key on the right edge has no top-right radius and takes it
        at the bottom right. The component sets data-edge-left / data-edge-right by measuring. */
-    footer ::slotted(ht-button) {
+    .footer ::slotted(ht-button) {
       flex: 0 1 auto;
       min-width: 0;
       --ht-flush-radius: var(--ht-radius-md) var(--ht-radius-md) 0 0;
     }
-    footer ::slotted(ht-button[data-edge-left]) { --ht-flush-radius: 0 var(--ht-radius-md) 0 var(--ht-radius-lg); }
-    footer ::slotted(ht-button[data-edge-right]) { --ht-flush-radius: var(--ht-radius-md) 0 var(--ht-radius-lg) 0; }
-    footer ::slotted(ht-button[data-edge-left][data-edge-right]) { --ht-flush-radius: 0 0 var(--ht-radius-lg) var(--ht-radius-lg); }
+    .footer ::slotted(ht-button[data-edge-left]) { --ht-flush-radius: 0 var(--ht-radius-md) 0 var(--ht-radius-lg); }
+    .footer ::slotted(ht-button[data-edge-right]) { --ht-flush-radius: var(--ht-radius-md) 0 var(--ht-radius-lg) 0; }
+    .footer ::slotted(ht-button[data-edge-left][data-edge-right]) { --ht-flush-radius: 0 0 var(--ht-radius-lg) var(--ht-radius-lg); }
     [hidden] { display: none !important; }
     :host([glass]) dialog {
       background: var(--ht-glass-panel-bg);
@@ -174,7 +174,7 @@ export class HtDialog extends LitElement {
       -webkit-backdrop-filter: var(--ht-glass-filter);
       backdrop-filter: var(--ht-glass-filter);
     }
-    :host([glass]) header {
+    :host([glass]) .header {
       background: var(--ht-halftone), color-mix(in oklab, var(--ht-surface) 28%, transparent);
       border-bottom-color: color-mix(in oklab, var(--ht-text) 10%, transparent);
     }
@@ -206,7 +206,7 @@ export class HtDialog extends LitElement {
   };
 
   firstUpdated() {
-    const footer = this.renderRoot.querySelector('footer');
+    const footer = this.renderRoot.querySelector<HTMLElement>('.footer');
     this.#ro = new ResizeObserver(() => {
       this.#syncEdges();
       this.#syncScroll();
@@ -218,7 +218,7 @@ export class HtDialog extends LitElement {
 
   /** Marks the footer keys that touch the left or right edge, so their corners can follow position. */
   #syncEdges = () => {
-    const footer = this.renderRoot.querySelector('footer');
+    const footer = this.renderRoot.querySelector<HTMLElement>('.footer');
     if (!footer || footer.hidden) return;
     const fr = footer.getBoundingClientRect();
     if (fr.width === 0) return;
@@ -271,7 +271,7 @@ export class HtDialog extends LitElement {
         @close=${this.#onClose}
         @click=${this.#onBackdropClick}
       >
-        <header part="header">
+        <div part="header" class="header">
           <div>
             ${this.eyebrow ? html`<span class="eyebrow">${this.eyebrow}</span>` : nothing}
             <h2 id="title"><slot name="title">${this.heading}</slot></h2>
@@ -281,11 +281,11 @@ export class HtDialog extends LitElement {
             : html`<button class="close" aria-label="Close" @click=${() => this.close()}>
                 <svg width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208.49,191.51a12,12,0,0,1-17,17L128,145,64.49,208.49a12,12,0,0,1-17-17L111,128,47.51,64.49a12,12,0,0,1,17-17L128,111l63.51-63.52a12,12,0,0,1,17,17L145,128Z"/></svg>
               </button>`}
-        </header>
+        </div>
         <div part="body" class="body"><slot></slot></div>
-        <footer part="footer" ?hidden=${!this._hasFooter}>
+        <div part="footer" class="footer" ?hidden=${!this._hasFooter}>
           <slot name="footer" @slotchange=${this.#onFooterSlot}></slot>
-        </footer>
+        </div>
       </dialog>
     `;
   }

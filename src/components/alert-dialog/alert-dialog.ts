@@ -133,7 +133,7 @@ export class HtAlertDialog extends LitElement {
       dialog, dialog::backdrop { transition: none; }
       dialog[open] .body, dialog[open] .act { animation: none; }
     }
-    header {
+    .header {
       display: flex;
       align-items: flex-start;
       gap: 12px;
@@ -142,7 +142,7 @@ export class HtAlertDialog extends LitElement {
       border-bottom: 1px solid var(--ht-border);
       border-radius: var(--ht-radius-lg) var(--ht-radius-lg) 0 0;
     }
-    :host([tone='danger']) header {
+    :host([tone='danger']) .header {
       background: var(--ht-danger-soft);
       border-bottom-color: color-mix(in oklab, var(--ht-danger) 35%, var(--ht-border));
     }
@@ -162,7 +162,7 @@ export class HtAlertDialog extends LitElement {
     .body p { margin: 0; }
     /* Cassette keys, as in ht-dialog: bottom-left, flush with the left and bottom edges, a 16px gap,
        the confirm key taking the dialog's corner radius. They shrink and wrap before leaving the dialog. */
-    footer {
+    .footer {
       display: flex;
       gap: 16px;
       align-items: flex-end;
@@ -217,11 +217,11 @@ export class HtAlertDialog extends LitElement {
       -webkit-backdrop-filter: var(--ht-glass-filter);
       backdrop-filter: var(--ht-glass-filter);
     }
-    :host([glass]) header {
+    :host([glass]) .header {
       background: var(--ht-halftone), color-mix(in oklab, var(--ht-surface) 28%, transparent);
       border-bottom-color: color-mix(in oklab, var(--ht-text) 10%, transparent);
     }
-    :host([glass][tone='danger']) header { background: color-mix(in oklab, var(--ht-danger) 16%, transparent); }
+    :host([glass][tone='danger']) .header { background: color-mix(in oklab, var(--ht-danger) 16%, transparent); }
     :host([glass]) .cancel { background: color-mix(in oklab, var(--ht-surface) 50%, transparent); }
     /* A lighter scrim, so the glass has colour to blur. */
     :host([glass]) dialog::backdrop { background: oklch(0.12 0.02 295 / 0.2); }
@@ -252,7 +252,7 @@ export class HtAlertDialog extends LitElement {
   };
 
   firstUpdated() {
-    const footer = this.renderRoot.querySelector('footer');
+    const footer = this.renderRoot.querySelector<HTMLElement>('.footer');
     this.#ro = new ResizeObserver(() => {
       this.#syncEdges();
       this.#syncScroll();
@@ -264,7 +264,7 @@ export class HtAlertDialog extends LitElement {
 
   /** Marks the keys that touch the left or right edge, so their corners can follow position. */
   #syncEdges = () => {
-    const footer = this.renderRoot.querySelector('footer');
+    const footer = this.renderRoot.querySelector<HTMLElement>('.footer');
     if (!footer) return;
     const fr = footer.getBoundingClientRect();
     if (fr.width === 0) return;
@@ -327,7 +327,7 @@ export class HtAlertDialog extends LitElement {
         @cancel=${this.#onCancel}
         @close=${this.#onClose}
       >
-        <header part="header">
+        <div part="header" class="header">
           ${danger
             ? html`<svg class="icon" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M240.26,186.1,152.81,34.23h0a28.74,28.74,0,0,0-49.62,0L15.74,186.1a27.45,27.45,0,0,0,0,27.71A28.31,28.31,0,0,0,40.55,228h174.9a28.31,28.31,0,0,0,24.79-14.19A27.45,27.45,0,0,0,240.26,186.1Zm-20.8,15.7a4.46,4.46,0,0,1-4,2.2H40.55a4.46,4.46,0,0,1-4-2.2,3.56,3.56,0,0,1,0-3.73L124,46.2a4.77,4.77,0,0,1,8,0l87.44,151.87A3.56,3.56,0,0,1,219.46,201.8ZM116,136V104a12,12,0,0,1,24,0v32a12,12,0,0,1-24,0Zm28,40a16,16,0,1,1-16-16A16,16,0,0,1,144,176Z"/></svg>`
             : nothing}
@@ -335,19 +335,19 @@ export class HtAlertDialog extends LitElement {
             ${this.eyebrow ? html`<span class="eyebrow">${this.eyebrow}</span>` : nothing}
             <h2 id="title"><slot name="title">${this.heading}</slot></h2>
           </div>
-        </header>
+        </div>
         <div part="body" class="body" id="desc">
           ${this.description ? html`<p>${this.description}</p>` : nothing}
           <slot></slot>
         </div>
-        <footer part="footer">
+        <div part="footer" class="footer">
           <button part="confirm" class="act confirm" type="button" ?disabled=${this.confirmDisabled} @click=${() => this.#choose('confirm')}>
             <slot name="confirm">${this.confirmLabel}</slot>
           </button>
           <button part="cancel" class="act cancel" type="button" ?disabled=${this.cancelDisabled} @click=${() => this.#choose('cancel')}>
             <slot name="cancel">${this.cancelLabel}</slot>
           </button>
-        </footer>
+        </div>
       </dialog>
     `;
   }
