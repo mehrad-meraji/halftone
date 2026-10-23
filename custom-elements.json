@@ -532,6 +532,148 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/components/alert/alert.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A callout in the style of shadcn/ui's Alert: a bordered card with an icon, a title, a\ndescription and an optional action at the top right. It sits in the page and stays there; for a\nmessage about something that just happened, use `toast()`. For a one-line bar with a dismiss\nbutton, use `ht-banner`.",
+          "name": "HtAlert",
+          "cssParts": [
+            {
+              "description": "The card.",
+              "name": "base"
+            },
+            {
+              "description": "The icon box.",
+              "name": "icon"
+            },
+            {
+              "description": "The title line.",
+              "name": "title"
+            },
+            {
+              "description": "The description.",
+              "name": "description"
+            },
+            {
+              "description": "The box around the action slot.",
+              "name": "action"
+            }
+          ],
+          "slots": [
+            {
+              "description": "The description. Paragraphs and links are fine.",
+              "name": ""
+            },
+            {
+              "description": "The title. Or set `heading`.",
+              "name": "title"
+            },
+            {
+              "description": "Replaces the tone icon.",
+              "name": "icon"
+            },
+            {
+              "description": "A button or link at the top right, e.g. \"Enable\".",
+              "name": "action"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "tone",
+              "privacy": "public",
+              "description": "`neutral` is the plain card. `info`, `success` and `warning` colour the icon. `danger` (shadcn's\n`destructive`) colours the text too and is announced assertively.",
+              "type": {
+                "text": "'neutral' | 'info' | 'success' | 'warning' | 'danger'"
+              },
+              "default": "'neutral'",
+              "attribute": "tone",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "heading",
+              "privacy": "public",
+              "description": "The title. Use the `title` slot for anything richer.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "heading"
+            },
+            {
+              "kind": "field",
+              "name": "noIcon",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Hides the icon. The text moves to the left edge.",
+              "default": "false",
+              "attribute": "no-icon",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "tone",
+              "description": "`neutral` is the plain card. `info`, `success` and `warning` colour the icon. `danger` (shadcn's\n`destructive`) colours the text too and is announced assertively.",
+              "type": {
+                "text": "'neutral' | 'info' | 'success' | 'warning' | 'danger'"
+              },
+              "default": "'neutral'",
+              "fieldName": "tone"
+            },
+            {
+              "name": "heading",
+              "description": "The title. Use the `title` slot for anything richer.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "heading"
+            },
+            {
+              "name": "no-icon",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Hides the icon. The text moves to the left edge.",
+              "default": "false",
+              "fieldName": "noIcon"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-alert",
+          "customElement": true,
+          "summary": "Callout for user attention."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtAlert",
+          "declaration": {
+            "name": "HtAlert",
+            "module": "src/components/alert/alert.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-alert",
+          "declaration": {
+            "name": "HtAlert",
+            "module": "src/components/alert/alert.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/components/avatar/avatar.ts",
       "declarations": [
         {
@@ -9576,37 +9718,65 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A single notification: solid tone fill, icon, message, optional action and close button\n(after PostHog's toasts: 26rem wide, 6px radius, 8px padding, soft shadow). Normally\ncreated through `toast()`, but usable on its own.",
+          "description": "A single notification in the style of Sonner (the toast shadcn/ui uses): a surface card with a\ntitle, an optional description, a tone icon and optional action and cancel buttons. Normally\ncreated through `toast()`, which stacks it in an `ht-toaster`, but usable on its own.\n\nThe timer pauses while the pointer is over the stack, while focus is inside it and while the\nwindow is in the background. Escape on a focused toast closes it. Drag it toward the edge it sits\non (or set `swipe`) past `swipe-threshold`, or flick it, to dismiss it; a shorter drag snaps back.\n`data-swipe` is `start`, `move`, `cancel` or `end` during a swipe. `type` picks how a screen reader\nannounces it: `foreground` is assertive, `background` polite.",
           "name": "HtToast",
           "cssProperties": [
             {
-              "description": "Maximum width. Like Radix Toast: the timer pauses while the pointer is over it, while focus is inside it and while the window is in the background. Escape on a focused toast closes it. Drag it toward the edge it sits on (or set `swipe`) and release past `swipe-threshold` (50px) to dismiss it; a shorter drag snaps back. `data-swipe` is `start`, `move`, `cancel` or `end` during a swipe. `type` picks how a screen reader announces it: `foreground` is assertive, `background` polite.",
+              "description": "Width of a toast and of the toaster.",
               "name": "--ht-toast-width",
-              "default": "26rem"
+              "default": "356px"
             }
           ],
           "cssParts": [
             {
-              "description": "The toast box.",
+              "description": "The toast card.",
               "name": "base"
+            },
+            {
+              "description": "The icon box.",
+              "name": "icon"
+            },
+            {
+              "description": "The title line.",
+              "name": "title"
+            },
+            {
+              "description": "The description line.",
+              "name": "description"
+            },
+            {
+              "description": "The built-in action button.",
+              "name": "action"
+            },
+            {
+              "description": "The built-in cancel button.",
+              "name": "cancel"
+            },
+            {
+              "description": "The close button.",
+              "name": "close"
             }
           ],
           "slots": [
             {
-              "description": "Message text (the description).",
+              "description": "The title: the main line of the toast.",
               "name": ""
             },
             {
-              "description": "A button or link at the end, e.g. \"Undo\".",
-              "name": "action"
+              "description": "Second, lighter line. Or set `description`.",
+              "name": "description"
             },
             {
-              "description": "Replaces the default tone icon.",
+              "description": "Replaces the tone icon.",
               "name": "icon"
             },
             {
-              "description": "Bold first line. Or set `heading`.",
-              "name": "title"
+              "description": "Replaces the `action` button, e.g. an `ht-button`.",
+              "name": "action"
+            },
+            {
+              "description": "Replaces the `cancel` button.",
+              "name": "cancel"
             }
           ],
           "members": [
@@ -9614,7 +9784,7 @@
               "kind": "field",
               "name": "tone",
               "privacy": "public",
-              "description": "Fill colour. `neutral` is the inverse surface (dark on light themes).",
+              "description": "Colour of the icon, or of the whole card with `rich`. `neutral` has no icon.",
               "type": {
                 "text": "'neutral' | 'info' | 'success' | 'warning' | 'danger'"
               },
@@ -9624,37 +9794,49 @@
             },
             {
               "kind": "field",
+              "name": "description",
+              "privacy": "public",
+              "description": "Second, lighter line under the title.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "description"
+            },
+            {
+              "kind": "field",
+              "name": "loading",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Shows a spinner in place of the icon. A loading toast has no timer and cannot be swiped or closed by the user.",
+              "default": "false",
+              "attribute": "loading",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "rich",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Tints the whole card with the tone colour (Sonner's `richColors`).",
+              "default": "false",
+              "attribute": "rich",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "duration",
               "privacy": "public",
               "type": {
                 "text": "number"
               },
-              "description": "Milliseconds before it dismisses itself. `0` keeps it until closed. Pauses while hovered or focused.",
-              "default": "5000",
+              "description": "Milliseconds before it dismisses itself. `0` keeps it until closed.",
+              "default": "4000",
               "attribute": "duration"
-            },
-            {
-              "kind": "field",
-              "name": "noClose",
-              "privacy": "public",
-              "type": {
-                "text": "boolean"
-              },
-              "description": "Hides the close button.",
-              "default": "false",
-              "attribute": "no-close",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "heading",
-              "privacy": "public",
-              "description": "Bold first line above the message. Use the `title` slot for anything richer.",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "attribute": "heading"
             },
             {
               "kind": "field",
@@ -9670,20 +9852,52 @@
             },
             {
               "kind": "field",
+              "name": "closeButton",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Shows a small close button on the top corner.",
+              "default": "false",
+              "attribute": "close-button",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "action",
+              "privacy": "public",
+              "description": "Primary button, drawn solid at the end of the toast. Property only.",
+              "type": {
+                "text": "ToastButton | null"
+              },
+              "default": "null"
+            },
+            {
+              "kind": "field",
+              "name": "cancel",
+              "privacy": "public",
+              "description": "Secondary button, drawn quiet before the action. Property only.",
+              "type": {
+                "text": "ToastButton | null"
+              },
+              "default": "null"
+            },
+            {
+              "kind": "field",
               "name": "swipeThreshold",
               "privacy": "public",
               "type": {
                 "text": "number"
               },
               "description": "Pixels a swipe must travel to dismiss the toast.",
-              "default": "50",
+              "default": "45",
               "attribute": "swipe-threshold"
             },
             {
               "kind": "field",
               "name": "swipe",
               "privacy": "public",
-              "description": "Direction a swipe dismisses it. Defaults to the side the toaster sits on (`left` for a left\nposition, otherwise `right`). `none` turns swiping off.",
+              "description": "Direction a swipe dismisses it. Defaults to the side the toaster sits on: `left` or `right`,\nor `up` or `down` for a centred toaster. `none` turns swiping off.",
               "type": {
                 "text": "'' | 'left' | 'right' | 'up' | 'down' | 'none'"
               },
@@ -9707,7 +9921,7 @@
               "parameters": [
                 {
                   "name": "ms",
-                  "default": "120"
+                  "default": "200"
                 }
               ],
               "description": "Animates out and removes the toast."
@@ -9733,13 +9947,13 @@
               "type": {
                 "text": "Event"
               },
-              "description": "The toast was removed, by timeout, the close button, Escape or a swipe."
+              "description": "The toast was removed, by timeout, a button, Escape, a swipe or `dismiss()`."
             }
           ],
           "attributes": [
             {
               "name": "tone",
-              "description": "Fill colour. `neutral` is the inverse surface (dark on light themes).",
+              "description": "Colour of the icon, or of the whole card with `rich`. `neutral` has no icon.",
               "type": {
                 "text": "'neutral' | 'info' | 'success' | 'warning' | 'danger'"
               },
@@ -9747,22 +9961,40 @@
               "fieldName": "tone"
             },
             {
-              "name": "duration",
-              "type": {
-                "text": "number"
-              },
-              "description": "Milliseconds before it dismisses itself. `0` keeps it until closed. Pauses while hovered or focused.",
-              "default": "5000",
-              "fieldName": "duration"
-            },
-            {
-              "name": "heading",
-              "description": "Bold first line above the message. Use the `title` slot for anything richer.",
+              "name": "description",
+              "description": "Second, lighter line under the title.",
               "type": {
                 "text": "string"
               },
               "default": "''",
-              "fieldName": "heading"
+              "fieldName": "description"
+            },
+            {
+              "name": "loading",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Shows a spinner in place of the icon. A loading toast has no timer and cannot be swiped or closed by the user.",
+              "default": "false",
+              "fieldName": "loading"
+            },
+            {
+              "name": "rich",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Tints the whole card with the tone colour (Sonner's `richColors`).",
+              "default": "false",
+              "fieldName": "rich"
+            },
+            {
+              "name": "duration",
+              "type": {
+                "text": "number"
+              },
+              "description": "Milliseconds before it dismisses itself. `0` keeps it until closed.",
+              "default": "4000",
+              "fieldName": "duration"
             },
             {
               "name": "type",
@@ -9774,26 +10006,26 @@
               "fieldName": "type"
             },
             {
+              "name": "close-button",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Shows a small close button on the top corner.",
+              "default": "false",
+              "fieldName": "closeButton"
+            },
+            {
               "name": "swipe-threshold",
               "type": {
                 "text": "number"
               },
               "description": "Pixels a swipe must travel to dismiss the toast.",
-              "default": "50",
+              "default": "45",
               "fieldName": "swipeThreshold"
             },
             {
-              "name": "no-close",
-              "type": {
-                "text": "boolean"
-              },
-              "description": "Hides the close button.",
-              "default": "false",
-              "fieldName": "noClose"
-            },
-            {
               "name": "swipe",
-              "description": "Direction a swipe dismisses it. Defaults to the side the toaster sits on (`left` for a left\nposition, otherwise `right`). `none` turns swiping off.",
+              "description": "Direction a swipe dismisses it. Defaults to the side the toaster sits on: `left` or `right`,\nor `up` or `down` for a centred toaster. `none` turns swiping off.",
               "type": {
                 "text": "'' | 'left' | 'right' | 'up' | 'down' | 'none'"
               },
@@ -9811,11 +10043,18 @@
         },
         {
           "kind": "class",
-          "description": "Fixed stack that holds toasts. Rendered in the top layer, so it sits above open dialogs.\n`toast()` creates one on demand; you rarely need to place it by hand.\n\nLike the Radix Toast viewport: it is a labelled region, `F8` moves focus into it (so a keyboard\nuser can reach a toast before it times out), and the whole stack holds its timers while the\npointer is over it or focus is inside it.",
+          "description": "Fixed stack that holds toasts, in the style of Sonner: new toasts land in front, older ones\ntuck in behind (three show), and the stack fans out while the pointer is over it or focus is\ninside it. Rendered in the top layer, so it sits above open dialogs. `toast()` creates one on\ndemand; place one by hand to set its options.\n\nLike the Radix Toast viewport: it is a labelled region, `F8` moves focus into it (so a keyboard\nuser can reach a toast before it times out), and the whole stack holds its timers while it is\nexpanded.",
           "name": "HtToaster",
+          "cssProperties": [
+            {
+              "description": "Distance from the viewport edges (16px on screens 600px wide or less).",
+              "name": "--ht-toaster-offset",
+              "default": "24px"
+            }
+          ],
           "slots": [
             {
-              "description": "`ht-toast` elements.",
+              "description": "`ht-toast` elements. The last one is the newest, shown in front.",
               "name": ""
             }
           ],
@@ -9831,6 +10070,73 @@
               "default": "'bottom-right'",
               "attribute": "position",
               "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "expand",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Keeps the stack fanned out all the time.",
+              "default": "false",
+              "attribute": "expand",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "visibleToasts",
+              "privacy": "public",
+              "type": {
+                "text": "number"
+              },
+              "description": "Toasts shown at once. Older ones wait, hidden, behind them.",
+              "default": "3",
+              "attribute": "visible-toasts"
+            },
+            {
+              "kind": "field",
+              "name": "gap",
+              "privacy": "public",
+              "type": {
+                "text": "number"
+              },
+              "description": "Pixels between toasts when the stack is fanned out.",
+              "default": "14",
+              "attribute": "gap"
+            },
+            {
+              "kind": "field",
+              "name": "duration",
+              "privacy": "public",
+              "type": {
+                "text": "number"
+              },
+              "description": "Default `duration` for toasts made by `toast()`.",
+              "default": "4000",
+              "attribute": "duration"
+            },
+            {
+              "kind": "field",
+              "name": "richColors",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Default `rich` for toasts made by `toast()`.",
+              "default": "false",
+              "attribute": "rich-colors"
+            },
+            {
+              "kind": "field",
+              "name": "closeButton",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Default `close-button` for toasts made by `toast()`.",
+              "default": "false",
+              "attribute": "close-button"
             },
             {
               "kind": "field",
@@ -9870,7 +10176,31 @@
                   }
                 }
               ],
-              "description": "Adds a toast and returns it."
+              "description": "Adds a toast and returns it. With an `id` that is already showing, updates that toast instead."
+            },
+            {
+              "kind": "method",
+              "name": "updateToast",
+              "return": {
+                "type": {
+                  "text": "HtToast"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "el",
+                  "type": {
+                    "text": "HtToast"
+                  }
+                },
+                {
+                  "name": "o",
+                  "type": {
+                    "text": "ToastOptions"
+                  }
+                }
+              ],
+              "description": "Changes a toast in place (`toast.promise` uses this). Only the options given change."
             }
           ],
           "attributes": [
@@ -9882,6 +10212,60 @@
               },
               "default": "'bottom-right'",
               "fieldName": "position"
+            },
+            {
+              "name": "expand",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Keeps the stack fanned out all the time.",
+              "default": "false",
+              "fieldName": "expand"
+            },
+            {
+              "name": "visible-toasts",
+              "type": {
+                "text": "number"
+              },
+              "description": "Toasts shown at once. Older ones wait, hidden, behind them.",
+              "default": "3",
+              "fieldName": "visibleToasts"
+            },
+            {
+              "name": "gap",
+              "type": {
+                "text": "number"
+              },
+              "description": "Pixels between toasts when the stack is fanned out.",
+              "default": "14",
+              "fieldName": "gap"
+            },
+            {
+              "name": "duration",
+              "type": {
+                "text": "number"
+              },
+              "description": "Default `duration` for toasts made by `toast()`.",
+              "default": "4000",
+              "fieldName": "duration"
+            },
+            {
+              "name": "rich-colors",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Default `rich` for toasts made by `toast()`.",
+              "default": "false",
+              "fieldName": "richColors"
+            },
+            {
+              "name": "close-button",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Default `close-button` for toasts made by `toast()`.",
+              "default": "false",
+              "fieldName": "closeButton"
             },
             {
               "name": "hotkey",
@@ -9913,7 +10297,7 @@
         {
           "kind": "variable",
           "name": "toast",
-          "description": "Shows a toast. Creates the `ht-toaster` container on first use.\n\n```ts\ntoast('Saved.');\ntoast({ message: 'Deleted.', tone: 'success', action: { label: 'Undo', onClick: restore } });\ntoast.error('That did not work.');\n```"
+          "description": "Shows a toast, in the style of Sonner. Creates the `ht-toaster` container on first use and\nreturns the `ht-toast` element.\n\n```ts\ntoast('Event created', { description: 'Sunday at 9:00' });\ntoast.success('Saved.');\ntoast('Deleted.', { action: { label: 'Undo', onClick: restore } });\ntoast.promise(save(), { loading: 'Saving…', success: 'Saved.', error: 'That did not work.' });\ntoast.dismiss(); // all of them\n```"
         }
       ],
       "exports": [

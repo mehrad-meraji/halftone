@@ -368,3 +368,22 @@ Decisions:
 
 Not done: a Blocks gallery on the docs site, more blocks (sign-up, pricing, data table page, command palette), and wiring the app-shell menu button (blocks have no script; the notes say how).
 
+## 2026-10-23 — Toast becomes Sonner; new `ht-alert` from shadcn
+**Ask.** A Sonner-style toast (the one shadcn/ui uses) in place of the PostHog-style toast, and a separate Alert in the style of shadcn's. The shadcn "toast" page linked in the ask is built on Base UI's toast, not Sonner; the stack mechanics below are Sonner's, which Base UI's toast also copies.
+
+**Toast, taken from Sonner** (`styles.css` and `index.tsx`, MIT):
+- Look: a surface card, 1px border, 16px padding, 13px text, 6px gap, `--ht-shadow-sm`, 356px wide. Title 500 weight; description on a second line in `--ht-text-muted`. Radius is `--ht-radius-md` (6px): Sonner's 8px is not one of the house radii.
+- Stack: the newest toast is in front; older ones sit 14px behind, each 5% smaller and cut to the front toast's height, with their content hidden. Three show; the rest wait at 0 opacity. Hovering the stack, or focus inside it, fans it out with a 14px gap; a hover bridge covers the gaps. The toaster measures each toast's natural height and sets `--_index`, `--_offset` and `--_height` on it. Sonner's collapsed transform reads `scale(calc(-1 * var(--scale)))`, which only works because custom properties substitute as tokens (it becomes `1 - 0.05 × index`); written out plainly here.
+- Motion: enter slides in from the edge (400ms transition, not a keyframe), exit 200ms. A swipe of 45px or a flick faster than 0.11 px/ms dismisses.
+- Tones colour the icon only (as in shadcn's wrapper). `neutral` has no icon. `rich` (`richColors`) tints the card like `ht-banner`, mixed in `oklab` toward `--ht-text`.
+- `action` and `cancel` are properties drawn inside the shadow root (solid inverse and quiet sunken, 24px tall), with `action` and `cancel` slots to replace them. Both close the toast unless `onClick` calls `preventDefault()`. `close-button` adds Sonner's small round close button at the top corner; off by default, as in Sonner.
+- API: `toast(title, options)`, `toast.success`, `.error`, `.warning`, `.info`, `.loading`, `.message`, `.promise` and `.dismiss`. An `id` that is already showing updates that toast. Default duration 4000ms (was 5000). Loading toasts have a spinner, no timer, and cannot be swiped, closed or escaped.
+
+**Kept from the old toast** (the Radix behaviours from 2026-10-20): per-toast live regions and `type`, F8 hotkey and the labelled region, timer holds (hover, focus, window blur, the whole stack held while expanded), Escape on a focused toast, `swipe` and `swipe-threshold` (now 45), `data-swipe`, `altText`, the `ht-dismiss`, `ht-pause` and `ht-resume` events, and the manual popover in the top layer.
+
+**Changed.** A bare string is now the title, not the description: `toast('Saved')` draws the 500-weight line, as in Sonner. `message` is gone; use `title` and `description`. `heading` and the `title` slot on `ht-toast` are gone; the default slot is the title and the `description` attribute or slot is the second line. `no-close` is gone; the close button is opt-in with `close-button`. Not taken from Sonner: `invert`, `unstyled`, per-toast `position`, several toasters, `offset` as a prop (use `--ht-toaster-offset`), and `onDismiss` and `onAutoClose` (listen for `ht-dismiss`).
+
+**Alert, from shadcn's `alert.tsx`.** A bordered card on `--ht-surface`, `--ht-radius-lg`, 12px 16px padding, 14px text. A grid: a 16px icon column (nudged down 2px), 12px column gap and 2px row gap; title and description in column 2. With `no-icon` the icon column is 0. shadcn's `AlertAction` is absolutely placed at the top right; here the `action` slot is a third grid column, so long text never runs under it. `tone` (house term) replaces `variant`: `danger` is shadcn's `destructive` (title and description in `--ht-danger-text`, the description at 90%); `info`, `success` and `warning` colour the icon only. The title uses the display face (Chakra Petch 600), per the house rule for headings. shadcn puts `role="alert"` on every alert; here only `danger` is `alert` and the rest are `status`, as in `ht-banner`.
+
+**Alert and banner.** Both stay. `ht-banner` is a one-line bar with a dismiss button (PostHog); `ht-alert` is a callout card with a title and a description (shadcn). Neither is dismissed by a timer.
+
