@@ -1,0 +1,113 @@
+---
+// A live block: its bare preview page in a frame, with a phone-width toggle and a link to open it full size.
+interface Props {
+  name: string;
+  title: string;
+  height?: number;
+}
+const { name, title, height = 680 } = Astro.props;
+const src = `${import.meta.env.BASE_URL.replace(/\/?$/, '/')}block-preview/${name}/`;
+---
+
+<div class="block-frame not-content">
+  <div class="block-bar">
+    <div class="block-widths" role="group" aria-label="Preview width">
+      <button type="button" data-width="" aria-pressed="true">Full</button>
+      <button type="button" data-width="375" aria-pressed="false">Phone</button>
+    </div>
+    <a href={src} target="_blank" rel="noopener">Open in a new tab</a>
+  </div>
+  <div class="block-stage">
+    <iframe title={`${title} block, live`} src={src} style={`height:${height}px`} loading="lazy"></iframe>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.block-frame').forEach((root) => {
+    const frame = root.querySelector('iframe')!;
+    root.querySelectorAll<HTMLButtonElement>('.block-widths button').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        root.querySelectorAll('.block-widths button').forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+        frame.style.maxWidth = btn.dataset.width ? `${btn.dataset.width}px` : '';
+      });
+    });
+  });
+</script>
+
+<style>
+  .block-frame {
+    margin-block: 1.5rem;
+    border: 1px solid var(--sl-color-hairline);
+    border-radius: var(--ht-radius-lg);
+    overflow: hidden;
+    background: var(--ht-surface-muted);
+  }
+  .block-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem 1rem;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--sl-color-hairline);
+    font-size: 0.875rem;
+  }
+  .block-widths {
+    display: flex;
+    gap: 0.5rem;
+  }
+  .block-widths button {
+    all: unset;
+    box-sizing: border-box;
+    cursor: pointer;
+    min-height: 2rem;
+    padding: 0 0.875rem;
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid var(--ht-border-strong);
+    border-radius: var(--ht-radius-md);
+    font-weight: 500;
+    color: var(--ht-text);
+  }
+  .block-widths button[aria-pressed='true'] {
+    background: var(--ht-text);
+    border-color: var(--ht-text);
+    color: var(--ht-bg);
+  }
+  .block-widths button:focus-visible,
+  .block-bar a:focus-visible {
+    outline: 2px solid var(--ht-focus);
+    outline-offset: 2px;
+  }
+  .block-bar a {
+    color: var(--ht-text);
+    font-weight: 500;
+  }
+  .block-stage {
+    display: flex;
+    justify-content: center;
+  }
+  iframe {
+    display: block;
+    width: 100%;
+    border: 0;
+    background: var(--ht-bg);
+    transition: max-width var(--ht-duration) var(--ht-ease);
+  }
+  .block-stage iframe[style*='max-width'] {
+    border-inline: 1px solid var(--sl-color-hairline);
+  }
+  /* On a phone the frame is already phone width. */
+  @media (max-width: 40rem) {
+    .block-widths {
+      display: none;
+    }
+  }
+</style>
+
+<style is:global>
+  /* Blocks are whole page sections: give them more room than a page of text. Only pages with a frame get this. */
+  :root {
+    --sl-content-width: 64rem;
+  }
+</style>

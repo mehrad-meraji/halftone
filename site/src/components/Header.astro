@@ -11,6 +11,7 @@ const nav = [
   { label: 'Getting started', href: `${base}/getting-started/about/`, section: `${base}/getting-started/` },
   { label: 'Foundations', href: `${base}/foundations/color/`, section: `${base}/foundations/` },
   { label: 'Components', href: `${base}/components/`, section: `${base}/components/` },
+  { label: 'Blocks', href: `${base}/blocks/`, section: `${base}/blocks/` },
   { label: 'Patterns', href: `${base}/patterns/forms/`, section: `${base}/patterns/` },
   { label: 'Resources', href: `${base}/resources/links/`, section: `${base}/resources/` },
 ].map((n) => ({ ...n, current: path.startsWith(n.section) }));
@@ -64,7 +65,8 @@ const nav = [
       gap: 0.125rem;
       align-self: stretch;
     }
-    @media (min-width: 50rem) {
+    /* Below this the left sidebar is the navigation; six links do not fit next to search. */
+    @media (min-width: 64rem) {
       .top-nav {
         display: flex;
       }
@@ -72,12 +74,18 @@ const nav = [
     .top-nav a {
       display: flex;
       align-items: center;
-      padding: 0 0.75rem;
+      padding: 0 0.5rem;
+      white-space: nowrap;
       font-size: 0.9375rem;
       text-decoration: none;
       color: var(--ht-text-muted);
       border-bottom: 2px solid transparent;
       border-top: 2px solid transparent;
+    }
+    @media (min-width: 72rem) {
+      .top-nav a {
+        padding: 0 0.75rem;
+      }
     }
     .top-nav a:hover {
       color: var(--ht-text);

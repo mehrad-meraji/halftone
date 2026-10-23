@@ -5,16 +5,11 @@ sidebar:
   order: 3
 ---
 
-These are the rules in the repository's `AGENTS.md`. They apply to people too.
+import { Content as Rules } from '../../../generated/agents-rules.md';
 
-- Components are Lit and TypeScript with **no decorators**: static `properties` and `declare` fields.
-- One folder per component: `src/components/<name>/<name>.ts` and `<name>.stories.ts`. The tag is `ht-<name>`.
-- A component file imports only `lit`. No cross-component imports, so the file stays copyable. `npm run registry` fails the build if one does. Elements that only make sense together (tabs, radio group, toast and toaster) live in one file.
-- Document every public attribute, slot, part and CSS variable with JSDoc (`@slot`, `@csspart`, `@cssprop`, `@fires`). The manifest, Storybook and these component pages are generated from it.
-- Style only through `--ht-*` tokens. No hard-coded colors, radii or fonts.
-- Form controls use `ElementInternals` (`static formAssociated = true`).
-- Add every new component to `src/index.ts`, with a story for each variant and the disabled state.
-- A control without a visible label forwards a host `aria-label` to its native element. Field outlines use `--ht-border-input` (3 to 1).
+These are the rules in the repository's `AGENTS.md`, copied in when the site builds, so this page always matches what agents read. They apply to people too.
+
+<Rules />
 
 ## Check your work
 

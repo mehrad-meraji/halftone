@@ -22,3 +22,15 @@
 - The list of components is derived from the tags in the HTML. Never write it by hand.
 - Add one export per block to `src/blocks/blocks.stories.ts`. `npm run registry` fails on any broken rule, including a missing story.
 - Tune a block by editing its notes when an agent gets it wrong, and its HTML when the default is wrong. Then check the story in light, dark and at phone width, and run axe over it (`scripts/a11y-runner.js`).
+
+## Docs site
+
+- The docs site (`site/`, published at mehrad-meraji.github.io/halftone) is the main reference for this library. A change is not done until the site shows it. It deploys from `main` on every push, with Storybook under `/storybook/`.
+- Most of it is generated at build, so it follows the source by itself: component pages (from `custom-elements.json` and the stories), block pages (from `src/blocks/`), the decisions list (from `docs/decisions.md`), the counts on the About page, and the rules on the Contributing page (from this file). Change the source, not the generated page.
+- These pages are written by hand. Check them in the same PR when your change touches what they say:
+  - `getting-started/about.mdx`: what you get, the start cards, and the Roadmap table. Add a Shipped row for every feature that ships.
+  - `getting-started/install.mdx`: install, copy and CLI commands.
+  - `foundations/*`: tokens, type, spacing, motion, glass, dot screen.
+  - `patterns/*`: forms, overlays, empty states.
+  - `site/scripts/gen-components.mjs`: the `STATUS` badges (New, Updated). Mark a new or changed component, and clear old badges.
+- `npm run build --prefix site` must pass. It regenerates every page, and then fails on a link to a page that no longer exists. CI runs it on every pull request.
