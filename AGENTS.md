@@ -13,3 +13,12 @@
 - Add every new component to `src/index.ts`, with a story covering each variant and the disabled state.
 - Verify with `npm run typecheck && npm run build`, then check the story in Storybook.
 - Accessibility: a control without a visible label forwards a host `aria-label` to its native element (never leave `aria-label` on a generic host). Field outlines use `--ht-border-input` (3:1). Mix tone colours toward `--ht-text`, not `black`, so dark mode works, and mix in `oklab` when the other colour has a different hue. After token or style changes run `scripts/a11y-runner.js` and `node scripts/contrast.mjs`; see `docs/a11y.md`.
+
+## Blocks
+
+- A block is a ready-made page section in `src/blocks/<name>-NN/`: `<name>-NN.html` (markup) and `<name>-NN.md` (notes). Names end in a two-digit number so variants can sit side by side (`login-01`, `login-02`).
+- The HTML composes `ht-*` elements only. Its first element carries `data-block="<name>"`, and every selector in its `<style>` starts with `[data-block='<name>']`. No `<script>`: describe wiring in the notes. Tokens only, the same as components.
+- The notes start with front matter (`title`, `category`, `summary`) and need `## When to use` and `## How to adapt`. Add `## When not to use`, `## Wiring` and `## Do not` when they have something to say. Write rules an agent can follow, not descriptions of the markup.
+- The list of components is derived from the tags in the HTML. Never write it by hand.
+- Add one export per block to `src/blocks/blocks.stories.ts`. `npm run registry` fails on any broken rule, including a missing story.
+- Tune a block by editing its notes when an agent gets it wrong, and its HTML when the default is wrong. Then check the story in light, dark and at phone width, and run axe over it (`scripts/a11y-runner.js`).

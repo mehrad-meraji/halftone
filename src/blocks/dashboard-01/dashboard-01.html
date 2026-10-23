@@ -1,0 +1,154 @@
+<section data-block="dashboard-01" aria-labelledby="dash-title">
+  <style>
+    [data-block='dashboard-01'] {
+      box-sizing: border-box;
+      padding: 24px;
+      display: grid;
+      gap: 24px;
+      font: 400 0.875rem/1.5 var(--ht-font-ui);
+      color: var(--ht-text);
+    }
+    [data-block='dashboard-01'] .dash-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    [data-block='dashboard-01'] h1 {
+      margin: 0;
+      font: 600 1.5rem/1.2 var(--ht-font-display);
+    }
+    [data-block='dashboard-01'] .dash-head p {
+      margin: 4px 0 0;
+      color: var(--ht-text-muted);
+    }
+    [data-block='dashboard-01'] .dash-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+    [data-block='dashboard-01'] .dash-value {
+      display: block;
+      font: 600 1.75rem/1.2 var(--ht-font-display);
+      font-variant-numeric: tabular-nums;
+    }
+    [data-block='dashboard-01'] .dash-delta {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 8px;
+      color: var(--ht-text-muted);
+    }
+    [data-block='dashboard-01'] .dash-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+      gap: 16px;
+      align-items: start;
+    }
+    [data-block='dashboard-01'] .dash-usage {
+      display: grid;
+      gap: 16px;
+    }
+    [data-block='dashboard-01'] .dash-sr {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+    [data-block='dashboard-01'] .dash-mono {
+      font-family: var(--ht-font-mono);
+    }
+    @media (max-width: 900px) {
+      [data-block='dashboard-01'] .dash-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+
+  <div class="dash-head">
+    <div>
+      <h1 id="dash-title">Overview</h1>
+      <p>Last 24 hours across all projects.</p>
+    </div>
+    <ht-toggle-group value="24h" aria-label="Time range">
+      <ht-toggle-item value="24h">24H</ht-toggle-item>
+      <ht-toggle-item value="7d">7D</ht-toggle-item>
+      <ht-toggle-item value="30d">30D</ht-toggle-item>
+    </ht-toggle-group>
+  </div>
+
+  <h2 class="dash-sr">Key Numbers</h2>
+  <div class="dash-stats">
+    <ht-card eyebrow="Errors">
+      <ht-number class="dash-value" value="1284"></ht-number>
+      <div class="dash-delta"><ht-tag tone="danger">+12%</ht-tag>vs. yesterday</div>
+    </ht-card>
+    <ht-card eyebrow="Users Affected">
+      <ht-number class="dash-value" value="342"></ht-number>
+      <div class="dash-delta"><ht-tag tone="success">−8%</ht-tag>vs. yesterday</div>
+    </ht-card>
+    <ht-card eyebrow="Crash-Free Sessions">
+      <span class="dash-value">99.2%</span>
+      <div class="dash-delta"><ht-tag>0%</ht-tag>vs. yesterday</div>
+    </ht-card>
+    <ht-card eyebrow="Deploys">
+      <ht-number class="dash-value" value="17"></ht-number>
+      <div class="dash-delta"><ht-tag tone="accent">3 today</ht-tag></div>
+    </ht-card>
+  </div>
+
+  <h2 class="dash-sr">Activity</h2>
+  <div class="dash-grid">
+    <ht-card heading="Recent Deploys">
+      <ht-button slot="actions" variant="quiet" size="xs" href="#">View All</ht-button>
+      <ht-table density="dense">
+        <ht-table-head>
+          <ht-table-row>
+            <ht-table-header>Release</ht-table-header>
+            <ht-table-header>Environment</ht-table-header>
+            <ht-table-header>Status</ht-table-header>
+            <ht-table-header align="end">Duration</ht-table-header>
+          </ht-table-row>
+        </ht-table-head>
+        <ht-table-body>
+          <ht-table-row>
+            <ht-table-cell><span class="dash-mono">v0.4.2</span></ht-table-cell>
+            <ht-table-cell>production</ht-table-cell>
+            <ht-table-cell><ht-tag tone="success">Live</ht-tag></ht-table-cell>
+            <ht-table-cell align="end">38s</ht-table-cell>
+          </ht-table-row>
+          <ht-table-row>
+            <ht-table-cell><span class="dash-mono">v0.4.2</span></ht-table-cell>
+            <ht-table-cell>staging</ht-table-cell>
+            <ht-table-cell><ht-tag tone="success">Live</ht-tag></ht-table-cell>
+            <ht-table-cell align="end">41s</ht-table-cell>
+          </ht-table-row>
+          <ht-table-row>
+            <ht-table-cell><span class="dash-mono">v0.4.1</span></ht-table-cell>
+            <ht-table-cell>production</ht-table-cell>
+            <ht-table-cell><ht-tag tone="danger">Rolled Back</ht-tag></ht-table-cell>
+            <ht-table-cell align="end">2m 4s</ht-table-cell>
+          </ht-table-row>
+          <ht-table-row>
+            <ht-table-cell><span class="dash-mono">v0.4.0</span></ht-table-cell>
+            <ht-table-cell>production</ht-table-cell>
+            <ht-table-cell><ht-tag tone="warning">Slow</ht-tag></ht-table-cell>
+            <ht-table-cell align="end">6m 12s</ht-table-cell>
+          </ht-table-row>
+        </ht-table-body>
+      </ht-table>
+    </ht-card>
+
+    <ht-card heading="Plan Usage">
+      <div class="dash-usage">
+        <ht-progress label="Errors" value="64" show-value></ht-progress>
+        <ht-progress label="Replays" value="88" tone="warning" show-value></ht-progress>
+        <ht-progress label="Seats" value="40" tone="neutral" show-value></ht-progress>
+      </div>
+      <ht-button slot="footer" variant="default" size="sm" block>Upgrade Plan</ht-button>
+    </ht-card>
+  </div>
+</section>

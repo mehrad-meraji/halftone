@@ -1,0 +1,91 @@
+<section data-block="login-01">
+  <style>
+    [data-block='login-01'] {
+      box-sizing: border-box;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px 16px;
+      background: var(--ht-halftone-stage), var(--ht-bg);
+      font: 400 0.875rem/1.5 var(--ht-font-ui);
+      color: var(--ht-text);
+    }
+    [data-block='login-01'] .login-panel {
+      box-sizing: border-box;
+      width: min(100%, 400px);
+      padding: 32px;
+      display: grid;
+      gap: 24px;
+      background: var(--ht-surface);
+      border: 1px solid var(--ht-border);
+      border-radius: var(--ht-radius-lg);
+      box-shadow: var(--ht-shadow-md);
+    }
+    [data-block='login-01'] .login-head {
+      display: grid;
+      gap: 4px;
+      text-align: center;
+    }
+    [data-block='login-01'] .login-eyebrow {
+      font: 500 0.75rem/1 var(--ht-font-mono);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ht-text-muted);
+    }
+    [data-block='login-01'] h1 {
+      margin: 0;
+      font: 600 1.5rem/1.2 var(--ht-font-display);
+    }
+    [data-block='login-01'] .login-sub {
+      margin: 0;
+      color: var(--ht-text-muted);
+    }
+    [data-block='login-01'] form,
+    [data-block='login-01'] .login-oauth {
+      display: grid;
+      gap: 16px;
+    }
+    [data-block='login-01'] .login-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+    [data-block='login-01'] a {
+      color: var(--ht-accent-text);
+      text-underline-offset: 2px;
+    }
+    [data-block='login-01'] .login-foot {
+      margin: 0;
+      text-align: center;
+      color: var(--ht-text-muted);
+    }
+  </style>
+
+  <div class="login-panel">
+    <div class="login-head">
+      <span class="login-eyebrow">Halftone</span>
+      <h1>Sign In</h1>
+      <p class="login-sub">Welcome back. Your errors missed you.</p>
+    </div>
+
+    <div class="login-oauth">
+      <ht-button variant="default" block><ht-icon slot="prefix" name="github-logo" weight="bold"></ht-icon>Continue With GitHub</ht-button>
+      <ht-button variant="default" block><ht-icon slot="prefix" name="google-logo" weight="bold"></ht-icon>Continue With Google</ht-button>
+    </div>
+
+    <ht-separator>or</ht-separator>
+
+    <form action="#" method="post">
+      <ht-input name="email" type="email" label="Email" autocomplete="email" placeholder="you@company.com" required></ht-input>
+      <ht-input name="password" type="password" label="Password" autocomplete="current-password" required></ht-input>
+      <div class="login-row">
+        <ht-checkbox name="remember">Remember Me</ht-checkbox>
+        <a href="#">Forgot password?</a>
+      </div>
+      <ht-button type="submit" variant="primary" size="lg" block>Sign In</ht-button>
+    </form>
+
+    <p class="login-foot">No account yet? <a href="#">Create one</a></p>
+  </div>
+</section>
