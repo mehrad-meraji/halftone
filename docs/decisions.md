@@ -352,3 +352,14 @@ The glow was too faint to see, most of all in dark mode. It is now about double:
 
 **Accessibility.** The picture is decoration until the avatar has a `name`; the name is the only source of the accessible label, and the `<svg>` is always `aria-hidden`. This is the existing `ht-avatar` rule, so it needed no new code. The function's SVG has `aria-hidden="true"` unless `label` is passed, and the label is escaped. In forced-colours mode the picture keeps its colours (like a photo) and a `CanvasText` outline draws the edge, because forced colours remove the shadow hairline that normally does it. That outline applies to initials avatars too. The hairline over the picture stays, so a pale picture still has an edge.
 
+
+## 2026-10-23 — `level` on `ht-card`, and no landmarks in the card
+**Ask.** `ht-card` always rendered its heading as an `h3`. A page of cards right under the page title skipped a level (h1, then h3), and the dashboard block had to add hidden `h2` headings to fix the outline.
+
+**`level` attribute.** A number from 1 to 6, default 3, so nothing changes for current pages. Any other value falls back to 3. It follows `ht-empty-state`: a `div` with `role="heading"` and `aria-level`, so the styles do not depend on which `h1` to `h6` it is. It applies only to the `heading` attribute. Content in the `header` slot brings its own heading.
+
+**Header and footer strips are `div`s now.** They were `<header>` and `<footer>`. Inside a shadow root with no `article`, `section`, `main`, `nav` or `aside` around them, those are a banner and a contentinfo landmark. Four cards on a page read as four banners and four footers, which is noise for screen reader users. A card strip is not a page landmark. The `header` and `footer` parts keep their names, so `::part()` styles still work.
+
+**Checked with axe** (`scripts/a11y-runner.js`, card stories only, light and dark). The 5 old stories were clean before and after, because one card alone trips nothing. The new `Level` story (three cards with `level="2"` under an `h1`) run against the old card gives `heading-order` (h1 then h3), `landmark-no-duplicate-banner` and `landmark-unique` in both themes. With the new card, all 6 stories have no violations.
+
+**Not changed.** `ht-dialog`, `ht-sheet` and `ht-alert-dialog` still use `<header>` inside `<dialog>`. A dialog is not a sectioning element, so the same landmark issue may apply there; it is a follow-up. The `dashboard-01` block workaround (hidden `h2` headings) can go once it uses `level="2"`.

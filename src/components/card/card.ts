@@ -4,11 +4,16 @@ import { LitElement, css, html } from 'lit';
  * Surface for grouping related content. Optional header strip (with the halftone dot
  * screen) and footer.
  *
+ * The heading is announced at `level` (default 3). Set it to fit the page outline, e.g.
+ * `level="2"` for cards right under the page title. The header and footer strips are
+ * plain boxes, not `<header>` / `<footer>`, so a page of cards adds no landmarks.
+ *
  * @tag ht-card
  * @summary Content container.
  *
  * @slot - Card body.
- * @slot header - Replaces the `eyebrow` / `heading` header.
+ * @slot header - Replaces the `eyebrow` / `heading` header. Bring your own heading
+ *   element; `level` does not apply to slotted content.
  * @slot actions - Right side of the header, e.g. a menu button.
  * @slot footer - Footer strip. Hidden when empty.
  *
@@ -23,6 +28,8 @@ export class HtCard extends LitElement {
     eyebrow: {},
     /** Heading text. Use the `header` slot for anything richer. */
     heading: {},
+    /** Heading level announced to screen readers, 1 to 6. Values outside fall back to 3. */
+    level: { type: Number },
     /** `muted` drops the shadow and tints the surface. */
     variant: { reflect: true },
     /** Adds hover feedback. Use when the whole card is a click target. */
@@ -32,6 +39,7 @@ export class HtCard extends LitElement {
 
   declare eyebrow: string;
   declare heading: string;
+  declare level: number;
   declare variant: 'default' | 'muted';
   declare interactive: boolean;
   declare _slots: Set<string>;
@@ -40,6 +48,7 @@ export class HtCard extends LitElement {
     super();
     this.eyebrow = '';
     this.heading = '';
+    this.level = 3;
     this.variant = 'default';
     this.interactive = false;
     this._slots = new Set();
@@ -60,7 +69,7 @@ export class HtCard extends LitElement {
     :host([interactive]) .card { cursor: pointer; }
     :host([interactive]) .card:hover { border-color: var(--ht-border-strong); box-shadow: var(--ht-shadow-sm); }
     :host([interactive]) .card:focus-within { outline: 2px solid var(--ht-focus); outline-offset: 2px; }
-    header {
+    .header {
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -84,7 +93,7 @@ export class HtCard extends LitElement {
       letter-spacing: 0.01em;
     }
     .body { padding: 16px; font: 400 0.875rem/1.5 var(--ht-font-ui); }
-    footer {
+    .footer {
       padding: 10px 16px;
       background: var(--ht-surface-muted);
       border-top: 1px solid var(--ht-border);
@@ -102,21 +111,22 @@ export class HtCard extends LitElement {
 
   render() {
     const hasHeader = !!(this.eyebrow || this.heading) || this._slots.has('header');
+    const level = Number.isInteger(this.level) && this.level >= 1 && this.level <= 6 ? this.level : 3;
     return html`
       <div part="base" class="card">
-        <header part="header" ?hidden=${!hasHeader}>
+        <div part="header" class="header" ?hidden=${!hasHeader}>
           <div class="titles">
             <slot name="header" @slotchange=${this.#track('header')}>
               ${this.eyebrow ? html`<span class="eyebrow">${this.eyebrow}</span>` : ''}
-              ${this.heading ? html`<h3 class="heading">${this.heading}</h3>` : ''}
+              ${this.heading ? html`<div class="heading" role="heading" aria-level=${level}>${this.heading}</div>` : ''}
             </slot>
           </div>
           <slot name="actions"></slot>
-        </header>
+        </div>
         <div part="body" class="body"><slot></slot></div>
-        <footer part="footer" ?hidden=${!this._slots.has('footer')}>
+        <div part="footer" class="footer" ?hidden=${!this._slots.has('footer')}>
           <slot name="footer" @slotchange=${this.#track('footer')}></slot>
-        </footer>
+        </div>
       </div>
     `;
   }
