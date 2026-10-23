@@ -1,0 +1,73 @@
+---
+// A bare page with one block on it and nothing else, framed by BlockFrame on the block's docs page.
+// Blocks fill the viewport (100vh), so they need a page of their own, not a spot inside the docs.
+import '../../../../src/tokens/tokens.css';
+import blocks from '../../generated/blocks.json';
+
+export function getStaticPaths() {
+  return blocks.map((b) => ({ params: { name: b.name }, props: b }));
+}
+const { title, html } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>{title} · Halftone blocks</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Geist:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
+    />
+    <script is:inline>
+      // Follow the docs theme: the frame's parent when framed, the saved Starlight choice when opened alone.
+      (() => {
+        const root = document.documentElement;
+        let parent = null;
+        try {
+          parent = window.parent !== window ? window.parent.document.documentElement : null;
+        } catch {}
+        const apply = () => {
+          let theme = parent?.dataset.theme;
+          if (!theme) {
+            try {
+              theme = localStorage.getItem('starlight-theme') || '';
+            } catch {}
+          }
+          if (theme === 'light' || theme === 'dark') root.dataset.theme = theme;
+          else delete root.dataset.theme;
+        };
+        apply();
+        if (parent) new MutationObserver(apply).observe(parent, { attributes: true, attributeFilter: ['data-theme'] });
+      })();
+    </script>
+  </head>
+  <body>
+    <Fragment set:html={html} />
+    <script>
+      import '../../halftone-client.ts';
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  html {
+    color-scheme: light dark;
+  }
+  html[data-theme='light'] {
+    color-scheme: light;
+  }
+  html[data-theme='dark'] {
+    color-scheme: dark;
+  }
+  body {
+    margin: 0;
+    background: var(--ht-bg);
+    color: var(--ht-text);
+    font-family: var(--ht-font-ui);
+  }
+</style>
