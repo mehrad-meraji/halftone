@@ -19,7 +19,7 @@ npm i @_mehrad/halftone lit
 <ht-button variant="primary">Deploy It</ht-button>
 ```
 
-Components: 71 elements, from `ht-button` and `ht-input` to `ht-menu`, `ht-table`, `ht-calendar` and `ht-sidebar`. Run `npx @_mehrad/halftone list` for the full set. `tokens.css` is required.
+Components: 82 elements, from `ht-button` and `ht-input` to `ht-menu`, `ht-table`, `ht-timeline` and `ht-dropzone`. Run `npx @_mehrad/halftone list` for the full set. `tokens.css` is required.
 
 Fonts are not bundled. Load Chakra Petch (display), Geist (UI) and IBM Plex Mono (mono) yourself, or system fallbacks are used. The Storybook docs load them from Google Fonts (`.storybook/preview-head.html`).
 

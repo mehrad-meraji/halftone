@@ -2614,6 +2614,285 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/components/code/code.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Code block with a header and a copy button, for setup steps, API keys, JSON payloads and\nlog lines. The header shows a `label` (a file name, \"Terminal\") and a `language` tag; there\nis no syntax highlighting. Text comes from the light DOM or the `code` property.\n\nLight DOM text is tidied so the markup can be indented: one blank line at the start and one\nat the end are dropped, and the indent all lines share is removed. Escape `<` and `&` as\n`&lt;` and `&amp;` in HTML. The `code` property is shown exactly as given.",
+          "name": "HtCode",
+          "cssProperties": [
+            {
+              "description": "Height at which the block stops growing and scrolls. `max-lines` sets it from a line count.",
+              "name": "--ht-code-max-height",
+              "default": "none"
+            }
+          ],
+          "cssParts": [
+            {
+              "description": "The outer box.",
+              "name": "base"
+            },
+            {
+              "description": "The header strip.",
+              "name": "header"
+            },
+            {
+              "description": "The label text.",
+              "name": "label"
+            },
+            {
+              "description": "The language tag.",
+              "name": "language"
+            },
+            {
+              "description": "The copy button.",
+              "name": "copy-button"
+            },
+            {
+              "description": "The Reveal / Hide button shown with `secret`.",
+              "name": "reveal-button"
+            },
+            {
+              "description": "The scroll container around the code.",
+              "name": "scroll"
+            },
+            {
+              "description": "The `<pre>` element.",
+              "name": "code"
+            }
+          ],
+          "slots": [
+            {
+              "description": "The code, as plain text. Not shown as is: it is read, tidied and drawn in the block.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "label",
+              "privacy": "public",
+              "description": "Header label, e.g. a file name or \"Terminal\". Also names the scroll region.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "language",
+              "privacy": "public",
+              "description": "Language tag shown in the header, e.g. `json` or `bash`. Display only, no highlighting.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "language"
+            },
+            {
+              "kind": "field",
+              "name": "code",
+              "privacy": "public",
+              "description": "The code. When set, it is used instead of the light DOM text, exactly as given.",
+              "type": {
+                "text": "string | null"
+              },
+              "default": "null",
+              "attribute": "code"
+            },
+            {
+              "kind": "field",
+              "name": "wrap",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Soft-wraps long lines. By default they scroll sideways.",
+              "default": "false",
+              "attribute": "wrap",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "lineNumbers",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Shows line numbers. They are decoration: not copied and not read out.",
+              "default": "false",
+              "attribute": "line-numbers",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "maxLines",
+              "privacy": "public",
+              "type": {
+                "text": "number"
+              },
+              "description": "Lines shown before the block scrolls. `0` means no limit.",
+              "default": "0",
+              "attribute": "max-lines"
+            },
+            {
+              "kind": "field",
+              "name": "noCopy",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Hides the copy button.",
+              "default": "false",
+              "attribute": "no-copy",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "secret",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Masks the text with a Reveal button, for a token shown once. Copy still copies the real value. The text is still in the page; this only hides it from view. If the copy fails, the text is revealed and selected.",
+              "default": "false",
+              "attribute": "secret",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "text",
+              "type": {
+                "text": "string"
+              },
+              "description": "The text the block shows and copies.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "copy",
+              "return": {
+                "type": {
+                  "text": "Promise<boolean>"
+                }
+              },
+              "description": "Copies the text to the clipboard. Resolves to `true` when it worked."
+            }
+          ],
+          "events": [
+            {
+              "name": "ht-copy",
+              "type": {
+                "text": "CustomEvent<{ text: string }>"
+              },
+              "description": "After the text was written to the clipboard. `detail.text` is what was copied."
+            }
+          ],
+          "attributes": [
+            {
+              "name": "label",
+              "description": "Header label, e.g. a file name or \"Terminal\". Also names the scroll region.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "label"
+            },
+            {
+              "name": "language",
+              "description": "Language tag shown in the header, e.g. `json` or `bash`. Display only, no highlighting.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "language"
+            },
+            {
+              "name": "code",
+              "description": "The code. When set, it is used instead of the light DOM text, exactly as given.",
+              "type": {
+                "text": "string | null"
+              },
+              "default": "null",
+              "fieldName": "code"
+            },
+            {
+              "name": "wrap",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Soft-wraps long lines. By default they scroll sideways.",
+              "default": "false",
+              "fieldName": "wrap"
+            },
+            {
+              "name": "line-numbers",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Shows line numbers. They are decoration: not copied and not read out.",
+              "default": "false",
+              "fieldName": "lineNumbers"
+            },
+            {
+              "name": "max-lines",
+              "type": {
+                "text": "number"
+              },
+              "description": "Lines shown before the block scrolls. `0` means no limit.",
+              "default": "0",
+              "fieldName": "maxLines"
+            },
+            {
+              "name": "no-copy",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Hides the copy button.",
+              "default": "false",
+              "fieldName": "noCopy"
+            },
+            {
+              "name": "secret",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Masks the text with a Reveal button, for a token shown once. Copy still copies the real value. The text is still in the page; this only hides it from view. If the copy fails, the text is revealed and selected.",
+              "default": "false",
+              "fieldName": "secret"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-code",
+          "customElement": true,
+          "summary": "Code block with a copy button."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtCode",
+          "declaration": {
+            "name": "HtCode",
+            "module": "src/components/code/code.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-code",
+          "declaration": {
+            "name": "HtCode",
+            "module": "src/components/code/code.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/components/command/command.ts",
       "declarations": [
         {
@@ -3136,6 +3415,333 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/components/description-list/description-list.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Key and value pairs for metadata: the facts strip under a record's title, the properties\nrail beside it, the info panel of a media viewer. Put `ht-description-item` children in it.\n\nThe list renders a real `<dl>` in its own shadow root: a `<dt>` with each item's `label`\nand a `<dd>` that the item itself is slotted into. So the term and its definition are in\none tree and screen readers get a true description list. The cost is that a label is\nplain text: slots only reach the list's own children, so an item cannot project rich\ncontent into the list's `<dt>`. Children other than `ht-description-item` are not shown.\n\nThree layouts: `stacked` (label above value, for side rails), `inline` (label left, value\nright, for property panels) and `columns` (a strip of facts, label above value, that\nwraps on narrow screens).",
+          "name": "HtDescriptionList",
+          "cssProperties": [
+            {
+              "description": "Width of the label column in the `inline` layout.",
+              "name": "--ht-description-list-label-width",
+              "default": "7.5rem"
+            },
+            {
+              "description": "Narrowest a fact gets in the `columns` layout before the strip wraps.",
+              "name": "--ht-description-list-column-min",
+              "default": "9rem"
+            }
+          ],
+          "cssParts": [
+            {
+              "description": "Wrapper around the list. A labelled group when `label` is set.",
+              "name": "base"
+            },
+            {
+              "description": "The `<dl>`.",
+              "name": "list"
+            },
+            {
+              "description": "One term and its value (a `<div>` inside the `<dl>`).",
+              "name": "row"
+            },
+            {
+              "description": "The term (`<dt>`).",
+              "name": "label"
+            },
+            {
+              "description": "The definition (`<dd>`) that holds the item.",
+              "name": "value"
+            }
+          ],
+          "slots": [
+            {
+              "description": "`ht-description-item` elements (each moved into its row automatically).",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "layout",
+              "privacy": "public",
+              "description": "`stacked` puts each label above its value, `inline` puts it to the left, `columns` lays the facts out side by side and wraps them.",
+              "type": {
+                "text": "'stacked' | 'inline' | 'columns'"
+              },
+              "default": "'stacked'",
+              "attribute": "layout",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "columns",
+              "privacy": "public",
+              "type": {
+                "text": "number"
+              },
+              "description": "Facts per row in the `columns` layout, at most. Fewer fit on narrow screens. `0`, the default, fits as many as `--ht-description-list-column-min` allows.",
+              "default": "0",
+              "attribute": "columns"
+            },
+            {
+              "kind": "field",
+              "name": "density",
+              "privacy": "public",
+              "description": "`compact` tightens the space between rows.",
+              "type": {
+                "text": "'default' | 'compact'"
+              },
+              "default": "'default'",
+              "attribute": "density",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "dividers",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Lines between rows (and between facts in the `columns` layout).",
+              "default": "false",
+              "attribute": "dividers",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "privacy": "public",
+              "description": "Accessible name. Makes the list a labelled group; use it when a page has several lists and no heading tells them apart.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "label"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "layout",
+              "description": "`stacked` puts each label above its value, `inline` puts it to the left, `columns` lays the facts out side by side and wraps them.",
+              "type": {
+                "text": "'stacked' | 'inline' | 'columns'"
+              },
+              "default": "'stacked'",
+              "fieldName": "layout"
+            },
+            {
+              "name": "columns",
+              "type": {
+                "text": "number"
+              },
+              "description": "Facts per row in the `columns` layout, at most. Fewer fit on narrow screens. `0`, the default, fits as many as `--ht-description-list-column-min` allows.",
+              "default": "0",
+              "fieldName": "columns"
+            },
+            {
+              "name": "density",
+              "description": "`compact` tightens the space between rows.",
+              "type": {
+                "text": "'default' | 'compact'"
+              },
+              "default": "'default'",
+              "fieldName": "density"
+            },
+            {
+              "name": "dividers",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Lines between rows (and between facts in the `columns` layout).",
+              "default": "false",
+              "fieldName": "dividers"
+            },
+            {
+              "name": "label",
+              "description": "Accessible name. Makes the list a labelled group; use it when a page has several lists and no heading tells them apart.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "label"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-description-list",
+          "customElement": true,
+          "summary": "Key and value pairs for metadata."
+        },
+        {
+          "kind": "class",
+          "description": "One term and its value inside `ht-description-list`. The value goes in the default slot:\ntext, tags, avatars, links or `<code>`. With no value it shows a muted dash (read out as\n\"Not set\").",
+          "name": "HtDescriptionItem",
+          "cssParts": [
+            {
+              "description": "Wrapper around the value line and the hint.",
+              "name": "base"
+            },
+            {
+              "description": "The value.",
+              "name": "value"
+            },
+            {
+              "description": "The dash shown when there is no value.",
+              "name": "empty"
+            },
+            {
+              "description": "The copy button.",
+              "name": "copy"
+            },
+            {
+              "description": "The secondary line.",
+              "name": "hint"
+            }
+          ],
+          "slots": [
+            {
+              "description": "The value.",
+              "name": ""
+            },
+            {
+              "description": "Secondary line under the value, e.g. a `<time>` with the exact timestamp. Replaces the `hint` attribute.",
+              "name": "hint"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "label",
+              "privacy": "public",
+              "description": "The term, in Title Case. Plain text; the list draws it in the `<dt>`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "label",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "hint",
+              "privacy": "public",
+              "description": "Secondary line under the value, e.g. `Oct 23 14:02 UTC` under `3h ago`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "hint"
+            },
+            {
+              "kind": "field",
+              "name": "copy",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Shows a small button that copies the value and announces \"Copied\".",
+              "default": "false",
+              "attribute": "copy",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "copyValue",
+              "privacy": "public",
+              "description": "Text the copy button copies, when it differs from what is shown (the full hash behind a short one). Defaults to the value's text.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "copy-value"
+            }
+          ],
+          "events": [
+            {
+              "description": "The value was copied to the clipboard. `detail.value` is the copied text.",
+              "name": "ht-copy"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "label",
+              "description": "The term, in Title Case. Plain text; the list draws it in the `<dt>`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "label"
+            },
+            {
+              "name": "hint",
+              "description": "Secondary line under the value, e.g. `Oct 23 14:02 UTC` under `3h ago`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "hint"
+            },
+            {
+              "name": "copy",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Shows a small button that copies the value and announces \"Copied\".",
+              "default": "false",
+              "fieldName": "copy"
+            },
+            {
+              "name": "copy-value",
+              "description": "Text the copy button copies, when it differs from what is shown (the full hash behind a short one). Defaults to the value's text.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "copyValue"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-description-item",
+          "customElement": true,
+          "summary": "Term and value in a description list."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtDescriptionList",
+          "declaration": {
+            "name": "HtDescriptionList",
+            "module": "src/components/description-list/description-list.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "HtDescriptionItem",
+          "declaration": {
+            "name": "HtDescriptionItem",
+            "module": "src/components/description-list/description-list.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tag",
+          "declaration": {
+            "name": "ctor",
+            "module": "src/components/description-list/description-list.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/components/dialog/dialog.ts",
       "declarations": [
         {
@@ -3328,6 +3934,466 @@
           "declaration": {
             "name": "HtDialog",
             "module": "src/components/dialog/dialog.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/dropzone/dropzone.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "File picker with a drop zone. A real `<input type=\"file\">` drives it, so Tab, Enter and Space\nand screen readers get the native control; the zone around it is its label, and dropping files\non it works too. Chosen files show in a list under the zone, each with a remove button.\n\nForm-associated: submits one entry per file under `name`, so the form needs\n`enctype=\"multipart/form-data\"`. `required` blocks submit until a file is chosen, and form reset\nclears the list. Files can only come from the person: the browser does not restore them.\n\nChecks run in the order type (`accept`), size (`max-size`), count (`max-files`, or one without\n`multiple`). A turned-away file never enters `files`: it fires `ht-reject`, the reason shows under\nthe zone, and a polite live region reads it out, as it does for added and removed files.\n\nUpload progress is the consumer's: assign a new `Map` of `File` to a 0–100 number to `progress`\nand each listed file draws a thin bar with a `progressbar` role. Delete the entry to drop the bar.\nTo draw a list of your own (with `ht-progress`, thumbnails, status), set `no-list` and render\nfrom `files` on `change`.\n\nWith `page`, a drop anywhere on the page is taken too, and a full-window overlay says\n\"Drop to upload\" while files are dragged over it. Use one `page` dropzone per page.",
+          "name": "HtDropzone",
+          "cssParts": [
+            {
+              "description": "The visible label.",
+              "name": "label"
+            },
+            {
+              "description": "The dashed drop area (a `<label>` for the native input).",
+              "name": "zone"
+            },
+            {
+              "description": "The helper text inside the zone.",
+              "name": "hint"
+            },
+            {
+              "description": "The error, rejection or validation text under the zone.",
+              "name": "message"
+            },
+            {
+              "description": "The list of chosen files.",
+              "name": "list"
+            },
+            {
+              "description": "One row in the list.",
+              "name": "file"
+            },
+            {
+              "description": "The remove button in a row.",
+              "name": "remove"
+            },
+            {
+              "description": "The progress bar in a row, shown while `progress` has the file.",
+              "name": "progress"
+            },
+            {
+              "description": "The full-window overlay drawn by `page`.",
+              "name": "overlay"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "label",
+              "privacy": "public",
+              "description": "Visible label. With no visible label, set `aria-label` on the element; it is forwarded to the native input.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "helper",
+              "privacy": "public",
+              "description": "Helper text inside the zone, e.g. \"CSV up to 10 MB\". Say the accepted types and the size limit here.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "helper"
+            },
+            {
+              "kind": "field",
+              "name": "error",
+              "privacy": "public",
+              "description": "Error text under the zone. Setting it marks the field invalid and is announced as an alert.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "error"
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "privacy": "public",
+              "description": "Form field name. Each file is submitted under it.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "name"
+            },
+            {
+              "kind": "field",
+              "name": "accept",
+              "privacy": "public",
+              "description": "Accepted types, as for a native file input: extensions (`.csv`), MIME types (`text/csv`) or wildcards (`image/*`). Empty takes anything.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "accept"
+            },
+            {
+              "kind": "field",
+              "name": "multiple",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Takes several files; new picks and drops are added to the list. Without it, a new file replaces the old one.",
+              "default": "false",
+              "attribute": "multiple",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "maxSize",
+              "privacy": "public",
+              "type": {
+                "text": "number"
+              },
+              "description": "Largest file size in bytes. 0 is no limit.",
+              "default": "0",
+              "attribute": "max-size"
+            },
+            {
+              "kind": "field",
+              "name": "maxFiles",
+              "privacy": "public",
+              "type": {
+                "text": "number"
+              },
+              "description": "Most files in the list, with `multiple`. 0 is no limit.",
+              "default": "0",
+              "attribute": "max-files"
+            },
+            {
+              "kind": "field",
+              "name": "required",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "required",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "compact",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "A one-line row instead of the tall zone, for composers and tight forms.",
+              "default": "false",
+              "attribute": "compact",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "noList",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Hides the built-in file list, for consumers who draw their own from `files`.",
+              "default": "false",
+              "attribute": "no-list",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "page",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Also takes drops anywhere on the page, with a full-window \"Drop to upload\" overlay.",
+              "default": "false",
+              "attribute": "page",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "files",
+              "privacy": "public",
+              "description": "The chosen files. Settable; setting it does not fire `change`.",
+              "type": {
+                "text": "File[]"
+              },
+              "default": "[]"
+            },
+            {
+              "kind": "field",
+              "name": "progress",
+              "privacy": "public",
+              "description": "Upload progress per file, 0 to 100. Assign a new `Map` to redraw.",
+              "type": {
+                "text": "Map<File, number>"
+              },
+              "default": "new Map()"
+            },
+            {
+              "kind": "method",
+              "name": "formatSize",
+              "static": true,
+              "parameters": [
+                {
+                  "name": "bytes",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ],
+              "description": "Formats a byte count the way the list does: `512 B`, `1.5 KB`, `10 MB`."
+            },
+            {
+              "kind": "field",
+              "name": "form",
+              "description": "The owning form, if any.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "validity",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "validationMessage",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "willValidate",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "checkValidity"
+            },
+            {
+              "kind": "method",
+              "name": "reportValidity"
+            },
+            {
+              "kind": "method",
+              "name": "showPicker",
+              "description": "Opens the system file picker. Must run from a click or key press."
+            },
+            {
+              "kind": "method",
+              "name": "addFiles",
+              "return": {
+                "type": {
+                  "text": "File[]"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "list",
+                  "type": {
+                    "text": "FileList | Iterable<File>"
+                  }
+                }
+              ],
+              "description": "Checks files against `accept`, `max-size` and `max-files` and adds the ones that pass, as a\ndrop would: fires `ht-reject` per turned-away file, `change` if any were added, and announces\nthe result. Use it for paste handlers. Returns the files that were added."
+            },
+            {
+              "kind": "method",
+              "name": "removeFile",
+              "parameters": [
+                {
+                  "name": "file",
+                  "type": {
+                    "text": "File"
+                  }
+                }
+              ],
+              "description": "Removes one file. Fires `change`."
+            },
+            {
+              "kind": "method",
+              "name": "clear",
+              "description": "Removes every file. Fires `change`."
+            }
+          ],
+          "events": [
+            {
+              "name": "ht-reject",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "A file was turned away, once per file. `detail: { file, reason: 'type' | 'size' | 'count', message }`."
+            },
+            {
+              "name": "change",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "Files were added, removed or cleared by the person or by `addFiles`. `detail: { files: File[] }`. Not fired by setting `files` or by form reset."
+            }
+          ],
+          "attributes": [
+            {
+              "name": "label",
+              "description": "Visible label. With no visible label, set `aria-label` on the element; it is forwarded to the native input.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "label"
+            },
+            {
+              "name": "helper",
+              "description": "Helper text inside the zone, e.g. \"CSV up to 10 MB\". Say the accepted types and the size limit here.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "helper"
+            },
+            {
+              "name": "error",
+              "description": "Error text under the zone. Setting it marks the field invalid and is announced as an alert.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "error"
+            },
+            {
+              "name": "name",
+              "description": "Form field name. Each file is submitted under it.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "name"
+            },
+            {
+              "name": "accept",
+              "description": "Accepted types, as for a native file input: extensions (`.csv`), MIME types (`text/csv`) or wildcards (`image/*`). Empty takes anything.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "accept"
+            },
+            {
+              "name": "multiple",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Takes several files; new picks and drops are added to the list. Without it, a new file replaces the old one.",
+              "default": "false",
+              "fieldName": "multiple"
+            },
+            {
+              "name": "max-size",
+              "type": {
+                "text": "number"
+              },
+              "description": "Largest file size in bytes. 0 is no limit.",
+              "default": "0",
+              "fieldName": "maxSize"
+            },
+            {
+              "name": "max-files",
+              "type": {
+                "text": "number"
+              },
+              "description": "Most files in the list, with `multiple`. 0 is no limit.",
+              "default": "0",
+              "fieldName": "maxFiles"
+            },
+            {
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "required"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "compact",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "A one-line row instead of the tall zone, for composers and tight forms.",
+              "default": "false",
+              "fieldName": "compact"
+            },
+            {
+              "name": "no-list",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Hides the built-in file list, for consumers who draw their own from `files`.",
+              "default": "false",
+              "fieldName": "noList"
+            },
+            {
+              "name": "page",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Also takes drops anywhere on the page, with a full-window \"Drop to upload\" overlay.",
+              "default": "false",
+              "fieldName": "page"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-dropzone",
+          "customElement": true,
+          "summary": "File drop zone and picker."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtDropzone",
+          "declaration": {
+            "name": "HtDropzone",
+            "module": "src/components/dropzone/dropzone.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-dropzone",
+          "declaration": {
+            "name": "HtDropzone",
+            "module": "src/components/dropzone/dropzone.ts"
           }
         }
       ]
@@ -5302,6 +6368,296 @@
           "declaration": {
             "name": "HtNumber",
             "module": "src/components/number/number.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/pagination/pagination.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Page control for lists and tables: Previous, the page numbers, Next. Long ranges keep the first\nand last page and fold the rest into ellipses, with a constant number of slots so the buttons do\nnot move under the pointer as the page changes.\n\nThe page count is `total-pages` when set, else `total` divided by `page-size`, rounded up, else 1.\nWith `total` and `page-size` both set, a range summary (\"21–40 of 312\") sits before the controls.\nA `page` outside the range is drawn as the nearest end but never rewritten, so it survives a\n`total` that arrives later. The control stays visible with one page; hide it yourself if you\nprefer.\n\nWithout `href` the pages are buttons and the element keeps `page` itself. With `href` they are\nlinks built from the template, for server-rendered lists. Either way a click fires\n`ht-page-change` first; cancel it to keep the page (and, for links, to stop the navigation) and\nroute yourself. Modified clicks on links (Cmd, Ctrl, Shift, Alt, middle button) are left to the\nbrowser.\n\nRenders a `<nav>` landmark. Name it with `label`, or `aria-label` on the element (forwarded to\nthe nav). Page changes are announced politely as \"Page 3 of 16\".",
+          "name": "HtPagination",
+          "cssParts": [
+            {
+              "description": "The `<nav>` landmark. A flex row: summary first, controls last.",
+              "name": "base"
+            },
+            {
+              "description": "The range summary.",
+              "name": "summary"
+            },
+            {
+              "description": "The `<ul>` of controls.",
+              "name": "list"
+            },
+            {
+              "description": "Each page button or link. The current one also has `current`.",
+              "name": "page"
+            },
+            {
+              "description": "The current page.",
+              "name": "current"
+            },
+            {
+              "description": "Each ellipsis standing in for hidden pages.",
+              "name": "ellipsis"
+            },
+            {
+              "description": "The Previous button or link.",
+              "name": "previous"
+            },
+            {
+              "description": "The Next button or link.",
+              "name": "next"
+            },
+            {
+              "description": "The \"Page 3 of 16\" text in `compact` mode.",
+              "name": "position"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Replaces the range summary text, for example \"21–40 of 312 people\".",
+              "name": "summary"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "page",
+              "privacy": "public",
+              "type": {
+                "text": "number"
+              },
+              "description": "Current page, 1-based. Updated after an uncancelled `ht-page-change`.",
+              "default": "1",
+              "attribute": "page",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "totalPages",
+              "privacy": "public",
+              "type": {
+                "text": "number"
+              },
+              "description": "Number of pages. Takes precedence over `total` and `page-size`. 0 works it out from them.",
+              "default": "0",
+              "attribute": "total-pages"
+            },
+            {
+              "kind": "field",
+              "name": "total",
+              "privacy": "public",
+              "type": {
+                "text": "number | undefined"
+              },
+              "description": "Number of items across all pages. With `page-size`, gives the page count and the range summary.",
+              "attribute": "total"
+            },
+            {
+              "kind": "field",
+              "name": "pageSize",
+              "privacy": "public",
+              "type": {
+                "text": "number | undefined"
+              },
+              "description": "Items per page. With `total`, gives the page count and the range summary.",
+              "attribute": "page-size"
+            },
+            {
+              "kind": "field",
+              "name": "siblings",
+              "privacy": "public",
+              "type": {
+                "text": "number"
+              },
+              "description": "Pages shown on each side of the current one before an ellipsis.",
+              "default": "1",
+              "attribute": "siblings"
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "privacy": "public",
+              "description": "Button height: sm 28px, md 32px.",
+              "type": {
+                "text": "'sm' | 'md'"
+              },
+              "default": "'md'",
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "compact",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Only Previous, \"Page 3 of 16\" and Next, as icon buttons. For tight footers.",
+              "default": "false",
+              "attribute": "compact",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Disables every control. Links lose their `href`.",
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "privacy": "public",
+              "description": "Accessible name of the nav landmark.",
+              "type": {
+                "text": "string"
+              },
+              "default": "'Pagination'",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "href",
+              "privacy": "public",
+              "description": "URL template for page links. Every `{page}` is replaced with the page number, for example `?page={page}`. Without it the pages are buttons.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "href"
+            }
+          ],
+          "events": [
+            {
+              "description": "The person picked a page. `detail: { page }`. Cancelable: cancel it to keep the current page and, with `href`, to stop the navigation. Not fired when `page` is set from code.",
+              "name": "ht-page-change"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "page",
+              "type": {
+                "text": "number"
+              },
+              "description": "Current page, 1-based. Updated after an uncancelled `ht-page-change`.",
+              "default": "1",
+              "fieldName": "page"
+            },
+            {
+              "name": "total-pages",
+              "type": {
+                "text": "number"
+              },
+              "description": "Number of pages. Takes precedence over `total` and `page-size`. 0 works it out from them.",
+              "default": "0",
+              "fieldName": "totalPages"
+            },
+            {
+              "name": "total",
+              "type": {
+                "text": "number | undefined"
+              },
+              "description": "Number of items across all pages. With `page-size`, gives the page count and the range summary.",
+              "fieldName": "total"
+            },
+            {
+              "name": "page-size",
+              "type": {
+                "text": "number | undefined"
+              },
+              "description": "Items per page. With `total`, gives the page count and the range summary.",
+              "fieldName": "pageSize"
+            },
+            {
+              "name": "siblings",
+              "type": {
+                "text": "number"
+              },
+              "description": "Pages shown on each side of the current one before an ellipsis.",
+              "default": "1",
+              "fieldName": "siblings"
+            },
+            {
+              "name": "size",
+              "description": "Button height: sm 28px, md 32px.",
+              "type": {
+                "text": "'sm' | 'md'"
+              },
+              "default": "'md'",
+              "fieldName": "size"
+            },
+            {
+              "name": "compact",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Only Previous, \"Page 3 of 16\" and Next, as icon buttons. For tight footers.",
+              "default": "false",
+              "fieldName": "compact"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Disables every control. Links lose their `href`.",
+              "default": "false",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "label",
+              "description": "Accessible name of the nav landmark.",
+              "type": {
+                "text": "string"
+              },
+              "default": "'Pagination'",
+              "fieldName": "label"
+            },
+            {
+              "name": "href",
+              "description": "URL template for page links. Every `{page}` is replaced with the page number, for example `?page={page}`. Without it the pages are buttons.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "href"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-pagination",
+          "customElement": true,
+          "summary": "Page control with Previous, Next, page numbers and a range summary."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtPagination",
+          "declaration": {
+            "name": "HtPagination",
+            "module": "src/components/pagination/pagination.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-pagination",
+          "declaration": {
+            "name": "HtPagination",
+            "module": "src/components/pagination/pagination.ts"
           }
         }
       ]
@@ -8327,6 +9683,359 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/components/steps/steps.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Numbered steps for a wizard header or a setup guide: an ordered list of `ht-step` children,\neach with a marker (01, 02…) joined to the next by a connector. Markers turn into a tick\nwhen the step is done, and connectors after done steps take the accent.\n\nSet `current` to the index or `value` of the current step. Steps before it are done and\nsteps after it upcoming, unless a step sets its own `state`. Without `current` the steps\nare a plain numbered list, which suits a setup guide.\n\n`orientation=\"vertical\"` stacks the steps and shows each step's slotted content under its\nheading, indented past the marker, with the connector running down the side.\n\nHorizontal steps that do not fit their width collapse: only the current step keeps its\nvisible label (the others stay readable to screen readers), and if the markers still do\nnot fit the row scrolls sideways. It never widens the page.\n\nSteps are not interactive by default: a wizard's own Back and Next buttons drive\n`current`. With `clickable`, done steps become buttons; add `nonlinear` to make upcoming\nsteps buttons too. The buttons sit in the normal tab order (no roving focus): a step list\nis a list of links back, not a composite widget, and it rarely has more than a handful.",
+          "name": "HtSteps",
+          "cssParts": [
+            {
+              "description": "The `<ol>` holding the steps.",
+              "name": "list"
+            }
+          ],
+          "slots": [
+            {
+              "description": "`ht-step` elements. Steps with `hidden` are skipped and do not take a number.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "current",
+              "privacy": "public",
+              "description": "Index (0-based) or `value` of the current step. Empty means no step is current.",
+              "type": {
+                "text": "string | number | undefined"
+              },
+              "attribute": "current",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "orientation",
+              "privacy": "public",
+              "description": "`horizontal` lays the steps out in a row (a wizard header). `vertical` stacks them and shows their content (a setup guide).",
+              "type": {
+                "text": "'horizontal' | 'vertical'"
+              },
+              "default": "'horizontal'",
+              "attribute": "orientation",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "privacy": "public",
+              "description": "Accessible name for the list, such as \"Setup steps\". `aria-label` on the element is forwarded here.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "clickable",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Makes done steps buttons that fire `ht-step-select`.",
+              "default": "false",
+              "attribute": "clickable",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "nonlinear",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "With `clickable`, upcoming steps are buttons too, so steps can be taken in any order.",
+              "default": "false",
+              "attribute": "nonlinear",
+              "reflects": true
+            }
+          ],
+          "events": [
+            {
+              "description": "A clickable step was chosen. `detail: { index, value }`. Cancelable; unless cancelled, `current` moves to that step.",
+              "name": "ht-step-select"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "current",
+              "description": "Index (0-based) or `value` of the current step. Empty means no step is current.",
+              "type": {
+                "text": "string | number | undefined"
+              },
+              "fieldName": "current"
+            },
+            {
+              "name": "orientation",
+              "description": "`horizontal` lays the steps out in a row (a wizard header). `vertical` stacks them and shows their content (a setup guide).",
+              "type": {
+                "text": "'horizontal' | 'vertical'"
+              },
+              "default": "'horizontal'",
+              "fieldName": "orientation"
+            },
+            {
+              "name": "label",
+              "description": "Accessible name for the list, such as \"Setup steps\". `aria-label` on the element is forwarded here.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "label"
+            },
+            {
+              "name": "clickable",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Makes done steps buttons that fire `ht-step-select`.",
+              "default": "false",
+              "fieldName": "clickable"
+            },
+            {
+              "name": "nonlinear",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "With `clickable`, upcoming steps are buttons too, so steps can be taken in any order.",
+              "default": "false",
+              "fieldName": "nonlinear"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-steps",
+          "customElement": true,
+          "summary": "Numbered steps for wizards and setup guides."
+        },
+        {
+          "kind": "class",
+          "description": "One step inside `ht-steps`. Its number, state and layout are set by the parent.",
+          "name": "HtStep",
+          "cssParts": [
+            {
+              "description": "The marker and text row. A `<button>` when the step is clickable.",
+              "name": "head"
+            },
+            {
+              "description": "The numbered square.",
+              "name": "marker"
+            },
+            {
+              "description": "The heading text.",
+              "name": "label"
+            },
+            {
+              "description": "The short line under the heading.",
+              "name": "description"
+            },
+            {
+              "description": "The line to the next step.",
+              "name": "connector"
+            },
+            {
+              "description": "The wrapper around slotted content (vertical only).",
+              "name": "content"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Content under the heading: paragraphs, code, buttons. Shown in vertical orientation only.",
+              "name": ""
+            },
+            {
+              "description": "Rich heading. Replaces `label`.",
+              "name": "label"
+            },
+            {
+              "description": "Rich description. Replaces `description`.",
+              "name": "description"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "value",
+              "privacy": "public",
+              "description": "Identifier matched by `current` on `ht-steps` and sent in `ht-step-select`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "state",
+              "privacy": "public",
+              "description": "Overrides the state worked out from `current`: `upcoming`, `current`, `done` or `error`.",
+              "type": {
+                "text": "StepState | undefined"
+              },
+              "attribute": "state",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "privacy": "public",
+              "description": "Heading.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "description",
+              "privacy": "public",
+              "description": "Short line under the heading.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "description"
+            },
+            {
+              "kind": "field",
+              "name": "optional",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Adds an \"Optional\" note under the heading.",
+              "default": "false",
+              "attribute": "optional",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Dims the step. A clickable step stays focusable but does nothing, and says so to assistive tech.",
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "value",
+              "description": "Identifier matched by `current` on `ht-steps` and sent in `ht-step-select`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "value"
+            },
+            {
+              "name": "state",
+              "description": "Overrides the state worked out from `current`: `upcoming`, `current`, `done` or `error`.",
+              "type": {
+                "text": "StepState | undefined"
+              },
+              "fieldName": "state"
+            },
+            {
+              "name": "label",
+              "description": "Heading.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "label"
+            },
+            {
+              "name": "description",
+              "description": "Short line under the heading.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "description"
+            },
+            {
+              "name": "optional",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Adds an \"Optional\" note under the heading.",
+              "default": "false",
+              "fieldName": "optional"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Dims the step. A clickable step stays focusable but does nothing, and says so to assistive tech.",
+              "default": "false",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "data-last",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "_last"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-step",
+          "customElement": true,
+          "summary": "Step."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtSteps",
+          "declaration": {
+            "name": "HtSteps",
+            "module": "src/components/steps/steps.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "HtStep",
+          "declaration": {
+            "name": "HtStep",
+            "module": "src/components/steps/steps.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tag",
+          "declaration": {
+            "name": "ctor",
+            "module": "src/components/steps/steps.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/components/switch/switch.ts",
       "declarations": [
         {
@@ -9708,6 +11417,360 @@
           "declaration": {
             "name": "HtTextarea",
             "module": "src/components/textarea/textarea.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/timeline/timeline.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Events in time order on a vertical rail: an activity feed, a record's history, an incident log.\nPut `ht-timeline-item` children in it, or `ht-timeline-group` children (one per day) that hold\nthe items. Do not mix the two at one level.\n\nIt is an ordered list. With groups it is a list of days, each with a heading and its own list of\nevents. Order is yours: newest first or oldest first, the element does not sort.\n\nIt only lays out what it is given. No fetching, no paging: put an `ht-pagination` or a Load More\nbutton under it. It has no empty state either; when there is nothing to show, render an\n`ht-empty-state` instead of the timeline.",
+          "name": "HtTimeline",
+          "cssProperties": [
+            {
+              "description": "Space between items. `density=\"dense\"` sets 0.5rem.",
+              "name": "--ht-timeline-gap",
+              "default": "1.25rem"
+            },
+            {
+              "description": "Width of the marker column. Fits a 24px marker (`ht-avatar size=\"sm\"`); use 2rem for `size=\"md\"`.",
+              "name": "--ht-timeline-marker-column",
+              "default": "1.5rem"
+            }
+          ],
+          "cssParts": [
+            {
+              "description": "The list.",
+              "name": "list"
+            }
+          ],
+          "slots": [
+            {
+              "description": "`ht-timeline-item` or `ht-timeline-group` elements.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "density",
+              "privacy": "public",
+              "description": "`dense` tightens the spacing and the text for long logs.",
+              "type": {
+                "text": "'comfortable' | 'dense'"
+              },
+              "default": "'comfortable'",
+              "attribute": "density",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "privacy": "public",
+              "description": "Accessible name for the list, such as `Activity`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "label"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "density",
+              "description": "`dense` tightens the spacing and the text for long logs.",
+              "type": {
+                "text": "'comfortable' | 'dense'"
+              },
+              "default": "'comfortable'",
+              "fieldName": "density"
+            },
+            {
+              "name": "label",
+              "description": "Accessible name for the list, such as `Activity`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "label"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-timeline",
+          "customElement": true,
+          "summary": "Vertical list of events in time order."
+        },
+        {
+          "kind": "class",
+          "description": "One day (or any other span) inside `ht-timeline`: a heading such as Today, Yesterday or a date,\nand the items of that span. The rail restarts under each heading.",
+          "name": "HtTimelineGroup",
+          "cssParts": [
+            {
+              "description": "The heading.",
+              "name": "heading"
+            },
+            {
+              "description": "The list of items.",
+              "name": "list"
+            }
+          ],
+          "slots": [
+            {
+              "description": "`ht-timeline-item` elements.",
+              "name": ""
+            },
+            {
+              "description": "Replaces the `heading` text.",
+              "name": "heading"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "heading",
+              "privacy": "public",
+              "description": "Heading text, such as `Today` or `Tuesday 21 October`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "heading"
+            },
+            {
+              "kind": "field",
+              "name": "datetime",
+              "privacy": "public",
+              "description": "Machine-readable date for the heading, such as `2026-10-21`. Renders the heading as a `<time>`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "datetime"
+            },
+            {
+              "kind": "field",
+              "name": "level",
+              "privacy": "public",
+              "type": {
+                "text": "number"
+              },
+              "description": "Heading level announced to screen readers, 1 to 6. Default 3.",
+              "default": "3",
+              "attribute": "level"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "heading",
+              "description": "Heading text, such as `Today` or `Tuesday 21 October`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "heading"
+            },
+            {
+              "name": "datetime",
+              "description": "Machine-readable date for the heading, such as `2026-10-21`. Renders the heading as a `<time>`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "datetime"
+            },
+            {
+              "name": "level",
+              "type": {
+                "text": "number"
+              },
+              "description": "Heading level announced to screen readers, 1 to 6. Default 3.",
+              "default": "3",
+              "fieldName": "level"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-timeline-group",
+          "customElement": true,
+          "summary": "Headed group of timeline items."
+        },
+        {
+          "kind": "class",
+          "description": "One event in `ht-timeline`: a marker on the rail, a title line, the time, and optional meta and\nbody. Only valid inside `ht-timeline` or `ht-timeline-group`, which provide the list it belongs to. The default slot is the title line, in the muted text colour; `<b>`, `<strong>` and `<a>`\nplaced directly in it are drawn in the full text colour, so \"**Ada** moved **SNT-12** to Done\"\nreads actor, verb, target.\n\nThe marker is a dot by default. Put an `ht-icon` in the `marker` slot to get it in a tinted\ncircle, or an `ht-avatar size=\"sm\"` for a person. The marker is decoration and hidden from\nassistive technology, and `tone` is only colour: the title must say who did what, and an outcome\nsuch as Failed belongs in the text or in an `ht-tag` in `meta`.\n\nGive the time as `datetime` (machine-readable, such as `2026-10-23T14:02`) and `time` (what people\nread, such as `14:02` or `2h ago`). With only `datetime`, it is shown as a short local date and time.",
+          "name": "HtTimelineItem",
+          "cssParts": [
+            {
+              "description": "The row: marker column and content column.",
+              "name": "base"
+            },
+            {
+              "description": "The line between markers.",
+              "name": "rail"
+            },
+            {
+              "description": "The marker cell.",
+              "name": "marker"
+            },
+            {
+              "description": "The default dot.",
+              "name": "dot"
+            },
+            {
+              "description": "The content column.",
+              "name": "content"
+            },
+            {
+              "description": "The title line.",
+              "name": "title"
+            },
+            {
+              "description": "The time.",
+              "name": "time"
+            },
+            {
+              "description": "The meta row.",
+              "name": "meta"
+            },
+            {
+              "description": "The body.",
+              "name": "body"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Title line: who did what to which thing.",
+              "name": ""
+            },
+            {
+              "description": "Replaces the dot: an `ht-icon` (drawn in a 24px tinted circle) or an `ht-avatar size=\"sm\"`.",
+              "name": "marker"
+            },
+            {
+              "description": "Replaces the `time` text. Still wrapped in `<time datetime>` when `datetime` is set.",
+              "name": "time"
+            },
+            {
+              "description": "Tags, an entity chip or links, under the title. Hidden when empty.",
+              "name": "meta"
+            },
+            {
+              "description": "Detail under the title: a quote, a diff, a comment excerpt or a card. Hidden when empty.",
+              "name": "body"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "tone",
+              "privacy": "public",
+              "description": "Marker colour. `neutral` is the default. Colour only; say the outcome in text too.",
+              "type": {
+                "text": "Tone"
+              },
+              "default": "'neutral'",
+              "attribute": "tone",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "datetime",
+              "privacy": "public",
+              "description": "Machine-readable time, such as `2026-10-23T14:02:00Z`. Renders the time as `<time datetime>`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "datetime"
+            },
+            {
+              "kind": "field",
+              "name": "time",
+              "privacy": "public",
+              "description": "Visible time, such as `14:02`, `Yesterday` or `2h ago`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "time"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "tone",
+              "description": "Marker colour. `neutral` is the default. Colour only; say the outcome in text too.",
+              "type": {
+                "text": "Tone"
+              },
+              "default": "'neutral'",
+              "fieldName": "tone"
+            },
+            {
+              "name": "datetime",
+              "description": "Machine-readable time, such as `2026-10-23T14:02:00Z`. Renders the time as `<time datetime>`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "datetime"
+            },
+            {
+              "name": "time",
+              "description": "Visible time, such as `14:02`, `Yesterday` or `2h ago`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "time"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-timeline-item",
+          "customElement": true,
+          "summary": "Timeline event."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtTimeline",
+          "declaration": {
+            "name": "HtTimeline",
+            "module": "src/components/timeline/timeline.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "HtTimelineGroup",
+          "declaration": {
+            "name": "HtTimelineGroup",
+            "module": "src/components/timeline/timeline.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "HtTimelineItem",
+          "declaration": {
+            "name": "HtTimelineItem",
+            "module": "src/components/timeline/timeline.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tag",
+          "declaration": {
+            "name": "ctor",
+            "module": "src/components/timeline/timeline.ts"
           }
         }
       ]

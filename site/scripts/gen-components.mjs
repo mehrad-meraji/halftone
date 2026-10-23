@@ -13,6 +13,12 @@ const statsFile = join(site, 'src/generated/stats.json');
 
 /** Shown as a sidebar badge. Edit when a component is new or has changed. */
 const STATUS = {
+  code: { text: 'New', variant: 'tip' },
+  'description-list': { text: 'New', variant: 'tip' },
+  dropzone: { text: 'New', variant: 'tip' },
+  pagination: { text: 'New', variant: 'tip' },
+  steps: { text: 'New', variant: 'tip' },
+  timeline: { text: 'New', variant: 'tip' },
   select: { text: 'New', variant: 'tip' },
   'empty-state': { text: 'New', variant: 'tip' },
   tabs: { text: 'Updated', variant: 'note' },
