@@ -446,3 +446,13 @@ The blocks round above left eleven component issues worked around inside blocks.
 - Icons: `archive`, `image`, `paper-plane-tilt`, `paperclip`, `smiley`, `sparkle`, `squares-four`, `tag` and `upload-simple` join the built-in set (59). Used in `media-grid-01` (upload, grid, tag), `detail-01` (archive in place of a lock, attach), `inbox-01` (archive, send) and `wizard-01` (AI suggestion). `image` and `smiley` ship unused by blocks for now.
 
 Checked: axe over all 20 blocks and the stories of every touched component (137 stories) in light and dark, zero violations; no block scrolls sideways at 375px.
+
+## 2026-10-25 — Checkbox and radio sizes
+`ht-checkbox`, `ht-radio` and both groups take `size`: `sm` 16px, `md` 24px (default, unchanged), `lg` 32px. This replaces "Sizes: one (24px)" from the radio and checkbox entry.
+
+- The steps are inferred. The source UI had one size. `sm` is for dense lists and table rows; `lg` is for touch-heavy or sparse forms.
+- The label line height equals the box (1rem, 1.5rem, 2rem), so a one-line label stays centred on the box. Label type is 13px, 14px and 16px. The gap is 8px at `sm`, 12px otherwise.
+- Checkbox radii scale with the box and stay concentric (inner = outer − 2px), in the squircle pair too. The tick and dash scale to 12, 16 and 20px. The radio stays a circle.
+- `size` on a group sizes every item in it. An item's own `size` wins. An item without `size` and outside a group is `md`. The resolved size is a `data-size` attribute on the host, the same pattern as `data-group-disabled`.
+- The hidden native input stays at least 24px square, so `sm` still meets WCAG 2.5.8 target size when it has no visible label.
+- A `sm` group tightens its item gap to 8px (16px between columns when horizontal).

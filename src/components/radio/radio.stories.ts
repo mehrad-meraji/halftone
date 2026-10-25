@@ -8,12 +8,15 @@ const meta: Meta = {
   component: 'ht-radio-group',
   subcomponents: { HtRadio: 'ht-radio' },
   tags: ['autodocs'],
-  argTypes: { orientation: { control: 'select', options: ['vertical', 'horizontal'] } },
-  args: { label: 'Avatar', helper: '', error: '', value: 'initials', orientation: 'vertical', disabled: false, required: false },
+  argTypes: {
+    orientation: { control: 'select', options: ['vertical', 'horizontal'] },
+    size: { control: 'select', options: ['sm', 'md', 'lg'] },
+  },
+  args: { label: 'Avatar', helper: '', error: '', value: 'initials', orientation: 'vertical', size: 'md', disabled: false, required: false },
   render: (a) => html`
     <ht-radio-group
       label=${a.label} helper=${a.helper} error=${a.error} value=${a.value}
-      orientation=${a.orientation} ?disabled=${a.disabled} ?required=${a.required}
+      orientation=${a.orientation} size=${a.size} ?disabled=${a.disabled} ?required=${a.required}
     >
       <ht-radio value="initials">Use initials</ht-radio>
       <ht-radio value="upload">Upload an image</ht-radio>
@@ -27,6 +30,20 @@ export const Horizontal: StoryObj = { args: { orientation: 'horizontal' } };
 export const WithHelper: StoryObj = { args: { helper: 'You can change this later.' } };
 export const WithError: StoryObj = { args: { value: '', error: 'Pick one. Any one.', required: true } };
 export const Disabled: StoryObj = { args: { disabled: true } };
+
+/** `sm` 16px for dense lists, `md` 24px (default), `lg` 32px. Set `size` on the group. */
+export const Sizes: StoryObj = {
+  render: () => html`
+    <div style="display:grid;gap:24px">
+      ${(['sm', 'md', 'lg'] as const).map(
+        (size) => html`<ht-radio-group label="Size ${size}" size=${size} value="free" orientation="horizontal">
+          <ht-radio value="free">Free</ht-radio>
+          <ht-radio value="team">Team</ht-radio>
+          <ht-radio value="pro" disabled>Pro (disabled)</ht-radio>
+        </ht-radio-group>`,
+      )}
+    </div>`,
+};
 
 export const DisabledOption: StoryObj = {
   render: () => html`
