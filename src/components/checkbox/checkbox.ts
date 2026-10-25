@@ -2,8 +2,8 @@ import { LitElement, css, html, nothing } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
 
 /**
- * Checkbox: a 24px box with a tick, a dash for the indeterminate state, and a label slot.
- * Form-associated: submits `value` when checked.
+ * Checkbox: a box with a tick, a dash for the indeterminate state, and a label slot.
+ * Three sizes: `sm` 16px, `md` 24px (default), `lg` 32px. Form-associated: submits `value` when checked.
  *
  * @tag ht-checkbox
  * @summary Checkbox.
@@ -32,7 +32,10 @@ export class HtCheckbox extends LitElement {
     value: {},
     /** Accessible name when there is no slotted text. `aria-label` on the element is forwarded here. */
     label: {},
+    /** Box and label size: `sm` 16px, `md` 24px, `lg` 32px. Unset takes the group's size, else `md`. */
+    size: { reflect: true },
     _groupDisabled: { state: true },
+    _groupSize: { state: true },
     _formDisabled: { state: true },
     _empty: { state: true },
   };
@@ -44,7 +47,9 @@ export class HtCheckbox extends LitElement {
   declare name: string;
   declare value: string;
   declare label: string;
+  declare size: 'sm' | 'md' | 'lg' | undefined;
   declare _groupDisabled: boolean;
+  declare _groupSize: 'sm' | 'md' | 'lg' | undefined;
   declare _formDisabled: boolean;
   declare _empty: boolean;
 
@@ -61,6 +66,7 @@ export class HtCheckbox extends LitElement {
     this.value = 'on';
     this.label = '';
     this._groupDisabled = false;
+    this._groupSize = undefined;
     this._formDisabled = false;
     // No slotted text: the label span and its gap go, so a bare box sits flush in a table cell.
     this._empty = true;
@@ -84,13 +90,41 @@ export class HtCheckbox extends LitElement {
   }
 
   static styles = css`
-    :host { display: inline-block; }
+    /*
+     * Size. The label line height equals the box, so a one-line label centres on the box.
+     * sm and lg are inferred, not taken from a source UI. Radii stay concentric: inner = outer - 2px.
+     */
+    :host {
+      display: inline-block;
+      --_box: 24px;
+      --_mark: 16px;
+      --_gap: 12px;
+      --_font: 400 0.875rem/1.5rem var(--ht-font-ui);
+      --_r: 7px;
+      --_r-sq: 10px;
+    }
+    :host([data-size='sm']) {
+      --_box: 16px;
+      --_mark: 12px;
+      --_gap: 8px;
+      --_font: 400 0.8125rem/1rem var(--ht-font-ui);
+      --_r: 5px;
+      --_r-sq: 7px;
+    }
+    :host([data-size='lg']) {
+      --_box: 32px;
+      --_mark: 20px;
+      --_gap: 12px;
+      --_font: 400 1rem/2rem var(--ht-font-ui);
+      --_r: 9px;
+      --_r-sq: 13px;
+    }
     label {
       display: inline-flex;
       align-items: flex-start;
-      gap: 12px;
+      gap: var(--_gap);
       cursor: pointer;
-      font: 400 0.875rem/1.5rem var(--ht-font-ui);
+      font: var(--_font);
       color: var(--ht-text);
     }
     :host([disabled]) label,
@@ -109,12 +143,12 @@ export class HtCheckbox extends LitElement {
       flex: none;
       display: grid;
       place-items: center;
-      width: 24px;
-      height: 24px;
+      width: var(--_box);
+      height: var(--_box);
       color: white;
       background: linear-gradient(180deg, color-mix(in oklab, var(--ht-surface-sunken), black 3%), var(--ht-surface-sunken));
       border: 1px solid var(--ht-border-input);
-      border-radius: 7px;
+      border-radius: var(--_r);
       box-shadow: var(--_well);
       transition: border-color 120ms cubic-bezier(0.72, 0, 0.16, 1), box-shadow 120ms cubic-bezier(0.72, 0, 0.16, 1);
     }
@@ -130,8 +164,8 @@ export class HtCheckbox extends LitElement {
       inset: 1px;
       z-index: 0;
       pointer-events: none;
-      /* Concentric with the socket: its 7px radius minus the 1px border and 1px gap. */
-      border-radius: 5px;
+      /* Concentric with the socket: its radius minus the 1px border and 1px gap. */
+      border-radius: calc(var(--_r) - 2px);
       background: radial-gradient(
         120% 110% at 50% 0%,
         var(--ht-accent) 0%,
@@ -148,9 +182,9 @@ export class HtCheckbox extends LitElement {
     }
     /* Squircle corners where supported; elsewhere the plain rounded corners above stay. */
     @supports (corner-shape: squircle) {
-      /* A squircle corner reads tighter than a circular arc of the same radius, so the radii grow (still concentric: 10 minus 1px border minus 1px gap = 8). */
-      .box { corner-shape: squircle; border-radius: 10px; }
-      .box::after { corner-shape: squircle; border-radius: 8px; }
+      /* A squircle corner reads tighter than a circular arc of the same radius, so the radii grow (still concentric). */
+      .box { corner-shape: squircle; border-radius: var(--_r-sq); }
+      .box::after { corner-shape: squircle; border-radius: calc(var(--_r-sq) - 2px); }
     }
     :host([checked]) .box::after,
     :host([indeterminate]) .box::after { opacity: 1; transform: none; }
@@ -158,10 +192,9 @@ export class HtCheckbox extends LitElement {
     .box:has(input:active)::after { transform: translateY(0.5px) scale(0.97); }
     input {
       position: absolute;
-      inset: 0;
+      /* Positioned inside the 1px border, so -1px covers the whole box. At sm the hit area grows to 24px (WCAG 2.5.8). */
+      inset: min(-1px, calc((var(--_box) - 26px) / 2));
       z-index: 2;
-      width: 100%;
-      height: 100%;
       margin: 0;
       opacity: 0;
       cursor: inherit;
@@ -171,6 +204,8 @@ export class HtCheckbox extends LitElement {
     }
     svg {
       grid-area: 1 / 1;
+      width: var(--_mark);
+      height: var(--_mark);
       position: relative;
       z-index: 1;
       opacity: 0;
@@ -207,6 +242,7 @@ export class HtCheckbox extends LitElement {
 
   willUpdate() {
     this.toggleAttribute('data-group-disabled', this._groupDisabled);
+    this.setAttribute('data-size', this.size || this._groupSize || 'md');
   }
 
   updated() {
@@ -272,6 +308,8 @@ export class HtCheckboxGroup extends LitElement {
     disabled: { type: Boolean, reflect: true },
     /** Layout of the items. */
     orientation: { reflect: true },
+    /** Size for every checkbox inside. A checkbox's own `size` wins. */
+    size: { reflect: true },
   };
 
   declare label: string;
@@ -279,6 +317,7 @@ export class HtCheckboxGroup extends LitElement {
   declare error: string;
   declare disabled: boolean;
   declare orientation: 'vertical' | 'horizontal';
+  declare size: 'sm' | 'md' | 'lg';
 
   constructor() {
     super();
@@ -287,6 +326,7 @@ export class HtCheckboxGroup extends LitElement {
     this.error = '';
     this.disabled = false;
     this.orientation = 'vertical';
+    this.size = 'md';
   }
 
   static styles = css`
@@ -298,6 +338,8 @@ export class HtCheckboxGroup extends LitElement {
     }
     .items { display: flex; flex-direction: column; gap: 12px; }
     :host([orientation='horizontal']) .items { flex-direction: row; flex-wrap: wrap; gap: 8px 24px; }
+    :host([size='sm']) .items { gap: 8px; }
+    :host([size='sm'][orientation='horizontal']) .items { gap: 8px 16px; }
     .message { margin-top: 8px; font: 400 0.75rem/1.3 var(--ht-font-ui); color: var(--ht-text-muted); }
     .message.error { color: var(--ht-danger-text); }
   `;
@@ -312,7 +354,10 @@ export class HtCheckboxGroup extends LitElement {
   }
 
   #sync = () => {
-    for (const b of this.#boxes()) b._groupDisabled = this.disabled;
+    for (const b of this.#boxes()) {
+      b._groupDisabled = this.disabled;
+      b._groupSize = this.size;
+    }
   };
 
   updated() {

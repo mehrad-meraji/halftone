@@ -3,7 +3,8 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 
 /**
  * One option in an `ht-radio-group`. Use it inside a group: selection, arrow-key
- * movement and form submission belong to the group.
+ * movement and form submission belong to the group. Three sizes: `sm` 16px, `md` 24px
+ * (default), `lg` 32px; set `size` on the group to size every option.
  *
  * @tag ht-radio
  * @summary Radio option.
@@ -25,8 +26,12 @@ export class HtRadio extends LitElement {
     disabled: { type: Boolean, reflect: true },
     /** Accessible name when there is no slotted text. `aria-label` on the element is forwarded here. */
     label: {},
+    /** Circle and label size: `sm` 16px, `md` 24px, `lg` 32px. Unset takes the group's size, else `md`. */
+    size: { reflect: true },
     /** @internal Set by the group. */
     _groupDisabled: { state: true },
+    /** @internal Set by the group. */
+    _groupSize: { state: true },
     /** @internal Set by the group: the roving tab stop. */
     _tabbable: { state: true },
   };
@@ -35,7 +40,9 @@ export class HtRadio extends LitElement {
   declare checked: boolean;
   declare disabled: boolean;
   declare label: string;
+  declare size: 'sm' | 'md' | 'lg' | undefined;
   declare _groupDisabled: boolean;
+  declare _groupSize: 'sm' | 'md' | 'lg' | undefined;
   declare _tabbable: boolean;
 
   constructor() {
@@ -45,6 +52,7 @@ export class HtRadio extends LitElement {
     this.disabled = false;
     this.label = '';
     this._groupDisabled = false;
+    this._groupSize = undefined;
     this._tabbable = false;
   }
 
@@ -58,13 +66,24 @@ export class HtRadio extends LitElement {
   }
 
   static styles = css`
-    :host { display: inline-block; }
+    /*
+     * Size. The label line height equals the circle, so a one-line label centres on it.
+     * sm and lg are inferred, not taken from a source UI. Same steps as ht-checkbox.
+     */
+    :host {
+      display: inline-block;
+      --_box: 24px;
+      --_gap: 12px;
+      --_font: 400 0.875rem/1.5rem var(--ht-font-ui);
+    }
+    :host([data-size='sm']) { --_box: 16px; --_gap: 8px; --_font: 400 0.8125rem/1rem var(--ht-font-ui); }
+    :host([data-size='lg']) { --_box: 32px; --_font: 400 1rem/2rem var(--ht-font-ui); }
     label {
       display: inline-flex;
       align-items: flex-start;
-      gap: 12px;
+      gap: var(--_gap);
       cursor: pointer;
-      font: 400 0.875rem/1.5rem var(--ht-font-ui);
+      font: var(--_font);
       color: var(--ht-text);
     }
     :host([disabled]) label,
@@ -83,8 +102,8 @@ export class HtRadio extends LitElement {
       flex: none;
       display: grid;
       place-items: center;
-      width: 24px;
-      height: 24px;
+      width: var(--_box);
+      height: var(--_box);
       background: linear-gradient(180deg, color-mix(in oklab, var(--ht-surface-sunken), black 3%), var(--ht-surface-sunken));
       border: 1px solid var(--ht-border-input);
       border-radius: 999px;
@@ -120,12 +139,14 @@ export class HtRadio extends LitElement {
     :host([checked]) .box::after { opacity: 1; transform: none; }
     label:hover .box::after { filter: brightness(1.05); }
     .box:has(input:active)::after { transform: translateY(0.5px) scale(0.97); }
-    input { position: absolute; inset: 0; z-index: 2; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: inherit; }
+    /* Positioned inside the 1px border, so -1px covers the whole circle. At sm the hit area grows to 24px (WCAG 2.5.8). */
+    input { position: absolute; inset: min(-1px, calc((var(--_box) - 26px) / 2)); z-index: 2; margin: 0; opacity: 0; cursor: inherit; }
     .box:has(input:focus-visible) { box-shadow: var(--_well), 0 0 0 2px var(--ht-surface), 0 0 0 4px var(--ht-focus); }
   `;
 
   willUpdate() {
     this.toggleAttribute('data-group-disabled', this._groupDisabled);
+    this.setAttribute('data-size', this.size || this._groupSize || 'md');
   }
 
   render() {
@@ -175,6 +196,8 @@ export class HtRadioGroup extends LitElement {
     disabled: { type: Boolean, reflect: true },
     /** Layout of the items. */
     orientation: { reflect: true },
+    /** Size for every radio inside. A radio's own `size` wins. */
+    size: { reflect: true },
     _touched: { state: true },
     _formDisabled: { state: true },
   };
@@ -187,6 +210,7 @@ export class HtRadioGroup extends LitElement {
   declare required: boolean;
   declare disabled: boolean;
   declare orientation: 'vertical' | 'horizontal';
+  declare size: 'sm' | 'md' | 'lg';
   declare _touched: boolean;
   declare _formDisabled: boolean;
 
@@ -203,6 +227,7 @@ export class HtRadioGroup extends LitElement {
     this.required = false;
     this.disabled = false;
     this.orientation = 'vertical';
+    this.size = 'md';
     this._touched = false;
     this._formDisabled = false;
     this.addEventListener('click', (e) => {
@@ -229,6 +254,8 @@ export class HtRadioGroup extends LitElement {
     .req { color: var(--ht-accent-text); margin-left: 2px; }
     .items { display: flex; flex-direction: column; gap: 12px; }
     :host([orientation='horizontal']) .items { flex-direction: row; flex-wrap: wrap; gap: 8px 24px; }
+    :host([size='sm']) .items { gap: 8px; }
+    :host([size='sm'][orientation='horizontal']) .items { gap: 8px 16px; }
     .message { margin-top: 8px; font: 400 0.75rem/1.3 var(--ht-font-ui); color: var(--ht-text-muted); }
     .message.error { color: var(--ht-danger-text); }
   `;
@@ -264,6 +291,7 @@ export class HtRadioGroup extends LitElement {
     for (const r of radios) {
       r.checked = r.value === this.value;
       r._groupDisabled = off;
+      r._groupSize = this.size;
       r._tabbable = !off && r === stop;
     }
   };

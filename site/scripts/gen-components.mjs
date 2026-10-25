@@ -25,6 +25,7 @@ const STATUS = {
   toast: { text: 'Updated', variant: 'note' },
   alert: { text: 'New', variant: 'tip' },
   popover: { text: 'Updated', variant: 'note' },
+  radio: { text: 'Updated', variant: 'note' },
   banner: { text: 'Updated', variant: 'note' },
   checkbox: { text: 'Updated', variant: 'note' },
   icon: { text: 'Updated', variant: 'note' },
