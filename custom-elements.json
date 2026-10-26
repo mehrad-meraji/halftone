@@ -2258,7 +2258,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "Checkbox: a box with a tick, a dash for the indeterminate state, and a label slot.\nThree sizes: `sm` 16px, `md` 24px (default), `lg` 32px. Form-associated: submits `value` when checked.",
+          "description": "Checkbox: a box with a tick, a dash for the indeterminate state, and a label slot.\nThree sizes: `sm` 16px (default), `md` 24px, `lg` 32px. Form-associated: submits `value` when checked.",
           "name": "HtCheckbox",
           "cssParts": [
             {
@@ -2358,7 +2358,7 @@
               "kind": "field",
               "name": "size",
               "privacy": "public",
-              "description": "Box and label size: `sm` 16px, `md` 24px, `lg` 32px. Unset takes the group's size, else `md`.",
+              "description": "Box and label size: `sm` 16px, `md` 24px, `lg` 32px. Unset takes the group's size, else `sm`.",
               "type": {
                 "text": "'sm' | 'md' | 'lg' | undefined"
               },
@@ -2447,7 +2447,7 @@
             },
             {
               "name": "size",
-              "description": "Box and label size: `sm` 16px, `md` 24px, `lg` 32px. Unset takes the group's size, else `md`.",
+              "description": "Box and label size: `sm` 16px, `md` 24px, `lg` 32px. Unset takes the group's size, else `sm`.",
               "type": {
                 "text": "'sm' | 'md' | 'lg' | undefined"
               },
@@ -2542,11 +2542,11 @@
               "kind": "field",
               "name": "size",
               "privacy": "public",
-              "description": "Size for every checkbox inside. A checkbox's own `size` wins.",
+              "description": "Size for every checkbox inside, `sm` by default. A checkbox's own `size` wins.",
               "type": {
                 "text": "'sm' | 'md' | 'lg'"
               },
-              "default": "'md'",
+              "default": "'sm'",
               "attribute": "size",
               "reflects": true
             },
@@ -2612,11 +2612,11 @@
             },
             {
               "name": "size",
-              "description": "Size for every checkbox inside. A checkbox's own `size` wins.",
+              "description": "Size for every checkbox inside, `sm` by default. A checkbox's own `size` wins.",
               "type": {
                 "text": "'sm' | 'md' | 'lg'"
               },
-              "default": "'md'",
+              "default": "'sm'",
               "fieldName": "size"
             }
           ],

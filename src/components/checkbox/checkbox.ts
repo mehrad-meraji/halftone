@@ -3,7 +3,7 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 
 /**
  * Checkbox: a box with a tick, a dash for the indeterminate state, and a label slot.
- * Three sizes: `sm` 16px, `md` 24px (default), `lg` 32px. Form-associated: submits `value` when checked.
+ * Three sizes: `sm` 16px (default), `md` 24px, `lg` 32px. Form-associated: submits `value` when checked.
  *
  * @tag ht-checkbox
  * @summary Checkbox.
@@ -32,7 +32,7 @@ export class HtCheckbox extends LitElement {
     value: {},
     /** Accessible name when there is no slotted text. `aria-label` on the element is forwarded here. */
     label: {},
-    /** Box and label size: `sm` 16px, `md` 24px, `lg` 32px. Unset takes the group's size, else `md`. */
+    /** Box and label size: `sm` 16px, `md` 24px, `lg` 32px. Unset takes the group's size, else `sm`. */
     size: { reflect: true },
     _groupDisabled: { state: true },
     _groupSize: { state: true },
@@ -96,20 +96,20 @@ export class HtCheckbox extends LitElement {
      */
     :host {
       display: inline-block;
-      --_box: 24px;
-      --_mark: 16px;
-      --_gap: 12px;
-      --_font: 400 0.875rem/1.5rem var(--ht-font-ui);
-      --_r: 7px;
-      --_r-sq: 10px;
-    }
-    :host([data-size='sm']) {
       --_box: 16px;
       --_mark: 12px;
       --_gap: 8px;
       --_font: 400 0.8125rem/1rem var(--ht-font-ui);
       --_r: 5px;
       --_r-sq: 7px;
+    }
+    :host([data-size='md']) {
+      --_box: 24px;
+      --_mark: 16px;
+      --_gap: 12px;
+      --_font: 400 0.875rem/1.5rem var(--ht-font-ui);
+      --_r: 7px;
+      --_r-sq: 10px;
     }
     :host([data-size='lg']) {
       --_box: 32px;
@@ -131,7 +131,8 @@ export class HtCheckbox extends LitElement {
     :host([data-group-disabled]) label { cursor: not-allowed; opacity: 0.6; }
     /*
      * A recessed socket (the box) with a raised, glossy key (the ::after face) that appears when
-     * checked. The socket keeps a 1px --ht-border-input outline so the control stays 3:1 against the page.
+     * checked. The socket has the same faint fill as a text input, and keeps a 1px --ht-border-input outline
+     * so the control stays 3:1 against the page.
      */
     .box {
       --_well:
@@ -146,7 +147,7 @@ export class HtCheckbox extends LitElement {
       width: var(--_box);
       height: var(--_box);
       color: white;
-      background: linear-gradient(180deg, color-mix(in oklab, var(--ht-surface-sunken), black 3%), var(--ht-surface-sunken));
+      background: color-mix(in oklch, var(--ht-text) 3%, transparent);
       border: 1px solid var(--ht-border-input);
       border-radius: var(--_r);
       box-shadow: var(--_well);
@@ -242,7 +243,7 @@ export class HtCheckbox extends LitElement {
 
   willUpdate() {
     this.toggleAttribute('data-group-disabled', this._groupDisabled);
-    this.setAttribute('data-size', this.size || this._groupSize || 'md');
+    this.setAttribute('data-size', this.size || this._groupSize || 'sm');
   }
 
   updated() {
@@ -308,7 +309,7 @@ export class HtCheckboxGroup extends LitElement {
     disabled: { type: Boolean, reflect: true },
     /** Layout of the items. */
     orientation: { reflect: true },
-    /** Size for every checkbox inside. A checkbox's own `size` wins. */
+    /** Size for every checkbox inside, `sm` by default. A checkbox's own `size` wins. */
     size: { reflect: true },
   };
 
@@ -326,7 +327,7 @@ export class HtCheckboxGroup extends LitElement {
     this.error = '';
     this.disabled = false;
     this.orientation = 'vertical';
-    this.size = 'md';
+    this.size = 'sm';
   }
 
   static styles = css`
