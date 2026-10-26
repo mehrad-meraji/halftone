@@ -35,10 +35,12 @@ A stage can follow the pointer: a faint accent glow and a denser dot screen appe
 
 ## Tokens
 
-| Token | Tile | Dot | Used for |
-| --- | --- | --- | --- |
-| `--ht-halftone` | 6px | 0.8px, accent at 26% | Header strips |
-| `--ht-halftone-stage` | 8px | 1px, accent at 18% | Large stages |
+| Token | Tile | Dot | Dark mode | Used for |
+| --- | --- | --- | --- | --- |
+| `--ht-halftone` | 8px | fades out by 2.3px, accent at 20% | accent at 28% | Header strips |
+| `--ht-halftone-stage` | 10px | fades out by 2.8px, accent at 13% | accent at 20% | Large stages |
+
+Each dot fades from its centre to nothing, so the dots look soft and slightly blurred. They are far apart, so the screen reads as a texture, not a grid. Dark mode takes a little more accent, because purple dots fade on a dark ground.
 
 Both become `none` under `forced-colors: active` and `prefers-contrast: more`. To remove the dots everywhere, set them to `none`:
 

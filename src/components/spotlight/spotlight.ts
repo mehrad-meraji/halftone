@@ -58,7 +58,7 @@ export class HtSpotlight extends LitElement {
     }
     /* The mask only sets where the dots show, so its colour is irrelevant. */
     .dots {
-      opacity: 0.6; /* a little softer than a header strip, so text under the glow keeps its contrast */
+      opacity: 0.8; /* a little softer than a header strip, so text under the glow keeps its contrast */
       background: var(--ht-halftone);
       -webkit-mask-image: radial-gradient(circle var(--_size) at var(--_x, 50%) var(--_y, 50%), black, transparent);
       mask-image: radial-gradient(circle var(--_size) at var(--_x, 50%) var(--_y, 50%), black, transparent);
