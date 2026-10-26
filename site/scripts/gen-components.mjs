@@ -26,6 +26,7 @@ const STATUS = {
   'nav-item': { text: 'Updated', variant: 'note' },
   tree: { text: 'Updated', variant: 'note' },
   'toggle-group': { text: 'Updated', variant: 'note' },
+  prompt: { text: 'Updated', variant: 'note' },
   tabs: { text: 'Updated', variant: 'note' },
   toast: { text: 'Updated', variant: 'note' },
   alert: { text: 'New', variant: 'tip' },
