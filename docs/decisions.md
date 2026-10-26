@@ -473,3 +473,9 @@ Checked: axe over all 20 blocks and the stories of every touched component (137 
 ## 2026-10-26 — Checkbox: `sm` by default, input fill
 - The default checkbox size is now `sm` (16px), for a single checkbox and for `ht-checkbox-group`. `md` and `lg` stay. The 24px hit area at `sm` is unchanged.
 - The socket fill is now the text input's fill (`--ht-text` at 3%), not the darker sunken gradient, so a checkbox next to a field looks like the same family. The inset well shadow and the 3:1 outline stay.
+
+## 2026-10-26 — Header strip dots at 12% in light mode
+- The card eyebrow (`--ht-text-subtle`) got 4.1:1 on the centre of a header-strip dot at 20% accent. Text needs 4.5:1.
+- More blur would not help: the dot keeps the same centre and spreads its colour wider.
+- `--ht-halftone` light goes to 12% (4.6:1). Dark stays at 28% (4.55:1). Fading the dots out behind the text was the other option; it was not picked because it touches five components.
+- `scripts/contrast.mjs` now checks the eyebrow and heading against a dot centre, so a later change to the strip cannot drop below 4.5:1 unseen.

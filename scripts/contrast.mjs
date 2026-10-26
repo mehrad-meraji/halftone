@@ -17,6 +17,11 @@ const T={
 const rows=[];
 for(const th of ['light','dark']){const t=T[th];
  const add=(name,fg,bg,min=4.5)=>{const r=ratio(fg,bg);rows.push([th,name,r.toFixed(2),r>=min?'ok':'FAIL (<'+min+')'])};
+ // Header strips: the eyebrow sits on --ht-halftone. Check it against the centre of a dot, the strongest point.
+ // Keep the accent share in step with --ht-halftone in tokens.css (light 12%, dark 28%).
+ const dot=mix(t.accent,th==='light'?.12:.28,t.muted);
+ add('header eyebrow (text-subtle) on a dot',t.tsub,dot);
+ add('header heading (text) on a dot',t.text,dot);
  add('button primary text',t.accentInk,t.accent);
  add('button danger text',t.dangerInk,t.danger);
  add('button default text',t.text,t.raised);

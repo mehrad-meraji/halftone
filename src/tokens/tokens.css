@@ -64,7 +64,7 @@
   --ht-duration-out: 140ms;
 
   /* The one comic nod: a faint, fine dot screen on header strips. Each dot fades from its centre to nothing, so it reads as a soft blur. Set to `none` to remove. */
-  --ht-halftone: radial-gradient(circle, color-mix(in oklch, var(--ht-accent) 20%, transparent), transparent 2.3px) 0 0 / 8px 8px;
+  --ht-halftone: radial-gradient(circle, color-mix(in oklch, var(--ht-accent) 12%, transparent), transparent 2.3px) 0 0 / 8px 8px;
   /* The same screen for a large stage (a hero, an empty state, an example area): a wider tile and a calmer dot. Fade it out with a mask. Set to `none` to remove. */
   --ht-halftone-stage: radial-gradient(circle, color-mix(in oklch, var(--ht-accent) 13%, transparent), transparent 2.8px) 0 0 / 10px 10px;
 
