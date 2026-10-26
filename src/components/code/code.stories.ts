@@ -19,13 +19,14 @@ const meta: Meta = {
   component: 'ht-code',
   tags: ['autodocs'],
   argTypes: {
+    noHighlight: { control: 'boolean' },
     wrap: { control: 'boolean' },
     lineNumbers: { control: 'boolean' },
     noCopy: { control: 'boolean' },
     secret: { control: 'boolean' },
     maxLines: { control: 'number' },
   },
-  args: { label: 'Terminal', language: 'bash', wrap: false, lineNumbers: false, noCopy: false, secret: false, maxLines: 0 },
+  args: { label: 'Terminal', language: 'bash', wrap: false, lineNumbers: false, noCopy: false, noHighlight: false, secret: false, maxLines: 0 },
   render: (a) => html`
     <ht-code
       style="max-width:520px"
@@ -34,6 +35,7 @@ const meta: Meta = {
       ?wrap=${a.wrap}
       ?line-numbers=${a.lineNumbers}
       ?no-copy=${a.noCopy}
+      ?no-highlight=${a.noHighlight}
       ?secret=${a.secret}
       max-lines=${a.maxLines}
     >
@@ -117,4 +119,47 @@ export const SetupSteps: StoryObj = {
         </li>
       </ol>
     </ht-card>`,
+};
+
+const samples: [string, string, string][] = [
+  ['instrument.ts', 'ts', `import { init } from '@acme/sdk';
+
+// Start before anything else imports.
+const client = init({ token: process.env.ACME_TOKEN, sampleRate: 0.5, debug: false });
+client.capture(\`deploy \${version}\`);`],
+  ['payload.json', 'json', payload],
+  ['Terminal', 'bash', `$ npm install @acme/sdk --save  # once
+export ACME_ENV="production" && npx acme deploy --tag v0.4.2`],
+  ['theme.css', 'css', `:root { --ht-accent: #7c3aed; }
+.toolbar > a:hover { color: var(--ht-accent); padding: 4px 1.5rem; }
+@media (min-width: 40em) { .toolbar { gap: 8px; } }`],
+  ['card.html', 'html', `<!-- A card with a header -->
+<ht-card heading="Usage" eyebrow="Billing">
+  <p class="lede">12 of 20 seats &amp; 3 invites.</p>
+</ht-card>`],
+  ['.env', 'env', `# Keep out of git
+ACME_TOKEN=acme_tok_7f3c9
+export ACME_DEBUG="false"`],
+  ['worker.log', 'log', `2026-10-23T09:14:02Z INFO  worker.3 job=send-digest id=4810 took=31ms
+2026-10-23T09:14:03Z WARN  worker.3 retrying job=send-digest attempt=2
+2026-10-23T09:14:05Z ERROR worker.3 job=send-digest error="smtp timeout" took=3000ms`],
+  ['main.py', 'py', `import acme
+
+@app.route("/hook")
+def hook(event=None):
+    return acme.capture(event, rate=0.5)  # sampled`],
+];
+
+/** Syntax colours for each language. Any other `language` shows plain text, and `no-highlight` turns colours off. */
+export const Languages: StoryObj = {
+  render: () => html`
+    <div style="display:grid;gap:16px;max-width:620px">
+      ${samples.map(([label, language, code]) => html`<ht-code label=${label} language=${language} .code=${code}></ht-code>`)}
+      <ht-code label="Plain" language="ts" no-highlight .code=${"const off = true; // no-highlight"}></ht-code>
+    </div>
+  `,
+};
+
+export const LanguagesWithLineNumbers: StoryObj = {
+  render: () => html`<ht-code style="max-width:620px" label="instrument.ts" language="ts" line-numbers .code=${samples[0][2]}></ht-code>`,
 };

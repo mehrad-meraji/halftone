@@ -2662,13 +2662,45 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "Code block with a header and a copy button, for setup steps, API keys, JSON payloads and\nlog lines. The header shows a `label` (a file name, \"Terminal\") and a `language` tag; there\nis no syntax highlighting. Text comes from the light DOM or the `code` property.\n\nLight DOM text is tidied so the markup can be indented: one blank line at the start and one\nat the end are dropped, and the indent all lines share is removed. Escape `<` and `&` as\n`&lt;` and `&amp;` in HTML. The `code` property is shown exactly as given.",
+          "description": "Code block with a header and a copy button, for setup steps, API keys, JSON payloads and\nlog lines. The header shows a `label` (a file name, \"Terminal\") and a `language` tag. Text\ncomes from the light DOM or the `code` property.\n\n`language` also picks the syntax colours: `js` / `ts` (and `jsx`, `tsx`), `json`, `bash` (`sh`,\n`shell`, `terminal`), `css`, `html` (`xml`, `svg`), `env`, `log` and `py`. Any other language\nshows plain text. The highlighter is small and built in: it colours keywords, strings, numbers,\ncomments, functions, properties, tags and variables, and does not parse. `no-highlight` turns it off.\n\nLight DOM text is tidied so the markup can be indented: one blank line at the start and one\nat the end are dropped, and the indent all lines share is removed. Escape `<` and `&` as\n`&lt;` and `&amp;` in HTML. The `code` property is shown exactly as given.",
           "name": "HtCode",
           "cssProperties": [
             {
               "description": "Height at which the block stops growing and scrolls. `max-lines` sets it from a line count.",
               "name": "--ht-code-max-height",
               "default": "none"
+            },
+            {
+              "description": "Syntax colour for keywords, CSS at-rules and shell keywords. A token in tokens.css, like the seven below.",
+              "name": "--ht-code-keyword"
+            },
+            {
+              "description": "Syntax colour for strings and `.env` values.",
+              "name": "--ht-code-string"
+            },
+            {
+              "description": "Syntax colour for numbers, `true` / `false` / `null`, hex colours and log warnings.",
+              "name": "--ht-code-number"
+            },
+            {
+              "description": "Syntax colour for comments, timestamps and debug lines.",
+              "name": "--ht-code-comment"
+            },
+            {
+              "description": "Syntax colour for function calls, shell commands and log info.",
+              "name": "--ht-code-function"
+            },
+            {
+              "description": "Syntax colour for JSON keys, CSS properties, object properties and shell flags.",
+              "name": "--ht-code-property"
+            },
+            {
+              "description": "Syntax colour for HTML tags, CSS selectors and log errors.",
+              "name": "--ht-code-tag"
+            },
+            {
+              "description": "Syntax colour for shell variables, CSS custom properties and HTML attributes.",
+              "name": "--ht-code-variable"
             }
           ],
           "cssParts": [
@@ -2727,12 +2759,24 @@
               "kind": "field",
               "name": "language",
               "privacy": "public",
-              "description": "Language tag shown in the header, e.g. `json` or `bash`. Display only, no highlighting.",
+              "description": "Language tag shown in the header, e.g. `json` or `bash`. Also picks the syntax colours; an unknown language shows plain text.",
               "type": {
                 "text": "string"
               },
               "default": "''",
               "attribute": "language"
+            },
+            {
+              "kind": "field",
+              "name": "noHighlight",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Turns the syntax colours off.",
+              "default": "false",
+              "attribute": "no-highlight",
+              "reflects": true
             },
             {
               "kind": "field",
@@ -2845,12 +2889,21 @@
             },
             {
               "name": "language",
-              "description": "Language tag shown in the header, e.g. `json` or `bash`. Display only, no highlighting.",
+              "description": "Language tag shown in the header, e.g. `json` or `bash`. Also picks the syntax colours; an unknown language shows plain text.",
               "type": {
                 "text": "string"
               },
               "default": "''",
               "fieldName": "language"
+            },
+            {
+              "name": "no-highlight",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Turns the syntax colours off.",
+              "default": "false",
+              "fieldName": "noHighlight"
             },
             {
               "name": "code",

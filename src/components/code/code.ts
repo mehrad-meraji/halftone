@@ -5,8 +5,13 @@ type CopyStatus = 'idle' | 'copied' | 'failed';
 
 /**
  * Code block with a header and a copy button, for setup steps, API keys, JSON payloads and
- * log lines. The header shows a `label` (a file name, "Terminal") and a `language` tag; there
- * is no syntax highlighting. Text comes from the light DOM or the `code` property.
+ * log lines. The header shows a `label` (a file name, "Terminal") and a `language` tag. Text
+ * comes from the light DOM or the `code` property.
+ *
+ * `language` also picks the syntax colours: `js` / `ts` (and `jsx`, `tsx`), `json`, `bash` (`sh`,
+ * `shell`, `terminal`), `css`, `html` (`xml`, `svg`), `env`, `log` and `py`. Any other language
+ * shows plain text. The highlighter is small and built in: it colours keywords, strings, numbers,
+ * comments, functions, properties, tags and variables, and does not parse. `no-highlight` turns it off.
  *
  * Light DOM text is tidied so the markup can be indented: one blank line at the start and one
  * at the end are dropped, and the indent all lines share is removed. Escape `<` and `&` as
@@ -27,6 +32,14 @@ type CopyStatus = 'idle' | 'copied' | 'failed';
  * @csspart code - The `<pre>` element.
  *
  * @cssprop [--ht-code-max-height=none] - Height at which the block stops growing and scrolls. `max-lines` sets it from a line count.
+ * @cssprop --ht-code-keyword - Syntax colour for keywords, CSS at-rules and shell keywords. A token in tokens.css, like the seven below.
+ * @cssprop --ht-code-string - Syntax colour for strings and `.env` values.
+ * @cssprop --ht-code-number - Syntax colour for numbers, `true` / `false` / `null`, hex colours and log warnings.
+ * @cssprop --ht-code-comment - Syntax colour for comments, timestamps and debug lines.
+ * @cssprop --ht-code-function - Syntax colour for function calls, shell commands and log info.
+ * @cssprop --ht-code-property - Syntax colour for JSON keys, CSS properties, object properties and shell flags.
+ * @cssprop --ht-code-tag - Syntax colour for HTML tags, CSS selectors and log errors.
+ * @cssprop --ht-code-variable - Syntax colour for shell variables, CSS custom properties and HTML attributes.
  *
  * @fires {CustomEvent<{ text: string }>} ht-copy - After the text was written to the clipboard. `detail.text` is what was copied.
  */
@@ -34,8 +47,10 @@ export class HtCode extends LitElement {
   static properties = {
     /** Header label, e.g. a file name or "Terminal". Also names the scroll region. */
     label: {},
-    /** Language tag shown in the header, e.g. `json` or `bash`. Display only, no highlighting. */
+    /** Language tag shown in the header, e.g. `json` or `bash`. Also picks the syntax colours; an unknown language shows plain text. */
     language: {},
+    /** Turns the syntax colours off. */
+    noHighlight: { type: Boolean, reflect: true, attribute: 'no-highlight' },
     /** The code. When set, it is used instead of the light DOM text, exactly as given. */
     code: {},
     /** Soft-wraps long lines. By default they scroll sideways. */
@@ -56,6 +71,7 @@ export class HtCode extends LitElement {
 
   declare label: string;
   declare language: string;
+  declare noHighlight: boolean;
   declare code: string | null;
   declare wrap: boolean;
   declare lineNumbers: boolean;
@@ -75,6 +91,7 @@ export class HtCode extends LitElement {
     super();
     this.label = '';
     this.language = '';
+    this.noHighlight = false;
     this.code = null;
     this.wrap = false;
     this.lineNumbers = false;
@@ -177,6 +194,19 @@ export class HtCode extends LitElement {
     code { font: inherit; }
     :host([wrap]) pre { width: auto; white-space: pre-wrap; overflow-wrap: anywhere; }
     .masked { user-select: none; letter-spacing: 0.05em; }
+
+    /* Syntax colours. Comments are italic as well, so they do not rely on colour alone. */
+    .t-keyword { color: var(--ht-code-keyword); }
+    .t-string { color: var(--ht-code-string); }
+    .t-number { color: var(--ht-code-number); }
+    .t-comment { color: var(--ht-code-comment); font-style: italic; }
+    .t-function { color: var(--ht-code-function); }
+    .t-property { color: var(--ht-code-property); }
+    .t-tag { color: var(--ht-code-tag); }
+    .t-variable { color: var(--ht-code-variable); }
+    @media (forced-colors: active) {
+      [class^='t-'] { color: CanvasText; }
+    }
 
     /* Line numbers: one block per line, the number in a CSS counter so it is never copied or read. */
     .lines { counter-reset: line; }
@@ -317,6 +347,9 @@ export class HtCode extends LitElement {
     const hasHeader = !!(this.label || this.language) || !this.noCopy || this.secret;
     const lines = shown.split('\n');
     const gutter = `calc(${String(lines.length).length}ch + 12px)`;
+    // Masked text and unknown languages stay plain. Tokens are split at line breaks so line numbers still work.
+    const rules = masked || this.noHighlight ? undefined : LANGS[this.language.trim().toLowerCase()];
+    const colored = rules ? byLine(scan(text, rules)) : undefined;
     const maxHeight = this.maxLines > 0 ? `max-height: calc(${this.maxLines} * var(--_lh) + 2 * var(--_pad))` : nothing;
     const status = this._status;
     const copyText = status === 'copied' ? 'Copied' : status === 'failed' ? 'Copy Failed' : 'Copy';
@@ -324,8 +357,8 @@ export class HtCode extends LitElement {
     const context = this.label ? html`<span class="vh"> ${this.label}</span>` : nothing;
     // No whitespace inside <pre>: it would show.
     const body = this.lineNumbers
-      ? html`<code class="lines ${masked ? 'masked' : ''}" style="--_gutter: ${gutter}">${lines.map((l) => html`<span class="line">${l}</span>`)}</code>`
-      : html`<code class=${masked ? 'masked' : ''}>${shown}</code>`;
+      ? html`<code class="lines ${masked ? 'masked' : ''}" style="--_gutter: ${gutter}">${(colored ?? lines).map((l) => html`<span class="line">${typeof l === 'string' ? l : draw(l)}</span>`)}</code>`
+      : html`<code class=${masked ? 'masked' : ''}>${colored ? colored.map((l, i) => html`${i ? '\n' : ''}${draw(l)}`) : shown}</code>`;
 
     return html`
       <div part="base" class="box">
@@ -370,6 +403,169 @@ function tidy(raw: string): string {
   const cut = indents.length ? Math.min(...indents) : 0;
   return lines.map((l) => l.slice(Math.min(cut, indent(l)))).join('\n');
 }
+
+/* ───────── Syntax colours ─────────
+ * A small scanner, not a parser. Each language is a list of rules tried in order at the current
+ * position; the first sticky regex that matches wins. `when` checks the text just before the
+ * match, so the rules need no lookbehind (older Safari cannot parse it). Text no rule takes stays plain. */
+
+type Kind = 'keyword' | 'string' | 'number' | 'comment' | 'function' | 'property' | 'tag' | 'variable';
+type Token = [text: string, kind: Kind | null];
+interface Rule {
+  kind: Kind | null;
+  re: RegExp;
+  when?: RegExp;
+}
+
+const r = (kind: Kind | null, re: RegExp, when?: RegExp): Rule => ({ kind, re, when });
+
+const DQ = /"(?:\\.|[^\\"\n])*"?/y;
+const SQ = /'(?:\\.|[^\\'\n])*'?/y;
+const NUM = /(?:0[xob][\da-f_]+|\d[\d_]*(?:\.\d+)?(?:e[+-]?\d+)?n?)\b/iy;
+/** Not right after a word character or a dot, so `x1` and `a.if` are not split. */
+const START = /(?:^|[^\w$.])$/;
+
+const JS: Rule[] = [
+  r('comment', /\/\/.*|\/\*[\s\S]*?(?:\*\/|$)/y),
+  r('string', /`(?:\\[\s\S]|[^\\`])*`?/y),
+  r('string', DQ),
+  r('string', SQ),
+  r('number', NUM, START),
+  r('number', /(?:true|false|null|undefined|NaN|Infinity)\b/y, START),
+  r('keyword', /(?:const|let|var|function|return|if|else|for|while|do|switch|case|break|continue|new|class|extends|import|export|from|default|async|await|try|catch|finally|throw|typeof|instanceof|in|of|this|super|yield|delete|void|static|get|set|interface|type|enum|implements|declare|readonly|public|private|protected|as|satisfies|keyof)\b/y, START),
+  r('function', /[A-Za-z_$][\w$]*(?=\s*\()/y),
+  r('property', /[A-Za-z_$][\w$]*/y, /\.\s*$/),
+  r(null, /[A-Za-z_$][\w$]*/y),
+];
+
+const JSON_RULES: Rule[] = [
+  r('comment', /\/\/.*|\/\*[\s\S]*?(?:\*\/|$)/y),
+  r('property', /"(?:\\.|[^\\"\n])*"(?=\s*:)/y),
+  r('string', DQ),
+  r('number', /-?\d+(?:\.\d+)?(?:e[+-]?\d+)?/iy),
+  r('number', /(?:true|false|null)\b/y),
+];
+
+const BASH: Rule[] = [
+  r('comment', /^[ \t]*\$(?=\s)/my),
+  r('comment', /#.*/y, /(?:^|\s)$/),
+  r('string', DQ),
+  r('string', SQ),
+  r('variable', /\$\{[^}\n]*\}?|\$[A-Za-z_]\w*|\$[0-9@#?*!$-]/y),
+  r('keyword', /(?:if|then|else|elif|fi|for|while|until|do|done|case|esac|function|in|export|local|return)\b/y, /(?:^|[\s;|&(])$/),
+  r('function', /[A-Za-z0-9_./~-][\w./~:@-]*/y, /(?:^|\n)[ \t]*(?:\$[ \t]+)?$|[|;&(][ \t]*$|\b(?:sudo|then|do|else|xargs|exec)[ \t]+$/),
+  r('property', /--?[A-Za-z][\w-]*/y, /\s$/),
+  r('number', /\d+(?:\.\d+)*\b/y, /(?:^|[\s=:])$/),
+  r(null, /[\w.-]+/y),
+];
+
+const CSS: Rule[] = [
+  r('comment', /\/\*[\s\S]*?(?:\*\/|$)/y),
+  r('string', DQ),
+  r('string', SQ),
+  r('keyword', /@[\w-]+|!important\b/y),
+  r('variable', /--[\w-]+/y),
+  r('property', /[\w-]+(?=\s*:(?!:))/y, /[{;][ \t\n]*$/),
+  r('number', /#[\da-f]{3,8}\b/iy),
+  r('number', /-?(?:\d+\.?\d*|\.\d+)(?:%|[a-z]+)?/iy),
+  r('function', /[\w-]+(?=\()/y),
+  r('tag', /[.#][A-Za-z_-][\w-]*|::?[\w-]+/y, /(?:^|[}\s,>+~(]|[\w\])])$/),
+  r(null, /[\w-]+/y),
+];
+
+const HTML: Rule[] = [
+  r('comment', /<!--[\s\S]*?(?:-->|$)/y),
+  r('tag', /<\/?[A-Za-z][\w:.-]*|\/?>/y),
+  r('string', /"[^"]*"?|'[^']*'?/y, /<[A-Za-z][^<>]*=\s*$/),
+  r('variable', /[^\s"'<>\/=]+/y, /<[A-Za-z][^<>]*\s$/),
+  r('number', /&#?\w+;/y),
+  r(null, /[^<&\s="']+/y),
+];
+
+const ENV: Rule[] = [
+  r('comment', /#.*/y, /(?:^|\n)[ \t]*$/),
+  r('keyword', /export\b/y, /(?:^|\n)[ \t]*$/),
+  r('property', /[A-Za-z_][\w.-]*(?=\s*=)/y),
+  r('string', /[^\n]+/y, /=\s*$/),
+];
+
+const LOG: Rule[] = [
+  r('comment', /\d{4}-\d{2}-\d{2}[T ][\d:.,]+(?:Z|[+-]\d{2}:?\d{2})?|\d{2}:\d{2}:\d{2}(?:[.,]\d+)?/y),
+  r('tag', /(?:ERROR|ERR|FATAL|CRITICAL|PANIC)\b/y, /(?:^|\W)$/),
+  r('number', /(?:WARN|WARNING)\b/y, /(?:^|\W)$/),
+  r('function', /(?:INFO|NOTICE)\b/y, /(?:^|\W)$/),
+  r('comment', /(?:DEBUG|TRACE)\b/y, /(?:^|\W)$/),
+  r('string', DQ),
+  r('property', /[A-Za-z_][\w.-]*(?==)/y),
+  r('number', /-?\d+(?:\.\d+)?(?:ms|s|kb|mb|gb|%)?\b/iy, /(?:^|[^\w.])$/),
+  r(null, /[A-Za-z_][\w.-]*/y),
+];
+
+const PY: Rule[] = [
+  r('comment', /#.*/y),
+  r('string', /[rbuf]{0,2}(?:"""[\s\S]*?(?:"""|$)|'''[\s\S]*?(?:'''|$))/iy, /(?:^|[^\w])$/),
+  r('string', /[rbuf]{0,2}(?:"(?:\\.|[^\\"\n])*"?|'(?:\\.|[^\\'\n])*'?)/iy, /(?:^|[^\w])$/),
+  r('number', NUM, START),
+  r('number', /(?:True|False|None)\b/y, START),
+  r('keyword', /(?:def|class|return|if|elif|else|for|while|in|not|and|or|is|import|from|as|with|try|except|finally|raise|lambda|pass|break|continue|yield|async|await|global|nonlocal|del|assert|match|case|self)\b/y, START),
+  r('tag', /@[\w.]+/y),
+  r('function', /[A-Za-z_]\w*(?=\s*\()/y),
+  r('property', /[A-Za-z_]\w*/y, /\.\s*$/),
+  r(null, /[A-Za-z_]\w*/y),
+];
+
+const LANGS: Record<string, Rule[]> = {
+  js: JS, javascript: JS, mjs: JS, cjs: JS, jsx: JS, ts: JS, typescript: JS, tsx: JS,
+  json: JSON_RULES, jsonc: JSON_RULES, json5: JSON_RULES,
+  bash: BASH, sh: BASH, shell: BASH, zsh: BASH, terminal: BASH, console: BASH,
+  css: CSS, scss: CSS, less: CSS,
+  html: HTML, xml: HTML, svg: HTML,
+  env: ENV, dotenv: ENV,
+  log: LOG, logs: LOG,
+  py: PY, python: PY,
+};
+
+/** Splits text into coloured and plain tokens. */
+function scan(text: string, rules: Rule[]): Token[] {
+  const out: Token[] = [];
+  let plain = '';
+  let i = 0;
+  const flush = () => {
+    if (plain) out.push([plain, null]);
+    plain = '';
+  };
+  outer: while (i < text.length) {
+    for (const { kind, re, when } of rules) {
+      if (when && !when.test(text.slice(Math.max(0, i - 200), i))) continue;
+      re.lastIndex = i;
+      const m = re.exec(text);
+      if (!m || !m[0]) continue;
+      if (kind) {
+        flush();
+        out.push([m[0], kind]);
+      } else plain += m[0];
+      i += m[0].length;
+      continue outer;
+    }
+    plain += text[i++];
+  }
+  flush();
+  return out;
+}
+
+/** Splits tokens at line breaks, so each line can be its own block when line numbers are on. */
+function byLine(tokens: Token[]): Token[][] {
+  const lines: Token[][] = [[]];
+  for (const [text, kind] of tokens) {
+    text.split('\n').forEach((part, j) => {
+      if (j) lines.push([]);
+      if (part) lines[lines.length - 1].push([part, kind]);
+    });
+  }
+  return lines;
+}
+
+const draw = (line: Token[]) => line.map(([text, kind]) => (kind ? html`<span class="t-${kind}">${text}</span>` : text));
 
 const icon = (paths: SVGTemplateResult) =>
   html`<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true">${paths}</svg>`;

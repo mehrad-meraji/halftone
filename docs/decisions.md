@@ -479,3 +479,10 @@ Checked: axe over all 20 blocks and the stories of every touched component (137 
 - More blur would not help: the dot keeps the same centre and spreads its colour wider.
 - `--ht-halftone` light goes to 12% (4.6:1). Dark stays at 28% (4.55:1). Fading the dots out behind the text was the other option; it was not picked because it touches five components.
 - `scripts/contrast.mjs` now checks the eyebrow and heading against a dot centre, so a later change to the strip cannot drop below 4.5:1 unseen.
+
+## 2026-10-26 — Syntax colours in ht-code
+- `ht-code` colours its text by `language`: JS/TS, JSON, bash, CSS, HTML, `.env`, logs and Python, plus common aliases. Any other language stays plain. `no-highlight` turns it off.
+- The highlighter is built into `code.ts`, about 170 lines, so the file still imports only `lit` and stays copyable. It is a scanner, not a parser: per language, a list of sticky regexes tried in order. Rejected: Shiki and Prism (a dependency, and far larger than the component).
+- The rules use no regex lookbehind. A `when` regex checks the text before the match instead, because a lookbehind is a parse error in older Safari and would break the whole module.
+- Eight new tokens, `--ht-code-keyword` to `--ht-code-variable`, light and dark. Each keeps 4.5:1 on `--ht-surface-sunken` (lowest: number at 4.84 in light); `scripts/contrast.mjs` checks them. Comments are italic too, so they do not depend on colour alone. Forced-colours mode drops the colours.
+- Masked `secret` text is never coloured. Copy still copies the plain text.
