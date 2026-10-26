@@ -2,7 +2,7 @@ import { LitElement, css, html, nothing } from 'lit';
 
 /**
  * A row of toggle buttons on a sunken track. The pressed item lifts out as a raised face with
- * a 3:1 outline. Not `ht-tabs`: nothing switches panels, and `type="multiple"` lets several
+ * a soft rim and shadow, and its label goes from muted to full text. Not `ht-tabs`: nothing switches panels, and `type="multiple"` lets several
  * items be pressed. Use it for view modes, filters and formatting.
  *
  * Give an item a `count` to show a number after its label (results per filter, say).
@@ -282,11 +282,11 @@ export class HtToggleItem extends LitElement {
     }
     /* text-subtle drops under 4.5:1 on the hover fill in light mode. */
     :host(:hover:not([aria-disabled='true']):not([pressed])) .count { color: var(--ht-text-muted); }
-    /* The face is barely lighter than the track, so the outline carries the state: border-input mixed toward text keeps 3:1 against both. */
+    /* A light face with a soft rim and shadow. The state also shows in the label (muted to full text) and the count (to accent). */
     :host([pressed]) .item {
       color: var(--ht-text);
       background: var(--ht-surface-raised);
-      box-shadow: 0 0 0 1px color-mix(in oklab, var(--ht-border-input) 85%, var(--ht-text)), var(--ht-shadow-xs);
+      box-shadow: 0 0 0 1px var(--ht-border), var(--ht-shadow-sm);
     }
     :host([pressed]) .count { color: var(--ht-accent-text); }
     :host(:focus-visible) { z-index: 1; }
