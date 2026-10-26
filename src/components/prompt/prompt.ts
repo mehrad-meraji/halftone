@@ -133,6 +133,7 @@ export class HtPrompt extends LitElement {
     .ph .hint { color: var(--ht-text-subtle); }
     .actions { display: flex; align-items: center; gap: 4px; flex: none; }
     ::slotted([slot='prefix']) { align-self: center; flex: none; margin-inline: 4px 0; }
+    ::slotted(ht-icon[slot='prefix']:not([size])), ::slotted(svg[slot='prefix']) { width: 16px; height: 16px; }
   `;
 
   get #ta() {

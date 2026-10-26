@@ -55,15 +55,15 @@ export class HtIcon extends LitElement {
     name: { reflect: true },
     /** `regular`, `bold` and `fill` are built in. The others need `registerIcons`. Falls back to `regular`. */
     weight: { reflect: true },
-    /** A number (px) or any CSS length. Default `1em`. */
-    size: {},
+    /** A number (px) or any CSS length. Default `1em`, or the size the parent component sets for its icons. */
+    size: { reflect: true },
     /** Accessible name. Without it the icon is hidden from assistive technology. */
     label: {},
   };
 
   declare name: string;
   declare weight: IconWeight;
-  declare size: string;
+  declare size: string | undefined;
   declare label: string;
 
   /** Licence notice for the built-in icons. Kept as a value so it survives minification. */
@@ -78,7 +78,7 @@ export class HtIcon extends LitElement {
     super();
     this.name = '';
     this.weight = 'regular';
-    this.size = '';
+    this.size = undefined;
     this.label = '';
   }
 
@@ -86,8 +86,9 @@ export class HtIcon extends LitElement {
     :host {
       display: inline-flex;
       flex: none;
-      width: 1em;
-      height: 1em;
+      /* The size attribute sizes the host, not only the svg: a flex host would otherwise squeeze the svg back to 1em. */
+      width: var(--_size, 1em);
+      height: var(--_size, 1em);
       vertical-align: -0.125em;
       color: inherit;
     }
@@ -104,6 +105,14 @@ export class HtIcon extends LitElement {
     live.delete(this);
   }
 
+  willUpdate(changed: Map<string, unknown>) {
+    if (changed.has('size')) {
+      const size = this.size && /^\d+(\.\d+)?$/.test(this.size) ? `${this.size}px` : this.size;
+      if (size) this.style.setProperty('--_size', size);
+      else this.style.removeProperty('--_size');
+    }
+  }
+
   render() {
     const markup = lookup(this.name, this.weight);
     if (!markup) {
@@ -113,11 +122,9 @@ export class HtIcon extends LitElement {
       }
       return nothing;
     }
-    const size = /^\d+(\.\d+)?$/.test(this.size) ? `${this.size}px` : this.size;
     return html`<svg
       part="svg"
       viewBox="0 0 256 256"
-      style=${size ? `width:${size};height:${size}` : nothing}
       role=${this.label ? 'img' : nothing}
       aria-label=${this.label || nothing}
       aria-hidden=${this.label ? nothing : 'true'}

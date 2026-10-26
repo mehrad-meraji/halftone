@@ -132,6 +132,8 @@ export class HtInput extends LitElement {
       box-shadow: inset 0 1px 0 0 var(--ht-border-input);
       transition: border 120ms cubic-bezier(0.72, 0, 0.16, 1), box-shadow 120ms cubic-bezier(0.72, 0, 0.16, 1);
     }
+    /* A fixed size, so the icon does not follow the page's font size. An icon with a size attribute keeps it. */
+    ::slotted(ht-icon:not([size])), ::slotted(svg) { flex: none; width: 16px; height: 16px; }
     .control:focus-within {
       box-shadow: inset 0 1px 0 0 var(--ht-border-input), 0 0 0 2px var(--ht-focus);
     }

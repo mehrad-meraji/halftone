@@ -505,3 +505,9 @@ Checked: axe over all 20 blocks and the stories of every touched component (137 
 - New `count` attribute on `ht-toggle-item`: a number after the label in mono, tabular, `--ht-text-subtle`; accent on the pressed item. It is a string, so `1.2k` works. The search results, list and inbox blocks use it.
 - Under `forced-colors` the pressed item uses `Highlight`, because the outline is a box-shadow and would vanish.
 - This makes it look closer to `ht-tabs`. They stay separate components: tabs switch panels, a toggle group does not, and it can be multiple choice.
+
+## 2026-10-26 — Icons are 4px larger than the text beside them
+- Icons in buttons and inputs were `1em`, so they took the text size or the page's font size: 12px in a small button, 14px in an input inside a block that sets 14px text. Next to the letters they read as too small.
+- The rule now: an icon is 4px larger than the text beside it. Buttons: 16px (md, lg), 14px (sm, xs). Inputs: 16px at every size. Tags: 12px (sm), 14px (md). The prompt's prefix: 16px. Menus, selects, tabs, toggles and nav items were already 16px.
+- The size is set on the slotted icon by the parent component, so it no longer depends on the page's font size.
+- `ht-icon size` was broken: it sized the svg, but the host stayed `1em` and squeezed it back. It now sizes the host, and the attribute is reflected, so a parent's icon size does not override an icon with its own `size`.

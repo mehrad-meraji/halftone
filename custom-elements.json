@@ -4901,12 +4901,13 @@
               "kind": "field",
               "name": "size",
               "privacy": "public",
-              "description": "A number (px) or any CSS length. Default `1em`.",
+              "description": "A number (px) or any CSS length. Default `1em`, or the size the parent component sets for its icons.",
               "type": {
-                "text": "string"
+                "text": "string | undefined"
               },
-              "default": "''",
-              "attribute": "size"
+              "default": "undefined",
+              "attribute": "size",
+              "reflects": true
             },
             {
               "kind": "field",
@@ -4961,11 +4962,11 @@
             },
             {
               "name": "size",
-              "description": "A number (px) or any CSS length. Default `1em`.",
+              "description": "A number (px) or any CSS length. Default `1em`, or the size the parent component sets for its icons.",
               "type": {
-                "text": "string"
+                "text": "string | undefined"
               },
-              "default": "''",
+              "default": "undefined",
               "fieldName": "size"
             },
             {

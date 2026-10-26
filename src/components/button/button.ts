@@ -72,11 +72,14 @@ export class HtButton extends LitElement {
       --_h: 2rem;
       --_px: 0.75rem;
       --_fs: 0.875rem;
+      --_icon: 16px;
       --_rest: 2px;
     }
-    :host([size='xs']) { --_h: 1.5rem; --_px: 0.5rem; --_fs: 0.75rem; --_rest: 1px; }
-    :host([size='sm']) { --_h: 1.75rem; --_px: 0.5rem; --_fs: 0.75rem; --_rest: 1px; }
+    :host([size='xs']) { --_h: 1.5rem; --_px: 0.5rem; --_fs: 0.75rem; --_icon: 14px; --_rest: 1px; }
+    :host([size='sm']) { --_h: 1.75rem; --_px: 0.5rem; --_fs: 0.75rem; --_icon: 14px; --_rest: 1px; }
     :host([size='lg']) { --_h: 2.25rem; --_px: 1rem; }
+    /* Icons are 4px larger than the text, so they do not read as smaller than the letters. */
+    ::slotted(ht-icon:not([size])), ::slotted(svg) { flex: none; width: var(--_icon); height: var(--_icon); }
     :host([disabled]) { opacity: 0.55; }
     :host([block]) { display: block; }
     :host([block]) .btn { display: flex; width: 100%; }

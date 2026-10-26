@@ -43,8 +43,10 @@ export class HtTag extends LitElement {
       --_fs: 0.625rem;
       --_lh: 0.875rem;
       --_px: 6px;
+      --_icon: 12px;
     }
-    :host([size='md']) { --_h: 1.25rem; --_fs: 0.75rem; --_lh: 1rem; --_px: 8px; }
+    :host([size='md']) { --_h: 1.25rem; --_fs: 0.75rem; --_lh: 1rem; --_px: 8px; --_icon: 14px; }
+    ::slotted(ht-icon:not([size])), ::slotted(svg) { flex: none; width: var(--_icon); height: var(--_icon); }
     :host([tone='accent']) { --_c: var(--ht-accent-text); --_t: var(--ht-accent); --_mix: 12%; }
     :host([tone='success']) { --_c: color-mix(in oklab, var(--ht-success) 50%, var(--ht-text)); --_t: var(--ht-success); --_mix: 14%; }
     :host([tone='warning']) { --_c: color-mix(in oklab, var(--ht-warning) 55%, var(--ht-text)); --_t: var(--ht-warning); --_mix: 16%; }
