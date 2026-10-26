@@ -511,3 +511,10 @@ Checked: axe over all 20 blocks and the stories of every touched component (137 
 - The rule now: an icon is 4px larger than the text beside it. Buttons: 16px (md, lg), 14px (sm, xs). Inputs: 16px at every size. Tags: 12px (sm), 14px (md). The prompt's prefix: 16px. Menus, selects, tabs, toggles and nav items were already 16px.
 - The size is set on the slotted icon by the parent component, so it no longer depends on the page's font size.
 - `ht-icon size` was broken: it sized the svg, but the host stayed `1em` and squeezed it back. It now sizes the host, and the attribute is reflected, so a parent's icon size does not override an icon with its own `size`.
+
+## 2026-10-26 — Publish with npm trusted publishing
+- npm no longer takes a stored token for this package; it asks for trusted publishing. The publish workflow now authenticates with GitHub's OIDC token (`id-token: write`). No `NPM_TOKEN` secret exists or is needed.
+- npm trusts `.github/workflows/publish.yml` by file name, set once in the package's Trusted Publisher settings on npmjs.com. Renaming the file breaks publishing until that setting is changed too.
+- Trusted publishing needs Node 22.14+ and npm 11.5.1+, so the job runs on Node 24 and installs npm 11. The root package still builds on Node 20 in CI.
+- The workflow also runs by hand for an existing tag (`gh workflow run publish.yml -f tag=v0.2.0`). The first 0.2.0 run failed for lack of a token, and a re-run would use the old workflow file stored at the tag; the manual trigger uses the current file and checks out the tag. This avoids moving a pushed tag.
+- `--provenance` stays on the publish command: some maintainers found the first trusted publish failed without it.
