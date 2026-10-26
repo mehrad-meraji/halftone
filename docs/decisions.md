@@ -456,3 +456,11 @@ Checked: axe over all 20 blocks and the stories of every touched component (137 
 - `size` on a group sizes every item in it. An item's own `size` wins. An item without `size` and outside a group is `md`. The resolved size is a `data-size` attribute on the host, the same pattern as `data-group-disabled`.
 - The hidden native input stays at least 24px square, so `sm` still meets WCAG 2.5.8 target size when it has no visible label.
 - A `sm` group tightens its item gap to 8px (16px between columns when horizontal).
+
+## 2026-10-26 — A quieter dot screen
+- The dot screen was too loud. Three softer versions were compared on a card header and a stage, in light and dark: A (same grid, half the accent), B (smaller dots, wider tile) and C (dots mixed toward `--ht-text`, so grey grain).
+- B shipped. Header strip: 0.6px dot, 8px tile, accent at 20%. Stage: 0.7px dot, 10px tile, accent at 13%. Smaller, sparser dots read as texture, not a grid, and stay purple.
+- Dark mode takes more accent (28% and 20%). At the light-mode values the purple dots almost vanish on the dark ground. A had the same problem. C stayed even in both themes but lost the purple.
+- The `forced-colors` / `prefers-contrast: more` opt-out now repeats the dark-mode selectors, so the dark values cannot bring the dots back.
+- The hover dots got too faint, so their opacity went up: `ht-spotlight` 0.6 → 0.8, and the `ht-empty-state` spotlight 0.75 → full. Both end close to their old strength. No status badge: the components look the same as before, only the base token moved.
+- Then the dots got a soft blur. Each dot is now a gradient from its centre to nothing: gone by 2.3px on the header strip, 2.8px on a stage. A light blur (a 1px fade at the edge) was too subtle, so the blur went past a full centre-to-edge fade at 1.7px. At 3px the dots grew big and loud again.

@@ -109,7 +109,7 @@ export class HtEmptyState extends LitElement {
       position: absolute;
       inset: 0;
       border-radius: inherit;
-      opacity: 0.75; /* a little softer, so the muted description keeps its contrast under the glow */
+      /* The stage screen is already faint enough for the muted description to keep its contrast under the glow. */
       background: var(--ht-halftone-stage);
       -webkit-mask-image: radial-gradient(circle 300px at var(--_x, 50%) var(--_y, 50%), #000, transparent);
       mask-image: radial-gradient(circle 300px at var(--_x, 50%) var(--_y, 50%), #000, transparent);
