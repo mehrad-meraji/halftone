@@ -46,9 +46,6 @@
       color: var(--ht-text-muted);
       font-variant-numeric: tabular-nums;
     }
-    [data-block='search-results-01'] .sr-filters ht-tag {
-      margin-left: 6px;
-    }
     [data-block='search-results-01'] .sr-sources {
       display: grid;
       gap: 10px;
@@ -237,10 +234,10 @@
     </div>
 
     <ht-toggle-group class="sr-filters" value="all" aria-label="Filter results">
-      <ht-toggle-item value="all">All<ht-tag>20</ht-tag></ht-toggle-item>
-      <ht-toggle-item value="read">Read<ht-tag>14</ht-tag></ht-toggle-item>
-      <ht-toggle-item value="link">Link Only<ht-tag>4</ht-tag></ht-toggle-item>
-      <ht-toggle-item value="failed">Failed<ht-tag>2</ht-tag></ht-toggle-item>
+      <ht-toggle-item value="all" count="20">All</ht-toggle-item>
+      <ht-toggle-item value="read" count="14">Read</ht-toggle-item>
+      <ht-toggle-item value="link" count="4">Link Only</ht-toggle-item>
+      <ht-toggle-item value="failed" count="2">Failed</ht-toggle-item>
     </ht-toggle-group>
 
     <div class="sr-sources">

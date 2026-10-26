@@ -50,6 +50,17 @@ export const WithPrefix: StoryObj = {
     </ht-toggle-group>`,
 };
 
+/** `count` shows a number after the label, in mono. The pressed item's count turns accent. */
+export const Counts: StoryObj = {
+  render: (a) => html`
+    <ht-toggle-group aria-label="Filter results" size=${a.size} value="all" ?disabled=${a.disabled}>
+      <ht-toggle-item value="all" count="20">All</ht-toggle-item>
+      <ht-toggle-item value="read" count="14">Read</ht-toggle-item>
+      <ht-toggle-item value="link" count="4">Link Only</ht-toggle-item>
+      <ht-toggle-item value="failed" count="2">Failed</ht-toggle-item>
+    </ht-toggle-group>`,
+};
+
 export const DisabledGroup: StoryObj = { args: { disabled: true } };
 
 export const DisabledItem: StoryObj = {

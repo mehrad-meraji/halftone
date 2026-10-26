@@ -22,7 +22,7 @@ summary: Full-height inbox with a searchable, filtered thread list in groups, a 
 - Exactly one row has `aria-current="true"`: the thread in the reader. Move it on selection; do not use a selected class alone.
 - Unread rows get `.inbox-unread` (bold sender and subject) and an `ht-ping still tone="accent" label="Unread"`. Read rows keep the empty `.inbox-mark` so text lines up.
 - Group headings name what to do, not dates, when you can: "Needs Action", then "Earlier". Two or three groups at most. Empty groups disappear.
-- Filters are one `ht-toggle-group`. Put the count in the item label ("Unread 4"), and only on Unread. Keep the count in step with the rows.
+- Filters are one `ht-toggle-group`. Put the count in the `count` attribute (`count="4"`), and only on Unread. Keep the count in step with the rows.
 - The star is a sibling of the row link, never inside it. `pressed` swaps the icon to `weight="fill"`.
 - Toolbar: Archive, Snooze, Mark Unread as quiet buttons with text, each in an `ht-tooltip` that shows its shortcut with `ht-kbd`. Everything else, including Move To Trash, goes in the ⋯ menu.
 - Messages are oldest first, newest at the bottom next to the composer. Collapse older messages to one line (sender, time, first sentence) past five.

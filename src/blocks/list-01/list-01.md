@@ -19,7 +19,7 @@ summary: Admin index page with status chips, search, filter, sort and column men
 
 - Rename the record type everywhere at once: the `h1`, the count line, the primary button ("New Client"), the search placeholder and the `aria-label`s.
 - One primary action in the header. Secondary page actions (Import) sit to its left as `variant="default"`. Bulk actions go in the bar, never in the header.
-- Status chips are one `ht-toggle-group type="single"`. Each label carries its count. Keep them to five or fewer; more statuses belong in the Filters menu.
+- Status chips are one `ht-toggle-group type="single"`. Put each count in the item's `count` attribute, not in the label. Keep them to five or fewer; more statuses belong in the Filters menu.
 - Filters menu: one `ht-menu-label` per facet, `type="checkbox"` items under it, a separator between facets, and Clear Filters last. Show the number of active filters as an `ht-tag` in the trigger's `suffix`; remove the tag when none are active.
 - Sort menu: `type="radio"` items with one shared `name`. Mirror the choice on the matching `ht-table-header` (`sortable sort="descending"`) and in the count line ("sorted by Updated").
 - The Columns menu is optional. Drop it if the table has five columns or fewer.

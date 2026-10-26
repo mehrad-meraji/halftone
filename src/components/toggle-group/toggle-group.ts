@@ -1,8 +1,11 @@
-import { LitElement, css, html } from 'lit';
+import { LitElement, css, html, nothing } from 'lit';
 
 /**
- * A row of joined toggle buttons with one shared outline and radius. Not `ht-tabs`: there is
- * no recessed track, and nothing switches panels. Use it for view modes and formatting.
+ * A row of toggle buttons on a sunken track. The pressed item lifts out as a raised face with
+ * a soft rim and shadow, and its label goes from muted to full text. Not `ht-tabs`: nothing switches panels, and `type="multiple"` lets several
+ * items be pressed. Use it for view modes, filters and formatting.
+ *
+ * Give an item a `count` to show a number after its label (results per filter, say).
  *
  * `type="single"` is a radio group: one item is on, arrows move focus and select, and the
  * selected item cannot be cleared. `type="multiple"` is a group of toggle buttons: arrows
@@ -25,7 +28,7 @@ export class HtToggleGroup extends LitElement {
     type: { reflect: true },
     /** Pressed item values. One value for `single`; comma-separated for `multiple` (so a value cannot contain a comma). Defaults to the items marked `pressed`. */
     value: { reflect: true },
-    /** Item height: sm 24px, md 28px, lg 32px. */
+    /** Group height, track included: sm 24px, md 28px, lg 32px. Items are 4px shorter. */
     size: { reflect: true },
     /** Disables every item. */
     disabled: { type: Boolean, reflect: true },
@@ -74,15 +77,25 @@ export class HtToggleGroup extends LitElement {
   }
 
   static styles = css`
+    /* Sentry's segmented control: a sunken track with a 1px rim; the pressed item is a raised face. */
     :host {
+      box-sizing: border-box;
       display: inline-flex;
+      gap: 2px;
+      padding: 2px;
       vertical-align: middle;
+      background: var(--ht-surface-sunken);
+      border-radius: var(--ht-radius-md);
+      box-shadow: inset 0 0 0 1px var(--ht-border);
       --_h: 1.75rem;
-      --_px: 0.5rem;
+      --_px: 0.625rem;
       --_fs: 0.875rem;
     }
-    :host([size='sm']) { --_h: 1.5rem; --_px: 0.375rem; --_fs: 0.75rem; }
-    :host([size='lg']) { --_h: 2rem; --_px: 0.625rem; }
+    :host([size='sm']) { --_h: 1.5rem; --_px: 0.5rem; --_fs: 0.75rem; }
+    :host([size='lg']) { --_h: 2rem; --_px: 0.75rem; }
+    @media (forced-colors: active) {
+      :host { border: 1px solid CanvasText; padding: 1px; }
+    }
   `;
 
   #items() {
@@ -192,6 +205,7 @@ export class HtToggleGroup extends LitElement {
  * @slot prefix - Icon or element before the label.
  *
  * @csspart base - The item face.
+ * @csspart count - The number after the label.
  */
 export class HtToggleItem extends LitElement {
   static properties = {
@@ -200,6 +214,8 @@ export class HtToggleItem extends LitElement {
     /** Set by the group from its `value`. Mark an item `pressed` to start with it on. */
     pressed: { type: Boolean, reflect: true },
     disabled: { type: Boolean, reflect: true },
+    /** Number shown after the label, in mono. A string, so `1.2k` works. Read as part of the item's name. */
+    count: {},
     /** @internal */
     groupDisabled: { type: Boolean, attribute: false },
   };
@@ -207,6 +223,7 @@ export class HtToggleItem extends LitElement {
   declare value: string;
   declare pressed: boolean;
   declare disabled: boolean;
+  declare count: string;
   /** @internal */
   declare groupDisabled: boolean;
 
@@ -215,6 +232,7 @@ export class HtToggleItem extends LitElement {
     this.value = '';
     this.pressed = false;
     this.disabled = false;
+    this.count = '';
     this.groupDisabled = false;
   }
 
@@ -231,9 +249,6 @@ export class HtToggleItem extends LitElement {
       outline: none;
       -webkit-tap-highlight-color: transparent;
     }
-    :host(:not(:first-child)) { margin-inline-start: -1px; }
-    :host([pressed]) { z-index: 1; }
-    :host(:focus-visible) { z-index: 2; }
     :host([disabled]) .item,
     :host([aria-disabled='true']) .item { opacity: 0.55; cursor: not-allowed; background: transparent; }
     .item {
@@ -243,30 +258,47 @@ export class HtToggleItem extends LitElement {
       align-items: center;
       justify-content: center;
       gap: 6px;
-      height: var(--_h, 1.75rem);
-      min-width: var(--_h, 1.75rem);
-      padding-inline: var(--_px, 0.5rem);
+      height: calc(var(--_h, 1.75rem) - 4px);
+      min-width: calc(var(--_h, 1.75rem) - 4px);
+      padding-inline: var(--_px, 0.625rem);
       font: 500 var(--_fs, 0.875rem) / 1rem var(--ht-font-ui);
       white-space: nowrap;
-      color: var(--ht-text);
+      color: var(--ht-text-muted);
       cursor: pointer;
       user-select: none;
       background: transparent;
-      border: 1px solid var(--ht-border-input);
-      border-radius: 0;
-      transition: background-color var(--ht-duration) var(--ht-ease), border-color var(--ht-duration) var(--ht-ease), color var(--ht-duration) var(--ht-ease);
+      /* Concentric with the track: its radius minus the 2px padding. */
+      border-radius: calc(var(--ht-radius-md) - 2px);
+      transition: background-color var(--ht-duration) var(--ht-ease), box-shadow var(--ht-duration) var(--ht-ease), color var(--ht-duration) var(--ht-ease);
     }
-    :host(:first-child) .item { border-start-start-radius: var(--ht-radius-md); border-end-start-radius: var(--ht-radius-md); }
-    :host(:last-child) .item { border-start-end-radius: var(--ht-radius-md); border-end-end-radius: var(--ht-radius-md); }
-    :host(:hover:not([aria-disabled='true'])) .item { background: color-mix(in oklab, var(--ht-text) 7.5%, transparent); }
-    :host([pressed]) .item,
-    :host([pressed]:hover:not([aria-disabled='true'])) .item {
-      color: var(--ht-accent-text);
-      background: var(--ht-accent-soft);
-      border-color: var(--ht-accent-text);
+    .count {
+      font: 500 0.75rem / 1rem var(--ht-font-mono);
+      font-variant-numeric: tabular-nums;
+      color: var(--ht-text-subtle);
     }
-    :host(:focus-visible) .item { outline: 2px solid var(--ht-focus); outline-offset: 1px; }
+    :host(:hover:not([aria-disabled='true']):not([pressed])) .item {
+      color: var(--ht-text);
+      background: color-mix(in oklab, var(--ht-text) 7.5%, transparent);
+    }
+    /* text-subtle drops under 4.5:1 on the hover fill in light mode. */
+    :host(:hover:not([aria-disabled='true']):not([pressed])) .count { color: var(--ht-text-muted); }
+    /* A light face with a soft rim and shadow. The state also shows in the label (muted to full text) and the count (to accent). */
+    :host([pressed]) .item {
+      color: var(--ht-text);
+      background: var(--ht-surface-raised);
+      box-shadow: 0 0 0 1px var(--ht-border), var(--ht-shadow-sm);
+    }
+    :host([pressed]) .count { color: var(--ht-accent-text); }
+    :host(:focus-visible) { z-index: 1; }
+    /* Offset 0: the items sit 2px apart, so a wider ring would cover the neighbour. */
+    :host(:focus-visible) .item { outline: 2px solid var(--ht-focus); outline-offset: 0; }
     ::slotted([slot='prefix']) { flex: none; width: 16px; height: 16px; }
+    @media (forced-colors: active) {
+      .item { forced-color-adjust: none; color: ButtonText; background: ButtonFace; }
+      .count { color: inherit; }
+      :host([pressed]) .item { color: HighlightText; background: Highlight; box-shadow: none; }
+      :host([disabled]) .item, :host([aria-disabled='true']) .item { color: GrayText; opacity: 1; }
+    }
     @media (prefers-reduced-motion: reduce) {
       .item { transition: none; }
     }
@@ -286,7 +318,9 @@ export class HtToggleItem extends LitElement {
   }
 
   render() {
-    return html`<span part="base" class="item"><slot name="prefix"></slot><slot></slot></span>`;
+    return html`<span part="base" class="item"><slot name="prefix"></slot><slot></slot>${this.count
+      ? html`<span part="count" class="count">${this.count}</span>`
+      : nothing}</span>`;
   }
 }
 

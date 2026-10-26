@@ -496,3 +496,12 @@ Checked: axe over all 20 blocks and the stories of every touched component (137 
 - Under `forced-colors` the pip uses `Highlight`, so it does not vanish.
 - The docs sidebar dropped its accent-soft row, and "On this page" dropped its rail line, so both match `ht-nav-item`.
 - `ht-table`'s selected row keeps its 2px accent edge for now: a row in a grid is a different pattern.
+
+## 2026-10-26 — Toggle group on a track, with counts
+- Three looks were compared on the search results filter bar, light and dark: a sunken track, joined buttons with an accent underline, and separate chips. The track was picked. It is Sentry's segmented control.
+- Before, the pressed item had an accent outline that overlapped the next item, and the counts were `ht-tag` chips, which were heavy next to the labels.
+- The group is now the track: `--ht-surface-sunken`, 2px padding and gap, a 1px `--ht-border` rim. The pressed item is a `--ht-surface-raised` face with a small shadow. Unpressed labels are `--ht-text-muted`. The group's height stays 24/28/32px, so it still lines up with buttons; items are 4px shorter.
+- The pressed face is soft on purpose: a 1px `--ht-border` rim and `--ht-shadow-sm`, like a native segmented control. A 3:1 outline (`--ht-border-input` mixed toward text) was tried first and read as too heavy. The face is only 1.2:1 against the track, so the state is also carried by the label (`--ht-text-muted` 6.3:1 to `--ht-text` 17.9:1) and the count (subtle to accent). This is a known trade-off against WCAG 1.4.11 for the face alone. Screen readers get `aria-checked` or `aria-pressed`.
+- New `count` attribute on `ht-toggle-item`: a number after the label in mono, tabular, `--ht-text-subtle`; accent on the pressed item. It is a string, so `1.2k` works. The search results, list and inbox blocks use it.
+- Under `forced-colors` the pressed item uses `Highlight`, because the outline is a box-shadow and would vanish.
+- This makes it look closer to `ht-tabs`. They stay separate components: tabs switch panels, a toggle group does not, and it can be multiple choice.

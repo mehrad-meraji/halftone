@@ -19,7 +19,7 @@ summary: Federated search results with a sticky query bar, filter chips with cou
 ## How to adapt
 
 - The query bar stays sticky with an opaque `--ht-bg` background. Keep the query in the field so people can edit it in place. Enter submits; there is no Search button.
-- Filter chips are one `ht-toggle-group`: All first, then each result state, each with its count in an `ht-tag`. Hide a chip whose count is 0, except All.
+- Filter chips are one `ht-toggle-group`: All first, then each result state, each with its count in the item's `count` attribute (not an `ht-tag`). Hide a chip whose count is 0, except All.
 - Put the total and the time on the right of the heading: "20 results · 1.2 s". Update the total as sources finish.
 - Source states each carry text or an icon, never colour alone: done is `success` with a check and the count, waiting is a neutral tag with `ht-ping` (give it `label="Waiting"`), slow is `warning` with a clock, failed is a quiet button with `x-circle` whose `ht-tooltip` gives the reason.
 - Show `ht-progress` only while sources are running; its label counts sources ("5 of 8 sources done"), not percent. Remove the progress bar and the waiting chips when every source has finished, and keep the strip only if something failed or ran slow.
