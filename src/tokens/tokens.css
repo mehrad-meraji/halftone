@@ -42,6 +42,15 @@
   /* Inverse surface for tooltips and neutral toasts: dark in light mode, light in dark mode. */
   --ht-inverse: oklch(0.26 0.013 273);
   --ht-inverse-ink: oklch(0.97 0.003 278);
+  /* Syntax colours for ht-code. Each keeps 4.5:1 on --ht-surface-sunken, checked by scripts/contrast.mjs. */
+  --ht-code-keyword: oklch(0.48 0.2 300);
+  --ht-code-string: oklch(0.48 0.13 150);
+  --ht-code-number: oklch(0.52 0.14 55);
+  --ht-code-comment: oklch(0.5 0.02 278);
+  --ht-code-function: oklch(0.5 0.14 250);
+  --ht-code-property: oklch(0.48 0.1 200);
+  --ht-code-tag: oklch(0.5 0.17 15);
+  --ht-code-variable: oklch(0.5 0.18 340);
 
 
   --ht-font-display: 'Chakra Petch', 'Arial Narrow', system-ui, sans-serif;
@@ -102,6 +111,14 @@
     --ht-danger-text: oklch(0.78 0.119 25);
     --ht-inverse: oklch(0.94 0.006 278);
     --ht-inverse-ink: oklch(0.2 0.016 278);
+    --ht-code-keyword: oklch(0.78 0.13 300);
+    --ht-code-string: oklch(0.8 0.13 150);
+    --ht-code-number: oklch(0.8 0.12 65);
+    --ht-code-comment: oklch(0.68 0.016 278);
+    --ht-code-function: oklch(0.78 0.11 245);
+    --ht-code-property: oklch(0.8 0.09 200);
+    --ht-code-tag: oklch(0.75 0.14 15);
+    --ht-code-variable: oklch(0.78 0.13 340);
     --ht-shadow-xs: 0 1px 2px oklch(0 0 0 / 0.4);
     --ht-shadow-sm: 0 2px 6px oklch(0 0 0 / 0.45);
     --ht-shadow-md: 0 8px 24px oklch(0 0 0 / 0.6);
@@ -141,6 +158,14 @@
   --ht-danger-text: oklch(0.78 0.119 25);
   --ht-inverse: oklch(0.94 0.006 278);
   --ht-inverse-ink: oklch(0.2 0.016 278);
+  --ht-code-keyword: oklch(0.78 0.13 300);
+  --ht-code-string: oklch(0.8 0.13 150);
+  --ht-code-number: oklch(0.8 0.12 65);
+  --ht-code-comment: oklch(0.68 0.016 278);
+  --ht-code-function: oklch(0.78 0.11 245);
+  --ht-code-property: oklch(0.8 0.09 200);
+  --ht-code-tag: oklch(0.75 0.14 15);
+  --ht-code-variable: oklch(0.78 0.13 340);
   --ht-shadow-xs: 0 1px 2px oklch(0 0 0 / 0.4);
   --ht-shadow-sm: 0 2px 6px oklch(0 0 0 / 0.45);
   --ht-shadow-md: 0 8px 24px oklch(0 0 0 / 0.6);
