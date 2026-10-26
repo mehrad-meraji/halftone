@@ -21,6 +21,13 @@ const STATUS = {
   elapsed: { text: 'New', variant: 'tip' },
   lightbox: { text: 'New', variant: 'tip' },
   'link-preview': { text: 'New', variant: 'tip' },
+  tag: { text: 'Updated', variant: 'note' },
+  checkbox: { text: 'Updated', variant: 'note' },
+  toggle: { text: 'Updated', variant: 'note' },
+  accordion: { text: 'Updated', variant: 'note' },
+  tooltip: { text: 'Updated', variant: 'note' },
+  'toggle-group': { text: 'Updated', variant: 'note' },
+  menu: { text: 'Updated', variant: 'note' },
 };
 
 const manifest = JSON.parse(readFileSync(join(repo, 'custom-elements.json'), 'utf8'));

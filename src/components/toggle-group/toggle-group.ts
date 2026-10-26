@@ -7,6 +7,10 @@ import { LitElement, css, html, nothing } from 'lit';
  *
  * Give an item a `count` to show a number after its label (results per filter, say).
  *
+ * Without `wrap` the items stay on one line and the group grows with its labels. With `wrap` the
+ * group is never wider than its container, and items move to more lines on the same track
+ * (filter chips in a narrow panel).
+ *
  * `type="single"` is a radio group: one item is on, arrows move focus and select, and the
  * selected item cannot be cleared. `type="multiple"` is a group of toggle buttons: arrows
  * move focus, Space or Enter toggles. Both have one tab stop (roving tabindex), wrap at the
@@ -32,12 +36,15 @@ export class HtToggleGroup extends LitElement {
     size: { reflect: true },
     /** Disables every item. */
     disabled: { type: Boolean, reflect: true },
+    /** Lets the items move to more lines when the container is too narrow for one. */
+    wrap: { type: Boolean, reflect: true },
   };
 
   declare type: 'single' | 'multiple';
   declare value: string;
   declare size: 'sm' | 'md' | 'lg';
   declare disabled: boolean;
+  declare wrap: boolean;
 
   #active: HtToggleItem | null = null;
 
@@ -47,6 +54,7 @@ export class HtToggleGroup extends LitElement {
     this.value = '';
     this.size = 'md';
     this.disabled = false;
+    this.wrap = false;
     this.addEventListener('click', (e) => {
       const item = (e.target as Element).closest('ht-toggle-item') as HtToggleItem | null;
       if (item && item.parentElement === this && this.#enabled(item)) {
@@ -93,6 +101,7 @@ export class HtToggleGroup extends LitElement {
     }
     :host([size='sm']) { --_h: 1.5rem; --_px: 0.5rem; --_fs: 0.75rem; }
     :host([size='lg']) { --_h: 2rem; --_px: 0.75rem; }
+    :host([wrap]) { flex-wrap: wrap; max-width: 100%; }
     @media (forced-colors: active) {
       :host { border: 1px solid CanvasText; padding: 1px; }
     }

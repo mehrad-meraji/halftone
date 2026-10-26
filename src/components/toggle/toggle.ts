@@ -6,8 +6,11 @@ import { ifDefined } from 'lit/directives/if-defined.js';
  * pressed look is an accent-soft fill with an accent border, so it still reads without colour.
  * Pressed state is submitted with the form as `name=value`; unpressed submits nothing.
  *
- * A toggle with no text (icon only) needs a `label`, or an `aria-label` on the element,
- * which is forwarded to the native button.
+ * Icon only: put just an icon in it (in either slot) and the toggle becomes a square of its
+ * height: 24px at `sm`. Icons are 16px; an `ht-icon` with its own `size` keeps it, so
+ * `<ht-icon name="star" size="13">` gives a 13px icon in a 24px box. An icon-only toggle needs a
+ * `label`, or an `aria-label` on the element, which is forwarded to the native button. The
+ * button reports its state with `aria-pressed` in every mode.
  *
  * @tag ht-toggle
  * @summary Two-state toggle button.
@@ -40,6 +43,7 @@ export class HtToggle extends LitElement {
     /** Accessible name for an icon-only toggle. A host `aria-label` is moved here. */
     label: {},
     _formDisabled: { state: true },
+    _iconOnly: { state: true },
   };
 
   declare pressed: boolean;
@@ -50,6 +54,7 @@ export class HtToggle extends LitElement {
   declare value: string;
   declare label: string;
   declare _formDisabled: boolean;
+  declare _iconOnly: boolean;
 
   #internals = this.attachInternals();
   #defaultPressed = false;
@@ -64,6 +69,7 @@ export class HtToggle extends LitElement {
     this.value = 'on';
     this.label = '';
     this._formDisabled = false;
+    this._iconOnly = false;
     // On the host, so a programmatic `el.click()` also toggles.
     this.addEventListener('click', this.#onClick);
   }
@@ -111,6 +117,8 @@ export class HtToggle extends LitElement {
       transition: background-color var(--ht-duration) var(--ht-ease), border-color var(--ht-duration) var(--ht-ease), color var(--ht-duration) var(--ht-ease);
     }
     :host([variant='outline']) .btn { border-color: var(--ht-border-input); }
+    /* Icon only: a square of the toggle's height. */
+    :host([data-icon-only]) .btn { width: var(--_h); padding-inline: 0; }
     .btn:hover { background: color-mix(in oklab, var(--ht-text) 7.5%, transparent); }
     /* Pressed: fill plus a full-strength border, so the state does not rely on colour alone. */
     :host([pressed]) .btn,
@@ -122,9 +130,9 @@ export class HtToggle extends LitElement {
     .btn:focus-visible { outline: 2px solid var(--ht-focus); outline-offset: 1px; }
     .btn:disabled { cursor: not-allowed; background: transparent; }
     ::slotted([slot='prefix']) { flex: none; }
-    /* Icons get the 16px box. Anything else (a status dot, an avatar) keeps its own size. */
-    ::slotted(ht-icon[slot='prefix']),
-    ::slotted(svg[slot='prefix']) { width: 16px; height: 16px; }
+    /* Icons get the 16px box, unless an ht-icon sets its own size. Anything else (a status dot, an avatar) keeps its own size. */
+    ::slotted(ht-icon:not([size])),
+    ::slotted(svg) { flex: none; width: 16px; height: 16px; }
     @media (prefers-reduced-motion: reduce) {
       .btn { transition: none; }
     }
@@ -151,6 +159,18 @@ export class HtToggle extends LitElement {
     this.pressed = state !== '';
   }
 
+  willUpdate() {
+    this.toggleAttribute('data-icon-only', this._iconOnly);
+  }
+
+  /** Icon only: no text in either slot, and every element is an icon. */
+  #onSlot = () => {
+    const nodes = [...this.renderRoot.querySelectorAll('slot')].flatMap((sl) => sl.assignedNodes({ flatten: true }));
+    const els = nodes.filter((n): n is Element => n.nodeType === Node.ELEMENT_NODE);
+    const text = nodes.some((n) => n.nodeType === Node.TEXT_NODE && (n.textContent ?? '').trim() !== '');
+    this._iconOnly = !text && els.length > 0 && els.every((el) => el.localName === 'ht-icon' || el.localName === 'svg');
+  };
+
   updated() {
     this.#internals.setFormValue(this.pressed && this.name ? this.value : null, this.pressed ? 'on' : '');
   }
@@ -165,8 +185,8 @@ export class HtToggle extends LitElement {
         aria-label=${ifDefined(this.label || undefined)}
         ?disabled=${this.disabled || this._formDisabled}
       >
-        <slot name="prefix"></slot>
-        <slot></slot>
+        <slot name="prefix" @slotchange=${this.#onSlot}></slot>
+        <slot @slotchange=${this.#onSlot}></slot>
       </button>
     `;
   }

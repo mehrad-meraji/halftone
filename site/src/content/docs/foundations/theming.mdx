@@ -1,0 +1,128 @@
+---
+title: Theming
+description: Set the accent, the neutrals, the radii and the focus ring, in light and dark.
+sidebar:
+  order: 7
+---
+
+A theme is a block of token overrides. Components read nothing else, so a theme is only CSS: put it after `tokens.css`, on `:root` for the whole app or on a wrapper for one part of it. Write it twice, once for light and once for dark, because the soft fills, the text on them and the focus ring change between the two.
+
+## What to set
+
+| Group | Tokens | Rule |
+| --- | --- | --- |
+| Accent | `--ht-accent`, `--ht-accent-hover`, `--ht-accent-ink`, `--ht-accent-soft`, `--ht-accent-text` | `--ht-accent-ink` on `--ht-accent` and `--ht-accent-hover`, and `--ht-accent-text` on `--ht-accent-soft`, keep 4.5 to 1. |
+| Neutrals | `--ht-bg`, `--ht-surface`, `--ht-surface-muted`, `--ht-surface-sunken`, `--ht-surface-raised`, `--ht-border`, `--ht-border-strong`, `--ht-text`, `--ht-text-muted`, `--ht-text-subtle`, `--ht-inverse`, `--ht-inverse-ink` | All three text tiers keep 4.5 to 1 on every surface. Change the hue and chroma together, so the greys stay one family. |
+| Input edges | `--ht-border-input` | 3 to 1 against `--ht-surface` and `--ht-bg` (WCAG 1.4.11). It is darker than `--ht-border-strong` on purpose. |
+| Focus ring | `--ht-focus` | 3 to 1 against `--ht-surface` and `--ht-bg`. The ring is always 2px; only its colour is a token. |
+| Radii | `--ht-radius-sm`, `--ht-radius-md`, `--ht-radius-lg` | Three steps. See [Radius scale](#radius-scale). |
+
+The dot screen (`--ht-halftone`) is mixed from `--ht-accent`, so it follows the new accent by itself. Status colours (`--ht-success`, `--ht-danger` and the rest) can stay as they are.
+
+## Radius scale
+
+Components use three radii:
+
+| Token | Halftone | Used for |
+| --- | --- | --- |
+| `--ht-radius-sm` | 2px | Keys, meter tracks, small marks |
+| `--ht-radius-md` | 6px | Buttons, fields, tags, menu rows, tooltips |
+| `--ht-radius-lg` | 10px | Cards, dialogs, panels, accordions |
+
+An app with a longer scale maps its steps onto these three and keeps the rest for its own layout. Taskscape's scale is 3, 6, 8, 10, 12 and round: 3, 6 and 10 go to the tokens, and 8, 12 and round stay in the app's own CSS. A few small parts (checkbox corners, the inner face of a toggle group) work out their radius from their own size, so they stay concentric whatever the tokens say.
+
+## Example: sage and slate
+
+The theme Taskscape asked for: one sage accent, slate neutrals, radii 3, 6 and 10, and a 2px sage focus ring. Every pair in the rules above passes in both modes, checked with the maths of `scripts/contrast.mjs` (lowest: text-subtle on the light hover fill at 4.97, border-input on the light page at 3.29).
+
+```css
+/* After tokens.css. */
+:root,
+[data-theme='light'] {
+  --ht-bg: oklch(0.965 0.004 250);
+  --ht-surface: oklch(0.995 0.002 250);
+  --ht-surface-muted: oklch(0.97 0.004 250);
+  --ht-surface-sunken: oklch(0.945 0.006 250);
+  --ht-surface-raised: oklch(0.995 0.002 250);
+  --ht-border: oklch(0.9 0.008 250);
+  --ht-border-strong: oklch(0.8 0.012 250);
+  --ht-border-input: oklch(0.62 0.016 250);
+  --ht-text: oklch(0.21 0.02 255);
+  --ht-text-muted: oklch(0.45 0.02 255);
+  --ht-text-subtle: oklch(0.5 0.018 255);
+  --ht-inverse: oklch(0.27 0.015 255);
+  --ht-inverse-ink: oklch(0.97 0.003 255);
+
+  --ht-accent: oklch(0.52 0.07 150);
+  --ht-accent-hover: oklch(0.47 0.075 150);
+  --ht-accent-ink: oklch(0.99 0 0);
+  --ht-accent-soft: oklch(0.94 0.025 150);
+  --ht-accent-text: oklch(0.38 0.06 150);
+  --ht-focus: oklch(0.55 0.08 150);
+
+  --ht-radius-sm: 3px;
+  --ht-radius-md: 6px;
+  --ht-radius-lg: 10px;
+}
+
+/* The same selectors as tokens.css, so the theme wins in dark mode too. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --ht-bg: oklch(0.17 0.01 255);
+    --ht-surface: oklch(0.21 0.012 255);
+    --ht-surface-muted: oklch(0.24 0.012 255);
+    --ht-surface-sunken: oklch(0.15 0.01 255);
+    --ht-surface-raised: oklch(0.27 0.014 255);
+    --ht-border: oklch(0.31 0.014 255);
+    --ht-border-strong: oklch(0.41 0.016 255);
+    --ht-border-input: oklch(0.53 0.018 255);
+    --ht-text: oklch(0.94 0.005 255);
+    --ht-text-muted: oklch(0.74 0.01 255);
+    --ht-text-subtle: oklch(0.68 0.012 255);
+    --ht-inverse: oklch(0.94 0.005 255);
+    --ht-inverse-ink: oklch(0.21 0.012 255);
+    --ht-accent-hover: oklch(0.47 0.075 150);
+    --ht-accent-soft: oklch(0.29 0.04 150);
+    --ht-accent-text: oklch(0.86 0.07 150);
+    --ht-focus: oklch(0.74 0.08 150);
+  }
+}
+
+[data-theme='dark'] {
+  --ht-bg: oklch(0.17 0.01 255);
+  --ht-surface: oklch(0.21 0.012 255);
+  --ht-surface-muted: oklch(0.24 0.012 255);
+  --ht-surface-sunken: oklch(0.15 0.01 255);
+  --ht-surface-raised: oklch(0.27 0.014 255);
+  --ht-border: oklch(0.31 0.014 255);
+  --ht-border-strong: oklch(0.41 0.016 255);
+  --ht-border-input: oklch(0.53 0.018 255);
+  --ht-text: oklch(0.94 0.005 255);
+  --ht-text-muted: oklch(0.74 0.01 255);
+  --ht-text-subtle: oklch(0.68 0.012 255);
+  --ht-inverse: oklch(0.94 0.005 255);
+  --ht-inverse-ink: oklch(0.21 0.012 255);
+  --ht-accent-hover: oklch(0.47 0.075 150);
+  --ht-accent-soft: oklch(0.29 0.04 150);
+  --ht-accent-text: oklch(0.86 0.07 150);
+  --ht-focus: oklch(0.74 0.08 150);
+}
+```
+
+The dark blocks leave out `--ht-accent`, `--ht-accent-ink` and the radii: the light block on `:root` sets them, and they do not change. The media query covers a dark OS; `[data-theme='dark']` covers a page or a wrapper that forces dark, so both carry the same values.
+
+## Type size in menus
+
+`ht-menu` sets its text at 14px. Set `--ht-menu-font-size` to change it for one menu, or on `:root` for all of them:
+
+```css
+:root {
+  --ht-menu-font-size: 0.8125rem; /* 13px */
+}
+```
+
+## Check a theme
+
+1. Copy `scripts/contrast.mjs` from the repo, put your values into its `T` table, and run it with `node`. Every row must say `ok`.
+2. Run `scripts/a11y-runner.js` in Storybook, in light and dark (see the accessibility notes in the repo, `docs/a11y.md`).
+3. Look at a form, a menu and a dialog in both modes. Mix tone colours toward `--ht-text`, never toward `black`, if you add your own.

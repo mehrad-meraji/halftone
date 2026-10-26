@@ -8,7 +8,7 @@ const title = (t: string) => t[0].toUpperCase() + t.slice(1);
 
 /** The day used in most stories: meetings, done, open and late tasks. */
 const day = (meetings = 3, done = 2, open = 4, late = 1) => html`
-  <ht-meter-part tone="info" label="Meetings" value=${meetings}></ht-meter-part>
+  <ht-meter-part tone="info" label="Meetings" singular="Meeting" value=${meetings}></ht-meter-part>
   <ht-meter-part tone="success" label="Done" value=${done}></ht-meter-part>
   <ht-meter-part tone="accent" label="Open" value=${open}></ht-meter-part>
   <ht-meter-part tone="danger" label="Late" value=${late}></ht-meter-part>
@@ -51,7 +51,7 @@ export const WithMax: StoryObj = { args: { max: 12 } };
 export const OverMax: StoryObj = {
   render: () => html`
     <ht-meter style="width:320px" label="Tue 27" max="12">
-      <ht-meter-part tone="info" label="Meetings" value="4"></ht-meter-part>
+      <ht-meter-part tone="info" label="Meetings" singular="Meeting" value="4"></ht-meter-part>
       <ht-meter-part tone="accent" label="Open" value="10"></ht-meter-part>
     </ht-meter>`,
 };
@@ -66,6 +66,18 @@ export const Legend: StoryObj = {
       <ht-meter label="Wed 28" max="12" legend>${day()}</ht-meter>
       <ht-meter label="Fri 30" max="12" legend summary="Quiet day">${day(1, 3, 0, 0)}</ht-meter>
     </div>`,
+};
+
+/**
+ * A part at 1 uses its `singular` name: this bar reads "Mon 26, 3 of 4: 1 meeting, 2 open". Without
+ * `singular` it would read "1 meetings".
+ */
+export const Singular: StoryObj = {
+  render: () => html`
+    <ht-meter style="width:320px" label="Mon 26" max="4" legend>
+      <ht-meter-part tone="info" label="Meetings" singular="Meeting" value="1"></ht-meter-part>
+      <ht-meter-part tone="accent" label="Open" value="2"></ht-meter-part>
+    </ht-meter>`,
 };
 
 /** One part per tone, each against the track. */

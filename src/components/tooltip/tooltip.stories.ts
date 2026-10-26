@@ -50,3 +50,23 @@ export const FlipsAtEdge: StoryObj = {
       </ht-tooltip>
     </div>`,
 };
+
+/**
+ * The tip follows `text`. Click the button: the text flips between Mark done and Mark open, and
+ * the button's `aria-description` flips with it.
+ */
+export const TextChanges: StoryObj = {
+  render: () => {
+    const flip = (e: Event) => {
+      const tip = (e.currentTarget as HTMLElement).closest('ht-tooltip')!;
+      const done = tip.getAttribute('text') === 'Mark open';
+      tip.setAttribute('text', done ? 'Mark done' : 'Mark open');
+    };
+    return html`
+      <div style="padding:64px 96px">
+        <ht-tooltip text="Mark done">
+          <ht-button variant="default" @click=${flip}>Toggle task</ht-button>
+        </ht-tooltip>
+      </div>`;
+  },
+};

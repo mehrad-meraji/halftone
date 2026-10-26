@@ -72,7 +72,7 @@ export const DisabledItem: StoryObj = {
     </ht-toggle-group>`,
 };
 
-/** Long labels keep their size; the group grows. Put it in a scroll area if it must fit. */
+/** Long labels keep their size; the group grows. Set `wrap`, or put it in a scroll area, if it must fit. */
 export const LongLabels: StoryObj = {
   render: () => html`
     <ht-toggle-group aria-label="Assignee filter" value="all">
@@ -100,5 +100,23 @@ export const ListeningForChange: StoryObj = {
         <ht-toggle-item value="sms">SMS</ht-toggle-item>
       </ht-toggle-group>
       <code style="font:400 12px var(--ht-font-mono);color:var(--ht-text-muted)">values: ["email"]</code>
+    </div>`,
+};
+
+/**
+ * `wrap` in a 340px panel: filter chips move to a second line on the same track, and the group is
+ * never wider than the panel.
+ */
+export const Wrap: StoryObj = {
+  render: () => html`
+    <div style="box-sizing:border-box;width:340px;max-width:100%;display:grid;gap:16px">
+      <ht-toggle-group aria-label="Filter by source" type="multiple" size="sm" value="jira,calendar" wrap>
+        <ht-toggle-item value="all" count="42">All</ht-toggle-item>
+        <ht-toggle-item value="jira" count="18">Jira</ht-toggle-item>
+        <ht-toggle-item value="github" count="9">GitHub</ht-toggle-item>
+        <ht-toggle-item value="calendar" count="7">Calendar</ht-toggle-item>
+        <ht-toggle-item value="shortcut" count="5">Shortcut</ht-toggle-item>
+        <ht-toggle-item value="notes" count="3">Notes</ht-toggle-item>
+      </ht-toggle-group>
     </div>`,
 };

@@ -1,6 +1,23 @@
 import { LitElement, css, html } from 'lit';
 
 /**
+ * The `detail` of `ht-drag-over`, `ht-drag-leave` and `ht-drag-drop`, the drag protocol that
+ * `ht-sortable-list` speaks. A structural copy, so this file imports nothing but Lit.
+ * @internal
+ */
+interface HtDragDetail {
+  itemId: string;
+  item: HTMLElement;
+  source: HTMLElement;
+  group: string;
+  clientX: number;
+  clientY: number;
+  target: HTMLElement | null;
+  data: unknown;
+  label: string;
+}
+
+/**
  * A stack of headers that each show or hide a panel: FAQs, settings groups, long forms. Follows
  * the WAI-ARIA accordion pattern. Each header is a button inside a heading; Up and Down move
  * between headers, Home and End jump to the first and last, and Enter or Space toggles.
@@ -72,15 +89,29 @@ const CHEVRON = 'M216.49,104.49l-80,80a12,12,0,0,1-17,0l-80-80a12,12,0,0,1,17-17
 /**
  * One section of an `ht-accordion`: a header and the panel it controls. Put the header text in the
  * `header` slot and the panel content in the default slot. Closed content is hidden from the
- * accessibility tree and from the tab order.
+ * accessibility tree and from the tab order. The header button reports its state with
+ * `aria-expanded`.
+ *
+ * The `meta` slot sits at the end of the header, before the chevron: a count, a summary, a
+ * duration. It is inside the header button and part of its name ("Monday, 4 tasks"), so put text
+ * there, never a control.
+ *
+ * With `droppable` the header is a drop target in the drag protocol (see `ht-sortable-list`): a
+ * day heading that takes a task dragged onto it. It takes an item when the source list's `group`
+ * is in `accept` (or `accept` is empty), and is not `disabled`. Only the header takes it, not the
+ * open panel, so a list inside the panel still gets its own drops. It draws a 2px accent ring
+ * while an item is over it, and fills `detail.data` with `{ value }` and `detail.label` with the
+ * header text. The source list fires `ht-reorder` on drop; the item never moves anything itself.
  *
  * @tag ht-accordion-item
  * @summary Header and panel inside an accordion.
  *
  * @slot - Panel content.
  * @slot header - Header text.
+ * @slot meta - Text at the end of the header, such as a count. No controls: it sits inside the header button.
  *
  * @csspart trigger - The header button.
+ * @csspart meta - The wrapper of the `meta` slot.
  * @csspart panel - The panel wrapper.
  *
  * @fires change - The user opened or closed the item. Bubbles; read `open` from the target.
@@ -93,17 +124,77 @@ export class HtAccordionItem extends LitElement {
     disabled: { type: Boolean, reflect: true },
     /** Heading level (1 to 6) of the header, so the outline of the page stays correct. */
     level: { type: Number },
+    /** Identifier passed to the drag protocol as `data.value` when an item is dropped on the header, such as a date. */
+    value: {},
+    /** The header takes items dragged from an `ht-sortable-list`. */
+    droppable: { type: Boolean, reflect: true },
+    /** Space-separated `group` names of the lists it takes items from. Empty takes any group. */
+    accept: {},
+    _over: { state: true },
   };
 
   declare open: boolean;
   declare disabled: boolean;
   declare level: number;
+  declare value: string;
+  declare droppable: boolean;
+  declare accept: string;
+  declare _over: boolean;
 
   constructor() {
     super();
     this.open = false;
     this.disabled = false;
     this.level = 3;
+    this.value = '';
+    this.droppable = false;
+    this.accept = '';
+    this._over = false;
+    this.addEventListener('ht-drag-over', this.#onDragOver);
+    this.addEventListener('ht-drag-leave', this.#onDragEnd);
+    this.addEventListener('ht-drag-drop', this.#onDragEnd);
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this._over = false;
+  }
+
+  #accepts(group: string) {
+    const list = this.accept.trim();
+    return !list || list.split(/\s+/).includes(group);
+  }
+
+  #onDragOver = (e: Event) => {
+    // A nested target took it first: the deepest target wins.
+    if (e.defaultPrevented) return;
+    if (!this.droppable || this.disabled) return;
+    // Only the header takes drops. The event also bubbles up from the panel.
+    const trigger = this.renderRoot.querySelector('.trigger');
+    if (!trigger || !e.composedPath().includes(trigger)) return;
+    const d = (e as CustomEvent<HtDragDetail>).detail;
+    if (!d || !this.#accepts(d.group ?? '')) return;
+    e.preventDefault();
+    d.target = this;
+    d.data = { value: this.value };
+    d.label = this.#headerText();
+    this._over = true;
+  };
+
+  /** `ht-drag-leave` and `ht-drag-drop` both end the highlight. */
+  #onDragEnd = () => {
+    this._over = false;
+  };
+
+  #headerText() {
+    const slot = this.renderRoot.querySelector<HTMLSlotElement>('slot[name="header"]');
+    const nodes = slot?.assignedNodes({ flatten: true }) ?? [];
+    return nodes.map((n) => n.textContent ?? '').join(' ').replace(/\s+/g, ' ').trim();
+  }
+
+  willUpdate(changed: Map<string, unknown>) {
+    // A disabled item cannot keep a drop highlight.
+    if (changed.has('disabled') && this.disabled) this._over = false;
   }
 
   static styles = css`
@@ -135,6 +226,19 @@ export class HtAccordionItem extends LitElement {
     .trigger:hover:not(:disabled) { background: color-mix(in oklab, var(--ht-text) 4%, transparent); }
     .trigger:focus-visible { outline: 2px solid var(--ht-focus); outline-offset: -2px; }
     .trigger:disabled { color: var(--ht-text-subtle); cursor: not-allowed; }
+    .title { flex: 1; min-width: 0; }
+    .meta {
+      flex: none;
+      color: var(--ht-text-muted);
+      font: 400 0.75rem/1rem var(--ht-font-ui);
+      font-variant-numeric: tabular-nums;
+    }
+    /* Drop target: an accent tint and a 2px inset ring while an item is over the header. The ring leans toward the text colour so it keeps 3:1 on the tint in dark mode. */
+    .trigger.over,
+    .trigger.over:hover:not(:disabled) {
+      background: color-mix(in oklab, var(--ht-accent) 10%, var(--ht-surface));
+      box-shadow: inset 0 0 0 2px color-mix(in oklab, var(--ht-accent) 80%, var(--ht-text));
+    }
     .chevron {
       flex: none;
       color: var(--ht-text-muted);
@@ -161,6 +265,9 @@ export class HtAccordionItem extends LitElement {
     }
     @media (prefers-reduced-motion: reduce) {
       .panel, :host([open]) .panel, .chevron { transition: none; }
+    }
+    @media (forced-colors: active) {
+      .trigger.over { outline: 2px solid Highlight; outline-offset: -2px; }
     }
   `;
 
@@ -197,7 +304,7 @@ export class HtAccordionItem extends LitElement {
       <div class="heading" role="heading" aria-level=${level}>
         <button
           part="trigger"
-          class="trigger"
+          class="trigger ${this._over ? 'over' : ''}"
           type="button"
           id="trigger"
           aria-expanded=${this.open ? 'true' : 'false'}
@@ -206,7 +313,8 @@ export class HtAccordionItem extends LitElement {
           @click=${this.#toggle}
           @keydown=${this.#onKeydown}
         >
-          <span><slot name="header"></slot></span>
+          <span class="title"><slot name="header"></slot></span>
+          <span part="meta" class="meta"><slot name="meta"></slot></span>
           <svg class="chevron" width="12" height="12" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d=${CHEVRON} /></svg>
         </button>
       </div>

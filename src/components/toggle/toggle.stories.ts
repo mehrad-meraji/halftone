@@ -30,12 +30,25 @@ export const WithPrefix: StoryObj = {
     <ht-toggle variant="outline"><ht-icon slot="prefix" name="star"></ht-icon>Starred</ht-toggle>`,
 };
 
-/** No text, so the accessible name comes from `aria-label` (moved to the native button). */
+/** No text, so the toggle is square and the accessible name comes from `aria-label` (moved to the native button). */
 export const IconOnly: StoryObj = {
   render: () => html`
     <div style="display:flex;gap:8px">
       <ht-toggle aria-label="Mute notifications"><ht-icon name="bell"></ht-icon></ht-toggle>
       <ht-toggle variant="outline" aria-label="Star" pressed><ht-icon name="star" weight="fill"></ht-icon></ht-toggle>
+    </div>`,
+};
+
+/**
+ * The Today star: `sm` is a 24px square, the `ht-icon` keeps its own 13px `size`, `label` names
+ * it, and the button reports `aria-pressed`. Off, on, and disabled.
+ */
+export const IconOnlySmall: StoryObj = {
+  render: () => html`
+    <div style="display:flex;gap:8px;align-items:center">
+      <ht-toggle size="sm" label="Star for today"><ht-icon name="star" size="13"></ht-icon></ht-toggle>
+      <ht-toggle size="sm" label="Star for today" pressed><ht-icon name="star" weight="fill" size="13"></ht-icon></ht-toggle>
+      <ht-toggle size="sm" label="Star for today" disabled><ht-icon name="star" size="13"></ht-icon></ht-toggle>
     </div>`,
 };
 

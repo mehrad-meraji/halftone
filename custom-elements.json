@@ -57,12 +57,16 @@
         },
         {
           "kind": "class",
-          "description": "One section of an `ht-accordion`: a header and the panel it controls. Put the header text in the\n`header` slot and the panel content in the default slot. Closed content is hidden from the\naccessibility tree and from the tab order.",
+          "description": "One section of an `ht-accordion`: a header and the panel it controls. Put the header text in the\n`header` slot and the panel content in the default slot. Closed content is hidden from the\naccessibility tree and from the tab order. The header button reports its state with\n`aria-expanded`.\n\nThe `meta` slot sits at the end of the header, before the chevron: a count, a summary, a\nduration. It is inside the header button and part of its name (\"Monday, 4 tasks\"), so put text\nthere, never a control.\n\nWith `droppable` the header is a drop target in the drag protocol (see `ht-sortable-list`): a\nday heading that takes a task dragged onto it. It takes an item when the source list's `group`\nis in `accept` (or `accept` is empty), and is not `disabled`. Only the header takes it, not the\nopen panel, so a list inside the panel still gets its own drops. It draws a 2px accent ring\nwhile an item is over it, and fills `detail.data` with `{ value }` and `detail.label` with the\nheader text. The source list fires `ht-reorder` on drop; the item never moves anything itself.",
           "name": "HtAccordionItem",
           "cssParts": [
             {
               "description": "The header button.",
               "name": "trigger"
+            },
+            {
+              "description": "The wrapper of the `meta` slot.",
+              "name": "meta"
             },
             {
               "description": "The panel wrapper.",
@@ -77,6 +81,10 @@
             {
               "description": "Header text.",
               "name": "header"
+            },
+            {
+              "description": "Text at the end of the header, such as a count. No controls: it sits inside the header button.",
+              "name": "meta"
             }
           ],
           "members": [
@@ -114,6 +122,40 @@
               "description": "Heading level (1 to 6) of the header, so the outline of the page stays correct.",
               "default": "3",
               "attribute": "level"
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "privacy": "public",
+              "description": "Identifier passed to the drag protocol as `data.value` when an item is dropped on the header, such as a date.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "droppable",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "The header takes items dragged from an `ht-sortable-list`.",
+              "default": "false",
+              "attribute": "droppable",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "accept",
+              "privacy": "public",
+              "description": "Space-separated `group` names of the lists it takes items from. Empty takes any group.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "accept"
             },
             {
               "kind": "method",
@@ -162,6 +204,33 @@
               "description": "Heading level (1 to 6) of the header, so the outline of the page stays correct.",
               "default": "3",
               "fieldName": "level"
+            },
+            {
+              "name": "value",
+              "description": "Identifier passed to the drag protocol as `data.value` when an item is dropped on the header, such as a date.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "value"
+            },
+            {
+              "name": "droppable",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "The header takes items dragged from an `ht-sortable-list`.",
+              "default": "false",
+              "fieldName": "droppable"
+            },
+            {
+              "name": "accept",
+              "description": "Space-separated `group` names of the lists it takes items from. Empty takes any group.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "accept"
             }
           ],
           "superclass": {
@@ -2258,7 +2327,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "Checkbox: a box with a tick, a dash for the indeterminate state, and a label slot.\nThree sizes: `sm` 16px (default), `md` 24px, `lg` 32px. Form-associated: submits `value` when checked.",
+          "description": "Checkbox: a box with a tick, a dash for the indeterminate state, and a label slot.\nFour sizes: `xs` 15px, `sm` 16px (default), `md` 24px, `lg` 32px. At `xs` and `sm` the hit area\nstill grows to 24px (WCAG 2.5.8). Form-associated: submits `value` when checked.\n\nWhen the visible label sits outside the checkbox (a task title next to it, say), leave the slot\nempty and set `label`: it becomes the native input's accessible name, so it should match the\nvisible text.",
           "name": "HtCheckbox",
           "cssParts": [
             {
@@ -2347,7 +2416,7 @@
               "kind": "field",
               "name": "label",
               "privacy": "public",
-              "description": "Accessible name when there is no slotted text. `aria-label` on the element is forwarded here.",
+              "description": "Accessible name when there is no slotted text, such as the task title shown beside the box. `aria-label` on the element is forwarded here.",
               "type": {
                 "text": "string"
               },
@@ -2358,9 +2427,9 @@
               "kind": "field",
               "name": "size",
               "privacy": "public",
-              "description": "Box and label size: `sm` 16px, `md` 24px, `lg` 32px. Unset takes the group's size, else `sm`.",
+              "description": "Box and label size: `xs` 15px, `sm` 16px, `md` 24px, `lg` 32px. Unset takes the group's size, else `sm`.",
               "type": {
-                "text": "'sm' | 'md' | 'lg' | undefined"
+                "text": "'xs' | 'sm' | 'md' | 'lg' | undefined"
               },
               "attribute": "size",
               "reflects": true
@@ -2438,7 +2507,7 @@
             },
             {
               "name": "label",
-              "description": "Accessible name when there is no slotted text. `aria-label` on the element is forwarded here.",
+              "description": "Accessible name when there is no slotted text, such as the task title shown beside the box. `aria-label` on the element is forwarded here.",
               "type": {
                 "text": "string"
               },
@@ -2447,9 +2516,9 @@
             },
             {
               "name": "size",
-              "description": "Box and label size: `sm` 16px, `md` 24px, `lg` 32px. Unset takes the group's size, else `sm`.",
+              "description": "Box and label size: `xs` 15px, `sm` 16px, `md` 24px, `lg` 32px. Unset takes the group's size, else `sm`.",
               "type": {
-                "text": "'sm' | 'md' | 'lg' | undefined"
+                "text": "'xs' | 'sm' | 'md' | 'lg' | undefined"
               },
               "fieldName": "size"
             }
@@ -2544,7 +2613,7 @@
               "privacy": "public",
               "description": "Size for every checkbox inside, `sm` by default. A checkbox's own `size` wins.",
               "type": {
-                "text": "'sm' | 'md' | 'lg'"
+                "text": "'xs' | 'sm' | 'md' | 'lg'"
               },
               "default": "'sm'",
               "attribute": "size",
@@ -2614,7 +2683,7 @@
               "name": "size",
               "description": "Size for every checkbox inside, `sm` by default. A checkbox's own `size` wins.",
               "type": {
-                "text": "'sm' | 'md' | 'lg'"
+                "text": "'xs' | 'sm' | 'md' | 'lg'"
               },
               "default": "'sm'",
               "fieldName": "size"
@@ -7308,6 +7377,11 @@
               "description": "Minimum panel width.",
               "name": "--ht-menu-min-width",
               "default": "10rem"
+            },
+            {
+              "description": "Text size of the panel and its items. Set it on the menu, or on `:root` for every menu (Taskscape uses `0.8125rem`, 13px).",
+              "name": "--ht-menu-font-size",
+              "default": "0.875rem"
             }
           ],
           "cssParts": [
@@ -7532,6 +7606,11 @@
               "description": "Row height.",
               "name": "--ht-menu-item-height",
               "default": "1.75rem"
+            },
+            {
+              "description": "Text size. Inherited, so setting it on the `ht-menu` sizes every item.",
+              "name": "--ht-menu-font-size",
+              "default": "0.875rem"
             }
           ],
           "cssParts": [
@@ -7908,6 +7987,18 @@
               "default": "''",
               "attribute": "label",
               "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "singular",
+              "privacy": "public",
+              "description": "Name used when `value` is 1, such as \"Meeting\", so the summary reads \"1 meeting\". Unset uses `label`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "singular",
+              "reflects": true
             }
           ],
           "attributes": [
@@ -7937,6 +8028,15 @@
               },
               "default": "''",
               "fieldName": "label"
+            },
+            {
+              "name": "singular",
+              "description": "Name used when `value` is 1, such as \"Meeting\", so the summary reads \"1 meeting\". Unset uses `label`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "singular"
             }
           ],
           "superclass": {
@@ -7949,7 +8049,7 @@
         },
         {
           "kind": "class",
-          "description": "A bar split into parts side by side, each with a value and a tone: \"3 meetings, 2 done,\n4 open, 1 late\". Parts are `ht-meter-part` children.\n\nWithout `max`, the parts share the full width. With `max`, each part takes `value / max` and the\nroom left is a hatched track. When the parts add up to more than `max`, the bar scales to the\nsum and a 2px mark shows where `max` falls.\n\nThe bar is `role=\"img\"`, named by a summary generated from the parts (\"10 of 12: 3 meetings,\n2 done, 4 open, 1 late\", \"14 of 12, over by 2: 4 meetings, 10 open\"), with `label` (or a host\n`aria-label`, which is forwarded) in front. Labels are lower-cased as they are, with no\nplurals worked out: set `summary` when the generated text does not read well.\n\n`legend` adds a table of parts with their counts. Parts at 0 keep their row there, so a set of\nmeters shows the same rows. While the summary is generated, the legend is hidden from screen\nreaders, because the bar already reads every part. When `summary` is set, the legend is exposed\nas a list, since the custom text may leave the counts out.",
+          "description": "A bar split into parts side by side, each with a value and a tone: \"3 meetings, 2 done,\n4 open, 1 late\". Parts are `ht-meter-part` children.\n\nWithout `max`, the parts share the full width. With `max`, each part takes `value / max` and the\nroom left is a hatched track. When the parts add up to more than `max`, the bar scales to the\nsum and a 2px mark shows where `max` falls.\n\nThe bar is `role=\"img\"`, named by a summary generated from the parts (\"10 of 12: 3 meetings,\n2 done, 4 open, 1 late\", \"14 of 12, over by 2: 4 meetings, 10 open\"), with `label` (or a host\n`aria-label`, which is forwarded) in front. Labels are lower-cased as they are. A part at 1\nuses its `singular` name when set (\"1 meeting\"); nothing else is worked out, so set `summary`\nwhen the generated text still does not read well.\n\n`legend` adds a table of parts with their counts. Parts at 0 keep their row there, so a set of\nmeters shows the same rows. While the summary is generated, the legend is hidden from screen\nreaders, because the bar already reads every part. When `summary` is set, the legend is exposed\nas a list, since the custom text may leave the counts out.",
           "name": "HtMeter",
           "cssParts": [
             {
@@ -13344,12 +13444,20 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "Small raised chip for status, counts and metadata. A soft gradient fill, inner glow and a\ntwo-layer shadow underneath; tones tint the fill and colour the text.",
+          "description": "Small raised chip for status, counts and metadata. A soft gradient fill, inner glow and a\ntwo-layer shadow underneath; tones tint the fill and colour the text.\n\n`dot` adds a tone-coloured status dot before the text. `shrink` lets the tag get narrower than\nits text when space runs out: the text is cut with an ellipsis until only the dot (or the prefix\nicon) is left. The text stays in the accessible name.\n\n`interactive` makes the tag a button, so a status tag can open a menu: put it in the `trigger`\nslot of an `ht-menu`, which sets `aria-haspopup` and `aria-expanded` on it. The host takes\n`role=\"button\"` and a tab stop, shows a hover tint and a focus ring, and Enter or Space clicks\nit. Without `ht-menu`, set `aria-haspopup` yourself if it opens something.",
           "name": "HtTag",
           "cssParts": [
             {
               "description": "The tag box.",
               "name": "base"
+            },
+            {
+              "description": "The status dot. Only with `dot`.",
+              "name": "dot"
+            },
+            {
+              "description": "The wrapper of the text, which carries the ellipsis.",
+              "name": "label"
             }
           ],
           "slots": [
@@ -13386,6 +13494,42 @@
               "default": "'sm'",
               "attribute": "size",
               "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "dot",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Shows a status dot in the tone colour before the text.",
+              "default": "false",
+              "attribute": "dot",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "shrink",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Lets the tag shrink below its text: the text is cut with an ellipsis until only the dot or prefix is left.",
+              "default": "false",
+              "attribute": "shrink",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "interactive",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Makes the tag a button (`role=\"button\"`, a tab stop, hover and focus styles), such as the trigger of a status menu.",
+              "default": "false",
+              "attribute": "interactive",
+              "reflects": true
             }
           ],
           "attributes": [
@@ -13406,6 +13550,33 @@
               },
               "default": "'sm'",
               "fieldName": "size"
+            },
+            {
+              "name": "dot",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Shows a status dot in the tone colour before the text.",
+              "default": "false",
+              "fieldName": "dot"
+            },
+            {
+              "name": "shrink",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Lets the tag shrink below its text: the text is cut with an ellipsis until only the dot or prefix is left.",
+              "default": "false",
+              "fieldName": "shrink"
+            },
+            {
+              "name": "interactive",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Makes the tag a button (`role=\"button\"`, a tab stop, hover and focus styles), such as the trigger of a status menu.",
+              "default": "false",
+              "fieldName": "interactive"
             }
           ],
           "superclass": {
@@ -14811,7 +14982,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A row of toggle buttons on a sunken track. The pressed item lifts out as a raised face with\na soft rim and shadow, and its label goes from muted to full text. Not `ht-tabs`: nothing switches panels, and `type=\"multiple\"` lets several\nitems be pressed. Use it for view modes, filters and formatting.\n\nGive an item a `count` to show a number after its label (results per filter, say).\n\n`type=\"single\"` is a radio group: one item is on, arrows move focus and select, and the\nselected item cannot be cleared. `type=\"multiple\"` is a group of toggle buttons: arrows\nmove focus, Space or Enter toggles. Both have one tab stop (roving tabindex), wrap at the\nends, and honour Home and End.\n\nGive the group an accessible name with `aria-label` (valid on the host, which carries a\nrole). An item with no text needs its own `aria-label`.",
+          "description": "A row of toggle buttons on a sunken track. The pressed item lifts out as a raised face with\na soft rim and shadow, and its label goes from muted to full text. Not `ht-tabs`: nothing switches panels, and `type=\"multiple\"` lets several\nitems be pressed. Use it for view modes, filters and formatting.\n\nGive an item a `count` to show a number after its label (results per filter, say).\n\nWithout `wrap` the items stay on one line and the group grows with its labels. With `wrap` the\ngroup is never wider than its container, and items move to more lines on the same track\n(filter chips in a narrow panel).\n\n`type=\"single\"` is a radio group: one item is on, arrows move focus and select, and the\nselected item cannot be cleared. `type=\"multiple\"` is a group of toggle buttons: arrows\nmove focus, Space or Enter toggles. Both have one tab stop (roving tabindex), wrap at the\nends, and honour Home and End.\n\nGive the group an accessible name with `aria-label` (valid on the host, which carries a\nrole). An item with no text needs its own `aria-label`.",
           "name": "HtToggleGroup",
           "slots": [
             {
@@ -14870,6 +15041,18 @@
             },
             {
               "kind": "field",
+              "name": "wrap",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Lets the items move to more lines when the container is too narrow for one.",
+              "default": "false",
+              "attribute": "wrap",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "values",
               "type": {
                 "text": "string[]"
@@ -14922,6 +15105,15 @@
               "description": "Disables every item.",
               "default": "false",
               "fieldName": "disabled"
+            },
+            {
+              "name": "wrap",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Lets the items move to more lines when the container is too narrow for one.",
+              "default": "false",
+              "fieldName": "wrap"
             }
           ],
           "superclass": {
@@ -15091,7 +15283,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A button that stays pressed: bold, mute, pin. Reports its state with `aria-pressed`. The\npressed look is an accent-soft fill with an accent border, so it still reads without colour.\nPressed state is submitted with the form as `name=value`; unpressed submits nothing.\n\nA toggle with no text (icon only) needs a `label`, or an `aria-label` on the element,\nwhich is forwarded to the native button.",
+          "description": "A button that stays pressed: bold, mute, pin. Reports its state with `aria-pressed`. The\npressed look is an accent-soft fill with an accent border, so it still reads without colour.\nPressed state is submitted with the form as `name=value`; unpressed submits nothing.\n\nIcon only: put just an icon in it (in either slot) and the toggle becomes a square of its\nheight: 24px at `sm`. Icons are 16px; an `ht-icon` with its own `size` keeps it, so\n`<ht-icon name=\"star\" size=\"13\">` gives a 13px icon in a 24px box. An icon-only toggle needs a\n`label`, or an `aria-label` on the element, which is forwarded to the native button. The\nbutton reports its state with `aria-pressed` in every mode.",
           "name": "HtToggle",
           "cssParts": [
             {
@@ -15301,7 +15493,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "Hover and focus hint for the element it wraps. The bubble is an inverse surface (dark on\nlight themes) rendered in the top layer, so it is never clipped.\n\nThe wrapped element receives `aria-description` with the `text`, and the bubble has\n`role=\"tooltip\"`. Use it for supplementary hints, not for essential information.",
+          "description": "Hover and focus hint for the element it wraps. The bubble is an inverse surface (dark on\nlight themes) rendered in the top layer, so it is never clipped.\n\nThe wrapped element receives `aria-description` with the `text`, and the bubble has\n`role=\"tooltip\"`. The description follows `text`: a tip that flips (Mark done, Mark open)\nupdates it, and an empty `text` removes it. Use it for supplementary hints, not for essential\ninformation.",
           "name": "HtTooltip",
           "cssProperties": [
             {

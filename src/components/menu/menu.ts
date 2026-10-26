@@ -32,6 +32,7 @@ const CHECK = svg`<path d="M232.49,80.49l-128,128a12,12,0,0,1-17,0l-56-56a12,12,
  * @csspart panel - The floating menu.
  *
  * @cssprop [--ht-menu-min-width=10rem] - Minimum panel width.
+ * @cssprop [--ht-menu-font-size=0.875rem] - Text size of the panel and its items. Set it on the menu, or on `:root` for every menu (Taskscape uses `0.8125rem`, 13px).
  *
  * @fires ht-select - An item was activated. `detail`: `{ value, item, checked }` (`checked` only for checkbox and radio items). Bubbles, composed, cancelable.
  * @fires open - The menu opened. Does not bubble.
@@ -96,7 +97,7 @@ export class HtMenu extends LitElement {
       max-height: calc(100vh - 8px);
       padding: 4px;
       overflow: auto;
-      font: 400 0.875rem/1.25rem var(--ht-font-ui);
+      font: 400 var(--ht-menu-font-size, 0.875rem)/1.25rem var(--ht-font-ui);
       color: var(--ht-text);
       background: var(--ht-surface);
       border: 1px solid var(--ht-border-strong);
@@ -532,6 +533,7 @@ export class HtMenu extends LitElement {
  * @csspart base - The row.
  *
  * @cssprop [--ht-menu-item-height=1.75rem] - Row height.
+ * @cssprop [--ht-menu-font-size=0.875rem] - Text size. Inherited, so setting it on the `ht-menu` sizes every item.
  */
 export class HtMenuItem extends LitElement {
   static properties = {
@@ -602,7 +604,7 @@ export class HtMenuItem extends LitElement {
       min-height: var(--ht-menu-item-height, 1.75rem);
       padding-block: 4px;
       padding-inline: 12px 8px;
-      font: 400 0.875rem/1.25rem var(--ht-font-ui);
+      font: 400 var(--ht-menu-font-size, 0.875rem)/1.25rem var(--ht-font-ui);
       color: var(--ht-text);
       cursor: default;
       user-select: none;

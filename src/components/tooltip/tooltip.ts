@@ -5,7 +5,9 @@ import { LitElement, css, html } from 'lit';
  * light themes) rendered in the top layer, so it is never clipped.
  *
  * The wrapped element receives `aria-description` with the `text`, and the bubble has
- * `role="tooltip"`. Use it for supplementary hints, not for essential information.
+ * `role="tooltip"`. The description follows `text`: a tip that flips (Mark done, Mark open)
+ * updates it, and an empty `text` removes it. Use it for supplementary hints, not for essential
+ * information.
  *
  * @tag ht-tooltip
  * @summary Tooltip.
@@ -145,10 +147,23 @@ export class HtTooltip extends LitElement {
     bubble.style.top = `${Math.min(Math.max(4, p.y), vh - b.height - 4)}px`;
   }
 
-  #syncAria = (e: Event) => {
-    const el = (e.target as HTMLSlotElement).assignedElements()[0];
-    if (el && this.text) el.setAttribute('aria-description', this.text);
+  /** The wrapped element that carries our `aria-description`. */
+  #described: Element | null = null;
+
+  #syncAria = () => {
+    const slot = this.renderRoot.querySelector<HTMLSlotElement>('slot:not([name])');
+    const el = slot?.assignedElements()[0] ?? null;
+    // The wrapped element changed: take the description off the old one.
+    if (this.#described && this.#described !== el) this.#described.removeAttribute('aria-description');
+    this.#described = el;
+    if (!el) return;
+    if (this.text) el.setAttribute('aria-description', this.text);
+    else el.removeAttribute('aria-description');
   };
+
+  updated(changed: Map<string, unknown>) {
+    if (changed.has('text')) this.#syncAria();
+  }
 
   disconnectedCallback() {
     super.disconnectedCallback();

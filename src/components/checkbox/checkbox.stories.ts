@@ -8,7 +8,7 @@ const meta: Meta = {
   component: 'ht-checkbox',
   subcomponents: { HtCheckboxGroup: 'ht-checkbox-group' },
   tags: ['autodocs'],
-  argTypes: { size: { control: 'select', options: ['sm', 'md', 'lg'] } },
+  argTypes: { size: { control: 'select', options: ['xs', 'sm', 'md', 'lg'] } },
   args: { checked: false, indeterminate: false, disabled: false, size: 'md' },
   render: (a) => html`<ht-checkbox size=${a.size} ?checked=${a.checked} ?indeterminate=${a.indeterminate} ?disabled=${a.disabled}>Send me the weekly digest</ht-checkbox>`,
 };
@@ -19,11 +19,11 @@ export const Checked: StoryObj = { args: { checked: true } };
 export const Indeterminate: StoryObj = { args: { indeterminate: true } };
 export const Disabled: StoryObj = { args: { disabled: true } };
 export const DisabledChecked: StoryObj = { args: { disabled: true, checked: true } };
-/** `sm` 16px (default), `md` 24px, `lg` 32px. Each row: unchecked, checked, indeterminate, disabled. */
+/** `xs` 15px, `sm` 16px (default), `md` 24px, `lg` 32px. Each row: unchecked, checked, indeterminate, disabled. */
 export const Sizes: StoryObj = {
   render: () => html`
     <div style="display:grid;gap:16px">
-      ${(['sm', 'md', 'lg'] as const).map(
+      ${(['xs', 'sm', 'md', 'lg'] as const).map(
         (size) => html`<div style="display:flex;gap:24px;align-items:center;flex-wrap:wrap">
           <ht-checkbox size=${size}>Size ${size}</ht-checkbox>
           <ht-checkbox size=${size} checked>Checked</ht-checkbox>
@@ -44,6 +44,30 @@ export const GroupSmall: StoryObj = {
       <ht-checkbox name="c" value="updated">Last updated</ht-checkbox>
       <ht-checkbox name="c" value="size" disabled>Size</ht-checkbox>
     </ht-checkbox-group>`,
+};
+
+/**
+ * Task rows: an `xs` 15px box with a 24px hit area, and the title beside it rather than inside it.
+ * `label` gives the box its accessible name, so it matches the title the row shows.
+ */
+export const TaskRow: StoryObj = {
+  render: () => html`
+    <div style="display:grid;gap:4px;width:320px;max-width:100%;font:400 0.8125rem/1.25rem var(--ht-font-ui);color:var(--ht-text)">
+      ${[
+        ['Review the release notes', false],
+        ['Reply to the design thread', true],
+        ['Book the room for Friday', false],
+      ].map(
+        ([title, done]) => html`<div style="display:flex;align-items:center;gap:8px;min-height:28px">
+          <ht-checkbox size="xs" label=${title as string} ?checked=${done as boolean}></ht-checkbox>
+          <span style=${done ? 'color:var(--ht-text-muted);text-decoration:line-through' : ''}>${title}</span>
+        </div>`,
+      )}
+      <div style="display:flex;align-items:center;gap:8px;min-height:28px">
+        <ht-checkbox size="xs" label="Archived task" disabled></ht-checkbox>
+        <span style="color:var(--ht-text-muted)">Archived task</span>
+      </div>
+    </div>`,
 };
 
 export const WithoutLabel: StoryObj = { render: () => html`<ht-checkbox aria-label="Select row"></ht-checkbox>` };

@@ -19,17 +19,21 @@ export class HtMeterPart extends LitElement {
     tone: { reflect: true },
     /** Name of the part, such as "Meetings". The summary uses it in lower case: "3 meetings". */
     label: { reflect: true },
+    /** Name used when `value` is 1, such as "Meeting", so the summary reads "1 meeting". Unset uses `label`. */
+    singular: { reflect: true },
   };
 
   declare value: number;
   declare tone: Tone;
   declare label: string;
+  declare singular: string;
 
   constructor() {
     super();
     this.value = 0;
     this.tone = 'neutral';
     this.label = '';
+    this.singular = '';
   }
 
   static styles = css`
@@ -52,6 +56,7 @@ interface PartData {
   value: number;
   tone: Tone;
   label: string;
+  singular: string;
 }
 
 /**
@@ -64,8 +69,9 @@ interface PartData {
  *
  * The bar is `role="img"`, named by a summary generated from the parts ("10 of 12: 3 meetings,
  * 2 done, 4 open, 1 late", "14 of 12, over by 2: 4 meetings, 10 open"), with `label` (or a host
- * `aria-label`, which is forwarded) in front. Labels are lower-cased as they are, with no
- * plurals worked out: set `summary` when the generated text does not read well.
+ * `aria-label`, which is forwarded) in front. Labels are lower-cased as they are. A part at 1
+ * uses its `singular` name when set ("1 meeting"); nothing else is worked out, so set `summary`
+ * when the generated text still does not read well.
  *
  * `legend` adds a table of parts with their counts. Parts at 0 keep their row there, so a set of
  * meters shows the same rows. While the summary is generated, the legend is hidden from screen
@@ -230,10 +236,12 @@ export class HtMeter extends LitElement {
       const raw = el instanceof HtMeterPart ? el.value : Number(el.getAttribute('value'));
       const tone = (el instanceof HtMeterPart ? el.tone : el.getAttribute('tone')) as Tone;
       const label = (el instanceof HtMeterPart ? el.label : el.getAttribute('label')) ?? '';
+      const singular = (el instanceof HtMeterPart ? el.singular : el.getAttribute('singular')) ?? '';
       return {
         value: Number.isFinite(raw) && raw > 0 ? raw : 0,
         tone: TONES.includes(tone) ? tone : 'neutral',
         label,
+        singular,
       };
     });
   }
@@ -249,7 +257,8 @@ export class HtMeter extends LitElement {
     const scale = max > 0 && !over ? max : sum;
     const fmt = (n: number) => n.toLocaleString(undefined, { maximumFractionDigits: 2 });
 
-    const list = shown.map((p) => `${fmt(p.value)} ${p.label.toLocaleLowerCase()}`.trim()).join(', ');
+    const name1 = (p: PartData) => (p.value === 1 && p.singular ? p.singular : p.label);
+    const list = shown.map((p) => `${fmt(p.value)} ${name1(p).toLocaleLowerCase()}`.trim()).join(', ');
     let generated = list;
     if (max > 0) {
       const head = over ? `${fmt(sum)} of ${fmt(max)}, over by ${fmt(sum - max)}` : `${fmt(sum)} of ${fmt(max)}`;

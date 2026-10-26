@@ -36,6 +36,20 @@ export const OpenByDefault: StoryObj = { args: { open: true } };
 export const Disabled: StoryObj = { args: { disabled: true } };
 export const AlignedEnd: StoryObj = { args: { placement: 'bottom-end' } };
 
+/** `--ht-menu-font-size` sets the text size of the panel and every item: 13px here, for a dense tray panel. */
+export const CompactText: StoryObj = {
+  render: () => html`
+    <div style="padding:96px 128px">
+      <ht-menu open label="Task actions" style="--ht-menu-font-size:0.8125rem">
+        <ht-button slot="trigger" variant="default" size="sm">Task</ht-button>
+        <ht-menu-item shortcut="T">Move to Today</ht-menu-item>
+        <ht-menu-item>Move to Next Week</ht-menu-item>
+        <ht-menu-separator></ht-menu-separator>
+        <ht-menu-item danger>Delete</ht-menu-item>
+      </ht-menu>
+    </div>`,
+};
+
 export const WithLabelsAndDisabledItems: StoryObj = {
   render: () => html`
     <div style="padding:96px 128px">

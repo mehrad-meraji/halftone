@@ -3,7 +3,12 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 
 /**
  * Checkbox: a box with a tick, a dash for the indeterminate state, and a label slot.
- * Three sizes: `sm` 16px (default), `md` 24px, `lg` 32px. Form-associated: submits `value` when checked.
+ * Four sizes: `xs` 15px, `sm` 16px (default), `md` 24px, `lg` 32px. At `xs` and `sm` the hit area
+ * still grows to 24px (WCAG 2.5.8). Form-associated: submits `value` when checked.
+ *
+ * When the visible label sits outside the checkbox (a task title next to it, say), leave the slot
+ * empty and set `label`: it becomes the native input's accessible name, so it should match the
+ * visible text.
  *
  * @tag ht-checkbox
  * @summary Checkbox.
@@ -30,9 +35,9 @@ export class HtCheckbox extends LitElement {
     name: {},
     /** Value submitted with the form when checked. */
     value: {},
-    /** Accessible name when there is no slotted text. `aria-label` on the element is forwarded here. */
+    /** Accessible name when there is no slotted text, such as the task title shown beside the box. `aria-label` on the element is forwarded here. */
     label: {},
-    /** Box and label size: `sm` 16px, `md` 24px, `lg` 32px. Unset takes the group's size, else `sm`. */
+    /** Box and label size: `xs` 15px, `sm` 16px, `md` 24px, `lg` 32px. Unset takes the group's size, else `sm`. */
     size: { reflect: true },
     _groupDisabled: { state: true },
     _groupSize: { state: true },
@@ -47,9 +52,9 @@ export class HtCheckbox extends LitElement {
   declare name: string;
   declare value: string;
   declare label: string;
-  declare size: 'sm' | 'md' | 'lg' | undefined;
+  declare size: 'xs' | 'sm' | 'md' | 'lg' | undefined;
   declare _groupDisabled: boolean;
-  declare _groupSize: 'sm' | 'md' | 'lg' | undefined;
+  declare _groupSize: 'xs' | 'sm' | 'md' | 'lg' | undefined;
   declare _formDisabled: boolean;
   declare _empty: boolean;
 
@@ -102,6 +107,15 @@ export class HtCheckbox extends LitElement {
       --_font: 400 0.8125rem/1rem var(--ht-font-ui);
       --_r: 5px;
       --_r-sq: 7px;
+    }
+    /* xs: a 15px box for dense rows (task lists). The mark and corners step down with it. */
+    :host([data-size='xs']) {
+      --_box: 15px;
+      --_mark: 11px;
+      --_gap: 8px;
+      --_font: 400 0.8125rem/0.9375rem var(--ht-font-ui);
+      --_r: 4.5px;
+      --_r-sq: 6.5px;
     }
     :host([data-size='md']) {
       --_box: 24px;
@@ -193,7 +207,7 @@ export class HtCheckbox extends LitElement {
     .box:has(input:active)::after { transform: translateY(0.5px) scale(0.97); }
     input {
       position: absolute;
-      /* Positioned inside the 1px border, so -1px covers the whole box. At sm the hit area grows to 24px (WCAG 2.5.8). */
+      /* Positioned inside the 1px border, so -1px covers the whole box. At xs and sm the hit area grows to 24px (WCAG 2.5.8). */
       inset: min(-1px, calc((var(--_box) - 26px) / 2));
       z-index: 2;
       margin: 0;
@@ -318,7 +332,7 @@ export class HtCheckboxGroup extends LitElement {
   declare error: string;
   declare disabled: boolean;
   declare orientation: 'vertical' | 'horizontal';
-  declare size: 'sm' | 'md' | 'lg';
+  declare size: 'xs' | 'sm' | 'md' | 'lg';
 
   constructor() {
     super();
@@ -339,8 +353,10 @@ export class HtCheckboxGroup extends LitElement {
     }
     .items { display: flex; flex-direction: column; gap: 12px; }
     :host([orientation='horizontal']) .items { flex-direction: row; flex-wrap: wrap; gap: 8px 24px; }
-    :host([size='sm']) .items { gap: 8px; }
-    :host([size='sm'][orientation='horizontal']) .items { gap: 8px 16px; }
+    :host([size='sm']) .items,
+    :host([size='xs']) .items { gap: 8px; }
+    :host([size='sm'][orientation='horizontal']) .items,
+    :host([size='xs'][orientation='horizontal']) .items { gap: 8px 16px; }
     .message { margin-top: 8px; font: 400 0.75rem/1.3 var(--ht-font-ui); color: var(--ht-text-muted); }
     .message.error { color: var(--ht-danger-text); }
   `;

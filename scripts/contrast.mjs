@@ -71,6 +71,13 @@ for(const th of ['light','dark']){const t=T[th];
  add('switch tick on knob (non-text)',t.accentText,t.surface,3);
  add('focus ring vs surface (non-text)',(th==='light'?[0.5,0.108,273]:[0.75,0.113,273]),t.surface,3);
  add('field border vs surface (non-text)',t.borderInput,t.surface,3);
+ // ht-tag dot (non-text): the tone mixed 70% toward text, on the tag fill (the tone at its --_mix share over the surface).
+ // With `shrink` the dot can be all that is left, so it must hold 3:1. Neutral uses text-muted on the plain surface.
+ add('tag dot neutral (non-text) on fill',t.tmuted,t.surface,3);
+ for(const [k,c,p] of [['accent',t.accent,.12],['success',t.success,.14],['warning',t.warning,.16],['danger',t.danger,.12],['info',t.info,.12]])
+  add('tag dot '+k+' (non-text) on fill',mix(c,.7,t.text),mix(c,p,t.surface),3);
+ // Accordion header drop target: the 2px ring (accent mixed 80% toward text) on the 10% accent tint (non-text).
+ add('accordion drop ring vs tint (non-text)',mix(t.accent,.8,t.text),mix(t.accent,.1,t.surface),3);
 }
 // Generated avatar palette (PALETTE and INK in src/components/avatar/avatar.ts). Hex, not oklch, and theme-free, so one row per pair.
 // Keep in step with the file. Non-text pairs need 3:1, eyes and mouth (ink on the mid tier) 4.5:1. Every hue against every hue.
