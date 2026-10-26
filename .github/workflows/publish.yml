@@ -3,7 +3,7 @@
 # (Trusted Publisher, GitHub Actions: mehrad-meraji / halftone / publish.yml).
 #
 # Runs when a version tag is pushed (git tag v0.3.0 && git push origin v0.3.0), or by hand for an
-# existing tag: gh workflow run publish.yml -f tag=v0.2.0
+# existing tag whose run failed: gh workflow run publish.yml -f tag=v0.3.0
 name: Publish
 on:
   push:
