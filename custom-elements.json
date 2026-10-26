@@ -12526,7 +12526,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A row of joined toggle buttons with one shared outline and radius. Not `ht-tabs`: there is\nno recessed track, and nothing switches panels. Use it for view modes and formatting.\n\n`type=\"single\"` is a radio group: one item is on, arrows move focus and select, and the\nselected item cannot be cleared. `type=\"multiple\"` is a group of toggle buttons: arrows\nmove focus, Space or Enter toggles. Both have one tab stop (roving tabindex), wrap at the\nends, and honour Home and End.\n\nGive the group an accessible name with `aria-label` (valid on the host, which carries a\nrole). An item with no text needs its own `aria-label`.",
+          "description": "A row of toggle buttons on a sunken track. The pressed item lifts out as a raised face with\na 3:1 outline. Not `ht-tabs`: nothing switches panels, and `type=\"multiple\"` lets several\nitems be pressed. Use it for view modes, filters and formatting.\n\nGive an item a `count` to show a number after its label (results per filter, say).\n\n`type=\"single\"` is a radio group: one item is on, arrows move focus and select, and the\nselected item cannot be cleared. `type=\"multiple\"` is a group of toggle buttons: arrows\nmove focus, Space or Enter toggles. Both have one tab stop (roving tabindex), wrap at the\nends, and honour Home and End.\n\nGive the group an accessible name with `aria-label` (valid on the host, which carries a\nrole). An item with no text needs its own `aria-label`.",
           "name": "HtToggleGroup",
           "slots": [
             {
@@ -12563,7 +12563,7 @@
               "kind": "field",
               "name": "size",
               "privacy": "public",
-              "description": "Item height: sm 24px, md 28px, lg 32px.",
+              "description": "Group height, track included: sm 24px, md 28px, lg 32px. Items are 4px shorter.",
               "type": {
                 "text": "'sm' | 'md' | 'lg'"
               },
@@ -12622,7 +12622,7 @@
             },
             {
               "name": "size",
-              "description": "Item height: sm 24px, md 28px, lg 32px.",
+              "description": "Group height, track included: sm 24px, md 28px, lg 32px. Items are 4px shorter.",
               "type": {
                 "text": "'sm' | 'md' | 'lg'"
               },
@@ -12655,6 +12655,10 @@
             {
               "description": "The item face.",
               "name": "base"
+            },
+            {
+              "description": "The number after the label.",
+              "name": "count"
             }
           ],
           "slots": [
@@ -12704,6 +12708,17 @@
             },
             {
               "kind": "field",
+              "name": "count",
+              "privacy": "public",
+              "description": "Number shown after the label, in mono. A string, so `1.2k` works. Read as part of the item's name.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "count"
+            },
+            {
+              "kind": "field",
               "name": "groupDisabled",
               "privacy": "public",
               "type": {
@@ -12738,6 +12753,15 @@
               },
               "default": "false",
               "fieldName": "disabled"
+            },
+            {
+              "name": "count",
+              "description": "Number shown after the label, in mono. A string, so `1.2k` works. Read as part of the item's name.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "count"
             }
           ],
           "superclass": {

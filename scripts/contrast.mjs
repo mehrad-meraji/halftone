@@ -33,6 +33,15 @@ for(const th of ['light','dark']){const t=T[th];
  add('selected pip vs surface (non-text)',pip,t.surface,3);
  add('selected pip vs row fill (non-text)',pip,mix(t.text,.075,t.surface),3);
  add('selected pip vs row fill on muted (non-text)',pip,mix(t.text,.075,t.muted),3);
+ // Toggle group track: unpressed items sit on the sunken track, the pressed item is a raised face.
+ // The face is barely lighter than the track, so its outline carries the state (non-text, 3:1 against both).
+ const hover=mix(t.text,.075,t.sunken), ring=mix(t.borderInput,.85,t.text);
+ add('toggle item text (text-muted) on track',t.tmuted,t.sunken);
+ add('toggle count (text-subtle) on track',t.tsub,t.sunken);
+ add('toggle count hover (text-muted) on hover fill',t.tmuted,hover);
+ add('toggle pressed count (accent-text) on face',t.accentText,t.raised);
+ add('toggle pressed outline vs track (non-text)',ring,t.sunken,3);
+ add('toggle pressed outline vs face (non-text)',ring,t.raised,3);
  add('button danger text',t.dangerInk,t.danger);
  add('button default text',t.text,t.raised);
  add('button quiet text (on bg)',t.tmuted,t.bg);
