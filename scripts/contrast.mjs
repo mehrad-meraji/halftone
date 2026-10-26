@@ -12,8 +12,8 @@ const ratio=(a,b)=>{const A=lum(oklch(a)),B=lum(oklch(b));const[x,y]=A>B?[A,B]:[
 const mix=(a,p,b)=>{const lab=([L,C,h])=>[L,C*Math.cos(h*Math.PI/180),C*Math.sin(h*Math.PI/180)];
  const A=lab(a),B=lab(b),[L,x,y]=A.map((v,i)=>v*p+B[i]*(1-p));return [L,Math.hypot(x,y),Math.atan2(y,x)*180/Math.PI]};
 const T={
- light:{bg:[0.955,0.006,283],surface:[0.995,0.003,283],muted:[0.965,0.005,283],sunken:[0.94,0.008,283],text:[0.2,0.018,278],tmuted:[0.45,0.018,278],tsub:[0.5,0.018,278],accent:[0.54,0.212,300],accentInk:[0.99,0,0],accentText:[0.378,0.145,292],accentSoft:[0.94,0.034,297],danger:[0.56,0.153,25],dangerInk:[0.99,0,355],dangerText:[0.45,0.145,23],dangerSoft:[0.95,0.025,20],success:[0.55,0.111,160],warning:[0.7,0.111,75],info:[0.55,0.085,235],border:[0.797,0.014,283],borderInput:[0.64,0.018,283],inverse:[0.26,0.013,273],inverseInk:[0.97,0.003,278]},
- dark:{bg:[0.16,0.016,273],surface:[0.2,0.016,273],muted:[0.23,0.018,273],sunken:[0.14,0.015,273],text:[0.94,0.006,278],tmuted:[0.74,0.012,278],tsub:[0.68,0.016,278],accent:[0.54,0.212,300],accentInk:[0.99,0,0],accentText:[0.89,0.111,300],accentSoft:[0.28,0.068,297],danger:[0.65,0.162,25],dangerInk:[0.18,0.025,25],dangerText:[0.78,0.119,25],dangerSoft:[0.27,0.06,25],success:[0.55,0.111,160],warning:[0.7,0.111,75],info:[0.55,0.085,235],border:[0.4,0.024,273],borderInput:[0.52,0.024,273],inverse:[0.94,0.006,278],inverseInk:[0.2,0.016,278]}};
+ light:{bg:[0.955,0.006,283],surface:[0.995,0.003,283],raised:[0.995,0.003,283],muted:[0.965,0.005,283],sunken:[0.94,0.008,283],text:[0.2,0.018,278],tmuted:[0.45,0.018,278],tsub:[0.5,0.018,278],accent:[0.54,0.212,300],accentInk:[0.99,0,0],accentText:[0.378,0.145,292],accentSoft:[0.94,0.034,297],danger:[0.56,0.153,25],dangerInk:[0.99,0,355],dangerText:[0.45,0.145,23],dangerSoft:[0.95,0.025,20],success:[0.55,0.111,160],warning:[0.7,0.111,75],info:[0.55,0.085,235],border:[0.797,0.014,283],borderInput:[0.64,0.018,283],inverse:[0.26,0.013,273],inverseInk:[0.97,0.003,278]},
+ dark:{bg:[0.16,0.016,273],surface:[0.2,0.016,273],raised:[0.26,0.018,273],muted:[0.23,0.018,273],sunken:[0.14,0.015,273],text:[0.94,0.006,278],tmuted:[0.74,0.012,278],tsub:[0.68,0.016,278],accent:[0.54,0.212,300],accentInk:[0.99,0,0],accentText:[0.89,0.111,300],accentSoft:[0.28,0.068,297],danger:[0.65,0.162,25],dangerInk:[0.18,0.025,25],dangerText:[0.78,0.119,25],dangerSoft:[0.27,0.06,25],success:[0.55,0.111,160],warning:[0.7,0.111,75],info:[0.55,0.085,235],border:[0.4,0.024,273],borderInput:[0.52,0.024,273],inverse:[0.94,0.006,278],inverseInk:[0.2,0.016,278]}};
 // ht-code syntax colours, keep in step with --ht-code-* in tokens.css. Checked on the code background (sunken).
 const CODE={
  light:{keyword:[0.48,0.2,300],string:[0.48,0.13,150],number:[0.52,0.14,55],comment:[0.5,0.02,278],function:[0.5,0.14,250],property:[0.48,0.1,200],tag:[0.5,0.17,15],variable:[0.5,0.18,340]},
@@ -21,10 +21,15 @@ const CODE={
 const rows=[];
 for(const th of ['light','dark']){const t=T[th];
  const add=(name,fg,bg,min=4.5)=>{const r=ratio(fg,bg);rows.push([th,name,r.toFixed(2),r>=min?'ok':'FAIL (<'+min+')'])};
+ // Header strips: the eyebrow sits on --ht-halftone. Check it against the centre of a dot, the strongest point.
+ // Keep the accent share in step with --ht-halftone in tokens.css (light 12%, dark 28%).
+ const dot=mix(t.accent,th==='light'?.12:.28,t.muted);
+ add('header eyebrow (text-subtle) on a dot',t.tsub,dot);
+ add('header heading (text) on a dot',t.text,dot);
  add('button primary text',t.accentInk,t.accent);
  for(const [k,c] of Object.entries(CODE[th])) add('code '+k+' on code bg',c,t.sunken);
  add('button danger text',t.dangerInk,t.danger);
- add('button default text',t.text,t.surface);
+ add('button default text',t.text,t.raised);
  add('button quiet text (on bg)',t.tmuted,t.bg);
  add('button quiet hover (text on bg)',t.text,t.bg);
  add('nav-item / tab text on bg',t.text,t.bg);
