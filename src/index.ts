@@ -51,3 +51,11 @@ export { HtDropzone, type DropzoneRejectDetail, type DropzoneRejectReason } from
 export { HtPagination } from './components/pagination/pagination.js';
 export { HtStep, HtSteps } from './components/steps/steps.js';
 export { HtTimeline, HtTimelineGroup, HtTimelineItem } from './components/timeline/timeline.js';
+export { HtSortableItem, HtSortableList, type HtDragDetail, type HtReorderDetail } from './components/sortable-list/sortable-list.js';
+export { HtCombobox, HtComboboxGroup, HtComboboxOption } from './components/combobox/combobox.js';
+export { HtDaySchedule, HtScheduleItem } from './components/day-schedule/day-schedule.js';
+export { HtWeekStrip, HtWeekTab } from './components/week-strip/week-strip.js';
+export { HtMeter, HtMeterPart } from './components/meter/meter.js';
+export { HtElapsed } from './components/elapsed/elapsed.js';
+export { HtLightbox } from './components/lightbox/lightbox.js';
+export { HtLinkPreview, HtLinkPreviewRow } from './components/link-preview/link-preview.js';

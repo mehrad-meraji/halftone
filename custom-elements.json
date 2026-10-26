@@ -2990,6 +2990,613 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/components/combobox/combobox.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Text field with a suggestions list, after the ARIA 1.2 combobox pattern. The app feeds the\nsuggestions: on each keystroke the field fires `ht-input` and the app replaces the\n`ht-combobox-option` children (optionally inside `ht-combobox-group`). The combobox never\nfilters, sorts or fetches.\n\nThe list is a listbox in a manual popover in the top layer, under the field and as wide as it.\nIt flips above the field when there is no room below. It opens on typing, on Up or Down, and\non a click in the field, and only when it has something to show: options, the loading row, the\nempty row, or the create row. Focus stays in the text box; the highlighted option is linked\nwith `aria-activedescendant`.\n\nKeys: Up and Down move through the options and the create row, and wrap. Nothing is\nhighlighted until you press one, so Enter on its own submits the text (`ht-submit`); with an\noption highlighted, Enter picks it (`ht-select`). Escape closes the list and keeps the text; a\nsecond Escape clears it. Alt+Down opens the list without moving, Alt+Up closes it. Home and End\nstay in the text box. Hovering an option only highlights it visually, so a resting pointer\nnever changes what Enter does.\n\nPicking an option fills the field with the option's text, unless the `ht-select` handler set\n`value` itself (for example to clear the field after linking a ticket).\n\nPrefix and suffix content (a scope picker, a project) sits inside the field as inset chips.\nThe combobox does not disable slotted controls: disable them yourself along with the field.\n\nScreen readers: a polite status region reads \"Searching…\", the empty text, or the result\ncount while the list is open. Where the browser cannot link the text box to a slotted option\nby reference (`ariaActiveDescendantElement`), the highlighted option is read there instead.",
+          "name": "HtCombobox",
+          "cssProperties": [
+            {
+              "description": "Maximum height of the list before it scrolls.",
+              "name": "--ht-combobox-list-height",
+              "default": "18rem"
+            }
+          ],
+          "cssParts": [
+            {
+              "description": "The visible label.",
+              "name": "label"
+            },
+            {
+              "description": "The bordered field around the chips and the text box.",
+              "name": "control"
+            },
+            {
+              "description": "The native `<input>`.",
+              "name": "input"
+            },
+            {
+              "description": "The floating list.",
+              "name": "listbox"
+            },
+            {
+              "description": "The \"Searching…\" row.",
+              "name": "loading"
+            },
+            {
+              "description": "The row shown when there are no options.",
+              "name": "empty"
+            },
+            {
+              "description": "The create row.",
+              "name": "create"
+            },
+            {
+              "description": "The eyebrow above the create row (with `create-heading`).",
+              "name": "create-heading"
+            }
+          ],
+          "slots": [
+            {
+              "description": "`ht-combobox-option` and `ht-combobox-group` elements.",
+              "name": ""
+            },
+            {
+              "description": "Content before the text, drawn as an inset chip (a scope button, an icon).",
+              "name": "prefix"
+            },
+            {
+              "description": "Content after the text, drawn as an inset chip (a project picker).",
+              "name": "suffix"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "value",
+              "privacy": "public",
+              "description": "The text in the field. Also the form value.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "privacy": "public",
+              "description": "Visible label. With no visible label, set `aria-label` on the element instead; it is forwarded to the text box.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "placeholder",
+              "privacy": "public",
+              "description": "Placeholder in the text box.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "placeholder"
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "privacy": "public",
+              "description": "Form field name.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "name"
+            },
+            {
+              "kind": "field",
+              "name": "required",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Must not be empty to submit the form.",
+              "default": "false",
+              "attribute": "required",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Dims the field, blocks typing and closes the list.",
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "loading",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Shows the spinner row at the end of the list and marks the list busy. Set it while results are on their way.",
+              "default": "false",
+              "attribute": "loading",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "loadingText",
+              "privacy": "public",
+              "description": "Text of the loading row.",
+              "type": {
+                "text": "string"
+              },
+              "default": "'Searching…'",
+              "attribute": "loading-text"
+            },
+            {
+              "kind": "field",
+              "name": "emptyText",
+              "privacy": "public",
+              "description": "Text of the row shown when there are no options and the text is not empty. `{value}` is replaced by the text. Empty hides the row.",
+              "type": {
+                "text": "string"
+              },
+              "default": "'No matches.'",
+              "attribute": "empty-text"
+            },
+            {
+              "kind": "field",
+              "name": "createLabel",
+              "privacy": "public",
+              "description": "Adds a create row at the end of the list while the text is not empty, e.g. `Add task “{value}”`. Picking it fires `ht-submit`. Empty means no create row.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "create-label"
+            },
+            {
+              "kind": "field",
+              "name": "createHeading",
+              "privacy": "public",
+              "description": "Optional eyebrow above the create row, e.g. `Create`. Without it a hairline separates the row.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "create-heading"
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "privacy": "public",
+              "description": "Field height: sm 32px, md 36px, lg 40px, as `ht-input`.",
+              "type": {
+                "text": "'sm' | 'md' | 'lg'"
+              },
+              "default": "'md'",
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "options",
+              "type": {
+                "text": "HtComboboxOption[]"
+              },
+              "description": "Every option that is not hidden, in document order.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "form",
+              "description": "The owning form, if any.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "validity",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "validationMessage",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "checkValidity"
+            },
+            {
+              "kind": "method",
+              "name": "reportValidity"
+            },
+            {
+              "kind": "method",
+              "name": "focus",
+              "parameters": [
+                {
+                  "name": "options",
+                  "optional": true,
+                  "type": {
+                    "text": "FocusOptions"
+                  }
+                }
+              ],
+              "description": "Moves focus to the text box."
+            }
+          ],
+          "events": [
+            {
+              "name": "change",
+              "type": {
+                "text": "Event"
+              },
+              "description": "The committed text changed: on blur, on a pick, or on Enter. Bubbles."
+            },
+            {
+              "name": "ht-select",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "An option was picked by Enter or click. `detail`: `{ value, option }`, where `value` is the option's `value` or, without one, its text. Bubbles, composed, cancelable: `preventDefault()` keeps the list open and the text unchanged."
+            },
+            {
+              "name": "ht-submit",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "Enter with no option highlighted, or the create row picked. `detail`: `{ value }` (the text). Never fires for empty text. Bubbles, composed, cancelable: `preventDefault()` keeps the list open."
+            },
+            {
+              "name": "ht-input",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "The user changed the text (typing, or the second Escape clearing it). `detail`: `{ value }`. Bubbles, composed. Replace the options in response."
+            },
+            {
+              "description": "The text changed by typing. Native event, crosses the shadow boundary.",
+              "name": "input"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "value",
+              "description": "The text in the field. Also the form value.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "value"
+            },
+            {
+              "name": "label",
+              "description": "Visible label. With no visible label, set `aria-label` on the element instead; it is forwarded to the text box.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "label"
+            },
+            {
+              "name": "placeholder",
+              "description": "Placeholder in the text box.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "placeholder"
+            },
+            {
+              "name": "name",
+              "description": "Form field name.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "name"
+            },
+            {
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Must not be empty to submit the form.",
+              "default": "false",
+              "fieldName": "required"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Dims the field, blocks typing and closes the list.",
+              "default": "false",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "loading",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Shows the spinner row at the end of the list and marks the list busy. Set it while results are on their way.",
+              "default": "false",
+              "fieldName": "loading"
+            },
+            {
+              "name": "loading-text",
+              "description": "Text of the loading row.",
+              "type": {
+                "text": "string"
+              },
+              "default": "'Searching…'",
+              "fieldName": "loadingText"
+            },
+            {
+              "name": "empty-text",
+              "description": "Text of the row shown when there are no options and the text is not empty. `{value}` is replaced by the text. Empty hides the row.",
+              "type": {
+                "text": "string"
+              },
+              "default": "'No matches.'",
+              "fieldName": "emptyText"
+            },
+            {
+              "name": "create-label",
+              "description": "Adds a create row at the end of the list while the text is not empty, e.g. `Add task “{value}”`. Picking it fires `ht-submit`. Empty means no create row.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "createLabel"
+            },
+            {
+              "name": "create-heading",
+              "description": "Optional eyebrow above the create row, e.g. `Create`. Without it a hairline separates the row.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "createHeading"
+            },
+            {
+              "name": "size",
+              "description": "Field height: sm 32px, md 36px, lg 40px, as `ht-input`.",
+              "type": {
+                "text": "'sm' | 'md' | 'lg'"
+              },
+              "default": "'md'",
+              "fieldName": "size"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-combobox",
+          "customElement": true,
+          "summary": "Text field with app-fed suggestions."
+        },
+        {
+          "kind": "class",
+          "description": "One suggestion in an `ht-combobox`. The app renders these from its results; the combobox\nneither filters nor sorts them. Picked by Enter (while highlighted) or click; the combobox\nfires `ht-select`.",
+          "name": "HtComboboxOption",
+          "cssParts": [
+            {
+              "description": "The row.",
+              "name": "base"
+            }
+          ],
+          "slots": [
+            {
+              "description": "The option's text. Picking the option fills the field with it.",
+              "name": ""
+            },
+            {
+              "description": "Before the text: an id such as `sc-482` (drawn in mono) or an icon.",
+              "name": "prefix"
+            },
+            {
+              "description": "After the text: a tag, a project, a count.",
+              "name": "suffix"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "value",
+              "privacy": "public",
+              "description": "Value reported in `ht-select`. Defaults to the text.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Dimmed, skipped by the arrow keys, and not pickable.",
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "active",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Highlighted. Managed by the combobox.",
+              "default": "false",
+              "attribute": "active",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "description": "The option's text, without the prefix and suffix slots.",
+              "readonly": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "value",
+              "description": "Value reported in `ht-select`. Defaults to the text.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "value"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Dimmed, skipped by the arrow keys, and not pickable.",
+              "default": "false",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "active",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Highlighted. Managed by the combobox.",
+              "default": "false",
+              "fieldName": "active"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-combobox-option",
+          "customElement": true,
+          "summary": "Combobox suggestion row."
+        },
+        {
+          "kind": "class",
+          "description": "A labelled group of `ht-combobox-option`s, under a mono eyebrow. Groups after the first get\na hairline above them.",
+          "name": "HtComboboxGroup",
+          "cssParts": [
+            {
+              "description": "The eyebrow.",
+              "name": "heading"
+            }
+          ],
+          "slots": [
+            {
+              "description": "`ht-combobox-option` elements.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "label",
+              "privacy": "public",
+              "description": "The eyebrow text. Also the group's accessible name.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "label"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "label",
+              "description": "The eyebrow text. Also the group's accessible name.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "label"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-combobox-group",
+          "customElement": true,
+          "summary": "Combobox option group."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtCombobox",
+          "declaration": {
+            "name": "HtCombobox",
+            "module": "src/components/combobox/combobox.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "HtComboboxOption",
+          "declaration": {
+            "name": "HtComboboxOption",
+            "module": "src/components/combobox/combobox.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "HtComboboxGroup",
+          "declaration": {
+            "name": "HtComboboxGroup",
+            "module": "src/components/combobox/combobox.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-combobox",
+          "declaration": {
+            "name": "HtCombobox",
+            "module": "src/components/combobox/combobox.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-combobox-option",
+          "declaration": {
+            "name": "HtComboboxOption",
+            "module": "src/components/combobox/combobox.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-combobox-group",
+          "declaration": {
+            "name": "HtComboboxGroup",
+            "module": "src/components/combobox/combobox.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/components/command/command.ts",
       "declarations": [
         {
@@ -3506,6 +4113,405 @@
           "declaration": {
             "name": "HtCommandGroup",
             "module": "src/components/command/command.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/day-schedule/day-schedule.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "One day on a vertical hour axis: meetings and planned tasks placed by start and end time, with the\nhours in a left gutter. Items that overlap share the width in equal columns. A now line marks the\ncurrent time. Items with no `start` go to a folding Anytime group under the axis.\n\nPut `ht-schedule-item` children in it, in any order. It places them; it does not fetch, edit or\nmove them. Other children are not shown.\n\nFor screen readers the axis is a list of the items in time order, whatever their order in the\nDOM, and each item says its time first (\"10:00 to 11:00, Design sync\"). Name the list with `label`\nor a host `aria-label`.\n\n**Now line.** Set `now` to fix it (`11:42`). Without `now`, when `date` is today, it follows the\nclock: it moves once a minute and pauses while the page is hidden. Without either, there is no\nline.\n\n**Drop target.** With `droppable`, the axis takes items dragged from an `ht-sortable-list` whose\n`group` is in `accept` (any group when `accept` is empty). It answers the list's `ht-drag-over`,\nsnaps the pointer to 15 minutes and draws a dashed 30-minute box with the time range. On the drop\nthe source list fires `ht-reorder` with `to` set to this schedule and\n`data: { time: '13:15', date: '2026-10-26' }`. Save the time and re-render; the schedule never moves\nDOM itself. Only the axis takes drops, not the Anytime group.",
+          "name": "HtDaySchedule",
+          "cssParts": [
+            {
+              "description": "The hour axis: the list of timed items.",
+              "name": "axis"
+            },
+            {
+              "description": "The area with the hour lines. Its top edge is the `start` hour.",
+              "name": "grid"
+            },
+            {
+              "description": "Each hour label in the gutter.",
+              "name": "hour"
+            },
+            {
+              "description": "The now line.",
+              "name": "now"
+            },
+            {
+              "description": "The time of the now line, in the gutter.",
+              "name": "now-label"
+            },
+            {
+              "description": "The dashed box that shows where a dragged item would land.",
+              "name": "drop"
+            },
+            {
+              "description": "The drop time in the gutter, so it stays readable while the drag preview covers the box.",
+              "name": "drop-label"
+            },
+            {
+              "description": "The Anytime group (a `<details>`).",
+              "name": "anytime"
+            },
+            {
+              "description": "Its header, which folds and unfolds it.",
+              "name": "anytime-summary"
+            },
+            {
+              "description": "The list of items with no time.",
+              "name": "anytime-list"
+            }
+          ],
+          "slots": [
+            {
+              "description": "`ht-schedule-item` elements. Items with a `start` go on the axis, the rest in the Anytime group.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "date",
+              "privacy": "public",
+              "description": "The day shown, as `YYYY-MM-DD`. Sent back in a drop's `data`, and turns on the live now line when it is today.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "date"
+            },
+            {
+              "kind": "field",
+              "name": "start",
+              "privacy": "public",
+              "description": "First hour of the axis, `HH:MM`. Rounded down to the whole hour.",
+              "type": {
+                "text": "string"
+              },
+              "default": "'08:00'",
+              "attribute": "start"
+            },
+            {
+              "kind": "field",
+              "name": "end",
+              "privacy": "public",
+              "description": "Last hour of the axis, `HH:MM`. Rounded up to the whole hour; `24:00` is the end of the day.",
+              "type": {
+                "text": "string"
+              },
+              "default": "'18:00'",
+              "attribute": "end"
+            },
+            {
+              "kind": "field",
+              "name": "hourHeight",
+              "privacy": "public",
+              "type": {
+                "text": "number"
+              },
+              "description": "Height of one hour in px. 40 suits a dense tray.",
+              "default": "56",
+              "attribute": "hour-height",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "now",
+              "privacy": "public",
+              "description": "Fixes the now line at this time, `HH:MM`. Unset: the line follows the clock when `date` is today.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "now"
+            },
+            {
+              "kind": "field",
+              "name": "anytimeLabel",
+              "privacy": "public",
+              "description": "Heading of the group for items with no `start`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "'Anytime'",
+              "attribute": "anytime-label"
+            },
+            {
+              "kind": "field",
+              "name": "droppable",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Takes items dragged from an `ht-sortable-list` (see the drag protocol).",
+              "default": "false",
+              "attribute": "droppable",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "accept",
+              "privacy": "public",
+              "description": "Space-separated `group` names of the lists it takes items from. Empty takes any group.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "accept"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "privacy": "public",
+              "description": "Accessible name of the axis list, such as `Monday 26 October`. A host `aria-label` is moved here.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "label"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "date",
+              "description": "The day shown, as `YYYY-MM-DD`. Sent back in a drop's `data`, and turns on the live now line when it is today.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "date"
+            },
+            {
+              "name": "start",
+              "description": "First hour of the axis, `HH:MM`. Rounded down to the whole hour.",
+              "type": {
+                "text": "string"
+              },
+              "default": "'08:00'",
+              "fieldName": "start"
+            },
+            {
+              "name": "end",
+              "description": "Last hour of the axis, `HH:MM`. Rounded up to the whole hour; `24:00` is the end of the day.",
+              "type": {
+                "text": "string"
+              },
+              "default": "'18:00'",
+              "fieldName": "end"
+            },
+            {
+              "name": "hour-height",
+              "type": {
+                "text": "number"
+              },
+              "description": "Height of one hour in px. 40 suits a dense tray.",
+              "default": "56",
+              "fieldName": "hourHeight"
+            },
+            {
+              "name": "now",
+              "description": "Fixes the now line at this time, `HH:MM`. Unset: the line follows the clock when `date` is today.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "now"
+            },
+            {
+              "name": "anytime-label",
+              "description": "Heading of the group for items with no `start`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "'Anytime'",
+              "fieldName": "anytimeLabel"
+            },
+            {
+              "name": "droppable",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Takes items dragged from an `ht-sortable-list` (see the drag protocol).",
+              "default": "false",
+              "fieldName": "droppable"
+            },
+            {
+              "name": "accept",
+              "description": "Space-separated `group` names of the lists it takes items from. Empty takes any group.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "accept"
+            },
+            {
+              "name": "label",
+              "description": "Accessible name of the axis list, such as `Monday 26 October`. A host `aria-label` is moved here.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "label"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-day-schedule",
+          "customElement": true,
+          "summary": "One day on an hour axis, with a now line and a drop target."
+        },
+        {
+          "kind": "class",
+          "description": "One meeting or task in `ht-day-schedule`. With a `start` it sits on the axis from `start` to\n`end`; without one it is a row in the Anytime group. Only valid inside `ht-day-schedule`, which\nplaces it and provides the list it belongs to.\n\nThe item writes its own time: a mono line under the title (beside it when the block is short),\nand, for screen readers, the time before the title (\"10:00 to 11:00, Design sync\"). So the\ndefault slot holds the title only.\n\n`kind=\"event\"` (the default) is a tinted block with a 3px side bar in `color`, the calendar's\ncolour. `kind=\"task\"` is a bordered surface block, for work planned into the day; put its\ncheckbox in the `meta` slot.",
+          "name": "HtScheduleItem",
+          "cssParts": [
+            {
+              "description": "The block or row.",
+              "name": "base"
+            },
+            {
+              "description": "The title.",
+              "name": "title"
+            },
+            {
+              "description": "The visible time text.",
+              "name": "time"
+            }
+          ],
+          "slots": [
+            {
+              "description": "The title. One line, cut with an ellipsis.",
+              "name": ""
+            },
+            {
+              "description": "Before the title: a checkbox for a task, or a small icon. Give a checkbox its own `aria-label`.",
+              "name": "meta"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "start",
+              "privacy": "public",
+              "description": "Start time, `HH:MM`. Unset puts the item in the Anytime group.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "start"
+            },
+            {
+              "kind": "field",
+              "name": "end",
+              "privacy": "public",
+              "description": "End time, `HH:MM`. Unset, or not after `start`, draws 30 minutes and shows the start time only.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "end"
+            },
+            {
+              "kind": "field",
+              "name": "color",
+              "privacy": "public",
+              "description": "Calendar colour of the side bar and tint, any CSS colour. It is data, so it is the one place a raw\ncolour is fine; tokens such as `var(--ht-info)` work too. Default `--ht-accent`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "color"
+            },
+            {
+              "kind": "field",
+              "name": "kind",
+              "privacy": "public",
+              "description": "`event` is a tinted block with a side bar; `task` is a bordered surface block.",
+              "type": {
+                "text": "'event' | 'task'"
+              },
+              "default": "'event'",
+              "attribute": "kind",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "start",
+              "description": "Start time, `HH:MM`. Unset puts the item in the Anytime group.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "start"
+            },
+            {
+              "name": "end",
+              "description": "End time, `HH:MM`. Unset, or not after `start`, draws 30 minutes and shows the start time only.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "end"
+            },
+            {
+              "name": "color",
+              "description": "Calendar colour of the side bar and tint, any CSS colour. It is data, so it is the one place a raw\ncolour is fine; tokens such as `var(--ht-info)` work too. Default `--ht-accent`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "color"
+            },
+            {
+              "name": "kind",
+              "description": "`event` is a tinted block with a side bar; `task` is a bordered surface block.",
+              "type": {
+                "text": "'event' | 'task'"
+              },
+              "default": "'event'",
+              "fieldName": "kind"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-schedule-item",
+          "customElement": true,
+          "summary": "Meeting or task in a day schedule."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtDaySchedule",
+          "declaration": {
+            "name": "HtDaySchedule",
+            "module": "src/components/day-schedule/day-schedule.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "HtScheduleItem",
+          "declaration": {
+            "name": "HtScheduleItem",
+            "module": "src/components/day-schedule/day-schedule.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tag",
+          "declaration": {
+            "name": "ctor",
+            "module": "src/components/day-schedule/day-schedule.ts"
           }
         }
       ]
@@ -4497,6 +5503,184 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/components/elapsed/elapsed.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A live clock that counts up from `start`: time spent on a task, a call, a running job. It shows\n`h:mm:ss`, or with `compact` `mm:ss` under an hour and `h:mm` from an hour on.\n\nRunning, it is an accent chip with a pulsing dot. `paused` turns it into a neutral chip with a\npause glyph and freezes the time at `paused-at` (or at the moment `paused` was set). `bare` drops\nthe chip and leaves plain tabular digits in the mono face that take their size and colour from\nthe host, for tight spots.\n\nThe clock always counts from `start`. Resuming does not subtract the paused span: when a paused\nclock runs again, the app moves `start` forward by the time it spent paused.\n\nIt ticks with one timer aligned to the next whole second of elapsed time (the next whole minute\nfor `compact` above an hour). While the page is hidden it stops; when the page shows it recomputes\nfrom `start`, so it never drifts. A `start` in the future shows zero until it arrives. Without a\nreadable `start` it renders nothing and takes no space.\n\nIt is a `timer` whose accessible name holds whole minutes only (\"1 hour 24 minutes elapsed\",\nwith \", paused\" when paused), so it changes once a minute and nothing is read every second. The\nvisible digits sit in a `<time>` with a machine-readable duration (`datetime=\"PT1H24M7S\"`).",
+          "name": "HtElapsed",
+          "cssParts": [
+            {
+              "description": "The timer: the chip, or the plain text when `bare`.",
+              "name": "base"
+            },
+            {
+              "description": "The pulsing dot shown while running. Not rendered when paused or bare.",
+              "name": "dot"
+            },
+            {
+              "description": "The pause glyph shown while paused. Not rendered when bare.",
+              "name": "glyph"
+            },
+            {
+              "description": "The `<time>` that holds the digits.",
+              "name": "time"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "start",
+              "privacy": "public",
+              "description": "When the clock started: an ISO date-time (`2026-10-26T10:18:00Z`) or epoch milliseconds. Without it nothing renders.",
+              "type": {
+                "text": "string | number | Date | undefined"
+              },
+              "attribute": "start"
+            },
+            {
+              "kind": "field",
+              "name": "paused",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Stops the clock. It shows the time at `paused-at`, or at the moment `paused` was set.",
+              "default": "false",
+              "attribute": "paused",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "pausedAt",
+              "privacy": "public",
+              "description": "Where a paused clock stops: an ISO date-time or epoch milliseconds. Unset, it stops at the moment `paused` was set. Ignored while running.",
+              "type": {
+                "text": "string | number | Date | undefined"
+              },
+              "attribute": "paused-at"
+            },
+            {
+              "kind": "field",
+              "name": "compact",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Shorter time: `mm:ss` under an hour, `h:mm` from an hour on.",
+              "default": "false",
+              "attribute": "compact",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "bare",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Plain tabular digits with no chip, dot or glyph. Size and colour come from the host.",
+              "default": "false",
+              "attribute": "bare",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "privacy": "public",
+              "description": "Chip size: `md` 22px with 11px text (default), `lg` 28px with 13px text for a detail view. No effect when `bare`.",
+              "type": {
+                "text": "'md' | 'lg'"
+              },
+              "default": "'md'",
+              "attribute": "size",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "start",
+              "description": "When the clock started: an ISO date-time (`2026-10-26T10:18:00Z`) or epoch milliseconds. Without it nothing renders.",
+              "type": {
+                "text": "string | number | Date | undefined"
+              },
+              "fieldName": "start"
+            },
+            {
+              "name": "paused",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Stops the clock. It shows the time at `paused-at`, or at the moment `paused` was set.",
+              "default": "false",
+              "fieldName": "paused"
+            },
+            {
+              "name": "paused-at",
+              "description": "Where a paused clock stops: an ISO date-time or epoch milliseconds. Unset, it stops at the moment `paused` was set. Ignored while running.",
+              "type": {
+                "text": "string | number | Date | undefined"
+              },
+              "fieldName": "pausedAt"
+            },
+            {
+              "name": "compact",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Shorter time: `mm:ss` under an hour, `h:mm` from an hour on.",
+              "default": "false",
+              "fieldName": "compact"
+            },
+            {
+              "name": "bare",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Plain tabular digits with no chip, dot or glyph. Size and colour come from the host.",
+              "default": "false",
+              "fieldName": "bare"
+            },
+            {
+              "name": "size",
+              "description": "Chip size: `md` 22px with 11px text (default), `lg` 28px with 13px text for a detail view. No effect when `bare`.",
+              "type": {
+                "text": "'md' | 'lg'"
+              },
+              "default": "'md'",
+              "fieldName": "size"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-elapsed",
+          "customElement": true,
+          "summary": "Live clock that counts up from a start time."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtElapsed",
+          "declaration": {
+            "name": "HtElapsed",
+            "module": "src/components/elapsed/elapsed.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-elapsed",
+          "declaration": {
+            "name": "HtElapsed",
+            "module": "src/components/elapsed/elapsed.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/components/emoji-picker/emoji-picker.ts",
       "declarations": [
         {
@@ -5443,6 +6627,534 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/components/lightbox/lightbox.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Full-viewport image viewer over a dark scrim, with a filmstrip of thumbnails at the foot.\n\nThe set is the host's light-DOM `img` children: their `src` (and `srcset`, `sizes`), `alt`, and\n`data-name` for the caption. The children stay hidden; the viewer shows copies, and follows when\nimages are added, removed or changed.\n\nBuilt on the native `<dialog>` with `showModal()`, so focus stays inside, Escape closes and it sits\nin the top layer. A click on the scrim closes it (a click on the image or a control does not).\nFocus goes back to the element that had it before opening. Left and Right move to the previous and\nnext image (wrapping at the ends), Home and End jump to the first and last. The filmstrip and the\nprevious and next buttons are hidden when there is one image.\n\nThe scrim is dark in both themes, like the `ht-dialog` backdrop, so the controls on it use a fixed\nlight ink rather than theme tokens.",
+          "name": "HtLightbox",
+          "cssParts": [
+            {
+              "description": "The native `<dialog>`, which is also the scrim.",
+              "name": "dialog"
+            },
+            {
+              "description": "The close button.",
+              "name": "close"
+            },
+            {
+              "description": "The previous button.",
+              "name": "prev"
+            },
+            {
+              "description": "The next button.",
+              "name": "next"
+            },
+            {
+              "description": "The area that holds the current image.",
+              "name": "stage"
+            },
+            {
+              "description": "The current image.",
+              "name": "image"
+            },
+            {
+              "description": "The caption: the image's name and \"2 of 4\".",
+              "name": "caption"
+            },
+            {
+              "description": "The row of thumbnail buttons.",
+              "name": "filmstrip"
+            },
+            {
+              "description": "One thumbnail button.",
+              "name": "thumb"
+            }
+          ],
+          "slots": [
+            {
+              "description": "`img` elements: the set. Not rendered in place.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "open",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Shows the lightbox. Reflects: closing from inside updates it.",
+              "default": "false",
+              "attribute": "open",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "index",
+              "privacy": "public",
+              "type": {
+                "text": "number"
+              },
+              "description": "Index of the current image, from 0. Out-of-range values show the nearest image.",
+              "default": "0",
+              "attribute": "index",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "privacy": "public",
+              "description": "Accessible name of the viewer, such as `Task images`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "'Images'",
+              "attribute": "label"
+            },
+            {
+              "kind": "method",
+              "name": "show",
+              "parameters": [
+                {
+                  "name": "index",
+                  "optional": true,
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ],
+              "description": "Opens the lightbox, at `index` when given."
+            },
+            {
+              "kind": "method",
+              "name": "close",
+              "description": "Closes the lightbox. Focus goes back to the element that opened it."
+            }
+          ],
+          "events": [
+            {
+              "name": "change",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "The current image changed by the user (arrow keys, buttons, thumbnails). `detail: { index }`. Not fired when `index` is set from code or by `show()`."
+            },
+            {
+              "description": "The lightbox closed, by any route (Escape, scrim, close button, `close()`, `open = false`).",
+              "name": "ht-close"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Shows the lightbox. Reflects: closing from inside updates it.",
+              "default": "false",
+              "fieldName": "open"
+            },
+            {
+              "name": "index",
+              "type": {
+                "text": "number"
+              },
+              "description": "Index of the current image, from 0. Out-of-range values show the nearest image.",
+              "default": "0",
+              "fieldName": "index"
+            },
+            {
+              "name": "label",
+              "description": "Accessible name of the viewer, such as `Task images`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "'Images'",
+              "fieldName": "label"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-lightbox",
+          "customElement": true,
+          "summary": "Full-screen image viewer with a filmstrip."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtLightbox",
+          "declaration": {
+            "name": "HtLightbox",
+            "module": "src/components/lightbox/lightbox.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-lightbox",
+          "declaration": {
+            "name": "HtLightbox",
+            "module": "src/components/lightbox/lightbox.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/link-preview/link-preview.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A card for a link to a pull request, a ticket or a page: service icon, a host line\n(\"atlas/web · #1284\"), a one-line title and a meta row with a status. Child rows\n(`ht-link-preview-row`) sit under it.\n\nThe title is the link. The card itself is not a link, so the rows and anything in the\nmeta row can hold their own links. An Open button shows on hover and while focus is\ninside the card; it is always in the tab order and always shown on touch screens.\n\nBelow 260px wide (a container query on the element) the status shows only its dot. Its\ntext stays for screen readers. The title keeps at least 56px.\n\n`appearance=\"strip\"` moves the icon and host line into a dot-screen header strip, sets\nthe title in display type and hangs the rows off a tree line.\n\nHalftone ships no brand marks: put the service icon in the `icon` slot.",
+          "name": "HtLinkPreview",
+          "cssParts": [
+            {
+              "description": "The card box.",
+              "name": "base"
+            },
+            {
+              "description": "The dot-screen header strip. Only with `appearance=\"strip\"`.",
+              "name": "strip"
+            },
+            {
+              "description": "The region holding the host line, title and meta row.",
+              "name": "body"
+            },
+            {
+              "description": "The square box around the `icon` slot. Only with `appearance=\"card\"`; the strip shows the icon bare.",
+              "name": "icon"
+            },
+            {
+              "description": "The host line.",
+              "name": "host"
+            },
+            {
+              "description": "The title link (a `<span>` when `href` is empty).",
+              "name": "title"
+            },
+            {
+              "description": "The meta row.",
+              "name": "meta"
+            },
+            {
+              "description": "The status tag.",
+              "name": "status"
+            },
+            {
+              "description": "The Open button.",
+              "name": "open"
+            },
+            {
+              "description": "The wrapper around the child rows. Hidden when empty.",
+              "name": "rows"
+            }
+          ],
+          "slots": [
+            {
+              "description": "`ht-link-preview-row` elements: tickets, sub-tasks, linked items.",
+              "name": ""
+            },
+            {
+              "description": "Service icon, 16px. Hidden when empty.",
+              "name": "icon"
+            },
+            {
+              "description": "Items after the status in the meta row: checks, comment count, `ht-tag`s.",
+              "name": "meta"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "href",
+              "privacy": "public",
+              "description": "Where the title and the Open button go. Without it the title is plain text and Open is not drawn.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "href"
+            },
+            {
+              "kind": "field",
+              "name": "target",
+              "privacy": "public",
+              "description": "Link target for the title and Open. `_blank` also sets `rel=\"noopener noreferrer\"`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "target"
+            },
+            {
+              "kind": "field",
+              "name": "host",
+              "privacy": "public",
+              "description": "Line above the title, e.g. `atlas/web · #1284`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "host"
+            },
+            {
+              "kind": "field",
+              "name": "heading",
+              "privacy": "public",
+              "description": "The title. One line, cut with an ellipsis.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "heading"
+            },
+            {
+              "kind": "field",
+              "name": "status",
+              "privacy": "public",
+              "description": "Status text, e.g. `Open`, `Merged`, `In Review`. No tag is drawn when empty.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "status"
+            },
+            {
+              "kind": "field",
+              "name": "statusTone",
+              "privacy": "public",
+              "description": "Colour of the status tag. `neutral` is the default.",
+              "type": {
+                "text": "'neutral' | 'accent' | 'success' | 'warning' | 'danger' | 'info'"
+              },
+              "default": "'neutral'",
+              "attribute": "status-tone",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "appearance",
+              "privacy": "public",
+              "description": "`card`: icon left, three stacked lines, rows in a muted footer. `strip`: dot-screen header strip, display title, rows on a tree line.",
+              "type": {
+                "text": "'card' | 'strip'"
+              },
+              "default": "'card'",
+              "attribute": "appearance",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "href",
+              "description": "Where the title and the Open button go. Without it the title is plain text and Open is not drawn.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "href"
+            },
+            {
+              "name": "target",
+              "description": "Link target for the title and Open. `_blank` also sets `rel=\"noopener noreferrer\"`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "target"
+            },
+            {
+              "name": "host",
+              "description": "Line above the title, e.g. `atlas/web · #1284`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "host"
+            },
+            {
+              "name": "heading",
+              "description": "The title. One line, cut with an ellipsis.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "heading"
+            },
+            {
+              "name": "status",
+              "description": "Status text, e.g. `Open`, `Merged`, `In Review`. No tag is drawn when empty.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "status"
+            },
+            {
+              "name": "status-tone",
+              "description": "Colour of the status tag. `neutral` is the default.",
+              "type": {
+                "text": "'neutral' | 'accent' | 'success' | 'warning' | 'danger' | 'info'"
+              },
+              "default": "'neutral'",
+              "fieldName": "statusTone"
+            },
+            {
+              "name": "appearance",
+              "description": "`card`: icon left, three stacked lines, rows in a muted footer. `strip`: dot-screen header strip, display title, rows on a tree line.",
+              "type": {
+                "text": "'card' | 'strip'"
+              },
+              "default": "'card'",
+              "fieldName": "appearance"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-link-preview",
+          "customElement": true,
+          "summary": "Preview card for a pull request, ticket or page."
+        },
+        {
+          "kind": "class",
+          "description": "One child row of `ht-link-preview`: a mono key, a one-line title and a status. Place it\nin the default slot of `ht-link-preview`, which sets its indent and, with\n`appearance=\"strip\"`, draws its tree line.",
+          "name": "HtLinkPreviewRow",
+          "cssParts": [
+            {
+              "description": "The key.",
+              "name": "key"
+            },
+            {
+              "description": "The title link (a `<span>` when `href` is empty).",
+              "name": "title"
+            }
+          ],
+          "slots": [
+            {
+              "description": "The row title. One line, cut with an ellipsis.",
+              "name": ""
+            },
+            {
+              "description": "Status at the end of the row, e.g. an `ht-tag`.",
+              "name": "status"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "key",
+              "privacy": "public",
+              "description": "Short ID before the title, e.g. `sc-482`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "key"
+            },
+            {
+              "kind": "field",
+              "name": "href",
+              "privacy": "public",
+              "description": "Where the title goes. Without it the title is plain text.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "href"
+            },
+            {
+              "kind": "field",
+              "name": "target",
+              "privacy": "public",
+              "description": "Link target. `_blank` also sets `rel=\"noopener noreferrer\"`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "target"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "key",
+              "description": "Short ID before the title, e.g. `sc-482`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "key"
+            },
+            {
+              "name": "href",
+              "description": "Where the title goes. Without it the title is plain text.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "href"
+            },
+            {
+              "name": "target",
+              "description": "Link target. `_blank` also sets `rel=\"noopener noreferrer\"`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "target"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-link-preview-row",
+          "customElement": true,
+          "summary": "Child row of a link preview."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtLinkPreview",
+          "declaration": {
+            "name": "HtLinkPreview",
+            "module": "src/components/link-preview/link-preview.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "HtLinkPreviewRow",
+          "declaration": {
+            "name": "HtLinkPreviewRow",
+            "module": "src/components/link-preview/link-preview.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-link-preview",
+          "declaration": {
+            "name": "HtLinkPreview",
+            "module": "src/components/link-preview/link-preview.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-link-preview-row",
+          "declaration": {
+            "name": "HtLinkPreviewRow",
+            "module": "src/components/link-preview/link-preview.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/components/marquee/marquee.ts",
       "declarations": [
         {
@@ -6148,6 +7860,275 @@
           "declaration": {
             "name": "HtMenuLabel",
             "module": "src/components/menu/menu.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/meter/meter.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "One part of an `ht-meter`: a value, a tone and a label. It renders nothing itself; the parent\nmeter draws it. Changing any property redraws the meter.",
+          "name": "HtMeterPart",
+          "members": [
+            {
+              "kind": "field",
+              "name": "value",
+              "privacy": "public",
+              "type": {
+                "text": "number"
+              },
+              "description": "Count for this part. Negative and non-numeric values count as 0. A part at 0 is left out of the bar and the summary.",
+              "default": "0",
+              "attribute": "value",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "tone",
+              "privacy": "public",
+              "description": "Fill colour. `neutral` is the default.",
+              "type": {
+                "text": "Tone"
+              },
+              "default": "'neutral'",
+              "attribute": "tone",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "privacy": "public",
+              "description": "Name of the part, such as \"Meetings\". The summary uses it in lower case: \"3 meetings\".",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "label",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "value",
+              "type": {
+                "text": "number"
+              },
+              "description": "Count for this part. Negative and non-numeric values count as 0. A part at 0 is left out of the bar and the summary.",
+              "default": "0",
+              "fieldName": "value"
+            },
+            {
+              "name": "tone",
+              "description": "Fill colour. `neutral` is the default.",
+              "type": {
+                "text": "Tone"
+              },
+              "default": "'neutral'",
+              "fieldName": "tone"
+            },
+            {
+              "name": "label",
+              "description": "Name of the part, such as \"Meetings\". The summary uses it in lower case: \"3 meetings\".",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "label"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-meter-part",
+          "customElement": true,
+          "summary": "One part of a meter."
+        },
+        {
+          "kind": "class",
+          "description": "A bar split into parts side by side, each with a value and a tone: \"3 meetings, 2 done,\n4 open, 1 late\". Parts are `ht-meter-part` children.\n\nWithout `max`, the parts share the full width. With `max`, each part takes `value / max` and the\nroom left is a hatched track. When the parts add up to more than `max`, the bar scales to the\nsum and a 2px mark shows where `max` falls.\n\nThe bar is `role=\"img\"`, named by a summary generated from the parts (\"10 of 12: 3 meetings,\n2 done, 4 open, 1 late\", \"14 of 12, over by 2: 4 meetings, 10 open\"), with `label` (or a host\n`aria-label`, which is forwarded) in front. Labels are lower-cased as they are, with no\nplurals worked out: set `summary` when the generated text does not read well.\n\n`legend` adds a table of parts with their counts. Parts at 0 keep their row there, so a set of\nmeters shows the same rows. While the summary is generated, the legend is hidden from screen\nreaders, because the bar already reads every part. When `summary` is set, the legend is exposed\nas a list, since the custom text may leave the counts out.",
+          "name": "HtMeter",
+          "cssParts": [
+            {
+              "description": "The row above the bar holding the label and the count. Shown when `label` is set.",
+              "name": "header"
+            },
+            {
+              "description": "The visible label.",
+              "name": "label"
+            },
+            {
+              "description": "The count text in the header (\"10 of 12\", \"Over by 2\"). Shown when `max` is set.",
+              "name": "value"
+            },
+            {
+              "description": "The bar (`role=\"img\"`).",
+              "name": "track"
+            },
+            {
+              "description": "Each part's fill in the bar.",
+              "name": "fill"
+            },
+            {
+              "description": "The line at `max` when the parts run over it.",
+              "name": "mark"
+            },
+            {
+              "description": "The legend table.",
+              "name": "legend"
+            }
+          ],
+          "slots": [
+            {
+              "description": "`ht-meter-part` elements, one per part, in bar order.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "max",
+              "privacy": "public",
+              "type": {
+                "text": "number | undefined"
+              },
+              "description": "Capacity. When set, the room left shows as a hatched track and an overrun is marked. Unset (or 0) means the parts fill the width by share.",
+              "attribute": "max"
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "privacy": "public",
+              "description": "Bar height: sm 4px, md 8px.",
+              "type": {
+                "text": "'sm' | 'md'"
+              },
+              "default": "'md'",
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "legend",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Shows the legend table under the bar.",
+              "default": "false",
+              "attribute": "legend",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "privacy": "public",
+              "description": "Visible label above the bar. Also put in front of the bar's accessible name.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "summary",
+              "privacy": "public",
+              "description": "Accessible text for the bar, used instead of the generated summary.",
+              "type": {
+                "text": "string | undefined"
+              },
+              "attribute": "summary"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "max",
+              "type": {
+                "text": "number | undefined"
+              },
+              "description": "Capacity. When set, the room left shows as a hatched track and an overrun is marked. Unset (or 0) means the parts fill the width by share.",
+              "fieldName": "max"
+            },
+            {
+              "name": "size",
+              "description": "Bar height: sm 4px, md 8px.",
+              "type": {
+                "text": "'sm' | 'md'"
+              },
+              "default": "'md'",
+              "fieldName": "size"
+            },
+            {
+              "name": "legend",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Shows the legend table under the bar.",
+              "default": "false",
+              "fieldName": "legend"
+            },
+            {
+              "name": "label",
+              "description": "Visible label above the bar. Also put in front of the bar's accessible name.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "label"
+            },
+            {
+              "name": "summary",
+              "description": "Accessible text for the bar, used instead of the generated summary.",
+              "type": {
+                "text": "string | undefined"
+              },
+              "fieldName": "summary"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-meter",
+          "customElement": true,
+          "summary": "Bar of parts against an optional capacity."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtMeterPart",
+          "declaration": {
+            "name": "HtMeterPart",
+            "module": "src/components/meter/meter.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "HtMeter",
+          "declaration": {
+            "name": "HtMeter",
+            "module": "src/components/meter/meter.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-meter-part",
+          "declaration": {
+            "name": "HtMeterPart",
+            "module": "src/components/meter/meter.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ht-meter",
+          "declaration": {
+            "name": "HtMeter",
+            "module": "src/components/meter/meter.ts"
           }
         }
       ]
@@ -9589,6 +11570,309 @@
           "declaration": {
             "name": "HtSkeleton",
             "module": "src/components/skeleton/skeleton.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/sortable-list/sortable-list.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A list the user reorders by dragging, and the source of every drag in Halftone. Items are\n`ht-sortable-item` children. A grip at the start of each row starts the drag; the row keeps its\nown buttons and clicks. A 2px accent line with a ring dot marks the landing spot, and a lifted,\nslightly tilted copy of the item follows the pointer while the original stays in place at 35%.\n\n**It never moves DOM.** On drop it fires `ht-reorder`; the app saves the new order and renders\nit. Same rule as `ht-table`, which fires `sort` and never sorts.\n\nPointer: the drag starts after 5px of movement on the grip. Touch: press and hold the grip for\n250ms (moving first scrolls the page instead). Near the top or bottom edge of the nearest\nscrolling area the area scrolls, faster closer to the edge. Esc cancels.\n\nKeyboard, on the grip: Space or Enter picks the item up, Up and Down (and Home, End) move the\nlanding line, Space or Enter drops, Esc or Tab cancels. Each step is announced in a polite live\nregion. Keyboard moves stay inside the list; a move to another list or day belongs in the app's\nMove To menu.\n\n`handle=\"none\"` drops the grip and lets the whole row drag. A press on a control inside the row\n(button, link, field, checkbox) does not start a drag. On touch the row keeps page scrolling: a\nhold of 250ms without moving picks the item up. Keyboard users still get a grip button: it is\nvisually hidden and draws a focus ring around the row when focused.\n\n**Drag protocol.** Drops cross components through DOM events, so no file imports another. While\na pointer drag runs, the list fires these on other elements (all `CustomEvent`, `composed`, with\nan `HtDragDetail`):\n\n- `ht-drag-over` on the deepest element under the pointer: bubbles, cancelable. A target that\n  takes the item calls `preventDefault()` and fills `detail.target` (defaults to the element it\n  was fired on), and may fill `detail.data` and `detail.label`. A handler that sees\n  `defaultPrevented` already set does nothing, so the deepest target wins. Fired once per\n  animation frame while the pointer moves or the page scrolls.\n- `ht-drag-leave` on the previous target, directly (no bubbling): the pointer left it, or the\n  drag ended without a drop on it (Esc, a drop on nothing, the pointer cancelled, the item\n  removed). Fired before the next target hears `ht-drag-over`.\n- `ht-drag-drop` on the accepting target, directly: the item was dropped on it. Same detail as\n  the last `ht-drag-over`.\n\nA list takes items from itself and from lists with the same non-empty `group`, and sets\n`detail.data` to `{ index }`. Lists without a `group` keep their items to themselves.",
+          "name": "HtSortableList",
+          "cssProperties": [
+            {
+              "description": "Minimum row height. Also the minimum height of an empty list, so it still takes drops.",
+              "name": "--ht-sortable-item-height",
+              "default": "40px"
+            },
+            {
+              "description": "Row padding.",
+              "name": "--ht-sortable-item-padding",
+              "default": "0 12px"
+            },
+            {
+              "description": "Space between the grip and the row's content.",
+              "name": "--ht-sortable-item-gap",
+              "default": "10px"
+            }
+          ],
+          "cssParts": [
+            {
+              "description": "The list element.",
+              "name": "list"
+            },
+            {
+              "description": "The 2px landing line with its ring dot.",
+              "name": "drop-line"
+            }
+          ],
+          "slots": [
+            {
+              "description": "`ht-sortable-item` elements.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "label",
+              "privacy": "public",
+              "description": "Accessible name of the list, such as `Mon 26`. Also used in announcements. A host `aria-label` works too.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "group",
+              "privacy": "public",
+              "description": "Lists with the same `group` trade items. Also passed to drop targets as `detail.group`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "group",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "No drags start here and nothing can be dropped here.",
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "handle",
+              "privacy": "public",
+              "description": "`grip` (default): only the grip starts a drag. `none`: no visible grip, the whole row drags.",
+              "type": {
+                "text": "'grip' | 'none'"
+              },
+              "default": "'grip'",
+              "attribute": "handle",
+              "reflects": true
+            }
+          ],
+          "events": [
+            {
+              "name": "ht-reorder",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "An item was dropped somewhere new. Fired on the source list; bubbles, composed, cancelable. `detail: { itemId, from, to, index, data }` (`HtReorderDetail`): `to` is the target list or element, `index` the new index when `to` is a list (counted without the moved item) and `null` otherwise, `data` the target's `detail.data`. Not fired for a drop where the item started, or a cancel. Cancel it to tell a keyboard user the move was refused."
+            }
+          ],
+          "attributes": [
+            {
+              "name": "label",
+              "description": "Accessible name of the list, such as `Mon 26`. Also used in announcements. A host `aria-label` works too.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "label"
+            },
+            {
+              "name": "group",
+              "description": "Lists with the same `group` trade items. Also passed to drop targets as `detail.group`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "group"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "No drags start here and nothing can be dropped here.",
+              "default": "false",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "handle",
+              "description": "`grip` (default): only the grip starts a drag. `none`: no visible grip, the whole row drags.",
+              "type": {
+                "text": "'grip' | 'none'"
+              },
+              "default": "'grip'",
+              "fieldName": "handle"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-sortable-list",
+          "customElement": true,
+          "summary": "Drag-to-reorder list, and the source of drags to other drop targets."
+        },
+        {
+          "kind": "class",
+          "description": "One row of an `ht-sortable-list`. Put the row's content in it: a checkbox, the title, an id,\nbuttons. The item is a `listitem`, never a button, so it can hold controls of its own.\n\nIt renders a grip button before its content (hidden with `handle=\"none\"` on the list). The grip\nis named \"Move {label}\", where the label is `label` or the item's text; set `handle-label` to\nreplace the whole name.",
+          "name": "HtSortableItem",
+          "cssParts": [
+            {
+              "description": "The grip button (24px hit area, six-dot icon).",
+              "name": "handle"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Row content.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "itemId",
+              "privacy": "public",
+              "description": "Your id for the item. Required: `ht-reorder` and the drag events report it as `itemId`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "item-id"
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "This item cannot be dragged. Others can still land around it.",
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "privacy": "public",
+              "description": "Name used in the grip's label and in announcements. Defaults to the item's text.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "handleLabel",
+              "privacy": "public",
+              "description": "Replaces the grip's whole accessible name (\"Move {label}\").",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "handle-label"
+            },
+            {
+              "kind": "field",
+              "name": "dragging",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Set while the item is carried. Read-only: style the origin row with `ht-sortable-item[dragging]`.",
+              "default": "false",
+              "attribute": "dragging",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "item-id",
+              "description": "Your id for the item. Required: `ht-reorder` and the drag events report it as `itemId`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "itemId"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "This item cannot be dragged. Others can still land around it.",
+              "default": "false",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "label",
+              "description": "Name used in the grip's label and in announcements. Defaults to the item's text.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "label"
+            },
+            {
+              "name": "handle-label",
+              "description": "Replaces the grip's whole accessible name (\"Move {label}\").",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "handleLabel"
+            },
+            {
+              "name": "dragging",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Set while the item is carried. Read-only: style the origin row with `ht-sortable-item[dragging]`.",
+              "default": "false",
+              "fieldName": "dragging"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-sortable-item",
+          "customElement": true,
+          "summary": "Draggable row of an `ht-sortable-list`."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtSortableList",
+          "declaration": {
+            "name": "HtSortableList",
+            "module": "src/components/sortable-list/sortable-list.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "HtSortableItem",
+          "declaration": {
+            "name": "HtSortableItem",
+            "module": "src/components/sortable-list/sortable-list.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tag",
+          "declaration": {
+            "name": "ctor",
+            "module": "src/components/sortable-list/sortable-list.ts"
           }
         }
       ]
@@ -13503,6 +15787,364 @@
           "declaration": {
             "name": "ctor",
             "module": "src/components/tree/tree.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/week-strip/week-strip.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A week as a row of day tabs. Each tab is a column whose background rises with the day's load,\nwith a split bar at its foot (an `ht-meter size=\"sm\"` in the tab's `meter` slot). Today's date is\nunderlined in accent; the selected day is accent-soft.\n\nIt is a tab list. Arrow keys move and select (Home and End jump to the ends), with one tab stop\nthat follows the selection. Disabled days are skipped. When `value` matches no tab, nothing is\nselected and the tab stop falls on today, else the first enabled day; `value` is left alone.\n\nEach `ht-week-tab` with `droppable` takes items dragged from an `ht-sortable-list` (see the\ndrag protocol): it draws a 2px accent inset ring while an item is over it, and the source list\nfires `ht-reorder` with `data: { date }` on drop. The strip never moves anything itself.",
+          "name": "HtWeekStrip",
+          "cssParts": [
+            {
+              "description": "The tab list row.",
+              "name": "list"
+            }
+          ],
+          "slots": [
+            {
+              "description": "`ht-week-tab` elements, one per day.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "value",
+              "privacy": "public",
+              "description": "`value` of the selected day, usually a date (`2026-10-28`).",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "value",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "privacy": "public",
+              "description": "Accessible name for the tab list, such as \"Week of 26 October\".",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "label"
+            }
+          ],
+          "events": [
+            {
+              "name": "change",
+              "type": {
+                "text": "Event"
+              },
+              "description": "The selected day changed by user action. Read `value` from the host."
+            }
+          ],
+          "attributes": [
+            {
+              "name": "value",
+              "description": "`value` of the selected day, usually a date (`2026-10-28`).",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "value"
+            },
+            {
+              "name": "label",
+              "description": "Accessible name for the tab list, such as \"Week of 26 October\".",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "label"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-week-strip",
+          "customElement": true,
+          "summary": "Week of day tabs that show load and take drops."
+        },
+        {
+          "kind": "class",
+          "description": "One day inside `ht-week-strip`. Shows the weekday and the date, a fill that rises with `load`,\nand whatever sits in the `meter` slot at its foot.\n\nIts accessible name is built from its attributes: \"Mon 26, today\", plus `summary` when set\n(\"Mon 26, today, 2 meetings, 3 done\"). Set `summary` to the same text as the slotted meter's\nsummary, since the tab's name replaces its content. An `aria-label` you set yourself wins.\n\nWith `droppable` it is a drop target in the drag protocol. It takes an item when the source\nlist's `group` is in `accept` (or `accept` is empty), and is not `disabled`. It fills\n`detail.data` with `{ date: value }` and `detail.label` with \"Mon 26\". A target nested inside\nthe tab that takes the item first wins.",
+          "name": "HtWeekTab",
+          "cssParts": [
+            {
+              "description": "The tab column.",
+              "name": "base"
+            },
+            {
+              "description": "The load fill.",
+              "name": "fill"
+            },
+            {
+              "description": "The weekday name.",
+              "name": "day"
+            },
+            {
+              "description": "The date number.",
+              "name": "date"
+            },
+            {
+              "description": "The wrapper of the `meter` slot.",
+              "name": "meter"
+            }
+          ],
+          "slots": [
+            {
+              "description": "A small bar at the foot of the tab, usually `ht-meter size=\"sm\"`.",
+              "name": "meter"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "value",
+              "privacy": "public",
+              "description": "Identifier matched by the strip's `value`, usually a date (`2026-10-28`). Passed to drop targets as `data.date`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "day",
+              "privacy": "public",
+              "description": "Weekday name shown on top, such as \"Mon\".",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "day"
+            },
+            {
+              "kind": "field",
+              "name": "dateLabel",
+              "privacy": "public",
+              "description": "Date shown under the weekday, such as \"26\".",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "date-label"
+            },
+            {
+              "kind": "field",
+              "name": "today",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Marks today: the date is underlined in accent and the name says \"today\".",
+              "default": "false",
+              "attribute": "today",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "load",
+              "privacy": "public",
+              "type": {
+                "text": "number"
+              },
+              "description": "How full the day is, 0 to 1. The fill rises to this share of the tab's height.",
+              "default": "0",
+              "attribute": "load"
+            },
+            {
+              "kind": "field",
+              "name": "summary",
+              "privacy": "public",
+              "description": "Text added to the accessible name, usually the meter's summary (\"2 meetings, 3 done\").",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "summary"
+            },
+            {
+              "kind": "field",
+              "name": "droppable",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Takes items dragged from an `ht-sortable-list`.",
+              "default": "false",
+              "attribute": "droppable",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "accept",
+              "privacy": "public",
+              "description": "Space-separated `group` names of the lists it takes items from. Empty takes any group.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "accept"
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Cannot be selected, focused by the arrow keys, or dropped on.",
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "selected",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Set by the strip from its `value`.",
+              "default": "false",
+              "attribute": "selected",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "value",
+              "description": "Identifier matched by the strip's `value`, usually a date (`2026-10-28`). Passed to drop targets as `data.date`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "value"
+            },
+            {
+              "name": "day",
+              "description": "Weekday name shown on top, such as \"Mon\".",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "day"
+            },
+            {
+              "name": "date-label",
+              "description": "Date shown under the weekday, such as \"26\".",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "dateLabel"
+            },
+            {
+              "name": "today",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Marks today: the date is underlined in accent and the name says \"today\".",
+              "default": "false",
+              "fieldName": "today"
+            },
+            {
+              "name": "load",
+              "type": {
+                "text": "number"
+              },
+              "description": "How full the day is, 0 to 1. The fill rises to this share of the tab's height.",
+              "default": "0",
+              "fieldName": "load"
+            },
+            {
+              "name": "summary",
+              "description": "Text added to the accessible name, usually the meter's summary (\"2 meetings, 3 done\").",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "summary"
+            },
+            {
+              "name": "droppable",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Takes items dragged from an `ht-sortable-list`.",
+              "default": "false",
+              "fieldName": "droppable"
+            },
+            {
+              "name": "accept",
+              "description": "Space-separated `group` names of the lists it takes items from. Empty takes any group.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "accept"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Cannot be selected, focused by the arrow keys, or dropped on.",
+              "default": "false",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "selected",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Set by the strip from its `value`.",
+              "default": "false",
+              "fieldName": "selected"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ht-week-tab",
+          "customElement": true,
+          "summary": "Day tab in a week strip."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HtWeekStrip",
+          "declaration": {
+            "name": "HtWeekStrip",
+            "module": "src/components/week-strip/week-strip.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "HtWeekTab",
+          "declaration": {
+            "name": "HtWeekTab",
+            "module": "src/components/week-strip/week-strip.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tag",
+          "declaration": {
+            "name": "ctor",
+            "module": "src/components/week-strip/week-strip.ts"
           }
         }
       ]
