@@ -95,7 +95,7 @@ export class HtButton extends LitElement {
     }
     :host([variant='default']) {
       --_fg: var(--ht-text);
-      --_face: var(--ht-surface);
+      --_face: var(--ht-surface-raised);
       --_plate: var(--ht-border-strong);
     }
 

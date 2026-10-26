@@ -14,6 +14,8 @@
   --ht-surface: oklch(0.995 0.003 283);
   --ht-surface-muted: oklch(0.965 0.005 283);
   --ht-surface-sunken: oklch(0.94 0.008 283);
+  /* A face that sits on a surface, such as a default button. The same as --ht-surface in light mode, a step lighter in dark mode so it does not vanish into the card. */
+  --ht-surface-raised: oklch(0.995 0.003 283);
   --ht-border: oklch(0.897 0.009 283);
   --ht-border-strong: oklch(0.797 0.014 283);
   --ht-border-input: oklch(0.64 0.018 283); /* field outlines: 3:1 against --ht-surface (WCAG 1.4.11) */
@@ -83,6 +85,7 @@
     --ht-surface: oklch(0.2 0.016 273);
     --ht-surface-muted: oklch(0.23 0.018 273);
     --ht-surface-sunken: oklch(0.14 0.015 273);
+    --ht-surface-raised: oklch(0.26 0.018 273);
     --ht-border: oklch(0.3 0.02 273);
     --ht-border-strong: oklch(0.4 0.024 273);
     --ht-border-input: oklch(0.52 0.024 273);
@@ -121,6 +124,7 @@
   --ht-surface: oklch(0.2 0.016 273);
   --ht-surface-muted: oklch(0.23 0.018 273);
   --ht-surface-sunken: oklch(0.14 0.015 273);
+  --ht-surface-raised: oklch(0.26 0.018 273);
   --ht-border: oklch(0.3 0.02 273);
   --ht-border-strong: oklch(0.4 0.024 273);
   --ht-border-input: oklch(0.52 0.024 273);
