@@ -152,7 +152,7 @@ h3 {
   background: none;
 }
 
-/* ───────── Sidebar: groups are labels, the current page is a soft accent row ───────── */
+/* ───────── Sidebar: groups are labels, the current page is a grey row with an accent pip (the same as ht-nav-item) ───────── */
 .sidebar-content summary {
   pointer-events: none;
 }
@@ -160,13 +160,25 @@ h3 {
   display: none;
 }
 .sidebar-content a {
+  position: relative;
   border-radius: var(--ht-radius-md);
 }
 .sidebar-content a[aria-current='page'],
 .sidebar-content a[aria-current='page']:hover {
-  background: var(--ht-accent-soft);
-  color: var(--ht-accent-text);
+  background: color-mix(in oklch, var(--ht-text) 5%, transparent);
+  color: var(--ht-text);
   font-weight: 600;
+}
+.sidebar-content a[aria-current='page']::before {
+  content: '';
+  position: absolute;
+  inset-inline-start: 2px;
+  top: 50%;
+  width: 3px;
+  height: 14px;
+  margin-top: -7px;
+  border-radius: var(--ht-radius-sm);
+  background: color-mix(in oklab, var(--ht-accent) 80%, var(--ht-text));
 }
 
 /* ───────── Title block: breadcrumb, title, lede, chips ───────── */
@@ -294,22 +306,19 @@ starlight-tabs > [role='tabpanel'] {
   align-items: center;
 }
 
-/* ───────── On this page: a mono label, a rule, an accent marker ───────── */
+/* ───────── On this page: a mono label, and the current section is a grey row with an accent pip ───────── */
 .right-sidebar-panel h2 {
   font: 500 0.6875rem/1rem var(--ht-font-mono);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--ht-text-subtle);
 }
-starlight-toc ul {
-  border-inline-start: 1px solid var(--sl-color-hairline);
-}
 starlight-toc a {
-  margin-inline-start: -1px;
-  padding: 0.25rem 0.875rem;
+  position: relative;
+  padding: 0.25rem 0.75rem;
   font-size: 0.875rem;
   color: var(--ht-text-muted);
-  border-inline-start: 2px solid transparent;
+  border-radius: var(--ht-radius-md);
 }
 starlight-toc a span {
   padding-inline-start: 0;
@@ -317,7 +326,25 @@ starlight-toc a span {
 starlight-toc a[aria-current='true'] {
   font-weight: 600;
   color: var(--ht-text);
-  border-inline-start-color: var(--ht-accent);
+  background: color-mix(in oklch, var(--ht-text) 5%, transparent);
+}
+starlight-toc a[aria-current='true']::before {
+  content: '';
+  position: absolute;
+  inset-inline-start: 2px;
+  top: 50%;
+  width: 3px;
+  height: 14px;
+  margin-top: -7px;
+  border-radius: var(--ht-radius-sm);
+  background: color-mix(in oklab, var(--ht-accent) 80%, var(--ht-text));
+}
+@media (forced-colors: active) {
+  .sidebar-content a[aria-current='page']::before,
+  starlight-toc a[aria-current='true']::before {
+    background: Highlight;
+    forced-color-adjust: none;
+  }
 }
 .rail-links {
   display: flex;

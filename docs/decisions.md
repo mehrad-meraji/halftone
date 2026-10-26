@@ -464,3 +464,13 @@ Checked: axe over all 20 blocks and the stories of every touched component (137 
 - The `forced-colors` / `prefers-contrast: more` opt-out now repeats the dark-mode selectors, so the dark values cannot bring the dots back.
 - The hover dots got too faint, so their opacity went up: `ht-spotlight` 0.6 → 0.8, and the `ht-empty-state` spotlight 0.75 → full. Both end close to their old strength. No status badge: the components look the same as before, only the base token moved.
 - Then the dots got a soft blur. Each dot is now a gradient from its centre to nothing: gone by 2.3px on the header strip, 2.8px on a stage. A light blur (a 1px fade at the edge) was too subtle, so the blur went past a full centre-to-edge fade at 1.7px. At 3px the dots grew big and loud again.
+
+## 2026-10-26 — Selected items get a pip
+- Three treatments were compared on a command row and the docs "On this page" list, light and dark: a keycap row, a pip, and an accent tint. The pip was picked.
+- The pip is a 3 × 14px bar, 2px radius, at the start of the row. Its colour is `--ht-accent` mixed 80% toward `--ht-text` in oklab. Plain accent got only 2.8:1 on the dark row fill; the mix gets 3.7:1 or more in dark and 5.6:1 or more in light (non-text, 3:1). `scripts/contrast.mjs` checks it.
+- Where it is used: the active `ht-command-item`, the focused `ht-menu-item` (danger items use a danger pip), the active `ht-nav-item`, the selected `ht-tree-item`, and the docs sidebar and "On this page" list.
+- The pip replaces the 2px `--ht-focus` edge bar (command) and the focus ring on keyboard focus (menu). The grey row fill stays. Command and menu rows do not go bold, so text does not move while arrowing. Nav, tree and the docs lists keep their weight.
+- Rows got a little more start padding (12px command and menu, 10px nav item) so the pip does not touch the text. The tree keeps its indent and puts the pip at 1px.
+- Under `forced-colors` the pip uses `Highlight`, so it does not vanish.
+- The docs sidebar dropped its accent-soft row, and "On this page" dropped its rail line, so both match `ht-nav-item`.
+- `ht-table`'s selected row keeps its 2px accent edge for now: a row in a grid is a different pattern.
