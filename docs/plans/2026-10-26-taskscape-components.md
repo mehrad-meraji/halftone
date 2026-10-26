@@ -75,6 +75,16 @@ interface HtDragDetail {
 }
 ```
 
+Three rules that keep targets honest:
+
+- **Nested targets.** A handler that sees `e.defaultPrevented` already `true` does nothing. The
+  deepest target that accepts wins (a list inside a schedule beats the schedule).
+- **Every end leaves.** When a drag ends without a drop on the current target (Esc, Tab while
+  carrying, a drop on nothing, the pointer cancelled, the item removed), the source fires
+  `ht-drag-leave` on the current target. No target keeps a highlight after a drag.
+- **Leave before over.** When the accepting target changes, `ht-drag-leave` on the old one is fired
+  before the next `ht-drag-over` is acted on.
+
 A target takes an item only when it opts in: `ht-day-schedule` and `ht-week-tab` take drops when
 they have the `droppable` attribute, and only from lists whose `group` is in their `accept`
 attribute (space-separated; empty `accept` takes any group). A plain element can take drops by
@@ -106,7 +116,11 @@ lands where it started, or a cancel.
   The item itself is never `role="button"`, so it can hold its own buttons.
 - Pointer: drag starts after 5px of movement from `pointerdown` on the grip. Touch: press and hold
   250ms on the grip; movement over 5px before that cancels, so the page scrolls. The grip has
-  `touch-action: none`; the row does not.
+  `touch-action: none`; the row does not. With `handle="none"` the row cannot set
+  `touch-action: none`, so: on `pointerdown` from touch, attach a non-passive `touchmove` listener;
+  before the 250ms hold fires, more than 5px of movement clears the timer and the page scrolls; after
+  it fires, `preventDefault()` each `touchmove` so the drag owns the finger. Remove the listener when
+  the drag ends.
 - Preview: a copy of the item in a `popover="manual"` element (top layer), fixed at the pointer,
   `--ht-shadow-md`, `rotate(-1.2deg)`, the item's width. The origin item stays in place at 35%
   opacity. Reduced motion: no tilt.
@@ -172,7 +186,7 @@ lands where it started, or a cancel.
 
 - `ht-week-strip`: `value` (selected date), `label`. It is the `tablist`; arrow keys, Home and End
   move and select (`activation` auto, like `ht-tabs`), roving tabindex, focus ring inside the tab.
-  Fires `change`.
+  Fires `change`. The foot bar is an `ht-meter size="sm"` (4px) in the `meter` slot.
 - `ht-week-tab`: `value` (date), `day` (Mon), `date-label` (26), `today`, `load` (0 to 1, the fill
   height), `droppable`, `accept`, `disabled`. Slot `meter` for an `ht-meter size="sm"` (or anything)
   at the foot. The accessible name is "Mon 26, today" plus the slotted meter's summary when the app
@@ -183,7 +197,8 @@ lands where it started, or a cancel.
 
 ### 5 · `ht-meter`, `ht-meter-part` (one file)
 
-- `ht-meter`: `max` (optional), `size` (`sm` 4px, `md` 6px default, `lg` 8px), `legend`
+- `ht-meter`: `max` (optional), `size` (`sm` 4px, `md` 8px default, the same steps as
+  `ht-progress`), `legend`
   (shows the legend table), `label`, `summary` (overrides the generated text). The bar is
   `role="img"` named by the summary.
 - `ht-meter-part`: `value`, `tone` (`neutral | accent | success | warning | danger | info`),
@@ -196,7 +211,8 @@ lands where it started, or a cancel.
 
 ### 6 · `ht-elapsed`
 
-- `start` (ISO date-time or epoch ms), `paused`, `compact` (`mm:ss` under an hour, `h:mm` above),
+- `start` (ISO date-time or epoch ms), `paused`, `paused-at` (ISO or epoch ms: where a paused
+  clock stops; unset means the moment `paused` was set), `compact` (`mm:ss` under an hour, `h:mm` above),
   `bare` (plain tabular text, no chip: canvas version A for tight spots).
 - Ticks once a second with one `setTimeout` aligned to the second; stops on `visibilitychange` to
   hidden and recomputes from `start` on show. Paused shows the time frozen at `paused-at` or now.
