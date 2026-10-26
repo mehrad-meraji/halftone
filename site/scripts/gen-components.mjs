@@ -36,6 +36,7 @@ const STATUS = {
   input: { text: 'Updated', variant: 'note' },
   tag: { text: 'Updated', variant: 'note' },
   toggle: { text: 'Updated', variant: 'note' },
+  button: { text: 'Updated', variant: 'note' },
 };
 
 const manifest = JSON.parse(readFileSync(join(repo, 'custom-elements.json'), 'utf8'));

@@ -465,6 +465,21 @@ Checked: axe over all 20 blocks and the stories of every touched component (137 
 - The hover dots got too faint, so their opacity went up: `ht-spotlight` 0.6 → 0.8, and the `ht-empty-state` spotlight 0.75 → full. Both end close to their old strength. No status badge: the components look the same as before, only the base token moved.
 - Then the dots got a soft blur. Each dot is now a gradient from its centre to nothing: gone by 2.3px on the header strip, 2.8px on a stage. A light blur (a 1px fade at the edge) was too subtle, so the blur went past a full centre-to-edge fade at 1.7px. At 3px the dots grew big and loud again.
 
+## 2026-10-26 — A raised surface for default buttons in dark mode
+- In dark mode a default button's face was `--ht-surface`, the same colour as the card under it. The button read as an empty outline.
+- New token `--ht-surface-raised`: the same as `--ht-surface` in light mode, `oklch(0.26 0.018 273)` in dark (a step above `--ht-surface-muted`). Light-mode buttons do not change.
+- Only the default `ht-button` uses it. Flush dialog-footer keys keep `--ht-surface`, so they stay flat with the dialog.
+
+## 2026-10-26 — Checkbox: `sm` by default, input fill
+- The default checkbox size is now `sm` (16px), for a single checkbox and for `ht-checkbox-group`. `md` and `lg` stay. The 24px hit area at `sm` is unchanged.
+- The socket fill is now the text input's fill (`--ht-text` at 3%), not the darker sunken gradient, so a checkbox next to a field looks like the same family. The inset well shadow and the 3:1 outline stay.
+
+## 2026-10-26 — Header strip dots at 12% in light mode
+- The card eyebrow (`--ht-text-subtle`) got 4.1:1 on the centre of a header-strip dot at 20% accent. Text needs 4.5:1.
+- More blur would not help: the dot keeps the same centre and spreads its colour wider.
+- `--ht-halftone` light goes to 12% (4.6:1). Dark stays at 28% (4.55:1). Fading the dots out behind the text was the other option; it was not picked because it touches five components.
+- `scripts/contrast.mjs` now checks the eyebrow and heading against a dot centre, so a later change to the strip cannot drop below 4.5:1 unseen.
+
 ## 2026-10-26 — Selected items get a pip
 - Three treatments were compared on a command row and the docs "On this page" list, light and dark: a keycap row, a pip, and an accent tint. The pip was picked.
 - The pip is a 3 × 14px bar, 2px radius, at the start of the row. Its colour is `--ht-accent` mixed 80% toward `--ht-text` in oklab. Plain accent got only 2.8:1 on the dark row fill; the mix gets 3.7:1 or more in dark and 5.6:1 or more in light (non-text, 3:1). `scripts/contrast.mjs` checks it.

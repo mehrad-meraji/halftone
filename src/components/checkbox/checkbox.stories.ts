@@ -19,7 +19,7 @@ export const Checked: StoryObj = { args: { checked: true } };
 export const Indeterminate: StoryObj = { args: { indeterminate: true } };
 export const Disabled: StoryObj = { args: { disabled: true } };
 export const DisabledChecked: StoryObj = { args: { disabled: true, checked: true } };
-/** `sm` 16px for dense lists and table rows, `md` 24px (default), `lg` 32px. Each row: unchecked, checked, indeterminate, disabled. */
+/** `sm` 16px (default), `md` 24px, `lg` 32px. Each row: unchecked, checked, indeterminate, disabled. */
 export const Sizes: StoryObj = {
   render: () => html`
     <div style="display:grid;gap:16px">
