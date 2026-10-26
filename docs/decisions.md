@@ -469,3 +469,7 @@ Checked: axe over all 20 blocks and the stories of every touched component (137 
 - In dark mode a default button's face was `--ht-surface`, the same colour as the card under it. The button read as an empty outline.
 - New token `--ht-surface-raised`: the same as `--ht-surface` in light mode, `oklch(0.26 0.018 273)` in dark (a step above `--ht-surface-muted`). Light-mode buttons do not change.
 - Only the default `ht-button` uses it. Flush dialog-footer keys keep `--ht-surface`, so they stay flat with the dialog.
+
+## 2026-10-26 — Checkbox: `sm` by default, input fill
+- The default checkbox size is now `sm` (16px), for a single checkbox and for `ht-checkbox-group`. `md` and `lg` stay. The 24px hit area at `sm` is unchanged.
+- The socket fill is now the text input's fill (`--ht-text` at 3%), not the darker sunken gradient, so a checkbox next to a field looks like the same family. The inset well shadow and the 3:1 outline stay.
