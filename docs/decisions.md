@@ -464,3 +464,10 @@ Checked: axe over all 20 blocks and the stories of every touched component (137 
 - The `forced-colors` / `prefers-contrast: more` opt-out now repeats the dark-mode selectors, so the dark values cannot bring the dots back.
 - The hover dots got too faint, so their opacity went up: `ht-spotlight` 0.6 → 0.8, and the `ht-empty-state` spotlight 0.75 → full. Both end close to their old strength. No status badge: the components look the same as before, only the base token moved.
 - Then the dots got a soft blur. Each dot is now a gradient from its centre to nothing: gone by 2.3px on the header strip, 2.8px on a stage. A light blur (a 1px fade at the edge) was too subtle, so the blur went past a full centre-to-edge fade at 1.7px. At 3px the dots grew big and loud again.
+
+## 2026-10-26 — Syntax colours in ht-code
+- `ht-code` colours its text by `language`: JS/TS, JSON, bash, CSS, HTML, `.env`, logs and Python, plus common aliases. Any other language stays plain. `no-highlight` turns it off.
+- The highlighter is built into `code.ts`, about 170 lines, so the file still imports only `lit` and stays copyable. It is a scanner, not a parser: per language, a list of sticky regexes tried in order. Rejected: Shiki and Prism (a dependency, and far larger than the component).
+- The rules use no regex lookbehind. A `when` regex checks the text before the match instead, because a lookbehind is a parse error in older Safari and would break the whole module.
+- Eight new tokens, `--ht-code-keyword` to `--ht-code-variable`, light and dark. Each keeps 4.5:1 on `--ht-surface-sunken` (lowest: number at 4.84 in light); `scripts/contrast.mjs` checks them. Comments are italic too, so they do not depend on colour alone. Forced-colours mode drops the colours.
+- Masked `secret` text is never coloured. Copy still copies the plain text.
