@@ -486,3 +486,13 @@ Checked: axe over all 20 blocks and the stories of every touched component (137 
 - The rules use no regex lookbehind. A `when` regex checks the text before the match instead, because a lookbehind is a parse error in older Safari and would break the whole module.
 - Eight new tokens, `--ht-code-keyword` to `--ht-code-variable`, light and dark. Each keeps 4.5:1 on `--ht-surface-sunken` (lowest: number at 4.84 in light); `scripts/contrast.mjs` checks them. Comments are italic too, so they do not depend on colour alone. Forced-colours mode drops the colours.
 - Masked `secret` text is never coloured. Copy still copies the plain text.
+
+## 2026-10-26 — Selected items get a pip
+- Three treatments were compared on a command row and the docs "On this page" list, light and dark: a keycap row, a pip, and an accent tint. The pip was picked.
+- The pip is a 3 × 14px bar, 2px radius, at the start of the row. Its colour is `--ht-accent` mixed 80% toward `--ht-text` in oklab. Plain accent got only 2.8:1 on the dark row fill; the mix gets 3.7:1 or more in dark and 5.6:1 or more in light (non-text, 3:1). `scripts/contrast.mjs` checks it.
+- Where it is used: the active `ht-command-item`, the focused `ht-menu-item` (danger items use a danger pip), the active `ht-nav-item`, the selected `ht-tree-item`, and the docs sidebar and "On this page" list.
+- The pip replaces the 2px `--ht-focus` edge bar (command) and the focus ring on keyboard focus (menu). The grey row fill stays. Command and menu rows do not go bold, so text does not move while arrowing. Nav, tree and the docs lists keep their weight.
+- Rows got a little more start padding (12px command and menu, 10px nav item) so the pip does not touch the text. The tree keeps its indent and puts the pip at 1px.
+- Under `forced-colors` the pip uses `Highlight`, so it does not vanish.
+- The docs sidebar dropped its accent-soft row, and "On this page" dropped its rail line, so both match `ht-nav-item`.
+- `ht-table`'s selected row keeps its 2px accent edge for now: a row in a grid is a different pattern.

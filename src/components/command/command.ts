@@ -571,11 +571,13 @@ export class HtCommandItem extends LitElement {
     :host([hidden]) { display: none; }
     .item {
       box-sizing: border-box;
+      position: relative;
       display: flex;
       align-items: center;
       gap: 8px;
       min-height: var(--ht-command-item-height, 2rem);
-      padding: 4px 8px;
+      padding-block: 4px;
+      padding-inline: 12px 8px;
       font: 400 0.875rem/1.25rem var(--ht-font-ui);
       color: var(--ht-text);
       cursor: default;
@@ -587,7 +589,25 @@ export class HtCommandItem extends LitElement {
     }
     :host([active]) .item {
       background: var(--_row-bg-on, color-mix(in oklab, var(--ht-text) 7.5%, transparent));
-      box-shadow: var(--_row-rim-on, 0 0 0 0 transparent), inset 2px 0 0 0 var(--ht-focus);
+      box-shadow: var(--_row-rim-on, none);
+    }
+    /* The selected-item pip: a short accent bar at the start of the row. Mixed toward the text so it keeps 3:1 in dark mode. */
+    .item::before {
+      content: '';
+      position: absolute;
+      inset-inline-start: 3px;
+      top: 50%;
+      width: 3px;
+      height: 14px;
+      margin-top: -7px;
+      border-radius: var(--ht-radius-sm);
+      background: color-mix(in oklab, var(--ht-accent) 80%, var(--ht-text));
+      opacity: 0;
+      transition: opacity var(--ht-duration) var(--ht-ease);
+    }
+    :host([active]) .item::before { opacity: 1; }
+    @media (forced-colors: active) {
+      .item::before { background: Highlight; forced-color-adjust: none; }
     }
     :host([disabled]) .item { opacity: 0.55; cursor: not-allowed; }
     .text { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }

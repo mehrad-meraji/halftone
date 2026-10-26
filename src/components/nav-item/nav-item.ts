@@ -41,12 +41,14 @@ export class HtNavItem extends LitElement {
     .item {
       all: unset;
       box-sizing: border-box;
+      position: relative;
       display: flex;
       align-items: center;
       gap: 6px;
       width: 100%;
       height: 30px;
-      padding: 4px 6px;
+      padding-block: 4px;
+      padding-inline: 10px 6px;
       font: 400 0.875rem/1.25rem var(--ht-font-ui);
       color: var(--ht-text);
       cursor: pointer;
@@ -57,6 +59,24 @@ export class HtNavItem extends LitElement {
     .item:hover { background: color-mix(in oklch, var(--ht-text) 7.5%, transparent); }
     .item:active { background: color-mix(in oklch, var(--ht-text) 5%, transparent); }
     :host([active]) .item { background: color-mix(in oklch, var(--ht-text) 5%, transparent); font-weight: 500; }
+    /* The selected-item pip: a short accent bar at the start of the row. Mixed toward the text so it keeps 3:1 in dark mode. */
+    .item::before {
+      content: '';
+      position: absolute;
+      inset-inline-start: 2px;
+      top: 50%;
+      width: 3px;
+      height: 14px;
+      margin-top: -7px;
+      border-radius: var(--ht-radius-sm);
+      background: color-mix(in oklab, var(--ht-accent) 80%, var(--ht-text));
+      opacity: 0;
+      transition: opacity var(--ht-duration) var(--ht-ease);
+    }
+    :host([active]) .item::before { opacity: 1; }
+    @media (forced-colors: active) {
+      .item::before { background: Highlight; forced-color-adjust: none; }
+    }
     .item:focus-visible { outline: 2px solid var(--ht-focus); outline-offset: -1px; }
     .label { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     ::slotted([slot='prefix']) { flex: none; width: 16px; height: 16px; }

@@ -28,6 +28,11 @@ for(const th of ['light','dark']){const t=T[th];
  add('header heading (text) on a dot',t.text,dot);
  add('button primary text',t.accentInk,t.accent);
  for(const [k,c] of Object.entries(CODE[th])) add('code '+k+' on code bg',c,t.sunken);
+ // Selected-item pip (non-text, 3:1): accent mixed 80% toward text, against the surface and the 7.5% row fill.
+ const pip=mix(t.accent,.8,t.text);
+ add('selected pip vs surface (non-text)',pip,t.surface,3);
+ add('selected pip vs row fill (non-text)',pip,mix(t.text,.075,t.surface),3);
+ add('selected pip vs row fill on muted (non-text)',pip,mix(t.text,.075,t.muted),3);
  add('button danger text',t.dangerInk,t.danger);
  add('button default text',t.text,t.raised);
  add('button quiet text (on bg)',t.tmuted,t.bg);

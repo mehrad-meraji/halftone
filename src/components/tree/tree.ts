@@ -296,6 +296,24 @@ export class HtTreeItem extends LitElement {
     }
     .row:hover { background: color-mix(in oklab, var(--ht-text) 7.5%, transparent); }
     :host([selected]) .row { background: color-mix(in oklab, var(--ht-text) 5%, transparent); font-weight: 500; }
+    /* The selected-item pip: a short accent bar at the start of the row. Mixed toward the text so it keeps 3:1 in dark mode. */
+    .row::before {
+      content: '';
+      position: absolute;
+      inset-inline-start: 1px;
+      top: 50%;
+      width: 3px;
+      height: 14px;
+      margin-top: -7px;
+      border-radius: var(--ht-radius-sm);
+      background: color-mix(in oklab, var(--ht-accent) 80%, var(--ht-text));
+      opacity: 0;
+      transition: opacity var(--ht-duration) var(--ht-ease);
+    }
+    :host([selected]) .row::before { opacity: 1; }
+    @media (forced-colors: active) {
+      .row::before { background: Highlight; forced-color-adjust: none; }
+    }
     :host(:focus-visible) .row { outline: 2px solid var(--ht-focus); outline-offset: -2px; }
     :host([disabled]) .row { opacity: 0.5; cursor: not-allowed; background: transparent; }
 
