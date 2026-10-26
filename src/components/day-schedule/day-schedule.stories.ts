@@ -14,7 +14,7 @@ const cal = {
 };
 
 /* The panel around the schedule is the app's, as in a tray: a header with the day and a border. */
-const tray = 'display:block;max-width:360px;border:1px solid var(--ht-border);border-radius:var(--ht-radius-lg);overflow:hidden;box-shadow:var(--ht-shadow-sm);background:var(--ht-surface)';
+const tray = 'display:block;box-sizing:border-box;width:360px;max-width:calc(100vw - 32px);border:1px solid var(--ht-border);border-radius:var(--ht-radius-lg);overflow:hidden;box-shadow:var(--ht-shadow-sm);background:var(--ht-surface)';
 const head = 'display:flex;align-items:center;justify-content:space-between;gap:8px;height:40px;padding:0 12px;border-bottom:1px solid var(--ht-border);background:var(--ht-surface-muted)';
 const day = 'font:600 0.875rem/1 var(--ht-font-display);color:var(--ht-text)';
 const mono = 'font:400 0.6875rem/1 var(--ht-font-mono);color:var(--ht-text-subtle)';
@@ -198,7 +198,7 @@ export const DropTarget: StoryObj = {
     };
 
     return html`
-      <div style="display:grid;gap:12px;max-width:360px">
+      <div style="display:grid;gap:12px;box-sizing:border-box;width:360px;max-width:calc(100vw - 32px)">
         <div style=${tray} @pointermove=${over} @pointerleave=${leave} @click=${drop}>
           ${trayHead('Wed 28', 'Takes the tasks group')}
           <ht-day-schedule ${ref(prime)} date="2026-10-28" start="09:00" end="14:00" droppable accept="tasks" label="Wednesday 28 October">

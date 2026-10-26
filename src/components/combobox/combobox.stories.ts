@@ -76,7 +76,7 @@ export default meta;
  */
 export const Default: StoryObj = {
   render: (a) => html`
-    <div style="width:24rem">
+    <div style="width:24rem;max-width:calc(100vw - 32px)">
       <ht-combobox
         label="Ticket"
         placeholder=${a.placeholder}
@@ -109,7 +109,7 @@ export const Loading: StoryObj = {
       }, 700);
     };
     return html`
-      <div style="width:24rem">
+      <div style="width:24rem;max-width:calc(100vw - 32px)">
         <ht-combobox
           aria-label="Find a ticket"
           placeholder="Find a ticket"
@@ -131,7 +131,7 @@ export const Loading: StoryObj = {
  */
 export const EmptyWithCreateRow: StoryObj = {
   render: () => html`
-    <div style="width:24rem">
+    <div style="width:24rem;max-width:calc(100vw - 32px)">
       <ht-combobox
         aria-label="Add a task"
         placeholder="Add a task"
@@ -166,7 +166,7 @@ export const Grouped: StoryObj = {
           : nothing}`;
     };
     return html`
-      <div style="width:24rem">
+      <div style="width:24rem;max-width:calc(100vw - 32px)">
         <ht-combobox
           aria-label="Search"
           placeholder="Search tickets and projects"
@@ -187,7 +187,7 @@ export const Grouped: StoryObj = {
  */
 export const WithPrefixAndSuffix: StoryObj = {
   render: () => html`
-    <div style="width:24rem">
+    <div style="width:24rem;max-width:calc(100vw - 32px)">
       <ht-combobox
         aria-label="Add a task"
         placeholder="Add a task"
@@ -211,7 +211,7 @@ export const WithPrefixAndSuffix: StoryObj = {
 /** Disabled: no typing, no list. Disable slotted chip buttons yourself. */
 export const Disabled: StoryObj = {
   render: () => html`
-    <div style="width:24rem">
+    <div style="width:24rem;max-width:calc(100vw - 32px)">
       <ht-combobox aria-label="Add a task" value="Fix login redirect loop" disabled>
         <button slot="prefix" type="button" disabled><ht-icon name="tag" size="14"></ht-icon>Tickets</button>
         <button slot="suffix" type="button" disabled>Atlas</button>

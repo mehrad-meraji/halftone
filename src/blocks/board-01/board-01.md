@@ -33,8 +33,8 @@ summary: Board of four status columns that scroll sideways, with cards carrying 
 ## Wiring
 
 - Move To: on `ht-select` from a card's `ht-menu`, read `detail.value` (the target column), move the `<li>` to the end of that column's list, update both counts and save. Announce it with a toast ("Moved ACME-204 to In Review.") and keep focus on the moved card's menu button.
-- Drag and drop is not built in. To add it, make each `<li>` `draggable="true"`, set the card id on `dragstart`, and on the column's `dragover`/`drop` move the card and save, the same as Move To. Or use a library such as SortableJS on each `.board-cards`. Keep the Move To menu either way: it is the keyboard and screen reader path.
-- An empty column with drag and drop needs an empty `<ul class="board-cards">` next to `.board-empty` so there is something to drop into.
+- Drag and drop: replace each column's `<ul class="board-cards">` with an `ht-sortable-list` that has the same `group` on every column (`group="cards"`), and wrap each card in an `ht-sortable-item item-id="…"`. On `ht-reorder`, read `detail.from`, `detail.to` and `detail.index`, move the card in your data, update both counts and save, the same as Move To. The list never moves the DOM itself.
+- An empty `ht-sortable-list` keeps one row of height, so an empty column can still take a drop. Keep `.board-empty` next to it as the visible text.
 - Quick add: "+" shows the `.board-add` form in that column and focuses its input. Enter submits, Esc or Cancel closes it. Add the card at the top optimistically.
 - Filter: on `input` of the search, hide cards whose title, ID or labels do not match, and update the counts. Empty after filtering shows "No cards match."
 - View switch: on `change` of the `ht-toggle-group`, route to the list view of the same query. Keep the filter text.

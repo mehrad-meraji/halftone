@@ -51,7 +51,7 @@ const meta: Meta = {
     status: 'Open',
     statusTone: 'success',
   },
-  render: (a) => html`<div style="max-width:420px">
+  render: (a) => html`<div style="width:420px;max-width:calc(100vw - 32px)">
     <ht-link-preview
       appearance=${a.appearance}
       href=${a.href}
@@ -74,7 +74,7 @@ export const Strip: StoryObj = { args: { appearance: 'strip' } };
 
 /** Child rows: a muted footer on the card, a tree line on the strip. */
 export const WithRows: StoryObj = {
-  render: (a) => html`<div style="display:grid;gap:24px;max-width:420px">
+  render: (a) => html`<div style="display:grid;gap:24px;width:420px;max-width:calc(100vw - 32px)">
     <ht-link-preview href=${a.href} host=${a.host} heading=${a.heading} status=${a.status} status-tone=${a.statusTone}
       >${prIcon}${cardMeta}${rows}</ht-link-preview
     >
@@ -102,7 +102,7 @@ export const Narrow: StoryObj = {
 
 /** Every status tone, on a ticket with no meta. */
 export const Statuses: StoryObj = {
-  render: () => html`<div style="display:grid;gap:12px;max-width:420px">
+  render: () => html`<div style="display:grid;gap:12px;width:420px;max-width:calc(100vw - 32px)">
     ${[
       ['neutral', 'To Do'],
       ['accent', 'In Review'],

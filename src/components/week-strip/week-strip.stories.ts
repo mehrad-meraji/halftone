@@ -1,12 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, nothing } from 'lit';
 import { ref } from 'lit/directives/ref.js';
+import '../meter/meter.js';
 import './week-strip.js';
 
-/** Tone fills for the stand-in meter, mixed toward the text colour as `ht-progress` does. */
-const TONES = ['info', 'success', 'accent', 'danger'].map(
-  (t) => `color-mix(in oklab, var(--ht-${t}) 70%, var(--ht-text))`,
-);
 const WORDS = ['meetings', 'done', 'open', 'late'];
 
 /** The week of Mon 26 Oct 2026. Counts are meetings, done, open, late. */
@@ -25,19 +22,19 @@ const loadOf = (counts: number[]) => Math.min(1, counts.reduce((a, b) => a + b, 
 const summaryOf = (counts: number[]) =>
   counts.map((n, i) => (n ? `${n} ${WORDS[i]}` : '')).filter(Boolean).join(', ') || 'nothing planned';
 
-/**
- * Stand-in for `ht-meter size="sm"` (4px): a row of tone spans sized by share. Swap in the real
- * meter once it ships.
- */
+const TONE_NAMES = ['info', 'success', 'accent', 'danger'];
+const LABELS = ['Meetings', 'Done', 'Open', 'Late'];
+
+/** The foot bar: an `ht-meter size="sm"` (4px). Hidden from screen readers, because the tab's `summary` already says it. */
 const meter = (counts: number[]) =>
   counts.some(Boolean)
-    ? html`<span slot="meter" aria-hidden="true" style="display:flex;gap:1px;height:4px;background:var(--ht-surface-sunken)">
-        ${counts.map((n, i) => (n ? html`<span style="flex-grow:${n};background:${TONES[i]}"></span>` : nothing))}
-      </span>`
+    ? html`<ht-meter slot="meter" size="sm" aria-hidden="true">
+        ${counts.map((n, i) => html`<ht-meter-part value=${n} tone=${TONE_NAMES[i]} label=${LABELS[i]}></ht-meter-part>`)}
+      </ht-meter>`
     : nothing;
 
 const frame = (body: unknown) => html`
-  <div style="max-width:440px;background:var(--ht-surface);border:1px solid var(--ht-border);border-radius:var(--ht-radius-lg);overflow:hidden">
+  <div style="box-sizing:border-box;width:440px;max-width:calc(100vw - 32px);background:var(--ht-surface);border:1px solid var(--ht-border);border-radius:var(--ht-radius-lg);overflow:hidden">
     ${body}
   </div>`;
 
@@ -60,10 +57,10 @@ export const Default: StoryObj = {
 };
 
 /**
- * `load` raises the fill; the split sits in the `meter` slot. Here a plain row of spans stands in
- * for `ht-meter size="sm"`. `summary` adds the split to each tab's name.
+ * `load` raises the fill. The split is an `ht-meter size="sm"` in the `meter` slot. `summary`
+ * adds the split to each tab's name, so the meter is `aria-hidden`.
  */
-export const WithLoad: StoryObj = {
+export const WithMeters: StoryObj = {
   render: () =>
     frame(html`
       <ht-week-strip label="Week of 26 October" value="2026-10-28">
@@ -136,7 +133,7 @@ export const DropTargets: StoryObj = {
       requestAnimationFrame(() => over('2026-10-29'));
     };
     return html`
-      <div style="display:grid;gap:12px;max-width:440px">
+      <div style="display:grid;gap:12px;width:440px;max-width:calc(100vw - 32px)">
         ${frame(html`
           <ht-week-strip ${ref(start)} label="Week of 26 October" value="2026-10-28">
             ${WEEK.map(

@@ -65,7 +65,7 @@ export const SingleImage: StoryObj = {
 };
 
 const thumbStyles = html`<style>
-  .lb-thumbs { display: flex; gap: 8px; }
+  .lb-thumbs { display: flex; flex-wrap: wrap; gap: 8px; max-width: calc(100vw - 32px); }
   .lb-thumb {
     appearance: none;
     width: 96px;

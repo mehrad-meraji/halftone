@@ -2,6 +2,9 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html, nothing } from 'lit';
 import '../button/button.js';
 import '../checkbox/checkbox.js';
+import '../day-schedule/day-schedule.js';
+import '../meter/meter.js';
+import '../week-strip/week-strip.js';
 import '../scroll-area/scroll-area.js';
 import '../tag/tag.js';
 import './sortable-list.js';
@@ -75,7 +78,7 @@ const meta: Meta = {
     disabled: { control: 'boolean' },
   },
   args: { handle: 'grip', disabled: false },
-  render: (a) => html`<div @ht-reorder=${move}>${list('Mon 27', monday, { handle: a.handle, disabled: a.disabled })}</div>`,
+  render: (a) => html`<div @ht-reorder=${move}>${list('Mon 26', monday, { handle: a.handle, disabled: a.disabled })}</div>`,
 };
 export default meta;
 
@@ -93,14 +96,14 @@ export const Default: StoryObj = {};
 export const TwoLists: StoryObj = {
   render: () => html`
     <div style="display:flex;flex-wrap:wrap;gap:24px;align-items:start" @ht-reorder=${move}>
-      ${list('Mon 27', monday, { group: 'tasks' })} ${list('Tue 28', tuesday, { group: 'tasks' })}
+      ${list('Mon 26', monday, { group: 'tasks' })} ${list('Tue 27', tuesday, { group: 'tasks' })}
     </div>`,
 };
 
 /**
  * Any element can take a drop by listening to `ht-drag-over`: call `preventDefault()`, set
  * `detail.target`, and fill `detail.data` and `detail.label`. Clear the highlight on `ht-drag-leave`
- * and `ht-drag-drop`. These three day chips are plain `div`s; Sun 2 takes nothing.
+ * and `ht-drag-drop`. These three day chips are plain `div`s; Sun 1 takes nothing.
  */
 export const WithDropTargets: StoryObj = {
   render: () => {
@@ -128,13 +131,13 @@ export const WithDropTargets: StoryObj = {
     return html`
       <style>
         .chip { display: flex; flex-direction: column; gap: 4px; min-width: 96px; padding: 8px 10px; border: 1px solid var(--ht-border); border-radius: var(--ht-radius-md); background: var(--ht-surface); }
-        .chip[data-locked] { opacity: 0.6; border-style: dashed; }
+        .chip[data-locked] { border-style: dashed; background: transparent; }
         .chip[data-over] { border-color: var(--ht-accent); background: var(--ht-accent-soft); color: var(--ht-accent-text); box-shadow: 0 0 0 3px color-mix(in oklab, var(--ht-accent) 18%, transparent); }
       </style>
       <div style="display:grid;gap:16px;justify-items:start" @ht-reorder=${report}>
-        ${list('Mon 27', monday)}
+        ${list('Mon 26', monday)}
         <div style="display:flex;flex-wrap:wrap;gap:8px">
-          ${chip('Tue 28', '2026-10-28')} ${chip('Wed 29', '2026-10-29')} ${chip('Sun 2', '2026-11-02', true)}
+          ${chip('Tue 27', '2026-10-27')} ${chip('Wed 28', '2026-10-28')} ${chip('Sun 1', '2026-11-01', true)}
         </div>
         <output style=${mono}>Drop a row on a day.</output>
       </div>`;
@@ -147,15 +150,15 @@ export const WithDropTargets: StoryObj = {
  * sooner scrolls the page. Keyboard users Tab to a hidden grip, which rings the row.
  */
 export const WholeRow: StoryObj = {
-  render: () => html`<div @ht-reorder=${move}>${list('Mon 27', monday, { handle: 'none' })}</div>`,
+  render: () => html`<div @ht-reorder=${move}>${list('Mon 26', monday, { handle: 'none' })}</div>`,
 };
 
 /** The item is a `listitem`, not a button, so it holds controls of its own. Only the grip starts a drag. */
 export const ItemsWithButtons: StoryObj = {
   render: () => html`
     <section style=${tray} @ht-reorder=${move}>
-      <div style=${head}><span style=${day} aria-hidden="true">Mon 27</span><span style=${mono}>4 tasks</span></div>
-      <ht-sortable-list label="Mon 27">
+      <div style=${head}><span style=${day} aria-hidden="true">Mon 26</span><span style=${mono}>4 tasks</span></div>
+      <ht-sortable-list label="Mon 26">
         ${monday.slice(0, 4).map(
           (t, i) => html`
             <ht-sortable-item item-id=${t.id} label=${t.title}>
@@ -194,7 +197,54 @@ export const LongListInAScrollArea: StoryObj = {
 export const Disabled: StoryObj = {
   render: () => html`
     <div style="display:flex;flex-wrap:wrap;gap:24px;align-items:start" @ht-reorder=${move}>
-      ${list('Mon 27', monday, { disabled: true })}
-      ${list('Tue 28', [...tuesday.slice(0, 1), { id: 't9', title: 'Standup (pinned)', disabled: true }, ...tuesday.slice(1)])}
+      ${list('Mon 26', monday, { disabled: true })}
+      ${list('Tue 27', [...tuesday.slice(0, 1), { id: 't9', title: 'Standup (pinned)', disabled: true }, ...tuesday.slice(1)])}
     </div>`,
+};
+
+/**
+ * One drag engine, three kinds of target. Drag a task onto another day's tab to move it to that day,
+ * or onto the schedule to give it a time (snapped to 15 minutes). The tabs and the schedule opt in
+ * with `droppable` and take only the `days` group. Each drop fires one `ht-reorder` on the source
+ * list; its `data` says what the target took: `{ index }`, `{ date }` or `{ time, date }`.
+ */
+export const IntoAWeekAndASchedule: StoryObj = {
+  parameters: { layout: 'padded' },
+  render: () => {
+    const show = (e: Event) => {
+      const d = (e as CustomEvent<HtReorderDetail>).detail;
+      const out = (e.currentTarget as HTMLElement).querySelector('output');
+      if (out) out.textContent = `ht-reorder → ${d.to.localName}, index ${d.index}, data ${JSON.stringify(d.data)}`;
+      move(e);
+    };
+    const week = [
+      ['2026-10-26', 'Mon', '26', true],
+      ['2026-10-27', 'Tue', '27', false],
+      ['2026-10-28', 'Wed', '28', false],
+      ['2026-10-29', 'Thu', '29', false],
+      ['2026-10-30', 'Fri', '30', false],
+      ['2026-10-31', 'Sat', '31', false],
+      ['2026-11-01', 'Sun', '1', false],
+    ] as const;
+    return html`
+      <div style="display:flex;flex-wrap:wrap;gap:24px;align-items:start" @ht-reorder=${show}>
+        <div style="display:grid;gap:16px;width:320px">
+          <div style=${tray}>
+            <ht-week-strip label="Week of 26 October" value="2026-10-26">
+              ${week.map(([v, d, n, today]) => html`<ht-week-tab value=${v} day=${d} date-label=${n} ?today=${today} droppable accept="days"></ht-week-tab>`)}
+            </ht-week-strip>
+          </div>
+          ${list('Mon 26', monday, { group: 'days' })}
+          <output style="font:400 11px/1.5 var(--ht-font-mono);color:var(--ht-text-muted)">Drop a task to see the event.</output>
+        </div>
+        <div style=${tray}>
+          <div style=${head}><span style=${day}>Schedule</span><span style=${mono}>Mon 26</span></div>
+          <ht-day-schedule date="2026-10-26" start="09:00" end="14:00" hour-height="48" now="11:42" droppable accept="days" label="Mon 26 schedule">
+            <ht-schedule-item start="09:00" end="09:30" color="var(--ht-info)">Stand-up</ht-schedule-item>
+            <ht-schedule-item start="10:00" end="11:00" color="var(--ht-success)">Design sync</ht-schedule-item>
+            <ht-schedule-item start="12:00" end="13:00" color="var(--ht-accent)">Lunch</ht-schedule-item>
+          </ht-day-schedule>
+        </div>
+      </div>`;
+  },
 };

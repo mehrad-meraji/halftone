@@ -100,6 +100,7 @@ interface Placed {
  * @csspart now - The now line.
  * @csspart now-label - The time of the now line, in the gutter.
  * @csspart drop - The dashed box that shows where a dragged item would land.
+ * @csspart drop-label - The drop time in the gutter, so it stays readable while the drag preview covers the box.
  * @csspart anytime - The Anytime group (a `<details>`).
  * @csspart anytime-summary - Its header, which folds and unfolds it.
  * @csspart anytime-list - The list of items with no time.
@@ -261,6 +262,19 @@ export class HtDaySchedule extends LitElement {
       .now, .now-label { transition: top var(--ht-duration) var(--ht-ease); }
     }
 
+    /* The drop time again in the gutter: the drag preview follows the pointer and often covers the box. */
+    .drop-label {
+      position: absolute;
+      z-index: 3;
+      right: calc(100% - 44px);
+      padding: 0 3px;
+      border-radius: var(--ht-radius-sm);
+      background: var(--ht-accent-soft);
+      color: var(--ht-accent-text);
+      font: 500 0.625rem/12px var(--ht-font-mono);
+      font-variant-numeric: tabular-nums;
+      pointer-events: none;
+    }
     .drop {
       position: absolute;
       z-index: 3;
@@ -516,7 +530,8 @@ export class HtDaySchedule extends LitElement {
             <div part="now" class="now" aria-hidden="true" style=${styleMap({ top: `${nowY - 1}px` })}></div>`
           : nothing}
         ${drop !== null
-          ? html`<div part="drop" class="drop" aria-hidden="true" style=${styleMap({ top: `${this.#y(drop, a) + 1}px`, height: `${(DROP_LENGTH * hh) / 60 - 2}px` })}>
+          ? html`<span part="drop-label" class="drop-label" aria-hidden="true" style=${styleMap({ top: `${this.#y(drop, a) - 6}px` })}>${formatTime(drop)}</span>
+            <div part="drop" class="drop" aria-hidden="true" style=${styleMap({ top: `${this.#y(drop, a) + 1}px`, height: `${(DROP_LENGTH * hh) / 60 - 2}px` })}>
               Drop · ${formatTime(drop)} – ${formatTime(drop + DROP_LENGTH)}
             </div>`
           : nothing}

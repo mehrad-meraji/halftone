@@ -454,7 +454,7 @@ const INTERACTIVE =
  */
 export class HtSortableList extends LitElement {
   static properties = {
-    /** Accessible name of the list, such as `Mon 27`. Also used in announcements. A host `aria-label` works too. */
+    /** Accessible name of the list, such as `Mon 26`. Also used in announcements. A host `aria-label` works too. */
     label: {},
     /** Lists with the same `group` trade items. Also passed to drop targets as `detail.group`. */
     group: { reflect: true },

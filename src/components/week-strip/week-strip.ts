@@ -298,7 +298,7 @@ export class HtWeekTab extends LitElement {
       border-top: 1px solid color-mix(in oklab, var(--ht-accent) 20%, transparent);
       transition: height var(--ht-duration) var(--ht-ease);
     }
-    .meter { position: absolute; inset: auto 0 0 0; display: block; }
+    .tab > .meter { position: absolute; inset: auto 0 0 0; display: block; }
     ::slotted([slot='meter']) { display: block; width: 100%; }
 
     :host(:hover:not([disabled]):not([selected])) .tab {

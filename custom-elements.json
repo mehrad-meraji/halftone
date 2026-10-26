@@ -4151,6 +4151,10 @@
               "name": "drop"
             },
             {
+              "description": "The drop time in the gutter, so it stays readable while the drag preview covers the box.",
+              "name": "drop-label"
+            },
+            {
               "description": "The Anytime group (a `<details>`).",
               "name": "anytime"
             },
@@ -11616,7 +11620,7 @@
               "kind": "field",
               "name": "label",
               "privacy": "public",
-              "description": "Accessible name of the list, such as `Mon 27`. Also used in announcements. A host `aria-label` works too.",
+              "description": "Accessible name of the list, such as `Mon 26`. Also used in announcements. A host `aria-label` works too.",
               "type": {
                 "text": "string"
               },
@@ -11672,7 +11676,7 @@
           "attributes": [
             {
               "name": "label",
-              "description": "Accessible name of the list, such as `Mon 27`. Also used in announcements. A host `aria-label` works too.",
+              "description": "Accessible name of the list, such as `Mon 26`. Also used in announcements. A host `aria-label` works too.",
               "type": {
                 "text": "string"
               },
