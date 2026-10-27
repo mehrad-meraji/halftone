@@ -50,12 +50,16 @@ for (const mod of manifest.modules) {
 
 function storiesFor(folder) {
   const dir = join(repo, 'src/components', folder);
-  const file = readdirSync(dir).find((f) => f.endsWith('.stories.ts') && f !== 'glass.stories.ts');
+  const files = readdirSync(dir).filter((f) => f.endsWith('.stories.ts') && f !== 'glass.stories.ts');
+  // The component's own story file first: a folder can also hold pattern stories (the sidebar's app shell).
+  const file = files.find((f) => f === `${folder}.stories.ts`) ?? files[0];
   if (!file) return { title: titleCase(folder), stories: [] };
   const src = readFileSync(join(dir, file), 'utf8');
-  const title = src.match(/title:\s*'([^']+)'/)?.[1] ?? `Components/${titleCase(folder)}`;
+  // The story meta's title. A bare `title:` can also sit in demo data earlier in the file, so match the `Components/` one.
+  const title = src.match(/^\s*title:\s*'(Components\/[^']+)'/m)?.[1] ?? `Components/${titleCase(folder)}`;
   const stories = [...src.matchAll(/^export const (\w+):\s*StoryObj/gm)].map((m) => {
-    const label = m[1].replace(/([a-z0-9])([A-Z])/g, '$1 $2');
+    // Split like Storybook does: `InAScrollArea` is "In A Scroll Area", or the story id will not match.
+    const label = m[1].replace(/([a-z0-9])([A-Z])/g, '$1 $2').replace(/([A-Z])([A-Z][a-z])/g, '$1 $2');
     return { id: `${sanitize(title)}--${sanitize(label)}`, label };
   });
   return { title: title.split('/').pop(), stories };
