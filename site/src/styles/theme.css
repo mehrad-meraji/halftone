@@ -71,10 +71,14 @@ h3 {
   color: var(--ht-text-subtle);
 }
 
-/* Sidebar badges: small mono chips. */
+/* Sidebar badges: small mono chips, quiet. An outline in muted text, whatever the variant, so New and Updated do not pull the eye. */
 .sidebar-content .sl-badge {
-  font: 500 0.6875rem/1rem var(--ht-font-mono);
+  font: 400 0.625rem/1rem var(--ht-font-mono);
   border-radius: 4px;
+  padding: 0 0.3125rem;
+  background: transparent;
+  border: 1px solid var(--sl-color-hairline);
+  color: var(--ht-text-subtle);
 }
 
 /* Tables read as the design's spec tables: full width, a rounded frame, a muted header row. */
