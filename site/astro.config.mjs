@@ -42,6 +42,8 @@ export default defineConfig({
         PageSidebar: './src/components/PageSidebar.astro',
         Footer: './src/components/Footer.astro',
         PageFrame: './src/components/PageFrame.astro',
+        Sidebar: './src/components/Sidebar.astro',
+        Search: './src/components/Search.astro',
       },
       head: [
         { tag: 'link', attrs: { rel: 'preconnect', href: 'https://fonts.googleapis.com' } },

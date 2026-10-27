@@ -18,6 +18,10 @@ const nav = [
 ---
 
 <div class="header">
+  <ht-button id="docs-menu" class="menu print:hidden" variant="quiet" size="sm">
+    <span class="sr-only">Menu</span>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"></path></svg>
+  </ht-button>
   <div class="title-wrapper sl-flex"><SiteTitle /></div>
   <nav class="top-nav" aria-label="Primary">
     {nav.map((n) => <a href={n.href} aria-current={n.current ? 'page' : undefined}>{n.label}</a>)}
@@ -25,17 +29,22 @@ const nav = [
   <div class="search sl-flex print:hidden">{config.pagefind && <Search />}</div>
   <div class="right sl-flex print:hidden">
     <SocialIcons />
-    <button type="button" id="halftone-theme" aria-label="Switch theme">
+    <ht-button type="button" variant="quiet" size="sm" id="halftone-theme">
+      <span class="sr-only" data-label>Switch theme</span>
       <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg>
       <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
-    </button>
+    </ht-button>
   </div>
 </div>
 
 <script>
+  // On a phone the left sidebar is a drawer; this button opens it.
+  document.getElementById('docs-menu')?.addEventListener('click', () => (document.getElementById('docs-sidebar') as (HTMLElement & { toggle(): void }) | null)?.toggle());
+
   const button = document.getElementById('halftone-theme');
   const label = () => (document.documentElement.dataset.theme === 'dark' ? 'Switch to the light theme' : 'Switch to the dark theme');
-  button?.setAttribute('aria-label', label());
+  const name = button?.querySelector('[data-label]');
+  if (name) name.textContent = label();
   button?.addEventListener('click', () => {
     const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
     document.documentElement.dataset.theme = next;
@@ -44,7 +53,7 @@ const nav = [
     } catch {
       /* private mode: the choice lasts for this page only */
     }
-    button.setAttribute('aria-label', label());
+    if (name) name.textContent = label();
   });
 </script>
 
@@ -98,30 +107,21 @@ const nav = [
     .search {
       margin-inline-start: auto;
     }
+    /* The menu button is only for the drawer, below 800px, and only on pages that have a sidebar. */
+    .menu {
+      display: none;
+    }
+    @media (max-width: 49.99rem) {
+      :global([data-has-sidebar]) .menu {
+        display: inline-flex;
+      }
+    }
     .right {
       gap: 0.5rem;
       align-items: center;
     }
     .right :global(.social-icons) {
       display: flex;
-    }
-    #halftone-theme {
-      all: unset;
-      cursor: pointer;
-      display: grid;
-      place-items: center;
-      width: 2.25rem;
-      height: 2.25rem;
-      border-radius: var(--ht-radius-md);
-      color: var(--ht-text-muted);
-    }
-    #halftone-theme:hover {
-      color: var(--ht-text);
-      background: var(--ht-surface-sunken);
-    }
-    #halftone-theme:focus-visible {
-      outline: 2px solid var(--ht-focus);
-      outline-offset: 2px;
     }
     .icon-sun {
       display: none;

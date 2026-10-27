@@ -1,0 +1,37 @@
+---
+// The docs sidebar, drawn with Halftone's own ht-sidebar groups and nav items from Starlight's sidebar tree.
+// PageFrame holds the ht-sidebar; this fills it.
+
+const { sidebar } = Astro.locals.starlightRoute;
+type Entry = any;
+---
+
+{
+  sidebar.map((entry: Entry) => (
+    entry.type === 'group' ? (
+      <ht-sidebar-group heading={entry.label} collapsible collapsed={entry.collapsed || undefined}>
+        {entry.entries.map((child: Entry) =>
+          child.type === 'group' ? (
+            <ht-sidebar-group heading={child.label} collapsible collapsed={child.collapsed || undefined}>
+              {child.entries.map((leaf: Entry) => leaf.type === 'link' && (
+                <ht-nav-item href={leaf.href} active={leaf.isCurrent || undefined}>
+                  {leaf.label}
+                  {leaf.badge && <ht-tag slot="suffix" size="sm">{leaf.badge.text}</ht-tag>}
+                </ht-nav-item>
+              ))}
+            </ht-sidebar-group>
+          ) : (
+            <ht-nav-item href={child.href} active={child.isCurrent || undefined}>
+              {child.label}
+              {child.badge && <ht-tag slot="suffix" size="sm">{child.badge.text}</ht-tag>}
+            </ht-nav-item>
+          ),
+        )}
+      </ht-sidebar-group>
+    ) : (
+      <ht-sidebar-group heading="">
+        <ht-nav-item href={entry.href} active={entry.isCurrent || undefined}>{entry.label}</ht-nav-item>
+      </ht-sidebar-group>
+    )
+  ))
+}

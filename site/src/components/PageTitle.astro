@@ -22,13 +22,12 @@ const group = rest ? groups[first] : undefined;
 
 {
   group && (
-    <nav class="crumbs" aria-label="Breadcrumb">
-      <a href={`${base}/${group[1]}`}>{group[0]}</a>
-      <span aria-hidden="true">/</span>
-      <span>{title}</span>
-    </nav>
+    <ht-breadcrumb class="crumbs" label="Breadcrumb">
+      <ht-breadcrumb-item href={`${base}/${group[1]}`}>{group[0]}</ht-breadcrumb-item>
+      <ht-breadcrumb-item>{title}</ht-breadcrumb-item>
+    </ht-breadcrumb>
   )
 }
 <h1 id="_top">{title}</h1>
 {description && <p class="lede" set:html={lede} />}
-{chips && chips.length > 0 && <ul class="chips">{chips.map((c, i) => <li class:list={{ tag: i === 0 }}>{c}</li>)}</ul>}
+{chips && chips.length > 0 && <ul class="chips">{chips.map((c, i) => <li><ht-tag tone={i === 0 ? 'accent' : 'neutral'}>{c}</ht-tag></li>)}</ul>}
