@@ -539,3 +539,11 @@ Taskscape's gap list (`docs/plans/2026-10-26-taskscape-components.md`) asked for
 - **Link preview:** the card is not a link; the title and Open are. Below 260px a container query shows the status as a dot only.
 - **Lightbox:** a native `<dialog>` with a filmstrip. Previous and next wrap round at the ends.
 - Checked in Storybook: all 46 stories in light, dark and at 375px; a pointer drag onto a week tab, the schedule and a list; Escape cancels with no event; keyboard reorder. Axe: 0 violations in both themes. Not checked with a screen reader, and focus return after closing the lightbox is not checked in Safari.
+
+## 2026-10-27 — Blocks hub and a grouped sidebar
+The Blocks overview page is now a card grid, in the style of the React Bits Pro docs: a live preview, the category, the title, one line and the name on each card, with a search box and category filters. The sidebar groups the blocks by category.
+
+- `site/scripts/gen-blocks.mjs` writes the hub (`<BlockGrid />` in `site/src/components/BlockGrid.astro`) and adds `category` and `summary` to `src/generated/blocks.json`. `astro.config.mjs` reads that file to build the sidebar groups, so a new block shows up in the grid and the sidebar with no hand edit.
+- Each preview is the bare `/block-preview/<name>/` page in a 1280x800 iframe, scaled to the card width by a `ResizeObserver`, with `loading="lazy"`, `aria-hidden` and `pointer-events: none`. The card is the link.
+- Skipped from React Bits: the Newest / A-Z / Most variants sort (20 blocks) and the List / Grid toggle.
+- The hub also widens the content to 64rem, for three cards across.

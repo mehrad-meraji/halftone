@@ -46,7 +46,7 @@ const statsFile = join(site, 'src/generated/stats.json');
 const stats = existsSync(statsFile) ? JSON.parse(readFileSync(statsFile, 'utf8')) : {};
 writeFileSync(statsFile, JSON.stringify({ ...stats, blocks: list.length }, null, 2) + '\n');
 
-writeFileSync(dataFile, JSON.stringify(list.map((b) => ({ name: b.name, title: b.title, html: b.files.html })), null, 2) + '\n');
+writeFileSync(dataFile, JSON.stringify(list.map((b) => ({ name: b.name, title: b.title, category: b.category, summary: b.summary, html: b.files.html })), null, 2) + '\n');
 
 list.forEach((b, i) => {
   const front = [
@@ -87,7 +87,6 @@ list.forEach((b, i) => {
   writeFileSync(join(outDir, `${b.name}.mdx`), body);
 });
 
-const rows = list.map((b) => `- **[${esc(b.title)}](./${b.name}/)** · ${esc(b.category)}. ${esc(b.summary)}`);
 writeFileSync(
   join(outDir, 'index.mdx'),
   `---
@@ -99,9 +98,11 @@ sidebar:
 tableOfContents: false
 ---
 
+import BlockGrid from '../../../components/BlockGrid.astro';
+
 ${list.length} blocks. A block is plain HTML that composes \`ht-*\` elements, with scoped styles that use only tokens. \`halftone add <block>\` copies the HTML and every component it needs. Each page has notes on when to use the block and how to change it, written for people and for coding agents.
 
-${rows.join('\n')}
+<BlockGrid />
 `,
 );
 console.log(`Generated ${list.length} block pages.`);

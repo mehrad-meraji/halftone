@@ -1,5 +1,15 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
+import { existsSync, readFileSync } from 'node:fs';
+
+// Blocks are grouped by category in the sidebar. blocks.json is written by scripts/gen-blocks.mjs, which runs before dev and build.
+const blocksFile = new URL('./src/generated/blocks.json', import.meta.url);
+const blockList = existsSync(blocksFile) ? JSON.parse(readFileSync(blocksFile, 'utf8')) : [];
+const blockGroups = [...new Set(blockList.map((b) => b.category))].sort().map((category) => ({
+  label: category,
+  collapsed: false,
+  items: blockList.filter((b) => b.category === category).map((b) => ({ slug: `blocks/${b.name}` })),
+}));
 
 // BASE_PATH is the sub-folder the site is served from (for GitHub Pages: '/halftone/').
 const base = process.env.BASE_PATH ?? '/';
@@ -48,7 +58,7 @@ export default defineConfig({
         { label: 'Getting started', items: [{ autogenerate: { directory: 'getting-started' } }] },
         { label: 'Foundations', items: [{ autogenerate: { directory: 'foundations' } }] },
         { label: 'Components', items: [{ autogenerate: { directory: 'components' } }] },
-        { label: 'Blocks', items: [{ autogenerate: { directory: 'blocks' } }] },
+        { label: 'Blocks', items: [{ slug: 'blocks', label: 'Overview' }, ...blockGroups] },
         { label: 'Patterns', items: [{ autogenerate: { directory: 'patterns' } }] },
         { label: 'Resources', items: [{ autogenerate: { directory: 'resources' } }] },
       ],
