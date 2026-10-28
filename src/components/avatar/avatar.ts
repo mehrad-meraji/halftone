@@ -268,6 +268,8 @@ export class HtAvatar extends LitElement {
     seed: {},
     /** Draws a picture from `seed` in place of the initials: `pixel` (a creature), `dots` (a halftone screen) or `tiles` (nine turned shapes). Empty, the default, turns it off. */
     art: {},
+    /** Text shown in place of the initials computed from `name`, e.g. `AB`. The accessible name still comes from `name`. */
+    initials: {},
     /** Diameter: xs 20px, sm 24px, md 32px, lg 40px. */
     size: { reflect: true },
     /** `square` uses the md radius. */
@@ -283,6 +285,7 @@ export class HtAvatar extends LitElement {
   declare name: string;
   declare seed: string;
   declare art: AvatarArt | '';
+  declare initials: string;
   declare size: 'xs' | 'sm' | 'md' | 'lg';
   declare shape: 'circle' | 'square';
   declare statusLabel: string;
@@ -296,6 +299,7 @@ export class HtAvatar extends LitElement {
     this.name = '';
     this.seed = '';
     this.art = '';
+    this.initials = '';
     this.size = 'md';
     this.shape = 'circle';
     this.statusLabel = '';
@@ -417,7 +421,7 @@ export class HtAvatar extends LitElement {
 
   render() {
     const name = this.name.trim();
-    const initials = initialsOf(name);
+    const initials = this.initials.trim() || initialsOf(name);
     const label = name ? (this.statusLabel ? `${name}, ${this.statusLabel}` : name) : '';
     const showImage = !!this.src && !this._failed;
     return html`

@@ -89,3 +89,30 @@ export const InForm: StoryObj = {
       <pre style="margin:0;font:400 12px var(--ht-font-mono);color:var(--ht-text-muted)">submit to see FormData</pre>
     </form>`,
 };
+
+/** `bare` drops the box. Use it for text that is edited in place. The focus ring stays. */
+export const Bare: StoryObj = {
+  render: () => html`<ht-textarea bare aria-label="Description" placeholder="Add a description" style="width:360px"></ht-textarea>`,
+};
+
+/** `fill` takes the height of the host. Here the parent is 160px tall. */
+export const Fill: StoryObj = {
+  render: () => html`<div style="width:360px;height:160px"><ht-textarea fill aria-label="Notes" value="Fills its box."></ht-textarea></div>`,
+};
+
+export const NoResize: StoryObj = {
+  render: () => html`<ht-textarea resize="none" aria-label="Notes" style="width:360px" value="No handle."></ht-textarea>`,
+};
+
+export const Mono: StoryObj = {
+  render: () => html`<ht-textarea mono aria-label="Markdown" style="width:360px" value="# Title&#10;&#10;- one&#10;- two"></ht-textarea>`,
+};
+
+/** A host `aria-describedby` is read by the field, even though the ids are outside the shadow root. */
+export const DescribedBy: StoryObj = {
+  render: () => html`
+    <div style="width:360px">
+      <ht-textarea aria-label="Reason" aria-describedby="why-hint"></ht-textarea>
+      <p id="why-hint" style="font:400 12px var(--ht-font-ui);color:var(--ht-text-muted)">Shown to the team that reviews the request.</p>
+    </div>`,
+};

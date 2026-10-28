@@ -54,6 +54,8 @@ export class HtMenu extends LitElement {
     contextmenu: { type: Boolean, reflect: true },
     /** Stops the menu from opening. */
     disabled: { type: Boolean, reflect: true },
+    /** Space between the trigger and the menu, in pixels. */
+    offset: { type: Number },
   };
 
   declare open: boolean;
@@ -61,6 +63,7 @@ export class HtMenu extends LitElement {
   declare label: string;
   declare contextmenu: boolean;
   declare disabled: boolean;
+  declare offset: number;
 
   #wasOpen = false;
   #mounted = false;
@@ -80,6 +83,7 @@ export class HtMenu extends LitElement {
     this.label = '';
     this.contextmenu = false;
     this.disabled = false;
+    this.offset = 4;
     this.addEventListener('contextmenu', this.#onContextMenu);
   }
 
@@ -454,7 +458,7 @@ export class HtMenu extends LitElement {
       if (x + b.width > vw - margin) x -= b.width;
       if (y + b.height > vh - margin) y -= b.height;
     } else {
-      const gap = 4;
+      const gap = this.offset;
       const [sideRaw, alignRaw] = this.placement.split('-');
       const preferred: Side = (['top', 'bottom', 'left', 'right'] as const).includes(sideRaw as Side)
         ? (sideRaw as Side)

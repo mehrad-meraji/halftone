@@ -411,11 +411,11 @@ export class HtSelect extends LitElement {
   }
 
   #commit() {
-    this.#internals.setFormValue(this.value);
+    this.#internals.setFormValue?.(this.value);
     if (this.required && !this.value) {
-      this.#internals.setValidity({ valueMissing: true }, 'Please select an item in the list.', this.#trigger ?? undefined);
+      this.#internals.setValidity?.({ valueMissing: true }, 'Please select an item in the list.', this.#trigger ?? undefined);
     } else {
-      this.#internals.setValidity({});
+      this.#internals.setValidity?.({});
     }
   }
 

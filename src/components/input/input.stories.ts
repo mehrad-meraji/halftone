@@ -10,8 +10,8 @@ const meta: Meta = {
   component: 'ht-input',
   tags: ['autodocs'],
   argTypes: {
-    size: { control: 'select', options: ['sm', 'md', 'lg'] },
-    type: { control: 'select', options: ['text', 'email', 'password', 'search', 'tel', 'url', 'number'] },
+    size: { control: 'select', options: ['xs', 'sm', 'md', 'lg'] },
+    type: { control: 'select', options: ['text', 'email', 'password', 'search', 'tel', 'url', 'number', 'date', 'time', 'datetime-local', 'month', 'week'] },
   },
   args: { label: 'Project Name', placeholder: 'sentinel', helper: '', error: '', size: 'md', type: 'text', disabled: false, required: false },
   render: (a) => html`
@@ -54,5 +54,40 @@ export const InForm: StoryObj = {
         <ht-button type="reset" variant="default">Reset</ht-button>
       </div>
       <pre style="margin:0;font:400 12px var(--ht-font-mono);color:var(--ht-text-muted)">submit to see FormData</pre>
+    </form>`,
+};
+
+export const Sizes: StoryObj = {
+  render: () => html`
+    <div style="display:grid;gap:12px;width:320px">
+      ${(['xs', 'sm', 'md', 'lg'] as const).map(
+        (s) => html`<ht-input size=${s} aria-label=${`Size ${s}`} placeholder=${`Size ${s}`}></ht-input>`,
+      )}
+    </div>`,
+};
+
+/** `bare` drops the box. Use it for text that is edited in place. The focus ring stays. */
+export const Bare: StoryObj = {
+  render: () => html`<ht-input bare aria-label="Title" value="Untitled document" style="width:320px;font-weight:600"></ht-input>`,
+};
+
+/** `min`, `max` and `step` set the limits. The browser blocks submit outside them. */
+export const Constraints: StoryObj = {
+  render: () => html`
+    <form style="display:grid;gap:16px;width:320px" @submit=${(e: Event) => e.preventDefault()}>
+      <ht-input type="number" label="Seats" min="1" max="20" step="1" inputmode="numeric" value="3"></ht-input>
+      <ht-input type="date" label="Expires" min="2026-01-01" max="2026-12-31"></ht-input>
+      <ht-input type="time" label="Starts at" step="900"></ht-input>
+      <ht-input label="Slug" pattern="[a-z0-9-]+" minlength="3" maxlength="24" helper="3 to 24 characters: a to z, 0 to 9, dashes."></ht-input>
+      <ht-button type="submit">Check</ht-button>
+    </form>`,
+};
+
+/** `default-value` is the start value. Reset returns to it. */
+export const DefaultValue: StoryObj = {
+  render: () => html`
+    <form style="display:grid;gap:12px;width:320px">
+      <ht-input label="Region" default-value="eu-west"></ht-input>
+      <ht-button type="reset" variant="default">Reset</ht-button>
     </form>`,
 };

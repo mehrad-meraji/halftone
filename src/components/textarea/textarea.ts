@@ -16,6 +16,8 @@ import { live } from 'lit/directives/live.js';
  * @csspart message - The helper or error text.
  * @csspart counter - The character counter.
  *
+ * @cssprop [--ht-textarea-padding-x] - Inline padding inside the box. Defaults to 1rem (0 with `bare`).
+ *
  * @fires input - Value changed by typing. Native event, crosses the shadow boundary.
  * @fires change - Value committed (blur). Re-dispatched from the host.
  */
@@ -51,6 +53,18 @@ export class HtTextarea extends LitElement {
     maxLength: { type: Number, attribute: 'maxlength' },
     /** Shows `length / maxlength` under the field. Needs `maxlength`. */
     counter: { type: Boolean, reflect: true },
+    /** Drops the box: no fill, border or padding. For text that sits inside other content, such as a document description. The focus ring stays. */
+    bare: { type: Boolean, reflect: true },
+    /** Fills the height of the host instead of using `rows`. Give the host a height, or put it in a flex or grid cell that has one. */
+    fill: { type: Boolean, reflect: true },
+    /** Manual resize handle: `vertical` (default) or `none`. `autosize` and `fill` always turn it off. */
+    resize: { reflect: true },
+    /** Uses the mono font, for code and Markdown. */
+    mono: { type: Boolean, reflect: true },
+    /** Value the field starts with, and returns to on form reset. `value` wins when both are set. */
+    defaultValue: { attribute: 'default-value' },
+    /** Fewest characters. */
+    minLength: { type: Number, attribute: 'minlength' },
     _touched: { state: true },
     _formDisabled: { state: true },
   };
@@ -70,6 +84,12 @@ export class HtTextarea extends LitElement {
   declare maxRows: number;
   declare maxLength: number | undefined;
   declare counter: boolean;
+  declare bare: boolean;
+  declare fill: boolean;
+  declare resize: 'vertical' | 'none';
+  declare mono: boolean;
+  declare defaultValue: string;
+  declare minLength: number | undefined;
   declare _touched: boolean;
   declare _formDisabled: boolean;
 
@@ -77,6 +97,19 @@ export class HtTextarea extends LitElement {
   #defaultValue = '';
   #ariaLabel: string | undefined;
   #width = 0;
+
+  #describedBy = '';
+
+  /** Text of the elements named by a host `aria-describedby`. Ids do not resolve across the shadow boundary, so the text is copied inside. */
+  #externalDescription() {
+    if (!this.#describedBy) return '';
+    const root = this.getRootNode() as Document | ShadowRoot;
+    return this.#describedBy
+      .split(/\s+/)
+      .map((id) => root.getElementById?.(id)?.textContent?.trim() ?? '')
+      .filter(Boolean)
+      .join(' ');
+  }
   #observer: ResizeObserver | undefined;
 
   constructor() {
@@ -96,6 +129,12 @@ export class HtTextarea extends LitElement {
     this.maxRows = 0;
     this.maxLength = undefined;
     this.counter = false;
+    this.bare = false;
+    this.fill = false;
+    this.resize = 'vertical';
+    this.mono = false;
+    this.defaultValue = '';
+    this.minLength = undefined;
     this._touched = false;
     this._formDisabled = false;
     this.addEventListener('invalid', () => (this._touched = true));
@@ -103,12 +142,17 @@ export class HtTextarea extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    this.#defaultValue = this.getAttribute('value') ?? '';
+    this.#defaultValue = this.getAttribute('value') ?? this.defaultValue;
     // `aria-label` is not allowed on a generic host; move it to the native textarea.
     const al = this.getAttribute('aria-label');
     if (al) {
       this.#ariaLabel = al;
       this.removeAttribute('aria-label');
+    }
+    const db = this.getAttribute('aria-describedby');
+    if (db) {
+      this.#describedBy = db;
+      this.removeAttribute('aria-describedby');
     }
     // Wrapping changes with the width, so an autosizing field has to measure again.
     this.#observer = new ResizeObserver(() => {
@@ -127,6 +171,9 @@ export class HtTextarea extends LitElement {
 
   static styles = css`
     :host { display: block; }
+    :host([fill]) { display: flex; flex-direction: column; height: 100%; min-height: 0; }
+    :host([fill]) .control { flex: 1; min-height: 0; }
+    :host([fill]) textarea { height: 100%; }
     label {
       display: block;
       margin-bottom: 6px;
@@ -138,7 +185,7 @@ export class HtTextarea extends LitElement {
     .control {
       box-sizing: border-box;
       display: flex;
-      padding: 8px 1rem;
+      padding: 8px var(--ht-textarea-padding-x, 1rem);
       color: var(--ht-text-subtle);
       background: color-mix(in oklch, var(--ht-text) 3%, transparent);
       border: 1px solid var(--ht-border-input);
@@ -149,6 +196,14 @@ export class HtTextarea extends LitElement {
     .control:focus-within {
       box-shadow: inset 0 1px 0 0 var(--ht-border-input), 0 0 0 2px var(--ht-focus);
     }
+    :host([bare]) .control {
+      padding-inline: var(--ht-textarea-padding-x, 0);
+      background: none;
+      border-color: transparent;
+      box-shadow: none;
+    }
+    :host([bare]) .control:focus-within { box-shadow: 0 0 0 2px var(--ht-focus); }
+    :host([bare]) .control.invalid { box-shadow: none; }
     .control.invalid { border-color: var(--ht-danger); box-shadow: inset 0 1px 0 0 var(--ht-danger); }
     .control.invalid:focus-within { box-shadow: inset 0 1px 0 0 var(--ht-danger), 0 0 0 2px var(--ht-danger); }
     :host([disabled]) .control { cursor: not-allowed; }
@@ -167,7 +222,8 @@ export class HtTextarea extends LitElement {
       color: var(--ht-text);
       resize: vertical;
     }
-    :host([autosize]) textarea { resize: none; }
+    :host([resize='none']) textarea, :host([autosize]) textarea, :host([fill]) textarea { resize: none; }
+    :host([mono]) textarea { font-family: var(--ht-font-mono); }
     textarea:disabled { color: var(--ht-text-subtle); cursor: not-allowed; }
     textarea::placeholder { color: var(--ht-text-subtle); }
     .foot { display: flex; align-items: flex-start; gap: 12px; margin-top: 6px; }
@@ -209,6 +265,19 @@ export class HtTextarea extends LitElement {
     return this.#internals.reportValidity();
   }
 
+  /** The native `<textarea>` inside, for a caller that needs the caret or the selection. */
+  get textareaElement() {
+    return this.#ta;
+  }
+  /** Selects all the text in the field. */
+  select() {
+    this.#ta?.select();
+  }
+  /** Sets the selection range in the field. */
+  setSelectionRange(start: number | null, end: number | null, direction?: 'forward' | 'backward' | 'none') {
+    this.#ta?.setSelectionRange(start, end, direction);
+  }
+
   formResetCallback() {
     this.value = this.#defaultValue;
     this._touched = false;
@@ -223,7 +292,7 @@ export class HtTextarea extends LitElement {
   #grow() {
     const ta = this.#ta;
     if (!ta) return;
-    if (!this.autosize) {
+    if (!this.autosize || this.fill) {
       ta.style.height = '';
       ta.style.maxHeight = '';
       return;
@@ -234,12 +303,21 @@ export class HtTextarea extends LitElement {
     ta.style.height = `${ta.scrollHeight}px`;
   }
 
+  #started = false;
+  willUpdate() {
+    // The start value applies once. After that `value` is the only source.
+    if (!this.#started) {
+      this.#started = true;
+      if (!this.value && this.defaultValue) this.value = this.defaultValue;
+    }
+  }
+
   updated() {
     const ta = this.#ta;
     if (!ta) return;
     this.#grow();
-    this.#internals.setFormValue(this.value);
-    this.#internals.setValidity(ta.validity, ta.validationMessage, ta);
+    this.#internals.setFormValue?.(this.value);
+    this.#internals.setValidity?.(ta.validity, ta.validationMessage, ta);
   }
 
   #onInput = (e: Event) => {
@@ -256,7 +334,8 @@ export class HtTextarea extends LitElement {
     const isInvalid = this.invalid || !!this.error || !!native;
     const showCounter = this.counter && !!this.maxLength;
     const length = this.value.length;
-    const describedBy = [message ? 'message' : '', showCounter ? 'counter' : ''].filter(Boolean).join(' ');
+    const external = this.#externalDescription();
+    const describedBy = [message ? 'message' : '', showCounter ? 'counter' : '', external ? 'external' : ''].filter(Boolean).join(' ');
     return html`
       ${this.label
         ? html`<label part="label" for="control">${this.label}${this.required
@@ -271,6 +350,7 @@ export class HtTextarea extends LitElement {
           .value=${live(this.value)}
           name=${ifDefined(this.name || undefined)}
           placeholder=${ifDefined(this.placeholder || undefined)}
+          minlength=${ifDefined(this.minLength || undefined)}
           maxlength=${ifDefined(this.maxLength || undefined)}
           ?required=${this.required}
           ?disabled=${this.disabled || this._formDisabled}
@@ -283,6 +363,7 @@ export class HtTextarea extends LitElement {
           @blur=${() => (this._touched = true)}
         ></textarea>
       </div>
+      ${external ? html`<span id="external" hidden>${external}</span>` : nothing}
       ${message || showCounter
         ? html`<div class="foot">
             ${message

@@ -557,3 +557,14 @@ The docs site now uses its own library for the frame, not only for the demos: `h
 - **Category filter on the Blocks hub is an `ht-select`**, not a toggle group: 15 categories do not fit a segmented control, which does not wrap.
 - **Not kept:** Starlight's remembered sidebar group state and scroll position, the sidebar badge CSS, and Starlight's own search and Ctrl+K. Groups open as configured on each page load. The top navigation, the footer links and the "On this page" rail are still plain HTML and Starlight.
 - Checked: axe over the Blocks hub and a block page, light and dark, with 0 violations; the mobile drawer at 375px; search by keyboard hotkey and click.
+
+## 2026-10-28 — Field props from the Taskscape gaps list
+
+Source: `2026-10-28-halftone-gaps.md` in Taskscape, section 3 (fields and display). Each item removes a native fallback in a Taskscape wrapper.
+
+- **`ht-input`**: `min`, `max`, `step`, `minlength`, `maxlength`, `pattern`, `inputmode`, `enterkeyhint`, `multiple` (email), the types `date`, `time`, `datetime-local`, `month` and `week`, `default-value`, size `xs` (28px), `bare`, and `--ht-input-height` / `--ht-input-padding-x`. `select()`, `setSelectionRange()` and `inputElement` reach the native input.
+- **`ht-textarea`**: `bare`, `fill`, `resize="none"`, `mono`, `default-value`, `minlength`, `--ht-textarea-padding-x`, plus the same `select()`, `setSelectionRange()` and `textareaElement`.
+- **Host `aria-describedby`** on both fields: ids do not resolve across a shadow root, so the field copies the text of the named elements into a hidden node inside and points at that. The text is read at render, so a later change to the source text shows after the next render.
+- **Form internals** (`setFormValue`, `setValidity`) are called with `?.` in every form control, so the elements load under jsdom.
+- `ht-skeleton fill`, `ht-avatar initials`, `ht-tooltip arrow` and `offset`, `ht-popover offset`, `ht-menu offset`.
+- **Not built:** `list` (a `<datalist>` id cannot reach the native input across the shadow root; use `ht-combobox`), `file` type and `accept` (use `ht-dropzone`), `ht-visually-hidden`.

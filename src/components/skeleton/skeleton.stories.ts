@@ -70,3 +70,8 @@ export const Loading: StoryObj = {
       >Toggle Loading</ht-button>
     </div>`,
 };
+
+/** `fill` takes the size a class gives the host, so a skeleton can match the box it replaces. */
+export const Fill: StoryObj = {
+  render: () => html`<div style="width:240px;height:96px"><ht-skeleton fill variant="rect"></ht-skeleton></div>`,
+};

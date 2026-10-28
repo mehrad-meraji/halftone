@@ -298,9 +298,9 @@ export class HtRadioGroup extends LitElement {
 
   updated() {
     this.#sync();
-    this.#internals.setFormValue(this.value || null);
+    this.#internals.setFormValue?.(this.value || null);
     const missing = this.required && !this.value;
-    this.#internals.setValidity(
+    this.#internals.setValidity?.(
       missing ? { valueMissing: true } : {},
       missing ? 'Please select one of these options.' : '',
       this.#radios()[0],

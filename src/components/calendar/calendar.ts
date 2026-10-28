@@ -239,7 +239,7 @@ export class HtCalendar extends LitElement {
   }
 
   updated() {
-    this.#internals.setFormValue(parseIso(this.value) ? this.value : null);
+    this.#internals.setFormValue?.(parseIso(this.value) ? this.value : null);
   }
 
   #today(): Ymd {

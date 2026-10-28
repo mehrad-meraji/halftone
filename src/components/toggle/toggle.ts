@@ -152,7 +152,7 @@ export class HtToggle extends LitElement {
   }
 
   updated() {
-    this.#internals.setFormValue(this.pressed && this.name ? this.value : null, this.pressed ? 'on' : '');
+    this.#internals.setFormValue?.(this.pressed && this.name ? this.value : null, this.pressed ? 'on' : '');
   }
 
   render() {

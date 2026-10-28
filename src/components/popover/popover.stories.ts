@@ -15,12 +15,13 @@ const meta: Meta = {
     },
     open: { control: 'boolean' },
     disabled: { control: 'boolean' },
+    offset: { control: 'number' },
   },
-  args: { placement: 'bottom', open: false, disabled: false },
+  args: { placement: 'bottom', open: false, disabled: false, offset: 8 },
   parameters: { layout: 'centered' },
   render: (a) => html`
     <div style="padding:96px 128px">
-      <ht-popover placement=${a.placement} ?open=${a.open} ?disabled=${a.disabled} label="Project details">
+      <ht-popover placement=${a.placement} offset=${a.offset} ?open=${a.open} ?disabled=${a.disabled} label="Project details">
         <ht-button variant="default">Project Details</ht-button>
         <div slot="content">
           <strong>sentinel</strong>

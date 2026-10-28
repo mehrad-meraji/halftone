@@ -250,8 +250,8 @@ export class HtCheckbox extends LitElement {
     const input = this.renderRoot.querySelector('input');
     if (!input) return;
     input.indeterminate = this.indeterminate;
-    this.#internals.setFormValue(this.checked ? this.value : null);
-    this.#internals.setValidity(input.validity, input.validationMessage, input);
+    this.#internals.setFormValue?.(this.checked ? this.value : null);
+    this.#internals.setValidity?.(input.validity, input.validationMessage, input);
   }
 
   #onLabelSlot = (e: Event) => {

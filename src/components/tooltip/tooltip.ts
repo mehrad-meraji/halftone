@@ -26,12 +26,18 @@ export class HtTooltip extends LitElement {
     /** Milliseconds before showing on hover. Focus shows immediately. */
     delay: { type: Number },
     disabled: { type: Boolean, reflect: true },
+    /** Draws a small pointer from the bubble to the wrapped element. */
+    arrow: { type: Boolean, reflect: true },
+    /** Space between the wrapped element and the bubble, in pixels. */
+    offset: { type: Number },
   };
 
   declare text: string;
   declare placement: 'top' | 'bottom' | 'left' | 'right';
   declare delay: number;
   declare disabled: boolean;
+  declare arrow: boolean;
+  declare offset: number;
 
   #timer = 0;
 
@@ -41,6 +47,8 @@ export class HtTooltip extends LitElement {
     this.placement = 'top';
     this.delay = 300;
     this.disabled = false;
+    this.arrow = false;
+    this.offset = 8;
     this.addEventListener('pointerenter', () => this.#schedule());
     this.addEventListener('pointerleave', () => this.hide());
     this.addEventListener('pointerdown', () => this.hide());
@@ -87,6 +95,20 @@ export class HtTooltip extends LitElement {
     @starting-style {
       .bubble:popover-open { opacity: 0; transform: translateY(2px) scale(0.94); }
     }
+    /* The pointer is a turned square in the bubble's own colour. It sits on the edge facing the trigger. */
+    :host([arrow]) .bubble::before {
+      content: '';
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: inherit;
+      border-radius: 1px;
+      pointer-events: none;
+    }
+    :host([arrow]) .bubble[data-side='top']::before { bottom: -4px; left: var(--_ax, 50%); transform: translateX(-50%) rotate(45deg); }
+    :host([arrow]) .bubble[data-side='bottom']::before { top: -4px; left: var(--_ax, 50%); transform: translateX(-50%) rotate(45deg); }
+    :host([arrow]) .bubble[data-side='left']::before { right: -4px; top: var(--_ay, 50%); transform: translateY(-50%) rotate(45deg); }
+    :host([arrow]) .bubble[data-side='right']::before { left: -4px; top: var(--_ay, 50%); transform: translateY(-50%) rotate(45deg); }
     @media (prefers-reduced-motion: reduce) {
       .bubble { transition: none; }
     }
@@ -121,7 +143,7 @@ export class HtTooltip extends LitElement {
   }
 
   #place(bubble: HTMLElement) {
-    const gap = 8;
+    const gap = this.offset;
     const t = this.getBoundingClientRect();
     const b = bubble.getBoundingClientRect();
     const vw = document.documentElement.clientWidth;
@@ -141,8 +163,15 @@ export class HtTooltip extends LitElement {
     let side = this.placement;
     if (!fits(side) && fits(flip[side])) side = flip[side];
     const p = pos[side];
-    bubble.style.left = `${Math.min(Math.max(4, p.x), vw - b.width - 4)}px`;
-    bubble.style.top = `${Math.min(Math.max(4, p.y), vh - b.height - 4)}px`;
+    const left = Math.min(Math.max(4, p.x), vw - b.width - 4);
+    const top = Math.min(Math.max(4, p.y), vh - b.height - 4);
+    bubble.style.left = `${left}px`;
+    bubble.style.top = `${top}px`;
+    // Point the pointer at the trigger's centre, clear of the rounded corners.
+    const clamp = (v: number, size: number) => Math.min(Math.max(v, 8), Math.max(8, size - 8));
+    bubble.dataset.side = side;
+    bubble.style.setProperty('--_ax', `${clamp(t.left + t.width / 2 - left, b.width)}px`);
+    bubble.style.setProperty('--_ay', `${clamp(t.top + t.height / 2 - top, b.height)}px`);
   }
 
   #syncAria = (e: Event) => {
