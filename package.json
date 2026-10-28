@@ -1,6 +1,6 @@
 {
   "name": "@_mehrad/halftone",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Web components built with Lit, styled after Sentry, PostHog, Sentinel and Taskscape. Human and agent friendly. Use as a package or copy components into your project with `halftone add`.",
   "type": "module",
   "license": "MIT",
