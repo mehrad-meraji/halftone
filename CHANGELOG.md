@@ -4,6 +4,28 @@ All notable changes to `@_mehrad/halftone`. Versions follow semver; while the ma
 
 ## Unreleased
 
+## 0.3.0 (2026-10-28)
+
+Eight new elements for Taskscape, field props from its gaps list, and a docs site built from Halftone. No breaking changes.
+
+### New
+
+- 8 new elements: sortable list, combobox, day schedule, week strip, meter, elapsed timer, lightbox, link preview. Drag and drop is now part of Halftone.
+- `ht-input`: `min`, `max`, `step`, `minlength`, `maxlength`, `pattern`, `inputmode`, `enterkeyhint`, `multiple`; types `date`, `time`, `datetime-local`, `month`, `week`; `default-value`; size `xs` (28px); `bare` (no box); `--ht-input-height` and `--ht-input-padding-x`; `select()`, `setSelectionRange()` and `inputElement`.
+- `ht-textarea`: `bare`, `fill` (takes the host's height), `resize="none"`, `mono`, `default-value`, `minlength`, `--ht-textarea-padding-x`; `select()`, `setSelectionRange()` and `textareaElement`.
+- `ht-skeleton fill`, `ht-avatar initials`, `ht-tooltip arrow` and `offset`, `ht-popover offset`, `ht-menu offset`.
+- A host `aria-describedby` on `ht-input` and `ht-textarea` now reaches the native field.
+
+### Fixed
+
+- Form controls no longer throw under jsdom: `setFormValue` and `setValidity` are skipped when missing.
+- Week strip meters, and stories at phone width.
+
+### Docs and tooling
+
+- Blocks hub with a card grid and a grouped sidebar. The docs frame is built from Halftone components.
+- Publishing uses npm trusted publishing. The CLI tests run on Node 22+, and CI checks Node 24.
+
 ## 0.2.0 (2026-10-26)
 
 36 pull requests since 0.1.0. About 40 new elements, 20 blocks, a new palette and a docs site. While the major is 0, a minor bump may break: read Breaking changes first.
