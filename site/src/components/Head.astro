@@ -6,15 +6,6 @@ import Default from '@astrojs/starlight/components/Head.astro';
 <script>
   import '../halftone-client.ts';
 
-  // Starlight labels the search button "Search" but shows "Search ⌘K". The accessible name must
-  // contain the visible text (WCAG 2.5.3), so make them the same.
-  const button = document.querySelector<HTMLButtonElement>('button[data-open-modal]');
-  if (button) {
-    const sync = () => button.setAttribute('aria-label', (button.textContent ?? '').replace(/\s+/g, ' ').trim());
-    sync();
-    new MutationObserver(sync).observe(button, { childList: true, subtree: true, characterData: true });
-  }
-
   // "On this page" lists every heading, including ones inside a tab that is not showing.
   // Open that tab before jumping to the heading.
   const reveal = (hash: string) => {

@@ -1,0 +1,89 @@
+---
+// The docs search: a header button that opens an ht-command palette, filled from the Pagefind index
+// Starlight builds. The index only exists in a built site, so the palette says so in dev.
+---
+
+<ht-button id="docs-search-open" variant="default" size="sm">
+  <span>Search</span>
+  <ht-kbd id="docs-search-keys" keys="Ctrl K"></ht-kbd>
+</ht-button>
+
+<ht-command id="docs-search" palette hotkey="mod+k" label="Search the docs" placeholder="Search the docs">
+  <div slot="empty" id="docs-search-empty">Type to search the docs.</div>
+</ht-command>
+
+<script>
+  type Hit = { url: string; meta: { title?: string } };
+  const open = document.getElementById('docs-search-open')!;
+  const cmd = document.getElementById('docs-search') as HTMLElement & { value: string; show(): void };
+  const empty = document.getElementById('docs-search-empty')!;
+  const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+
+  // The shortcut is Command on Apple platforms and Control elsewhere, as ht-command's `mod` is.
+  if (/Mac|iPhone|iPad/.test(navigator.platform)) document.getElementById('docs-search-keys')!.setAttribute('keys', '⌘ K');
+
+  open.addEventListener('click', () => cmd.show());
+
+  // Pagefind loads once, on first use.
+  let pagefind: Promise<any> | null = null;
+  const load = () =>
+    (pagefind ??= import(/* @vite-ignore */ `${base}pagefind/pagefind.js`).then((pf) => {
+      pf.options({ baseUrl: base });
+      return pf;
+    }));
+
+  const clear = () => cmd.querySelectorAll('ht-command-item').forEach((i) => i.remove());
+  let run = 0;
+  const search = async () => {
+    const q = cmd.value.trim();
+    const mine = ++run;
+    if (!q) {
+      clear();
+      empty.textContent = 'Type to search the docs.';
+      return;
+    }
+    let pf;
+    try {
+      pf = await load();
+    } catch {
+      clear();
+      empty.textContent = 'Search needs a built site. Run the build, then preview it.';
+      return;
+    }
+    const found = await pf.debouncedSearch(q);
+    if (found === null || mine !== run) return;
+    const hits: Hit[] = await Promise.all(found.results.slice(0, 12).map((r: { data(): Promise<Hit> }) => r.data()));
+    if (mine !== run) return;
+    clear();
+    empty.textContent = 'No results.';
+    for (const h of hits) {
+      // Pagefind already chose these. The query goes in as keywords so ht-command's own text filter keeps every row.
+      const item = document.createElement('ht-command-item');
+      item.setAttribute('value', h.url);
+      item.setAttribute('keywords', q);
+      item.textContent = h.meta.title ?? h.url;
+      // The section, so two pages with one title (a block and its component) can be told apart.
+      const section = document.createElement('span');
+      section.slot = 'shortcut';
+      section.textContent = h.url.slice(base.length).split('/')[0].replace(/-/g, ' ');
+      item.append(section);
+      cmd.append(item);
+    }
+  };
+
+  cmd.addEventListener('input', search);
+  cmd.addEventListener('ht-select', (e) => {
+    location.href = (e as CustomEvent<{ value: string }>).detail.value;
+  });
+  cmd.addEventListener('ht-close', () => {
+    cmd.value = '';
+    clear();
+    empty.textContent = 'Type to search the docs.';
+  });
+</script>
+
+<style>
+  ht-button span {
+    padding-inline-end: 0.5rem;
+  }
+</style>

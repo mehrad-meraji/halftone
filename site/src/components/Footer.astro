@@ -7,8 +7,8 @@ import Pagination from 'virtual:starlight/components/Pagination';
   <div class="ask">
     <span class="q">Was this page helpful?</span>
     <span class="buttons">
-      <button type="button" data-vote="yes">Yes</button>
-      <button type="button" data-vote="no">No</button>
+      <ht-button variant="default" data-vote="yes">Yes</ht-button>
+      <ht-button variant="default" data-vote="no">No</ht-button>
     </span>
   </div>
   <p class="thanks" role="status" hidden></p>
@@ -19,7 +19,7 @@ import Pagination from 'virtual:starlight/components/Pagination';
 
 <script>
   const box = document.querySelector<HTMLElement>('.feedback');
-  box?.querySelectorAll<HTMLButtonElement>('[data-vote]').forEach((b) =>
+  box?.querySelectorAll<HTMLElement>('[data-vote]').forEach((b) =>
     b.addEventListener('click', () => {
       const thanks = box.querySelector<HTMLElement>('.thanks')!;
       thanks.textContent = b.dataset.vote === 'yes' ? 'Thanks. Glad it helped.' : 'Thanks. Tell us what to fix with Edit this page.';

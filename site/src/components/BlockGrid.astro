@@ -9,16 +9,11 @@ const counts = Object.fromEntries(categories.map((c) => [c, blocks.filter((b) =>
 
 <div class="block-grid not-content">
   <div class="grid-tools">
-    <label class="grid-search">
-      <span class="sr-only">Search blocks</span>
-      <input type="search" placeholder="Search blocks" autocomplete="off" />
-    </label>
-    <div class="grid-cats" role="group" aria-label="Category">
-      <button type="button" data-cat="" aria-pressed="true">All <span>{blocks.length}</span></button>
-      {categories.map((c) => (
-        <button type="button" data-cat={c} aria-pressed="false">{c} <span>{counts[c]}</span></button>
-      ))}
-    </div>
+    <ht-input class="grid-search" type="search" aria-label="Search blocks" placeholder="Search blocks" autocomplete="off"></ht-input>
+    <ht-select class="grid-cats" aria-label="Category" value="">
+      <ht-option value="">All categories ({blocks.length})</ht-option>
+      {categories.map((c) => <ht-option value={c}>{c} ({counts[c]})</ht-option>)}
+    </ht-select>
   </div>
   <p class="grid-count" aria-live="polite"><span data-shown>{blocks.length}</span> of {blocks.length} blocks</p>
   <ul class="grid-cards">
@@ -43,7 +38,7 @@ const counts = Object.fromEntries(categories.map((c) => [c, blocks.filter((b) =>
 
 <script>
   document.querySelectorAll<HTMLElement>('.block-grid').forEach((root) => {
-    const input = root.querySelector<HTMLInputElement>('input')!;
+    const input = root.querySelector<HTMLElement & { value: string }>('.grid-search')!;
     const cards = [...root.querySelectorAll<HTMLElement>('.grid-cards li')];
     const shown = root.querySelector<HTMLElement>('[data-shown]')!;
     const empty = root.querySelector<HTMLElement>('.grid-empty')!;
@@ -65,80 +60,27 @@ const counts = Object.fromEntries(categories.map((c) => [c, blocks.filter((b) =>
     });
     root.querySelectorAll('.thumb').forEach((t) => fit.observe(t));
     input.addEventListener('input', apply);
-    root.querySelectorAll<HTMLButtonElement>('.grid-cats button').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        cat = btn.dataset.cat ?? '';
-        root.querySelectorAll('.grid-cats button').forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
-        apply();
-      });
+    root.querySelector('.grid-cats')!.addEventListener('change', (e) => {
+      cat = (e.target as HTMLElement & { value: string }).value ?? '';
+      apply();
     });
   });
 </script>
 
 <style>
-  .sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
-  }
   .grid-tools {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr;
     gap: 0.75rem;
   }
-  .grid-search input {
-    box-sizing: border-box;
-    width: 100%;
-    min-height: 2.5rem;
-    padding: 0 0.875rem;
-    border: 1px solid var(--ht-border-input);
-    border-radius: var(--ht-radius-md);
-    background: var(--ht-surface);
-    color: var(--ht-text);
-    font: inherit;
-    font-size: 0.9375rem;
+  @media (min-width: 40rem) {
+    .grid-tools {
+      grid-template-columns: 1fr 16rem;
+    }
   }
-  .grid-search input:focus-visible,
-  .grid-cats button:focus-visible,
   .grid-cards a:focus-visible {
     outline: 2px solid var(--ht-focus);
     outline-offset: 2px;
-  }
-  .grid-cats {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-  .grid-cats button {
-    all: unset;
-    box-sizing: border-box;
-    cursor: pointer;
-    min-height: 2rem;
-    padding: 0 0.75rem;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.375rem;
-    border: 1px solid var(--ht-border-strong);
-    border-radius: var(--ht-radius-md);
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--ht-text);
-  }
-  .grid-cats button span {
-    color: var(--ht-text-muted);
-    font-family: var(--ht-font-mono);
-    font-size: 0.75rem;
-  }
-  .grid-cats button[aria-pressed='true'] {
-    background: var(--ht-text);
-    border-color: var(--ht-text);
-    color: var(--ht-bg);
-  }
-  .grid-cats button[aria-pressed='true'] span {
-    color: inherit;
   }
   .grid-count {
     margin: 1rem 0;

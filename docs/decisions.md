@@ -547,3 +547,13 @@ The Blocks overview page is now a card grid, in the style of the React Bits Pro 
 - Each preview is the bare `/block-preview/<name>/` page in a 1280x800 iframe, scaled to the card width by a `ResizeObserver`, with `loading="lazy"`, `aria-hidden` and `pointer-events: none`. The card is the link.
 - Skipped from React Bits: the Newest / A-Z / Most variants sort (20 blocks) and the List / Grid toggle.
 - The hub also widens the content to 64rem, for three cards across.
+
+## 2026-10-27 — The docs frame is built from Halftone
+The docs site now uses its own library for the frame, not only for the demos: `ht-sidebar` for the left navigation, `ht-command` for search, and `ht-button`, `ht-input`, `ht-select`, `ht-toggle-group`, `ht-breadcrumb` and `ht-tag` for the controls the docs own.
+
+- **Sidebar.** `site/src/components/Sidebar.astro` draws Starlight's sidebar tree as `ht-sidebar-group` and `ht-nav-item` (a group inside a group is a sub-list; badges are `ht-tag size="sm"` in the `suffix` slot). `PageFrame.astro` holds the `ht-sidebar` (`mobile-breakpoint="800"`, the same as Starlight's 50rem), fixed under the header. Below 800px it is the library's drawer, opened by a menu button in the header that calls `toggle()`.
+- **Search.** `Search.astro` is an `ht-button` that opens an `ht-command` palette (`hotkey="mod+k"`). Pagefind (the index Starlight already builds) answers each query; the hits become `ht-command-item`s. `ht-command` always filters by item text, and Pagefind also matches body text, so each hit gets the query as its `keywords`; without that, hits that match only in the body would be hidden. The index exists only in a built site, so the palette says so in dev.
+- **Icon-only buttons.** `ht-button` does not forward a host `aria-label` to its inner button (axe: `aria-prohibited-attr` and `button-name`). The theme and menu buttons carry a visually hidden text label inside the button instead.
+- **Category filter on the Blocks hub is an `ht-select`**, not a toggle group: 15 categories do not fit a segmented control, which does not wrap.
+- **Not kept:** Starlight's remembered sidebar group state and scroll position, the sidebar badge CSS, and Starlight's own search and Ctrl+K. Groups open as configured on each page load. The top navigation, the footer links and the "On this page" rail are still plain HTML and Starlight.
+- Checked: axe over the Blocks hub and a block page, light and dark, with 0 violations; the mobile drawer at 375px; search by keyboard hotkey and click.

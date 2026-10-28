@@ -11,10 +11,10 @@ const src = `${import.meta.env.BASE_URL.replace(/\/?$/, '/')}block-preview/${nam
 
 <div class="block-frame not-content">
   <div class="block-bar">
-    <div class="block-widths" role="group" aria-label="Preview width">
-      <button type="button" data-width="" aria-pressed="true">Full</button>
-      <button type="button" data-width="375" aria-pressed="false">Phone</button>
-    </div>
+    <ht-toggle-group class="block-widths" type="single" value="full" aria-label="Preview width">
+      <ht-toggle-item value="full">Full</ht-toggle-item>
+      <ht-toggle-item value="phone">Phone</ht-toggle-item>
+    </ht-toggle-group>
     <a href={src} target="_blank" rel="noopener">Open in a new tab</a>
   </div>
   <div class="block-stage">
@@ -25,11 +25,8 @@ const src = `${import.meta.env.BASE_URL.replace(/\/?$/, '/')}block-preview/${nam
 <script>
   document.querySelectorAll<HTMLElement>('.block-frame').forEach((root) => {
     const frame = root.querySelector('iframe')!;
-    root.querySelectorAll<HTMLButtonElement>('.block-widths button').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        root.querySelectorAll('.block-widths button').forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
-        frame.style.maxWidth = btn.dataset.width ? `${btn.dataset.width}px` : '';
-      });
+    root.querySelector('.block-widths')!.addEventListener('change', (e) => {
+      frame.style.maxWidth = (e.target as HTMLElement & { value: string }).value === 'phone' ? '375px' : '';
     });
   });
 </script>
@@ -52,29 +49,6 @@ const src = `${import.meta.env.BASE_URL.replace(/\/?$/, '/')}block-preview/${nam
     border-bottom: 1px solid var(--sl-color-hairline);
     font-size: 0.875rem;
   }
-  .block-widths {
-    display: flex;
-    gap: 0.5rem;
-  }
-  .block-widths button {
-    all: unset;
-    box-sizing: border-box;
-    cursor: pointer;
-    min-height: 2rem;
-    padding: 0 0.875rem;
-    display: inline-flex;
-    align-items: center;
-    border: 1px solid var(--ht-border-strong);
-    border-radius: var(--ht-radius-md);
-    font-weight: 500;
-    color: var(--ht-text);
-  }
-  .block-widths button[aria-pressed='true'] {
-    background: var(--ht-text);
-    border-color: var(--ht-text);
-    color: var(--ht-bg);
-  }
-  .block-widths button:focus-visible,
   .block-bar a:focus-visible {
     outline: 2px solid var(--ht-focus);
     outline-offset: 2px;
