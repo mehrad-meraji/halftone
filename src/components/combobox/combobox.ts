@@ -440,8 +440,8 @@ export class HtCombobox extends LitElement {
   updated() {
     const input = this.#input;
     if (input) {
-      this.#internals.setFormValue(this.value);
-      this.#internals.setValidity(input.validity, input.validationMessage, input);
+      this.#internals.setFormValue?.(this.value);
+      this.#internals.setValidity?.(input.validity, input.validationMessage, input);
     }
     this.#syncPanel();
   }

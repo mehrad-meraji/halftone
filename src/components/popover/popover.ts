@@ -50,6 +50,8 @@ export class HtPopover extends LitElement {
     disabled: { type: Boolean, reflect: true },
     /** Draws a pointer from the panel to the trigger. */
     arrow: { type: Boolean, reflect: true },
+    /** Space between the trigger and the panel, in pixels. */
+    offset: { type: Number },
   };
 
   declare open: boolean;
@@ -57,6 +59,7 @@ export class HtPopover extends LitElement {
   declare label: string;
   declare disabled: boolean;
   declare arrow: boolean;
+  declare offset: number;
 
   #wasOpen = false;
   #mounted = false;
@@ -71,6 +74,7 @@ export class HtPopover extends LitElement {
     this.label = '';
     this.disabled = false;
     this.arrow = false;
+    this.offset = 8;
     this.addEventListener('keydown', this.#onKeydown);
     this.addEventListener('focusout', this.#onFocusout);
   }
@@ -278,7 +282,7 @@ export class HtPopover extends LitElement {
   };
 
   #place(panel: HTMLElement) {
-    const gap = 8;
+    const gap = this.offset;
     const margin = 4;
     const [sideRaw, alignRaw] = this.placement.split('-');
     const preferred: Side = (['top', 'bottom', 'left', 'right'] as const).includes(sideRaw as Side)

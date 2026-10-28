@@ -13,14 +13,13 @@ const statsFile = join(site, 'src/generated/stats.json');
 
 /** Shown as a sidebar badge. Edit when a component is new or has changed. */
 const STATUS = {
-  'sortable-list': { text: 'New', variant: 'tip' },
-  combobox: { text: 'New', variant: 'tip' },
-  'day-schedule': { text: 'New', variant: 'tip' },
-  'week-strip': { text: 'New', variant: 'tip' },
-  meter: { text: 'New', variant: 'tip' },
-  elapsed: { text: 'New', variant: 'tip' },
-  lightbox: { text: 'New', variant: 'tip' },
-  'link-preview': { text: 'New', variant: 'tip' },
+  input: { text: 'Updated', variant: 'note' },
+  textarea: { text: 'Updated', variant: 'note' },
+  skeleton: { text: 'Updated', variant: 'note' },
+  avatar: { text: 'Updated', variant: 'note' },
+  tooltip: { text: 'Updated', variant: 'note' },
+  popover: { text: 'Updated', variant: 'note' },
+  menu: { text: 'Updated', variant: 'note' },
 };
 
 const manifest = JSON.parse(readFileSync(join(repo, 'custom-elements.json'), 'utf8'));

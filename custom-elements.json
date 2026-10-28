@@ -821,6 +821,17 @@
             },
             {
               "kind": "field",
+              "name": "initials",
+              "privacy": "public",
+              "description": "Text shown in place of the initials computed from `name`, e.g. `AB`. The accessible name still comes from `name`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "initials"
+            },
+            {
+              "kind": "field",
               "name": "size",
               "privacy": "public",
               "description": "Diameter: xs 20px, sm 24px, md 32px, lg 40px.",
@@ -891,6 +902,15 @@
               },
               "default": "''",
               "fieldName": "art"
+            },
+            {
+              "name": "initials",
+              "description": "Text shown in place of the initials computed from `name`, e.g. `AB`. The accessible name still comes from `name`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "initials"
             },
             {
               "name": "size",
@@ -6207,6 +6227,16 @@
           "kind": "class",
           "description": "Single-line text field with label, helper and error text, styled like Sentry's app fields. Participates in forms,\nconstraint validation and form reset like a native input.",
           "name": "HtInput",
+          "cssProperties": [
+            {
+              "description": "Height of the field. Overrides `size`.",
+              "name": "--ht-input-height"
+            },
+            {
+              "description": "Inline padding inside the box. Defaults to 1rem (0 with `bare`).",
+              "name": "--ht-input-padding-x"
+            }
+          ],
           "cssParts": [
             {
               "description": "The label element.",
@@ -6307,7 +6337,7 @@
               "name": "type",
               "privacy": "public",
               "type": {
-                "text": "'text' | 'email' | 'password' | 'search' | 'tel' | 'url' | 'number'"
+                "text": "| 'text'\n    | 'email'\n    | 'password'\n    | 'search'\n    | 'tel'\n    | 'url'\n    | 'number'\n    | 'date'\n    | 'time'\n    | 'datetime-local'\n    | 'month'\n    | 'week'"
               },
               "default": "'text'",
               "attribute": "type",
@@ -6370,12 +6400,135 @@
               "kind": "field",
               "name": "size",
               "privacy": "public",
-              "description": "Height: sm 32px, md 36px, lg 40px.",
+              "description": "Height: xs 28px, sm 32px, md 36px, lg 40px.",
               "type": {
-                "text": "'sm' | 'md' | 'lg'"
+                "text": "'xs' | 'sm' | 'md' | 'lg'"
               },
               "default": "'md'",
               "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "bare",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Drops the box: no fill, border or padding. For a field that sits inside other content, such as a title that is edited in place. The focus ring stays.",
+              "default": "false",
+              "attribute": "bare",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "defaultValue",
+              "privacy": "public",
+              "description": "Value the field starts with, and returns to on form reset. `value` wins when both are set.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "default-value"
+            },
+            {
+              "kind": "field",
+              "name": "min",
+              "privacy": "public",
+              "description": "Lowest value, for `number` and the date and time types.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "min"
+            },
+            {
+              "kind": "field",
+              "name": "max",
+              "privacy": "public",
+              "description": "Highest value, for `number` and the date and time types.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "max"
+            },
+            {
+              "kind": "field",
+              "name": "step",
+              "privacy": "public",
+              "description": "Step between valid values, for `number` and the date and time types. `any` allows every value.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "step"
+            },
+            {
+              "kind": "field",
+              "name": "minLength",
+              "privacy": "public",
+              "type": {
+                "text": "number | undefined"
+              },
+              "description": "Fewest characters.",
+              "default": "undefined",
+              "attribute": "minlength"
+            },
+            {
+              "kind": "field",
+              "name": "maxLength",
+              "privacy": "public",
+              "type": {
+                "text": "number | undefined"
+              },
+              "description": "Most characters. The browser stops typing at the limit.",
+              "default": "undefined",
+              "attribute": "maxlength"
+            },
+            {
+              "kind": "field",
+              "name": "pattern",
+              "privacy": "public",
+              "description": "Regular expression the value has to match. Written without slashes.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "pattern"
+            },
+            {
+              "kind": "field",
+              "name": "inputMode",
+              "privacy": "public",
+              "description": "Which on-screen keyboard to show: `numeric`, `decimal`, `tel`, `email`, `url`, `search` or `none`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "inputmode"
+            },
+            {
+              "kind": "field",
+              "name": "enterKeyHint",
+              "privacy": "public",
+              "description": "Label of the Enter key on a touch keyboard: `enter`, `done`, `go`, `next`, `previous`, `search` or `send`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "enterkeyhint"
+            },
+            {
+              "kind": "field",
+              "name": "multiple",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "With `type=\"email\"`, allows several addresses separated by commas.",
+              "default": "false",
+              "attribute": "multiple",
               "reflects": true
             },
             {
@@ -6401,6 +6554,43 @@
             {
               "kind": "method",
               "name": "reportValidity"
+            },
+            {
+              "kind": "field",
+              "name": "inputElement",
+              "description": "The native `<input>` inside, for a caller that needs the caret or the selection.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "select",
+              "description": "Selects all the text in the field."
+            },
+            {
+              "kind": "method",
+              "name": "setSelectionRange",
+              "parameters": [
+                {
+                  "name": "start",
+                  "type": {
+                    "text": "number | null"
+                  }
+                },
+                {
+                  "name": "end",
+                  "type": {
+                    "text": "number | null"
+                  }
+                },
+                {
+                  "name": "direction",
+                  "optional": true,
+                  "type": {
+                    "text": "'forward' | 'backward' | 'none'"
+                  }
+                }
+              ],
+              "description": "Sets the selection range in the field."
             }
           ],
           "events": [
@@ -6470,7 +6660,7 @@
             {
               "name": "type",
               "type": {
-                "text": "'text' | 'email' | 'password' | 'search' | 'tel' | 'url' | 'number'"
+                "text": "| 'text'\n    | 'email'\n    | 'password'\n    | 'search'\n    | 'tel'\n    | 'url'\n    | 'number'\n    | 'date'\n    | 'time'\n    | 'datetime-local'\n    | 'month'\n    | 'week'"
               },
               "default": "'text'",
               "fieldName": "type"
@@ -6517,12 +6707,111 @@
             },
             {
               "name": "size",
-              "description": "Height: sm 32px, md 36px, lg 40px.",
+              "description": "Height: xs 28px, sm 32px, md 36px, lg 40px.",
               "type": {
-                "text": "'sm' | 'md' | 'lg'"
+                "text": "'xs' | 'sm' | 'md' | 'lg'"
               },
               "default": "'md'",
               "fieldName": "size"
+            },
+            {
+              "name": "bare",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Drops the box: no fill, border or padding. For a field that sits inside other content, such as a title that is edited in place. The focus ring stays.",
+              "default": "false",
+              "fieldName": "bare"
+            },
+            {
+              "name": "default-value",
+              "description": "Value the field starts with, and returns to on form reset. `value` wins when both are set.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "defaultValue"
+            },
+            {
+              "name": "min",
+              "description": "Lowest value, for `number` and the date and time types.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "min"
+            },
+            {
+              "name": "max",
+              "description": "Highest value, for `number` and the date and time types.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "max"
+            },
+            {
+              "name": "step",
+              "description": "Step between valid values, for `number` and the date and time types. `any` allows every value.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "step"
+            },
+            {
+              "name": "minlength",
+              "type": {
+                "text": "number | undefined"
+              },
+              "description": "Fewest characters.",
+              "default": "undefined",
+              "fieldName": "minLength"
+            },
+            {
+              "name": "maxlength",
+              "type": {
+                "text": "number | undefined"
+              },
+              "description": "Most characters. The browser stops typing at the limit.",
+              "default": "undefined",
+              "fieldName": "maxLength"
+            },
+            {
+              "name": "pattern",
+              "description": "Regular expression the value has to match. Written without slashes.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "pattern"
+            },
+            {
+              "name": "inputmode",
+              "description": "Which on-screen keyboard to show: `numeric`, `decimal`, `tel`, `email`, `url`, `search` or `none`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "inputMode"
+            },
+            {
+              "name": "enterkeyhint",
+              "description": "Label of the Enter key on a touch keyboard: `enter`, `done`, `go`, `next`, `previous`, `search` or `send`.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "enterKeyHint"
+            },
+            {
+              "name": "multiple",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "With `type=\"email\"`, allows several addresses separated by commas.",
+              "default": "false",
+              "fieldName": "multiple"
             }
           ],
           "superclass": {
@@ -7388,6 +7677,17 @@
             },
             {
               "kind": "field",
+              "name": "offset",
+              "privacy": "public",
+              "type": {
+                "text": "number"
+              },
+              "description": "Space between the trigger and the menu, in pixels.",
+              "default": "4",
+              "attribute": "offset"
+            },
+            {
+              "kind": "field",
               "name": "glass",
               "privacy": "public",
               "type": {
@@ -7513,6 +7813,15 @@
               "description": "Stops the menu from opening.",
               "default": "false",
               "fieldName": "disabled"
+            },
+            {
+              "name": "offset",
+              "type": {
+                "text": "number"
+              },
+              "description": "Space between the trigger and the menu, in pixels.",
+              "default": "4",
+              "fieldName": "offset"
             }
           ],
           "superclass": {
@@ -8967,6 +9276,17 @@
             },
             {
               "kind": "field",
+              "name": "offset",
+              "privacy": "public",
+              "type": {
+                "text": "number"
+              },
+              "description": "Space between the trigger and the panel, in pixels.",
+              "default": "8",
+              "attribute": "offset"
+            },
+            {
+              "kind": "field",
               "name": "glass",
               "privacy": "public",
               "type": {
@@ -9057,6 +9377,15 @@
               "description": "Draws a pointer from the panel to the trigger.",
               "default": "false",
               "fieldName": "arrow"
+            },
+            {
+              "name": "offset",
+              "type": {
+                "text": "number"
+              },
+              "description": "Space between the trigger and the panel, in pixels.",
+              "default": "8",
+              "fieldName": "offset"
             }
           ],
           "superclass": {
@@ -11506,6 +11835,18 @@
               "description": "Number of text lines. The last of several lines is shorter. Only for `variant=\"text\"`.",
               "default": "1",
               "attribute": "lines"
+            },
+            {
+              "kind": "field",
+              "name": "fill",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Fills the box the host is given by CSS (a class with a width and height) instead of using `width` and `height`.",
+              "default": "false",
+              "attribute": "fill",
+              "reflects": true
             }
           ],
           "attributes": [
@@ -11544,6 +11885,15 @@
               "description": "Number of text lines. The last of several lines is shorter. Only for `variant=\"text\"`.",
               "default": "1",
               "fieldName": "lines"
+            },
+            {
+              "name": "fill",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Fills the box the host is given by CSS (a class with a width and height) instead of using `width` and `height`.",
+              "default": "false",
+              "fieldName": "fill"
             }
           ],
           "superclass": {
@@ -13444,6 +13794,12 @@
           "kind": "class",
           "description": "Multi-line text field with label, helper and error text. Same look and API as `ht-input`:\nparticipates in forms, constraint validation and form reset like a native `<textarea>`.\nFor a chat-style command box with trailing actions use `ht-prompt` instead.",
           "name": "HtTextarea",
+          "cssProperties": [
+            {
+              "description": "Inline padding inside the box. Defaults to 1rem (0 with `bare`).",
+              "name": "--ht-textarea-padding-x"
+            }
+          ],
           "cssParts": [
             {
               "description": "The label element.",
@@ -13635,6 +13991,76 @@
             },
             {
               "kind": "field",
+              "name": "bare",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Drops the box: no fill, border or padding. For text that sits inside other content, such as a document description. The focus ring stays.",
+              "default": "false",
+              "attribute": "bare",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "fill",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Fills the height of the host instead of using `rows`. Give the host a height, or put it in a flex or grid cell that has one.",
+              "default": "false",
+              "attribute": "fill",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "resize",
+              "privacy": "public",
+              "description": "Manual resize handle: `vertical` (default) or `none`. `autosize` and `fill` always turn it off.",
+              "type": {
+                "text": "'vertical' | 'none'"
+              },
+              "default": "'vertical'",
+              "attribute": "resize",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "mono",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Uses the mono font, for code and Markdown.",
+              "default": "false",
+              "attribute": "mono",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "defaultValue",
+              "privacy": "public",
+              "description": "Value the field starts with, and returns to on form reset. `value` wins when both are set.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "default-value"
+            },
+            {
+              "kind": "field",
+              "name": "minLength",
+              "privacy": "public",
+              "type": {
+                "text": "number | undefined"
+              },
+              "description": "Fewest characters.",
+              "default": "undefined",
+              "attribute": "minlength"
+            },
+            {
+              "kind": "field",
               "name": "form",
               "description": "The owning form, if any.",
               "readonly": true
@@ -13656,6 +14082,43 @@
             {
               "kind": "method",
               "name": "reportValidity"
+            },
+            {
+              "kind": "field",
+              "name": "textareaElement",
+              "description": "The native `<textarea>` inside, for a caller that needs the caret or the selection.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "select",
+              "description": "Selects all the text in the field."
+            },
+            {
+              "kind": "method",
+              "name": "setSelectionRange",
+              "parameters": [
+                {
+                  "name": "start",
+                  "type": {
+                    "text": "number | null"
+                  }
+                },
+                {
+                  "name": "end",
+                  "type": {
+                    "text": "number | null"
+                  }
+                },
+                {
+                  "name": "direction",
+                  "optional": true,
+                  "type": {
+                    "text": "'forward' | 'backward' | 'none'"
+                  }
+                }
+              ],
+              "description": "Sets the selection range in the field."
             }
           ],
           "events": [
@@ -13798,6 +14261,60 @@
               "description": "Shows `length / maxlength` under the field. Needs `maxlength`.",
               "default": "false",
               "fieldName": "counter"
+            },
+            {
+              "name": "bare",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Drops the box: no fill, border or padding. For text that sits inside other content, such as a document description. The focus ring stays.",
+              "default": "false",
+              "fieldName": "bare"
+            },
+            {
+              "name": "fill",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Fills the height of the host instead of using `rows`. Give the host a height, or put it in a flex or grid cell that has one.",
+              "default": "false",
+              "fieldName": "fill"
+            },
+            {
+              "name": "resize",
+              "description": "Manual resize handle: `vertical` (default) or `none`. `autosize` and `fill` always turn it off.",
+              "type": {
+                "text": "'vertical' | 'none'"
+              },
+              "default": "'vertical'",
+              "fieldName": "resize"
+            },
+            {
+              "name": "mono",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Uses the mono font, for code and Markdown.",
+              "default": "false",
+              "fieldName": "mono"
+            },
+            {
+              "name": "default-value",
+              "description": "Value the field starts with, and returns to on form reset. `value` wins when both are set.",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "defaultValue"
+            },
+            {
+              "name": "minlength",
+              "type": {
+                "text": "number | undefined"
+              },
+              "description": "Fewest characters.",
+              "default": "undefined",
+              "fieldName": "minLength"
             }
           ],
           "superclass": {
@@ -15373,6 +15890,29 @@
               "reflects": true
             },
             {
+              "kind": "field",
+              "name": "arrow",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Draws a small pointer from the bubble to the wrapped element.",
+              "default": "false",
+              "attribute": "arrow",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "offset",
+              "privacy": "public",
+              "type": {
+                "text": "number"
+              },
+              "description": "Space between the wrapped element and the bubble, in pixels.",
+              "default": "8",
+              "attribute": "offset"
+            },
+            {
               "kind": "method",
               "name": "show",
               "description": "Shows the tooltip now."
@@ -15418,6 +15958,24 @@
               },
               "default": "false",
               "fieldName": "disabled"
+            },
+            {
+              "name": "arrow",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Draws a small pointer from the bubble to the wrapped element.",
+              "default": "false",
+              "fieldName": "arrow"
+            },
+            {
+              "name": "offset",
+              "type": {
+                "text": "number"
+              },
+              "description": "Space between the wrapped element and the bubble, in pixels.",
+              "default": "8",
+              "fieldName": "offset"
             }
           ],
           "superclass": {

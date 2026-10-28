@@ -14,12 +14,13 @@ const meta: Meta = {
     },
     open: { control: 'boolean' },
     disabled: { control: 'boolean' },
+    offset: { control: 'number' },
   },
-  args: { placement: 'bottom-start', open: false, disabled: false },
+  args: { placement: 'bottom-start', open: false, disabled: false, offset: 4 },
   parameters: { layout: 'centered' },
   render: (a) => html`
     <div style="padding:96px 128px">
-      <ht-menu placement=${a.placement} ?open=${a.open} ?disabled=${a.disabled} label="Project actions">
+      <ht-menu placement=${a.placement} offset=${a.offset} ?open=${a.open} ?disabled=${a.disabled} label="Project actions">
         <ht-button slot="trigger" variant="default">Actions</ht-button>
         <ht-menu-item shortcut="⌘ E">Edit</ht-menu-item>
         <ht-menu-item shortcut="⌘ D">Duplicate</ht-menu-item>

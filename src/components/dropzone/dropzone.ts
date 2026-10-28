@@ -512,12 +512,12 @@ export class HtDropzone extends LitElement {
     if (this.name && this.files.length) {
       const data = new FormData();
       for (const f of this.files) data.append(this.name, f);
-      this.#internals.setFormValue(data);
+      this.#internals.setFormValue?.(data);
     } else {
-      this.#internals.setFormValue(null);
+      this.#internals.setFormValue?.(null);
     }
-    if (this.required && !this.files.length) this.#internals.setValidity({ valueMissing: true }, this.#missingText, input);
-    else this.#internals.setValidity({});
+    if (this.required && !this.files.length) this.#internals.setValidity?.({ valueMissing: true }, this.#missingText, input);
+    else this.#internals.setValidity?.({});
   }
 
   static styles = css`

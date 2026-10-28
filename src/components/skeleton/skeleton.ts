@@ -27,12 +27,15 @@ export class HtSkeleton extends LitElement {
     height: {},
     /** Number of text lines. The last of several lines is shorter. Only for `variant="text"`. */
     lines: { type: Number },
+    /** Fills the box the host is given by CSS (a class with a width and height) instead of using `width` and `height`. */
+    fill: { type: Boolean, reflect: true },
   };
 
   declare variant: 'text' | 'rect' | 'circle';
   declare width: string;
   declare height: string;
   declare lines: number;
+  declare fill: boolean;
 
   constructor() {
     super();
@@ -40,6 +43,7 @@ export class HtSkeleton extends LitElement {
     this.width = '';
     this.height = '';
     this.lines = 1;
+    this.fill = false;
   }
 
   static styles = css`
@@ -50,6 +54,8 @@ export class HtSkeleton extends LitElement {
     }
     :host([variant='circle']) { display: inline-block; vertical-align: middle; }
     :host([hidden]) { display: none; }
+    :host([fill]) { width: 100%; height: 100%; }
+    :host([fill]) .shape { width: 100%; height: 100%; }
     .shape {
       box-sizing: border-box;
       background: linear-gradient(90deg, var(--_base) 0%, var(--_glow) 50%, var(--_base) 100%) 0 0 / 200% 100%;
@@ -73,8 +79,8 @@ export class HtSkeleton extends LitElement {
 
   render() {
     const v = this.variant;
-    const w = this.width ? length(this.width) : v === 'circle' ? '40px' : '100%';
-    const h = this.height ? length(this.height) : v === 'circle' ? w : v === 'rect' ? '4rem' : '';
+    const w = this.fill ? '100%' : this.width ? length(this.width) : v === 'circle' ? '40px' : '100%';
+    const h = this.fill ? '100%' : this.height ? length(this.height) : v === 'circle' ? w : v === 'rect' ? '4rem' : '';
     if (v === 'text' && this.lines > 1) {
       const n = Math.floor(this.lines);
       return html`<div part="base" class="stack" aria-hidden="true" style=${styleMap({ width: w })}>

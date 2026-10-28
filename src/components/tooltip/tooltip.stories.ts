@@ -12,12 +12,14 @@ const meta: Meta = {
     placement: { control: 'select', options: ['top', 'bottom', 'left', 'right'] },
     delay: { control: 'number' },
     disabled: { control: 'boolean' },
+    arrow: { control: 'boolean' },
+    offset: { control: 'number' },
   },
-  args: { text: 'Copy to clipboard', placement: 'top', delay: 300, disabled: false },
+  args: { text: 'Copy to clipboard', placement: 'top', delay: 300, disabled: false, arrow: false, offset: 8 },
   parameters: { layout: 'centered' },
   render: (a) => html`
     <div style="padding:64px 96px">
-      <ht-tooltip text=${a.text} placement=${a.placement} delay=${a.delay} ?disabled=${a.disabled}>
+      <ht-tooltip text=${a.text} placement=${a.placement} delay=${a.delay} offset=${a.offset} ?arrow=${a.arrow} ?disabled=${a.disabled}>
         <ht-button variant="default">Hover or focus me</ht-button>
       </ht-tooltip>
     </div>`,
@@ -50,3 +52,5 @@ export const FlipsAtEdge: StoryObj = {
       </ht-tooltip>
     </div>`,
 };
+
+export const WithArrow: StoryObj = { args: { arrow: true } };

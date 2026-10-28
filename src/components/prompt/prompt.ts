@@ -178,8 +178,8 @@ export class HtPrompt extends LitElement {
     if (!ta) return;
     this._empty = this.value === '';
     this.#grow();
-    this.#internals.setFormValue(this.value);
-    this.#internals.setValidity(ta.validity, ta.validationMessage, ta);
+    this.#internals.setFormValue?.(this.value);
+    this.#internals.setValidity?.(ta.validity, ta.validationMessage, ta);
   }
 
   #onInput = (e: Event) => {

@@ -187,3 +187,8 @@ export const OutsideTheElement: StoryObj = {
       <span .innerHTML=${generateAvatar('ada@example.com', { art: 'tiles', size: 48, label: 'Ada Lovelace' })}></span>
     </div>`,
 };
+
+/** `initials` replaces the computed letters. The accessible name still comes from `name`. */
+export const CustomInitials: StoryObj = {
+  render: () => html`<ht-avatar name="Ada Lovelace" initials="A2" size="lg"></ht-avatar>`,
+};

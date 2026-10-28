@@ -17,6 +17,9 @@ import { live } from 'lit/directives/live.js';
  * @csspart input - The native `<input>`.
  * @csspart message - The helper or error text.
  *
+ * @cssprop [--ht-input-height] - Height of the field. Overrides `size`.
+ * @cssprop [--ht-input-padding-x] - Inline padding inside the box. Defaults to 1rem (0 with `bare`).
+ *
  * @fires input - Value changed by typing. Native event, crosses the shadow boundary.
  * @fires change - Value committed (blur or Enter). Re-dispatched from the host.
  */
@@ -44,8 +47,30 @@ export class HtInput extends LitElement {
     required: { type: Boolean, reflect: true },
     disabled: { type: Boolean, reflect: true },
     readonly: { type: Boolean, reflect: true },
-    /** Height: sm 32px, md 36px, lg 40px. */
+    /** Height: xs 28px, sm 32px, md 36px, lg 40px. */
     size: { reflect: true },
+    /** Drops the box: no fill, border or padding. For a field that sits inside other content, such as a title that is edited in place. The focus ring stays. */
+    bare: { type: Boolean, reflect: true },
+    /** Value the field starts with, and returns to on form reset. `value` wins when both are set. */
+    defaultValue: { attribute: 'default-value' },
+    /** Lowest value, for `number` and the date and time types. */
+    min: {},
+    /** Highest value, for `number` and the date and time types. */
+    max: {},
+    /** Step between valid values, for `number` and the date and time types. `any` allows every value. */
+    step: {},
+    /** Fewest characters. */
+    minLength: { type: Number, attribute: 'minlength' },
+    /** Most characters. The browser stops typing at the limit. */
+    maxLength: { type: Number, attribute: 'maxlength' },
+    /** Regular expression the value has to match. Written without slashes. */
+    pattern: {},
+    /** Which on-screen keyboard to show: `numeric`, `decimal`, `tel`, `email`, `url`, `search` or `none`. */
+    inputMode: { attribute: 'inputmode' },
+    /** Label of the Enter key on a touch keyboard: `enter`, `done`, `go`, `next`, `previous`, `search` or `send`. */
+    enterKeyHint: { attribute: 'enterkeyhint' },
+    /** With `type="email"`, allows several addresses separated by commas. */
+    multiple: { type: Boolean, reflect: true },
     _touched: { state: true },
     _formDisabled: { state: true },
   };
@@ -56,13 +81,36 @@ export class HtInput extends LitElement {
   declare invalid: boolean;
   declare placeholder: string;
   declare value: string;
-  declare type: 'text' | 'email' | 'password' | 'search' | 'tel' | 'url' | 'number';
+  declare type:
+    | 'text'
+    | 'email'
+    | 'password'
+    | 'search'
+    | 'tel'
+    | 'url'
+    | 'number'
+    | 'date'
+    | 'time'
+    | 'datetime-local'
+    | 'month'
+    | 'week';
   declare name: string;
   declare autocomplete: string;
   declare required: boolean;
   declare disabled: boolean;
   declare readonly: boolean;
-  declare size: 'sm' | 'md' | 'lg';
+  declare size: 'xs' | 'sm' | 'md' | 'lg';
+  declare bare: boolean;
+  declare defaultValue: string;
+  declare min: string;
+  declare max: string;
+  declare step: string;
+  declare minLength: number | undefined;
+  declare maxLength: number | undefined;
+  declare pattern: string;
+  declare inputMode: string;
+  declare enterKeyHint: string;
+  declare multiple: boolean;
   declare _touched: boolean;
   declare _formDisabled: boolean;
 
@@ -84,6 +132,17 @@ export class HtInput extends LitElement {
     this.disabled = false;
     this.readonly = false;
     this.size = 'md';
+    this.bare = false;
+    this.defaultValue = '';
+    this.min = '';
+    this.max = '';
+    this.step = '';
+    this.minLength = undefined;
+    this.maxLength = undefined;
+    this.pattern = '';
+    this.inputMode = '';
+    this.enterKeyHint = '';
+    this.multiple = false;
     this._touched = false;
     this._formDisabled = false;
     this.addEventListener('invalid', () => (this._touched = true));
@@ -91,14 +150,32 @@ export class HtInput extends LitElement {
 
   #ariaLabel: string | undefined;
 
+  #describedBy = '';
+
+  /** Text of the elements named by a host `aria-describedby`. Ids do not resolve across the shadow boundary, so the text is copied inside. */
+  #externalDescription() {
+    if (!this.#describedBy) return '';
+    const root = this.getRootNode() as Document | ShadowRoot;
+    return this.#describedBy
+      .split(/\s+/)
+      .map((id) => root.getElementById?.(id)?.textContent?.trim() ?? '')
+      .filter(Boolean)
+      .join(' ');
+  }
+
   connectedCallback() {
     super.connectedCallback();
-    this.#defaultValue = this.getAttribute('value') ?? '';
+    this.#defaultValue = this.getAttribute('value') ?? this.defaultValue;
     // `aria-label` is not allowed on a generic host; move it to the native input.
     const al = this.getAttribute('aria-label');
     if (al) {
       this.#ariaLabel = al;
       this.removeAttribute('aria-label');
+    }
+    const db = this.getAttribute('aria-describedby');
+    if (db) {
+      this.#describedBy = db;
+      this.removeAttribute('aria-describedby');
     }
   }
 
@@ -107,6 +184,7 @@ export class HtInput extends LitElement {
       display: block;
       --_h: 2.25rem;
     }
+    :host([size='xs']) { --_h: 1.75rem; }
     :host([size='sm']) { --_h: 2rem; }
     :host([size='lg']) { --_h: 2.5rem; }
     label {
@@ -122,9 +200,9 @@ export class HtInput extends LitElement {
       display: flex;
       align-items: center;
       gap: 8px;
-      height: var(--_h);
-      min-height: var(--_h);
-      padding-inline: 1rem;
+      height: var(--ht-input-height, var(--_h));
+      min-height: var(--ht-input-height, var(--_h));
+      padding-inline: var(--ht-input-padding-x, 1rem);
       color: var(--ht-text-subtle);
       background: color-mix(in oklch, var(--ht-text) 3%, transparent);
       border: 1px solid var(--ht-border-input);
@@ -137,6 +215,14 @@ export class HtInput extends LitElement {
     .control:focus-within {
       box-shadow: inset 0 1px 0 0 var(--ht-border-input), 0 0 0 2px var(--ht-focus);
     }
+    :host([bare]) .control {
+      padding-inline: var(--ht-input-padding-x, 0);
+      background: none;
+      border-color: transparent;
+      box-shadow: none;
+    }
+    :host([bare]) .control:focus-within { box-shadow: 0 0 0 2px var(--ht-focus); }
+    :host([bare]) .control.invalid { box-shadow: none; }
     .control.invalid { border-color: var(--ht-danger); box-shadow: inset 0 1px 0 0 var(--ht-danger); }
     .control.invalid:focus-within { box-shadow: inset 0 1px 0 0 var(--ht-danger), 0 0 0 2px var(--ht-danger); }
     :host([disabled]) .control { cursor: not-allowed; }
@@ -181,6 +267,19 @@ export class HtInput extends LitElement {
     return this.#internals.reportValidity();
   }
 
+  /** The native `<input>` inside, for a caller that needs the caret or the selection. */
+  get inputElement() {
+    return this.#input;
+  }
+  /** Selects all the text in the field. */
+  select() {
+    this.#input?.select();
+  }
+  /** Sets the selection range in the field. */
+  setSelectionRange(start: number | null, end: number | null, direction?: 'forward' | 'backward' | 'none') {
+    this.#input?.setSelectionRange(start, end, direction);
+  }
+
   formResetCallback() {
     this.value = this.#defaultValue;
     this._touched = false;
@@ -192,11 +291,21 @@ export class HtInput extends LitElement {
     this.value = state;
   }
 
+  #started = false;
+  willUpdate() {
+    // The start value applies once. After that `value` is the only source.
+    if (!this.#started) {
+      this.#started = true;
+      if (!this.value && this.defaultValue) this.value = this.defaultValue;
+    }
+  }
+
   updated() {
     const input = this.#input;
     if (!input) return;
-    this.#internals.setFormValue(this.value);
-    this.#internals.setValidity(input.validity, input.validationMessage, input);
+    // Some DOM shims (jsdom) have no form internals. Skip them so the element still loads.
+    this.#internals.setFormValue?.(this.value);
+    this.#internals.setValidity?.(input.validity, input.validationMessage, input);
   }
 
   #onInput = (e: Event) => {
@@ -211,6 +320,8 @@ export class HtInput extends LitElement {
     const native = this._touched ? this.#internals.validationMessage : '';
     const message = this.error || native || this.helper;
     const isInvalid = this.invalid || !!this.error || !!native;
+    const external = this.#externalDescription();
+    const describedBy = [message ? 'message' : '', external ? 'external' : ''].filter(Boolean).join(' ');
     return html`
       ${this.label
         ? html`<label part="label" for="control">${this.label}${this.required
@@ -227,18 +338,28 @@ export class HtInput extends LitElement {
           name=${ifDefined(this.name || undefined)}
           placeholder=${ifDefined(this.placeholder || undefined)}
           autocomplete=${ifDefined((this.autocomplete || undefined) as any)}
+          min=${ifDefined(this.min || undefined)}
+          max=${ifDefined(this.max || undefined)}
+          step=${ifDefined(this.step || undefined)}
+          minlength=${ifDefined(this.minLength ?? undefined)}
+          maxlength=${ifDefined(this.maxLength ?? undefined)}
+          pattern=${ifDefined(this.pattern || undefined)}
+          inputmode=${ifDefined(this.inputMode || undefined)}
+          enterkeyhint=${ifDefined((this.enterKeyHint || undefined) as any)}
+          ?multiple=${this.multiple}
           ?required=${this.required}
           ?disabled=${this.disabled || this._formDisabled}
           ?readonly=${this.readonly}
           aria-label=${ifDefined(this.label ? undefined : this.#ariaLabel)}
           aria-invalid=${isInvalid ? 'true' : 'false'}
-          aria-describedby=${ifDefined(message ? 'message' : undefined)}
+          aria-describedby=${ifDefined(describedBy || undefined)}
           @input=${this.#onInput}
           @change=${this.#onChange}
           @blur=${() => (this._touched = true)}
         />
         <slot name="suffix"></slot>
       </div>
+      ${external ? html`<span id="external" hidden>${external}</span>` : nothing}
       ${message
         ? html`<div id="message" part="message" class="message ${this.error || native ? 'error' : ''}" role=${ifDefined(this.error || native ? 'alert' : undefined)}>${message}</div>`
         : nothing}

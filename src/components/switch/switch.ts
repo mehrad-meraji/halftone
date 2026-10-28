@@ -149,7 +149,7 @@ export class HtSwitch extends LitElement {
   }
 
   updated() {
-    this.#internals.setFormValue(this.checked ? this.value : null);
+    this.#internals.setFormValue?.(this.checked ? this.value : null);
   }
 
   #onChange = (e: Event) => {
