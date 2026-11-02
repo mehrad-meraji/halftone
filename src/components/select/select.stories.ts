@@ -58,6 +58,33 @@ export const InForm: StoryObj = {
     </form>`,
 };
 
+/** An option with `value=""` submits `""`, as a native `<option>` does, for "any" filters. Pick Active, then Any status, and submit. */
+export const EmptyValue: StoryObj = {
+  render: () => html`
+    <form
+      method="get"
+      style="display:grid;gap:16px;width:320px"
+      @submit=${(e: SubmitEvent) => {
+        e.preventDefault();
+        const f = e.target as HTMLFormElement;
+        f.querySelector('pre')!.textContent = JSON.stringify(Object.fromEntries(new FormData(f)), null, 2);
+      }}
+    >
+      <ht-select name="status" label="Status">
+        <ht-option value="">Any status</ht-option>
+        <ht-option value="active">Active</ht-option>
+        <ht-option value="revoked">Revoked</ht-option>
+      </ht-select>
+      <ht-select name="kind" label="Kind (Plain Options)">
+        <option value="">Any kind</option>
+        <option value="drawn">Drawn</option>
+        <option value="typed">Typed</option>
+      </ht-select>
+      <div style="display:flex;gap:8px"><ht-button type="submit">Filter</ht-button></div>
+      <pre style="margin:0;font:400 12px var(--ht-font-mono);color:var(--ht-text-muted)">submit to see FormData</pre>
+    </form>`,
+};
+
 /** Groups with labels, and a separator between them. */
 export const WithGroups: StoryObj = {
   render: () => html`

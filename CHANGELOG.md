@@ -4,6 +4,10 @@ All notable changes to `@_mehrad/halftone`. Versions follow semver; while the ma
 
 ## Unreleased
 
+### Fixed
+
+- `ht-select`: an option with `value=""` submits `""`, as a native `<option>` does, instead of its label. The trigger shows its label once chosen. Only an option with no `value` falls back to its text.
+
 ## 0.3.0 (2026-10-28)
 
 Eight new elements for Taskscape, field props from its gaps list, and a docs site built from Halftone. No breaking changes.
