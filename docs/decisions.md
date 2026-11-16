@@ -568,3 +568,6 @@ Source: `2026-10-28-halftone-gaps.md` in Taskscape, section 3 (fields and displa
 - **Form internals** (`setFormValue`, `setValidity`) are called with `?.` in every form control, so the elements load under jsdom.
 - `ht-skeleton fill`, `ht-avatar initials`, `ht-tooltip arrow` and `offset`, `ht-popover offset`, `ht-menu offset`.
 - **Not built:** `list` (a `<datalist>` id cannot reach the native input across the shadow root; use `ht-combobox`), `file` type and `accept` (use `ht-dropzone`), `ht-visually-hidden`.
+
+## 2026-11-16: Small checkbox key fills its socket
+At `sm` (16px) the checked key no longer sits 1px inside the outline; it fills the socket up to the border. At that size the 1px gap read as a second outline rather than depth. `md` and `lg` keep the 1px inset. The key radius stays concentric with the socket (outer radius minus the border and the inset), set by a `--_key-inset` variable per size.
