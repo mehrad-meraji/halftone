@@ -4,6 +4,14 @@ All notable changes to `@_mehrad/halftone`. Versions follow semver; while the ma
 
 ## Unreleased
 
+## 0.3.1 (2026-11-16)
+
+One checkbox fix. No breaking changes.
+
+### Fixed
+
+- `ht-checkbox` at `sm`: the checked key fills its socket instead of sitting 1px inside the outline, which read as a second border. `md` and `lg` are unchanged.
+
 ## 0.3.0 (2026-10-28)
 
 Eight new elements for Taskscape, field props from its gaps list, and a docs site built from Halftone. No breaking changes.
