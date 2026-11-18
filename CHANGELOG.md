@@ -4,6 +4,10 @@ All notable changes to `@_mehrad/halftone`. Versions follow semver; while the ma
 
 ## Unreleased
 
+### Fixed
+
+- Form controls no longer stay disabled after `disabled` goes back to false. The host looked enabled while its inner control kept `disabled`. Affected `ht-input`, `ht-textarea`, `ht-checkbox`, `ht-switch`, `ht-toggle`, `ht-prompt`, `ht-calendar`, `ht-combobox` and `ht-dropzone`.
+
 ## 0.3.1 (2026-11-16)
 
 One checkbox fix. No breaking changes.
