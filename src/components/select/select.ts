@@ -7,8 +7,12 @@ const CHEVRON_UP = html`<svg width="12" height="12" viewBox="0 0 256 256" fill="
 
 /** The text an option is known by: its `label`, else its text. Used for the trigger and for typeahead. */
 const labelOf = (o: HtOption) => (o.label || o.textContent || '').replace(/\s+/g, ' ').trim();
-/** The value an option stands for: its `value`, else its text (as a native `<option>` does). */
-const valueOf = (o: HtOption) => o.value || labelOf(o);
+/**
+ * The value an option stands for. As with a native `<option>`, an explicit `value` wins even when
+ * it is empty (`value=""` submits `""`); only an option with no value falls back to its text.
+ * A non-empty `value` set as a property only (frameworks that skip attributes) counts too.
+ */
+const valueOf = (o: HtOption) => (o.value || o.hasAttribute('value') ? o.value : labelOf(o));
 
 type NativeOption = { kind: 'option'; value: string; text: string; disabled: boolean; selected: boolean };
 type Native = NativeOption | { kind: 'group'; label: string; items: NativeOption[] } | { kind: 'separator' };
@@ -405,7 +409,7 @@ export class HtSelect extends LitElement {
   #mark() {
     let chosen: HtOption | undefined;
     for (const i of this.#items()) {
-      i.selected = !!this.value && valueOf(i) === this.value;
+      i.selected = valueOf(i) === this.value;
       if (i.selected && !chosen) chosen = i;
     }
     this._text = chosen ? labelOf(chosen) : '';

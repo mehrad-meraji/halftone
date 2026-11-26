@@ -21,6 +21,7 @@ const STATUS = {
   popover: { text: 'Updated', variant: 'note' },
   menu: { text: 'Updated', variant: 'note' },
   checkbox: { text: 'Updated', variant: 'note' },
+  select: { text: 'Updated', variant: 'note' },
 };
 
 const manifest = JSON.parse(readFileSync(join(repo, 'custom-elements.json'), 'utf8'));
