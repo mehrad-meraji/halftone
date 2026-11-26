@@ -92,7 +92,9 @@ export class HtCheckbox extends LitElement {
   static styles = css`
     /*
      * Size. The label line height equals the box, so a one-line label centres on the box.
-     * sm and lg are inferred, not taken from a source UI. Radii stay concentric: inner = outer - 2px.
+     * sm and lg are inferred, not taken from a source UI. Radii stay concentric: inner = outer - 1px
+     * border - the key's inset. At sm the key fills the socket (no inset): a 1px gap is too fine to
+     * read at 16px and looks like a second outline.
      */
     :host {
       display: inline-block;
@@ -102,8 +104,10 @@ export class HtCheckbox extends LitElement {
       --_font: 400 0.8125rem/1rem var(--ht-font-ui);
       --_r: 5px;
       --_r-sq: 7px;
+      --_key-inset: 0px;
     }
     :host([data-size='md']) {
+      --_key-inset: 1px;
       --_box: 24px;
       --_mark: 16px;
       --_gap: 12px;
@@ -112,6 +116,7 @@ export class HtCheckbox extends LitElement {
       --_r-sq: 10px;
     }
     :host([data-size='lg']) {
+      --_key-inset: 1px;
       --_box: 32px;
       --_mark: 20px;
       --_gap: 12px;
@@ -162,11 +167,11 @@ export class HtCheckbox extends LitElement {
     .box::after {
       content: '';
       position: absolute;
-      inset: 1px;
+      inset: var(--_key-inset);
       z-index: 0;
       pointer-events: none;
-      /* Concentric with the socket: its radius minus the 1px border and 1px gap. */
-      border-radius: calc(var(--_r) - 2px);
+      /* Concentric with the socket: its radius minus the 1px border and the inset. */
+      border-radius: calc(var(--_r) - 1px - var(--_key-inset));
       background: radial-gradient(
         120% 110% at 50% 0%,
         var(--ht-accent) 0%,
@@ -185,7 +190,7 @@ export class HtCheckbox extends LitElement {
     @supports (corner-shape: squircle) {
       /* A squircle corner reads tighter than a circular arc of the same radius, so the radii grow (still concentric). */
       .box { corner-shape: squircle; border-radius: var(--_r-sq); }
-      .box::after { corner-shape: squircle; border-radius: calc(var(--_r-sq) - 2px); }
+      .box::after { corner-shape: squircle; border-radius: calc(var(--_r-sq) - 1px - var(--_key-inset)); }
     }
     :host([checked]) .box::after,
     :host([indeterminate]) .box::after { opacity: 1; transform: none; }
@@ -235,7 +240,8 @@ export class HtCheckbox extends LitElement {
     this.indeterminate = false;
   }
   formDisabledCallback(disabled: boolean) {
-    this._formDisabled = disabled;
+    // Reflecting `disabled` calls this in the middle of a Lit update, which would drop the change.
+    queueMicrotask(() => (this._formDisabled = disabled));
   }
   formStateRestoreCallback(state: string | null) {
     this.checked = state !== null;

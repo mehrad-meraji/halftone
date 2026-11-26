@@ -283,7 +283,8 @@ export class HtTextarea extends LitElement {
     this._touched = false;
   }
   formDisabledCallback(disabled: boolean) {
-    this._formDisabled = disabled;
+    // Reflecting `disabled` calls this in the middle of a Lit update, which would drop the change.
+    queueMicrotask(() => (this._formDisabled = disabled));
   }
   formStateRestoreCallback(state: string) {
     this.value = state;
